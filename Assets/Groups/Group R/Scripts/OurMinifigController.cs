@@ -84,6 +84,10 @@ public class OurMinifigController : MonoBehaviour
     public float gravity = 40f;
     private Vector2 _movement = new Vector2();
 
+    public int damage = 0;
+    public int strength = 10;
+    public float hitRange = 2;
+
     [Header("Audio")]
 
     public List<AudioClip> stepAudioClips = new List<AudioClip>();
@@ -1004,11 +1008,18 @@ public class OurMinifigController : MonoBehaviour
     private void OnSouthPress()
     {
         PlaySpecialAnimation(SpecialAnimation.KickRightFoot);
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
+        {
+            if(hit.collider.tag == "Player"){
+                hit.collider.gameObject.GetComponent<OurMinifigController>().damage += strength;
+            }
+        }
     }
 
     private void OnSouthRelease()
     {
-        print("OnSouthRelease");
+        //print("OnSouthRelease");
     }
 
     private void OnWestPress()
