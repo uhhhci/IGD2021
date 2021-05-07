@@ -1003,7 +1003,7 @@ public class OurMinifigController : MonoBehaviour
 
     private void OnSouthPress()
     {
-        print("OnSouthPress");
+        PlaySpecialAnimation(SpecialAnimation.KickRightFoot);
     }
 
     private void OnSouthRelease()

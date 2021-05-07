@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8327300910622483112}
   - component: {fileID: 4914492688897378381}
   - component: {fileID: 2882760341673027775}
+  - component: {fileID: 8118784957050180926}
   m_Layer: 9
   m_Name: Our Player Minifig WASD
   m_TagString: Player
@@ -211,6 +212,19 @@ MonoBehaviour:
   m_DefaultActionMap: Ingame
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!65 &8118784957050180926
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2324863991696726528}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 3, z: 2}
+  m_Center: {x: 0, y: 1.5, z: 1}
 --- !u!114 &2885056653073922830
 MonoBehaviour:
   m_ObjectHideFlags: 0
