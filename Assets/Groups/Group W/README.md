@@ -4,7 +4,7 @@ Im Folgenden finden sich TODOs und DONEs.
 ## Vorbereitungsmodus
 ### Auswahl der Waffe / des Ziels über entsprechende Tasten
 Vorschlag Tastenbelegung (anhand Beispiel des WASD-Charakters)
-*  Q = Lego
+* Q = Lego
 * W = Paper
 * E = Scissors
 * R = Front row
@@ -21,9 +21,6 @@ Vorschlag:
 * Waffe ausgewählt: Laughing
 * Ziel ausgewählt: Wave
 
-### Timeranzeige
-5 Sek. bis Runde vorbei.
-Wenn abgelaufen: Übergang zu Kampfmodus
 
 ## Kampfmodus
 ### Charaktere bekommen ausgewählte Waffen in die Hand gespawned
@@ -35,7 +32,8 @@ Wenn abgelaufen: Übergang zu Kampfmodus
 
 ## Environment
 - Zusammenbasteln einer hübschen Umgebung
-- Auswahl der Waffenassets
+- Beleuchtung
+- Waffen - Fernkampf + Nahkampf unterschiedlich
 
 # DONEs
 * Scenes, Scripts Ordner in unserem Group W Ordner angelegt
@@ -44,3 +42,7 @@ Wenn abgelaufen: Übergang zu Kampfmodus
   * Maximaler / aktueller HP
   * auswählbaren Waffen / aktueller Waffe
   * möglicher Reihenplazierungen / aktueller Reihenplazierung
+ * Timeranzeige (inkl. Beschreibung, in welcher Phase wir uns befinden, und was zu tun ist)
+  * x Sek. bis Entscheidungsphase vorbei.
+  * Wenn abgelaufen: Übergang zu Kampfphase
+  * Hier gibt es einen Boolean der entscheidet, ob die Kampfphase vorbei ist; sollte vorbei sein, wenn alle Kampfanimationen vorbei sind und demnach über eine andere Komponente gesetzt werden, wenn wir soweit sind. Bis dahin: erstmal gleicher Zeitablauf wie in der Entscheidungsphase
