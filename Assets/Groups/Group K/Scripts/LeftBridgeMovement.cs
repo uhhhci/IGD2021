@@ -19,4 +19,9 @@ public class LeftBridgeMovement : MonoBehaviour
         rb.AddForce(movementVec * movementForce * Time.deltaTime, ForceMode.VelocityChange);
         rb.AddTorque(0, rotationTorque * rotationForce * Time.deltaTime, 0, ForceMode.VelocityChange);
     }
+
+    public void SetBridgeBody(Rigidbody bridge)
+    {
+        rb = bridge;
+    }
 }

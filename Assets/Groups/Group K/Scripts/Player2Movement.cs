@@ -14,7 +14,6 @@ public class Player2Movement : MonoBehaviour
 
     private void OnMoveDpad(InputValue value)
     {
-        Debug.Log("Player2Movement");
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
         verticalMovement = input.y;

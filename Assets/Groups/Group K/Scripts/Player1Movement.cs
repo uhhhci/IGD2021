@@ -14,7 +14,6 @@ public class Player1Movement : MonoBehaviour
 
     private void OnMoveDpad(InputValue value)
     {
-        Debug.Log("Player1Movement");
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
         horizontalMovement = input.x;
