@@ -83,6 +83,7 @@ public class OurMinifigController : MonoBehaviour
     public float jumpSpeed = 20f;
     public float gravity = 40f;
     private Vector2 _movement = new Vector2();
+    private Vector3 _knockback = Vector3.zero;
 
     public int damage = 0;
     public int strength = 10;
@@ -293,6 +294,10 @@ public class OurMinifigController : MonoBehaviour
             // Calculate move delta.
             moveDelta = new Vector3(directSpeed.x, moveDelta.y, directSpeed.z);
 
+
+            // Add knockback and decrease the knockback
+            moveDelta += _knockback;
+            _knockback = Vector3.Scale(_knockback, new Vector3(0.9f, 0.9f, 0.9f));
 
 
             // Check if player is grounded.
@@ -975,7 +980,7 @@ public class OurMinifigController : MonoBehaviour
         }else{
             //S
         }
-        input[1]=0;
+        input[1]=0; // TODO keep player on line by setting this as difference in actual position an starting position, would be better to prevent x-movement in the first place
         _movement = input;
         
     }
@@ -1012,7 +1017,12 @@ public class OurMinifigController : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
         {
             if(hit.collider.tag == "Player"){
-                hit.collider.gameObject.GetComponent<OurMinifigController>().damage += strength;
+                OurMinifigController hit_player = hit.collider.gameObject.GetComponent<OurMinifigController>();
+                hit_player.damage += strength;
+                Vector3 hit_direction = hit_player.transform.position - transform.position;
+                hit_direction.Normalize();
+                int dmg_scale = hit_player.damage + 10;
+                hit_player._knockback += Vector3.Scale(hit_direction, new Vector3(dmg_scale, dmg_scale, dmg_scale));
             }
         }
     }
