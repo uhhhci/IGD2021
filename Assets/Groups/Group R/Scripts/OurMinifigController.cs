@@ -295,11 +295,6 @@ public class OurMinifigController : MonoBehaviour
             moveDelta = new Vector3(directSpeed.x, moveDelta.y, directSpeed.z);
 
 
-            // Add knockback and decrease the knockback
-            moveDelta += _knockback;
-            _knockback = Vector3.Scale(_knockback, new Vector3(0.9f, 0.9f, 0.9f));
-
-
             // Check if player is grounded.
             if (!airborne)
             {
@@ -549,6 +544,7 @@ public class OurMinifigController : MonoBehaviour
             }
 
             moveDelta.y = 0.0f;
+            _knockback.y = 0.0f;
             airborneTime = 0.0f;
         }
 
@@ -557,6 +553,17 @@ public class OurMinifigController : MonoBehaviour
 
         // Rotate minifig.
         transform.Rotate(0, (rotateSpeed + externalRotation) * Time.deltaTime, 0);
+
+        // Apply _knockback to transform
+        Vector3 position = transform.position + _knockback;
+        // Keep X-position of minifig at 0.
+        position.x = 0;
+        transform.SetPositionAndRotation(position, transform.rotation);
+        // Decrease the knockback.
+        float delta = 0.93f;// (Time.deltaTime * 100f); //Movement becomes weird when multiplying with deltaTime
+        _knockback = Vector3.Scale(_knockback, new Vector3(delta, delta, delta));
+        if (Mathf.Abs(_knockback.z) < 0.05f)
+            _knockback.z = 0f;
 
         // Stop special if requested.
         cancelSpecial |= stopSpecial;
@@ -1020,8 +1027,14 @@ public class OurMinifigController : MonoBehaviour
                 OurMinifigController hit_player = hit.collider.gameObject.GetComponent<OurMinifigController>();
                 hit_player.damage += strength;
                 Vector3 hit_direction = hit_player.transform.position - transform.position;
+                hit_direction.x = 0f; // do not change x position
+                hit_direction.y += 1f; // make the hit player fly slightly upwards
+                if (hit_direction.z > 0)
+                    hit_direction.z = 1f;
+                else
+                    hit_direction.z = -1f;
                 hit_direction.Normalize();
-                int dmg_scale = hit_player.damage + 10;
+                float dmg_scale = (hit_player.damage + 10) * 0.01f;
                 hit_player._knockback += Vector3.Scale(hit_direction, new Vector3(dmg_scale, dmg_scale, dmg_scale));
             }
         }
