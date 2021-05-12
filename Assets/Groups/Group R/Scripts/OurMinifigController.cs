@@ -561,7 +561,7 @@ public class OurMinifigController : MonoBehaviour
         transform.SetPositionAndRotation(position, transform.rotation);
         // Decrease the knockback.
         float delta = 0.93f;// (Time.deltaTime * 100f); //Movement becomes weird when multiplying with deltaTime
-        _knockback = Vector3.Scale(_knockback, new Vector3(delta, delta, delta));
+        _knockback = _knockback * delta;
         if (Mathf.Abs(_knockback.z) < 0.05f)
             _knockback.z = 0f;
 
@@ -1035,7 +1035,7 @@ public class OurMinifigController : MonoBehaviour
                     hit_direction.z = -1f;
                 hit_direction.Normalize();
                 float dmg_scale = (hit_player.damage + 10) * 0.01f;
-                hit_player._knockback += Vector3.Scale(hit_direction, new Vector3(dmg_scale, dmg_scale, dmg_scale));
+                hit_player._knockback += hit_direction * dmg_scale;
             }
         }
     }
