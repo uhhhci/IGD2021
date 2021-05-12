@@ -83,11 +83,28 @@ public class OurMinifigController : MonoBehaviour
     public float jumpSpeed = 20f;
     public float gravity = 40f;
     private Vector2 _movement = new Vector2();
+
+    //Our Custom Variables
+    /// <summary>
+    /// 3D Vector representing the force knocking the player back from getting hit
+    /// </summary>
     private Vector3 _knockback = Vector3.zero;
 
+    /// <summary>
+    /// How much damage the player has already taken from opponents
+    /// ~ knockback
+    /// </summary>
     public int damage = 0;
+    /// <summary>
+    /// Damage that is dealt to other players if this player hits them 
+    /// </summary>
     public int strength = 10;
+    /// <summary>
+    /// Maximum distance an opponent to this player , where the opponent will still be hit
+    /// </summary>
     public float hitRange = 2;
+
+
 
     [Header("Audio")]
 
@@ -958,32 +975,30 @@ public class OurMinifigController : MonoBehaviour
         if(input[1]>0){
             //W
             // Check if player is jumping.
-
-        if (!airborne || jumpsInAir > 0)
-        {
-            if (airborne)
+            if (!airborne || jumpsInAir > 0)
             {
-                jumpsInAir--;
-
-                if (doubleJumpAudioClip)
+                if (airborne)
                 {
-                    audioSource.PlayOneShot(doubleJumpAudioClip);
+                    jumpsInAir--;
+                    if (doubleJumpAudioClip)
+                    {
+                        audioSource.PlayOneShot(doubleJumpAudioClip);
+                    }
                 }
-            }
-            else
-            {
-                if (jumpAudioClip)
+                else
                 {
-                    audioSource.PlayOneShot(jumpAudioClip);
+                    if (jumpAudioClip)
+                    {
+                        audioSource.PlayOneShot(jumpAudioClip);
+                    }
                 }
+
+                moveDelta.y = jumpSpeed;
+                animator.SetTrigger(jumpHash);
+
+                airborne = true;
+                airborneTime = coyoteDelay;
             }
-
-            moveDelta.y = jumpSpeed;
-            animator.SetTrigger(jumpHash);
-
-            airborne = true;
-            airborneTime = coyoteDelay;
-        }
         }else{
             //S
         }
