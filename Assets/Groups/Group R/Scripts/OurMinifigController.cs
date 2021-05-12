@@ -70,11 +70,11 @@ public class OurMinifigController : MonoBehaviour
 
     [Header("Movement")]
 
-    public float maxForwardSpeed = 5f;
-    [Range(4, 8)]
+    public float maxForwardSpeed = 6f;
+    [Range(0, 10)]
     public float maxBackwardSpeed = 4f;
-    [Range(1, 60)]
-    public float acceleration = 20.0f;
+    [Range(1, 100)]
+    public float acceleration = 60.0f;
     // TODO Add sensible range when animations are fixed.
     [Range(0, 2000)]
     public float maxRotateSpeed = 1000f;
