@@ -967,49 +967,6 @@ public class MinifigController : MonoBehaviour
         print("OnMenu");
     }
 
-    private void PlayActionPhaseAnimation(Decision decision)
-    {
-        if (isActionAllowed())
-        {
-            if(decision == Decision.Weapon)
-            {
-                PlaySpecialAnimation(SpecialAnimation.Dance);
-            }
-
-            if(decision == Decision.Row)
-            {
-                PlaySpecialAnimation(SpecialAnimation.Wave);
-            }
-
-            else
-            {
-                PlaySpecialAnimation(SpecialAnimation.IdleImpatient);
-            }
-            
-        }
-
-        else
-        {
-            PlaySpecialAnimation(SpecialAnimation.IdleImpatient);
-        }
-        
-    }
-
-
-    private Boolean isActionAllowed()
-    {
-        if (phase == PhaseHandler.Phase.Action)
-        {
-            return true;
-        }
-
-        else
-        {
-            return false;
-        }
-    }
-    
-
     // e.g. R
     private void OnNorthPress()
     {
@@ -1039,35 +996,6 @@ public class MinifigController : MonoBehaviour
     {
         print("selected Scissors");
         PlayActionPhaseAnimation(Decision.Weapon);
-
-        // Check if player is jumping.
-
-        //if (!airborne || jumpsInAir > 0)
-        //{
-        //    if (airborne)
-        //    {
-        //        jumpsInAir--;
-
-        //        if (doubleJumpAudioClip)
-        //        {
-        //            audioSource.PlayOneShot(doubleJumpAudioClip);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (jumpAudioClip)
-        //        {
-        //            audioSource.PlayOneShot(jumpAudioClip);
-        //        }
-        //    }
-
-        //    moveDelta.y = jumpSpeed;
-        //    animator.SetTrigger(jumpHash);
-
-        //    airborne = true;
-        //    airborneTime = coyoteDelay;
-        //}
-
     }
 
     private void OnSouthRelease()
@@ -1087,6 +1015,37 @@ public class MinifigController : MonoBehaviour
         //print("OnWestRelease");
     }
 
+    #endregion
+
+    // Lego-Paper-Scissors specifc methods ------------------------------------------------------------------------------------------
+    #region Lego-Paper-Scissors specifc methods
+    // plays an annimation according to whether its action/decision phase and which kind of decision was made
+    private void PlayActionPhaseAnimation(Decision decision)
+    {
+        if (PlayerProperties.IsActionAllowed())
+        {
+            if (decision == Decision.Weapon)
+            {
+                PlaySpecialAnimation(SpecialAnimation.Dance);
+            }
+
+            if (decision == Decision.Row)
+            {
+                PlaySpecialAnimation(SpecialAnimation.Wave);
+            }
+
+            else
+            {
+                PlaySpecialAnimation(SpecialAnimation.IdleImpatient);
+            }
+
+        }
+
+        else
+        {
+            PlaySpecialAnimation(SpecialAnimation.IdleImpatient);
+        }
+    }
     #endregion
 }
 
