@@ -940,12 +940,15 @@ public class MinifigController : MonoBehaviour
         _movement = value.Get<Vector2>();
     }
 
+    // TODO somehow this logs the correct things, but the animation does not get played
+    // --> find out what prevents this :O
     private void OnMoveDpad(InputValue value)
     {
         Vector2 input = value.Get<Vector2>();
 
         input.Normalize();
 
+        // up
         if (input.Equals(Vector2.up))
         {
             print("selected Paper");
@@ -1022,27 +1025,33 @@ public class MinifigController : MonoBehaviour
     // plays an annimation according to whether its action/decision phase and which kind of decision was made
     private void PlayActionPhaseAnimation(Decision decision)
     {
+        print("decision: ");
+        print(decision);
         if (PlayerProperties.IsActionAllowed())
         {
+            
             if (decision == Decision.Weapon)
             {
+                print("Playing Anmation for Weapon ");
                 PlaySpecialAnimation(SpecialAnimation.Dance);
             }
 
-            if (decision == Decision.Row)
+            else if (decision == Decision.Row)
             {
+                print("Playing Anmation for Row");
                 PlaySpecialAnimation(SpecialAnimation.Wave);
             }
 
             else
             {
+                print($"Invalid Decision: {decision}");
                 PlaySpecialAnimation(SpecialAnimation.IdleImpatient);
             }
-
         }
 
         else
         {
+            print("Decision is currently not allowed");
             PlaySpecialAnimation(SpecialAnimation.IdleImpatient);
         }
     }
