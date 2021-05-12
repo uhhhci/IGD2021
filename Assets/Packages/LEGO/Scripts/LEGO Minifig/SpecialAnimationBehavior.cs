@@ -21,7 +21,7 @@ namespace Unity.LEGO.Minifig
 
         public override void OnStateMachineExit(Animator animator, int stateMachinePathHash)
         {
-            minifigController.SpecialAnimationFinished();
+                    minifigController.SpecialAnimationFinished();
         }
     }
 

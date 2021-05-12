@@ -12,8 +12,8 @@ public class StatusPlane : MonoBehaviour
     TextMesh descriptionTextMesh;
 
     // will be updated by PhaseHandler
-    float timeLeft;
-    PhaseHandler.Phase phase;
+    public float timeLeft;
+    public PhaseHandler.Phase phase;
 
     // determines what happens during the action phase
     void ActionPhase()

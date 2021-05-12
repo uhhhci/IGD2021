@@ -18,7 +18,7 @@ z.B. triggern einer entsprechenden Animation des Charakters.
 Verfügbare Animationen finden sich in Assets/Packages/LEGO/Scripts/Lego Minifig/MinifigController.cs, enum SpecialAnimation.
 
 Vorschlag:
-* Waffe ausgewählt: Laughing
+* Waffe ausgewählt: Dance
 * Ziel ausgewählt: Wave
 
 
