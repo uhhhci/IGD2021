@@ -11,6 +11,11 @@ public class damageTextScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        damageText.text = player.damage.ToString()+"%";
+        if(player.died){
+            damageText.text = "RIP";
+            this.enabled = false;
+        }else{
+            damageText.text = player.damage.ToString()+"%";
+        }
     }
 }

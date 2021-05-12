@@ -70,6 +70,7 @@ public class OurMinifigController : MonoBehaviour
     private Vector2 _movement = new Vector2();
 
     //Our Custom Variables
+    public bool died = false;
     /// <summary>
     /// 3D Vector representing the force knocking the player back from getting hit
     /// </summary>
@@ -89,6 +90,10 @@ public class OurMinifigController : MonoBehaviour
     /// </summary>
     public float hitRange = 2;
 
+    /// <summary>
+    /// Position of second platform where players will be teleported when dead
+    /// </summary>
+    public Vector3 endZone = new Vector3(-24,7,0);
 
 
     [Header("Audio")]
@@ -168,7 +173,6 @@ public class OurMinifigController : MonoBehaviour
     float airborneTime;
     int jumpsInAir;
     Vector3 directSpeed;
-    bool died;
     bool stepped;
 
     List<MoveTarget> moves = new List<MoveTarget>();
@@ -423,6 +427,14 @@ public class OurMinifigController : MonoBehaviour
 
         if (!controller.isGrounded)
         {
+            if(transform.position.y < -10){
+                //Player fell off -> dies
+                
+                died = true;
+                damage = 0; //Can still get new damage in endzone but will not be shown in GUI
+                TeleportTo(endZone);
+            }
+
             // Apply gravity.
             moveDelta.y -= gravity * Time.deltaTime;
 
@@ -487,7 +499,11 @@ public class OurMinifigController : MonoBehaviour
         // Apply _knockback to transform
         Vector3 position = transform.position + _knockback;
         // Keep X-position of minifig at 0.
-        position.x = 0;
+        if(!died){
+            position.x = 0;
+        }else{
+            position.x = endZone.x;
+        }
         transform.SetPositionAndRotation(position, transform.rotation);
         // Decrease the knockback.
         float delta = 0.93f;// (Time.deltaTime * 100f); //Movement becomes weird when multiplying with deltaTime
