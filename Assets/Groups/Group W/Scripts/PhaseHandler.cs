@@ -1,41 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class RoundInput : MonoBehaviour
+/**
+ * Class used to switch between battle phases
+ */ 
+public class PhaseHandler : MonoBehaviour
 {
-    public Phase phase;
+    public static Phase phase;
+    public static float timeLeft;
 
     public float secondsUntilActionPhase = 2f;
     public float secondsPassed = 0f;
-    public float timeLeft;
+    
 
-    // TODO set false at first, then update to true if all 4 users pressed "ready"
-    // TODO but maybe ask jann about the "tutorial" game screen first
-    bool canStartGame = true;
     public bool isBattleAnimationFinished;
-
-    TextMesh descriptionTextMesh;
-    string description;
-    string title;
 
     public enum Phase
     {
         Decision,
         Action
-    }
-
-    // determines what happens dureing the action phase
-    void ActionPhase()
-    {
-        description = "Fight!";
-    }
-
-    // determines what happens during the decision phase
-    void DecisionPhase()
-    {
-        description = "Select your opponent and weapon!";
     }
 
     // decides which phase is the current phase
@@ -72,37 +56,17 @@ public class RoundInput : MonoBehaviour
         }
     }
 
-
     // Start is called before the first frame update
     void Start()
     {
-        descriptionTextMesh = GameObject.Find("DescriptionText").GetComponent<TextMesh>();
         phase = Phase.Decision;
     }
-
 
     // Update is called once per frame
     void Update()
     {
-        if (canStartGame)
-        {
-            title = phase == Phase.Action ? "Action Phase" : "Decision Phase";
-            secondsPassed = secondsPassed += Time.deltaTime;
-            timeLeft = secondsUntilActionPhase - secondsPassed;
-
-            descriptionTextMesh.text = $"{title}\n{description}\n{timeLeft.ToString("F2")}";
-            setCurrentPhase();
-
-            if (phase == Phase.Action)
-            {
-                ActionPhase();
-            }
-
-            if (phase == Phase.Decision)
-            {
-                DecisionPhase();
-            }
-
-        }
+        secondsPassed = secondsPassed += Time.deltaTime;
+        timeLeft = secondsUntilActionPhase - secondsPassed;
+        setCurrentPhase();
     }
 }
