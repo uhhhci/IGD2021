@@ -29,20 +29,7 @@ public class OurMinifigController : MonoBehaviour
         public float rotationSpeedMultiplier;
         public Vector3? turnToWhileCompleting;
     }
-
-    class FollowTarget
-    {
-        public Transform target;
-        public float minDistance;
-        public Action onComplete;
-        public float onCompleteDelay;
-        public float followDelay;
-        public bool cancelSpecial;
-        public float speedMultiplier;
-        public float rotationSpeedMultiplier;
-        public Vector3? turnToWhileCompleting;
-    }
-
+    
     class TurnTarget
     {
         public Vector3 target;
@@ -64,8 +51,6 @@ public class OurMinifigController : MonoBehaviour
         Turning,
         CompletingTurn,
 
-        Following,
-        CompletingFollow,
     }
 
     [Header("Movement")]
@@ -183,12 +168,11 @@ public class OurMinifigController : MonoBehaviour
     float airborneTime;
     int jumpsInAir;
     Vector3 directSpeed;
-    bool exploded;
+    bool died;
     bool stepped;
 
     List<MoveTarget> moves = new List<MoveTarget>();
     MoveTarget currentMove;
-    FollowTarget currentFollowTarget;
     TurnTarget currentTurnTarget;
     State state;
     float waitedTime = 0.0f;
@@ -243,11 +227,6 @@ public class OurMinifigController : MonoBehaviour
 
     void Update()
     {
-        if (exploded)
-        {
-            return;
-        }
-
         // Handle input.
         if (inputEnabled)
         {
@@ -433,72 +412,6 @@ public class OurMinifigController : MonoBehaviour
                         }
                         break;
                     }
-                case State.Following:
-                    {
-                        if (waitedTime > currentFollowTarget.followDelay)
-                        {
-                            var direction = currentFollowTarget.target.position - transform.position;
-
-                            // Neutralize y component.
-                            direction.y = 0.0f;
-
-                            if (direction.magnitude > currentFollowTarget.minDistance + distanceEpsilon)
-                            {
-                                var shouldBreak = currentFollowTarget.onCompleteDelay > 0.0f || (moves.Count > 0 && moves[0].moveDelay > 0.0f);
-                                MoveInDirection(direction, currentFollowTarget.minDistance, shouldBreak, currentFollowTarget.speedMultiplier, 0.0f, currentFollowTarget.rotationSpeedMultiplier, currentFollowTarget.cancelSpecial);
-                            }
-                            else
-                            {
-                                if (currentFollowTarget.onCompleteDelay > 0.0f)
-                                {
-                                    SetState(State.CompletingFollow);
-                                }
-                                else
-                                {
-                                    CompleteFollow();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            // Set speed, move delta and rotation speed.
-                            speed = 0.0f;
-                            moveDelta = new Vector3(0.0f, moveDelta.y, 0.0f);
-                            rotateSpeed = 0.0f;
-                        }
-                        break;
-                    }
-                case State.CompletingFollow:
-                    {
-                        var direction = currentFollowTarget.target.position - transform.position;
-
-                        // Neutralize y component.
-                        direction.y = 0.0f;
-
-                        if (direction.magnitude > currentFollowTarget.minDistance + distanceEpsilon)
-                        {
-                            // Start following again, with no delay.
-                            SetState(State.Following, currentFollowTarget.followDelay);
-                        }
-                        else
-                        {
-                            // Possibly turn to position.
-                            if (currentFollowTarget.turnToWhileCompleting.HasValue)
-                            {
-                                var turnToDirection = currentFollowTarget.turnToWhileCompleting.Value - transform.position;
-                                if (turnToDirection.magnitude > distanceEpsilon)
-                                {
-                                    TurnToDirection(direction, 0.0f, currentFollowTarget.rotationSpeedMultiplier, currentFollowTarget.cancelSpecial);
-                                }
-                            }
-
-                            if (waitedTime > currentFollowTarget.onCompleteDelay)
-                            {
-                                CompleteFollow();
-                            }
-                        }
-                        break;
-                    }
             }
         }
 
@@ -632,86 +545,10 @@ public class OurMinifigController : MonoBehaviour
         transform.position = position;
         controller.enabled = true;
     }
-
-
-
-    public void MoveTo(Vector3 destination, float minDistance = 0.0f, Action onComplete = null, float onCompleteDelay = 0.0f,
-        float moveDelay = 0.0f, bool cancelSpecial = true, float speedMultiplier = 1.0f, float rotationSpeedMultiplier = 1.0f, Vector3? turnToWhileCompleting = null)
-    {
-        MoveTarget move = new MoveTarget()
-        {
-            destination = destination,
-            minDistance = minDistance,
-            onComplete = onComplete,
-            onCompleteDelay = onCompleteDelay,
-            moveDelay = moveDelay,
-            cancelSpecial = cancelSpecial,
-            speedMultiplier = speedMultiplier,
-            rotationSpeedMultiplier = rotationSpeedMultiplier,
-            turnToWhileCompleting = turnToWhileCompleting
-        };
-
-        moves.Add(move);
-
-        UpdateState();
-    }
-
-    public void ClearMoves()
-    {
-        moves.Clear();
-
-        UpdateState();
-    }
-
-    public void TurnTo(Vector3 target, float minAngle = 0.0f, Action onComplete = null, float onCompleteDelay = 0.0f,
-        float turnDelay = 0.0f, bool cancelSpecial = false, float rotationSpeedMultiplier = 1.0f)
-    {
-        TurnTarget turnTarget = new TurnTarget()
-        {
-            target = target,
-            minAngle = minAngle,
-            onComplete = onComplete,
-            onCompleteDelay = onCompleteDelay,
-            turnDelay = turnDelay,
-            cancelSpecial = cancelSpecial,
-            rotationSpeedMultiplier = rotationSpeedMultiplier
-        };
-
-        currentTurnTarget = turnTarget;
-
-        UpdateState();
-    }
-
+    
     public void StopTurning()
     {
         currentTurnTarget = null;
-        UpdateState();
-    }
-
-    public void Follow(Transform target, float minDistance = 0.0f, Action onComplete = null, float onCompleteDelay = 0.0f,
-        float followDelay = 0.0f, bool cancelSpecial = true, float speedMultiplier = 1.0f, float rotationSpeedMultiplier = 1.0f, Vector3? turnToWhileCompleting = null)
-    {
-        FollowTarget followTarget = new FollowTarget()
-        {
-            target = target,
-            minDistance = minDistance,
-            onComplete = onComplete,
-            onCompleteDelay = onCompleteDelay,
-            followDelay = followDelay,
-            cancelSpecial = cancelSpecial,
-            speedMultiplier = speedMultiplier,
-            rotationSpeedMultiplier = rotationSpeedMultiplier,
-            turnToWhileCompleting = turnToWhileCompleting
-        };
-
-        currentFollowTarget = followTarget;
-
-        UpdateState();
-    }
-
-    public void StopFollowing()
-    {
-        currentFollowTarget = null;
         UpdateState();
     }
 
@@ -893,7 +730,6 @@ public class OurMinifigController : MonoBehaviour
                 }
             case State.Idle:
             case State.CompletingTurn:
-            case State.CompletingFollow:
                 {
                     // Set speed, move delta and rotation speed.
                     speed = 0.0f;
@@ -910,10 +746,6 @@ public class OurMinifigController : MonoBehaviour
         if (currentTurnTarget != null)
         {
             SetState(State.Turning);
-        }
-        else if (currentFollowTarget != null)
-        {
-            SetState(State.Following);
         }
         else if (moves.Count > 0)
         {
@@ -949,15 +781,6 @@ public class OurMinifigController : MonoBehaviour
         UpdateState();
     }
 
-    void CompleteFollow()
-    {
-        var completeFunc = currentFollowTarget.onComplete;
-        currentFollowTarget = null;
-
-        completeFunc?.Invoke();
-
-        UpdateState();
-    }
 
     #region Input Handling
     // Input ------------------------------------------------------------------------------------------
