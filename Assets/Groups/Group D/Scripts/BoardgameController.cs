@@ -17,7 +17,6 @@ public class BoardgameController : MonoBehaviour
 
     public PlayerData playerData;
     public Vector3 tileCenterOffset;
-    private bool movingCompleted = true;
 
     // Internal classes used to define targets when automatically animating.
     class MoveTarget
@@ -992,22 +991,22 @@ public class BoardgameController : MonoBehaviour
     }
 
     public void MoveToTile(Tile nextTile) { // public so that it can be used by the AI
-        if (!inputEnabled || !movingCompleted || airborne) {
+        if (!inputEnabled || !playerData.isIdle() || airborne) {
             // last movement was not completed
             return;
         }
 
+        playerData.setIdle(false);
         playerData.walk();
         playerData.moveTo(nextTile);
 
-        movingCompleted = false;
         Vector3 nextPos = nextTile.getPosition() + tileCenterOffset;
 
         // Turn in the direction of the next tile. When done, move there.
         TurnTo(nextPos, 0.0f, () => {
             jump();
             MoveTo(nextPos, 0.0f, () => {
-                movingCompleted = true;
+                playerData.setIdle(true);
             });
         });
     }
