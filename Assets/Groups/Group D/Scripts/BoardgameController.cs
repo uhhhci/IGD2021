@@ -15,7 +15,7 @@ public class BoardgameController : MonoBehaviour
     const float distanceEpsilon = 0.1f;
     const float angleEpsilon = 0.1f;
 
-    public TileNeighborhood tile;
+    public PlayerData playerData;
     public Vector3 tileCenterOffset;
     private bool movingCompleted = true;
 
@@ -100,6 +100,8 @@ public class BoardgameController : MonoBehaviour
     bool inputEnabled = true;
     [SerializeField, Range(0, 10)]
     int maxJumpsInAir = 1;
+
+    private bool inputEnabledCached = false; // used to fix a bug in SetState()
 
     public enum SpecialAnimation
     {
@@ -220,6 +222,7 @@ public class BoardgameController : MonoBehaviour
     {
         string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
+        inputEnabledCached = inputEnabled;
     }
 
     void Update()
@@ -566,6 +569,7 @@ public class BoardgameController : MonoBehaviour
     public void SetInputEnabled(bool enabled)
     {
         inputEnabled = enabled;
+        inputEnabledCached = enabled; // also overwrite the cached value
     }
 
     public void PlaySpecialAnimation(SpecialAnimation animation, AudioClip specialAudioClip = null, Action<bool> onSpecialComplete = null)
@@ -835,16 +839,26 @@ public class BoardgameController : MonoBehaviour
     void SetState(State newState, float initialWaitedTime = 0.0f)
     {
         waitedTime = initialWaitedTime;
-        state = newState;
 
         // Stop cancelling special.
         cancelSpecial = false;
 
         // Disable input if not idle.
-        if (state != State.Idle)
+        if (state == State.Idle && newState != State.Idle) {
+            // store the old value (only the Idle state contains the "real" value)
+            inputEnabledCached = inputEnabled;
+        }
+        if (newState != State.Idle)
         {
             inputEnabled = false;
+        } 
+        else 
+        {
+            // restore the old value
+            inputEnabled = inputEnabledCached;
         }
+        
+        state = newState;
 
         switch (state)
         {
@@ -952,26 +966,21 @@ public class BoardgameController : MonoBehaviour
 
     private void OnMoveDpad(InputValue value)
     {
-        if (!movingCompleted || airborne) {
-            // last movement was not completed
-            return;
-        }
-
         // get the nomralized movement vector 
         // (e.g. W + A are pressed -> something around (-0.7,0.7))
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
 
-        TileNeighborhood nextTile = null;
+        Tile nextTile = null;
 
         if (input.x > 0.9) {
-            nextTile = tile.right;
+            nextTile = playerData.currentTile().right;
         } else if (input.x < -0.9) {
-            nextTile = tile.left;
+            nextTile = playerData.currentTile().left;
         } else if (input.y > 0.9) {
-            nextTile = tile.up;
+            nextTile = playerData.currentTile().up;
         } else if (input.y < -0.9) {
-            nextTile = tile.down;
+            nextTile = playerData.currentTile().down;
         } // else: multiple keys are pressed -> do nothing
 
         if (nextTile == null) {
@@ -979,8 +988,19 @@ public class BoardgameController : MonoBehaviour
             return;
         }
 
-        movingCompleted = false;
+        MoveToTile(nextTile);
+    }
 
+    public void MoveToTile(Tile nextTile) { // public so that it can be used by the AI
+        if (!inputEnabled || !movingCompleted || airborne) {
+            // last movement was not completed
+            return;
+        }
+
+        playerData.walk();
+        playerData.moveTo(nextTile);
+
+        movingCompleted = false;
         Vector3 nextPos = nextTile.getPosition() + tileCenterOffset;
 
         // Turn in the direction of the next tile. When done, move there.
@@ -990,7 +1010,6 @@ public class BoardgameController : MonoBehaviour
                 movingCompleted = true;
             });
         });
-        tile = nextTile;
     }
 
     private void OnMenu()
@@ -1021,35 +1040,6 @@ public class BoardgameController : MonoBehaviour
     private void OnSouthPress()
     {
         print("OnSouthPress");
-
-        // Check if player is jumping.
-
-        // if (!airborne || jumpsInAir > 0)
-        // {
-        //     if (airborne)
-        //     {
-        //         jumpsInAir--;
-
-        //         if (doubleJumpAudioClip)
-        //         {
-        //             audioSource.PlayOneShot(doubleJumpAudioClip);
-        //         }
-        //     }
-        //     else
-        //     {
-        //         if (jumpAudioClip)
-        //         {
-        //             audioSource.PlayOneShot(jumpAudioClip);
-        //         }
-        //     }
-
-        //     moveDelta.y = jumpSpeed;
-        //     animator.SetTrigger(jumpHash);
-
-        //     airborne = true;
-        //     airborneTime = coyoteDelay;
-        // }
-
     }
 
     private void OnSouthRelease()
