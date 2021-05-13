@@ -15,6 +15,15 @@ public class PlayerData : MonoBehaviour
     private int distanceWalked = 0; // TODO: use this for the "most distance walked" achievement
     private int actionPoints = 0;
     private Tile tile;
+    private bool idle = true;
+
+    public bool isIdle() {
+        return idle;
+    }
+
+    public void setIdle(bool value) {
+        idle = value;
+    }
 
     public Tile currentTile() {
         return  tile;
@@ -29,7 +38,6 @@ public class PlayerData : MonoBehaviour
     public void walk() {
         actionPoints--;
         distanceWalked++;
-        Debug.Log("walking, remaining APs: " + actionPoints);
     }
 
     public void setActionPoints(int availablePoints) {
