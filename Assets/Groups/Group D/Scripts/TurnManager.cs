@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TurnManager : MonoBehaviour
 {
@@ -14,7 +13,7 @@ public class TurnManager : MonoBehaviour
  
     public Transform playerMarkerTransform;
  
-    public Text actionPointDisplay;
+    public HUD hud;
 
     public float playerMarkerHoverDistance = 3.0f;
     public float playerMarkerBobbleSpeed = 2.0f;
@@ -65,8 +64,15 @@ public class TurnManager : MonoBehaviour
     }
 
     private void updateHUD() {
-        actionPointDisplay.text = "Round: " + round + " Player: " + activePlayer.ToString() + " APs left: " + playerData[activePlayer].actionPointsLeft().ToString();
+        hud.updateActionPoints(playerData[activePlayer].actionPointsLeft());
+        hud.updateRound(round);
 
+        for (int i = 0; i < 4; i++) {
+            hud.updateCredits(i, playerData[i].creditAmount());
+            hud.updateBricks(i, 0); // TODO
+        }
+
+        // marker other active player
         float offset = Mathf.Sin(Time.timeSinceLevelLoad * playerMarkerBobbleSpeed);
         offset *= playerMarkerBobbleAmplitude;
         offset += playerMarkerHoverDistance;
@@ -77,6 +83,7 @@ public class TurnManager : MonoBehaviour
     }
 
     private void loadMinigame() {
+        // TODO: this is a dummy implementation
         int team1 = 0;
         int team2 = 0;
 
@@ -100,5 +107,10 @@ public class TurnManager : MonoBehaviour
         else {
             Debug.Log("Loading a 1v3 minigame.");
         }
+
+        // add a random amount of credits
+        playerData.ForEach((data) => {
+            data.addCreditAmount((int) Random.Range(0f, 3.99f));
+        });
     }
 }
