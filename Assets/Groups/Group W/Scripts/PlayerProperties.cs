@@ -198,23 +198,15 @@ public class PlayerProperties : MonoBehaviour
         // initialize properties
         SetMaxHp();
         EquipRandomWeapon();
-<<<<<<< HEAD
         GetChosenWeapon(rowPosition, weapon);
 
-=======
         SelectRandomTargetRow();
->>>>>>> main
     }
 
     // Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
 
-        
-
-=======
         phase = PhaseHandler.phase;
->>>>>>> main
     }
 }
