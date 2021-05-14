@@ -11,7 +11,8 @@ public class PlayerProperties : MonoBehaviour
     [Header("Properties")]
     public WeaponJsonReader.WeaponType weapon;
     public RowPosition rowPosition;
-    public TargetRow targetRow;
+    public RowPosition targetRow;
+    public Team team;
 
     [Header("External factors")]
     public static PhaseHandler.Phase phase;
@@ -30,16 +31,18 @@ public class PlayerProperties : MonoBehaviour
         }    
     }
 
+    // TODO replace RowPosition / Team Enums with simple lists, allowing for more flexibility in the future
     public enum RowPosition
     {
        Front,
        Back
     }
-    
-    public enum TargetRow
+   
+
+    public enum Team
     {
-        Front, 
-        Back
+        Left,
+        Right
     }
 
     public void SetMaxHp()
@@ -58,13 +61,13 @@ public class PlayerProperties : MonoBehaviour
 
     void SelectRandomTargetRow()
     {
-        Array values = Enum.GetValues(typeof(TargetRow));
+        Array values = Enum.GetValues(typeof(RowPosition));
         System.Random random = new System.Random();
-        TargetRow randomTargetRow = (TargetRow)values.GetValue(random.Next(values.Length));
+        RowPosition randomTargetRow = (RowPosition)values.GetValue(random.Next(values.Length));
         targetRow = randomTargetRow;
     }
 
-    private void ChangeWeapon(WeaponJsonReader.WeaponType selectedWeapon)
+    private void ChangeEquippedWeapon(WeaponJsonReader.WeaponType selectedWeapon)
     {
         if (phase == PhaseHandler.Phase.Decision)
         {
@@ -79,7 +82,7 @@ public class PlayerProperties : MonoBehaviour
         }
     }
 
-    private void ChangeTargetRow(TargetRow selectedTargetRow)
+    private void ChangeTargetRow(RowPosition selectedTargetRow)
     {
         if (phase == PhaseHandler.Phase.Decision)
         {
@@ -96,22 +99,22 @@ public class PlayerProperties : MonoBehaviour
     #region input handling
     private void OnWestPress()
     {
-        ChangeTargetRow(TargetRow.Back);
+        ChangeTargetRow(RowPosition.Back);
     }
 
     private void OnSouthPress()
     {
-        ChangeWeapon(WeaponJsonReader.WeaponType.Scissors);
+        ChangeEquippedWeapon(WeaponJsonReader.WeaponType.Scissors);
     }
 
     private void OnEastPress()
     {
-        ChangeWeapon(WeaponJsonReader.WeaponType.Lego);
+        ChangeEquippedWeapon(WeaponJsonReader.WeaponType.Lego);
     }
 
     private void OnNorthPress()
     {
-        ChangeTargetRow(TargetRow.Front);
+        ChangeTargetRow(RowPosition.Front);
     }
 
     private void OnMoveDpad(InputValue value)
@@ -121,7 +124,7 @@ public class PlayerProperties : MonoBehaviour
 
         if (input.Equals(Vector2.up))
         {
-            ChangeWeapon(WeaponJsonReader.WeaponType.Paper);
+            ChangeEquippedWeapon(WeaponJsonReader.WeaponType.Paper);
         }
     }
     #endregion
