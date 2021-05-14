@@ -14,14 +14,14 @@ namespace Unity.LEGO.Minifig
             animator.SetBool(playSpecialHash, false);
             if (!minifigController)
             {
-                minifigController = animator.GetComponent<MinifigController>();
+                minifigController = animator.transform.parent.GetComponent<MinifigController>();
             }
 
         }
 
         public override void OnStateMachineExit(Animator animator, int stateMachinePathHash)
         {
-            minifigController.SpecialAnimationFinished();
+                    minifigController.SpecialAnimationFinished();
         }
     }
 

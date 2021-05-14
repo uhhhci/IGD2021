@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 
 public class MinifigController : MonoBehaviour
 {
+    // accessed through other scripts
+    public PhaseHandler.Phase phase;
+
     public GameObject Minifig;
     // Constants.
     const float stickyTime = 0.05f;
@@ -154,7 +157,7 @@ public class MinifigController : MonoBehaviour
 
 
     CharacterController controller;
-    Animator animator;
+    public Animator animator;
     AudioSource audioSource;
 
     bool airborne;
@@ -221,6 +224,8 @@ public class MinifigController : MonoBehaviour
 
     void Update()
     {
+        phase = PhaseHandler.phase;
+
         if (exploded)
         {
             return;
@@ -288,8 +293,6 @@ public class MinifigController : MonoBehaviour
 
             // Calculate move delta.
             moveDelta = new Vector3(directSpeed.x, moveDelta.y, directSpeed.z);
-
-
 
             // Check if player is grounded.
             if (!airborne)
@@ -589,6 +592,7 @@ public class MinifigController : MonoBehaviour
     /// </summary>
     public void SpecialAnimationFinished()
     {
+        print(animator);
         // Do callback.
         onSpecialComplete?.Invoke(animator.GetBool(cancelSpecialHash));
     }
@@ -932,14 +936,33 @@ public class MinifigController : MonoBehaviour
 
     private void OnMove(InputValue value)
     {
+        print("OnMove");
         _movement = value.Get<Vector2>();
     }
 
+    // TODO somehow this logs the correct things, but the animation does not get played
+    // --> find out what prevents this :O
     private void OnMoveDpad(InputValue value)
     {
         Vector2 input = value.Get<Vector2>();
+
         input.Normalize();
-        _movement = input;
+
+        // up
+        if (input.Equals(Vector2.up))
+        {
+            print("selected Paper");
+            PlayActionPhaseAnimation(Decision.Weapon);
+        }
+
+        //_movement = input;
+    }
+
+    // valid decision types
+    public enum Decision
+    {
+        Weapon,
+        Row
     }
 
     private void OnMenu()
@@ -947,75 +970,91 @@ public class MinifigController : MonoBehaviour
         print("OnMenu");
     }
 
+    // e.g. R
     private void OnNorthPress()
     {
-        print("OnNorthPress");
+        print("selected FrontRow");
+        PlayActionPhaseAnimation(Decision.Row);
     }
 
     private void OnNorthRelease()
     {
-        print("OnNorthRelease");
+       // print("OnNorthRelease");
     }
 
+    // e.g. Q
     private void OnEastPress()
     {
-        print("OnEastPress");
+        print("selected Lego");
+        PlayActionPhaseAnimation(Decision.Weapon);
     }
 
     private void OnEastRelease()
     {
-        print("OnEastRelease");
+       // print("OnEastRelease");
     }
 
+    // e.g. E
     private void OnSouthPress()
     {
-        print("OnSouthPress");
-
-        // Check if player is jumping.
-
-        if (!airborne || jumpsInAir > 0)
-        {
-            if (airborne)
-            {
-                jumpsInAir--;
-
-                if (doubleJumpAudioClip)
-                {
-                    audioSource.PlayOneShot(doubleJumpAudioClip);
-                }
-            }
-            else
-            {
-                if (jumpAudioClip)
-                {
-                    audioSource.PlayOneShot(jumpAudioClip);
-                }
-            }
-
-            moveDelta.y = jumpSpeed;
-            animator.SetTrigger(jumpHash);
-
-            airborne = true;
-            airborneTime = coyoteDelay;
-        }
-
+        print("selected Scissors");
+        PlayActionPhaseAnimation(Decision.Weapon);
     }
 
     private void OnSouthRelease()
     {
-        print("OnSouthRelease");
+       // print("OnSouthRelease");
     }
 
+    // e.g. F
     private void OnWestPress()
     {
-        print("OnWestPress");
+        print("Selected BackRow");
+        PlayActionPhaseAnimation(Decision.Row);
     }
 
     private void OnWestRelease()
     {
-        print("OnWestRelease");
+        //print("OnWestRelease");
     }
 
+    #endregion
+
+    // Lego-Paper-Scissors specifc methods ------------------------------------------------------------------------------------------
+    #region Lego-Paper-Scissors specifc methods
+    // plays an annimation according to whether its action/decision phase and which kind of decision was made
+    private void PlayActionPhaseAnimation(Decision decision)
+    {
+        print("decision: ");
+        print(decision);
+        if (PlayerProperties.IsActionAllowed())
+        {
+            
+            if (decision == Decision.Weapon)
+            {
+                print("Playing Anmation for Weapon ");
+                PlaySpecialAnimation(SpecialAnimation.Dance);
+            }
+
+            else if (decision == Decision.Row)
+            {
+                print("Playing Anmation for Row");
+                PlaySpecialAnimation(SpecialAnimation.Wave);
+            }
+
+            else
+            {
+                print($"Invalid Decision: {decision}");
+                PlaySpecialAnimation(SpecialAnimation.IdleImpatient);
+            }
+        }
+
+        else
+        {
+            print("Decision is currently not allowed");
+            PlaySpecialAnimation(SpecialAnimation.IdleImpatient);
+        }
+    }
     #endregion
 }
 
