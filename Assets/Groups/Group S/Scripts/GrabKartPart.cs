@@ -13,8 +13,8 @@ using UnityEngine;
  */
 public class GrabKartPart : MonoBehaviour
 {
-    public GameObject _grabbable;
-    public GameObject _grabbed;
+    private GameObject _grabbable;
+    private GameObject _grabbed;
     private void OnCollisionEnter(Collision other)
     {
         // Object is only grabbable when it's a part and not parented by anything, especially not a player
