@@ -9,17 +9,14 @@ public class PlayerProperties : MonoBehaviour
     public int currentHp;
 
     [Header("Properties")]
-    public Weapon weapon;
+    public WeaponJsonReader.WeaponType weapon;
     public RowPosition rowPosition;
     public TargetRow targetRow;
 
     [Header("External factors")]
     public static PhaseHandler.Phase phase;
-
-    public GameObject scissors;
-    public GameObject paper;
-    public GameObject lego;
-    public Vector3 thePosition;
+    public GameObject leftHandWeapon;
+    public Vector3 leftHandPosition;
 
     // if the row position changes, change the max hp accordingly
     public RowPosition CurrentRowPosition
@@ -38,13 +35,6 @@ public class PlayerProperties : MonoBehaviour
        Front,
        Back
     }
-
-    public enum Weapon
-    {
-        Lego,
-        Paper,
-        Scissors
-    }
     
     public enum TargetRow
     {
@@ -59,10 +49,11 @@ public class PlayerProperties : MonoBehaviour
 
     void EquipRandomWeapon()
     {
-        Array values = Enum.GetValues(typeof(Weapon));
+        Array values = Enum.GetValues(typeof(WeaponJsonReader.WeaponType));
         System.Random random = new System.Random();
-        Weapon randomWeapon = (Weapon)values.GetValue(random.Next(values.Length));
+        WeaponJsonReader.WeaponType randomWeapon = (WeaponJsonReader.WeaponType)values.GetValue(random.Next(values.Length));
         weapon = randomWeapon;
+        print($"equipped random weapon: {randomWeapon}");
     }
 
     void SelectRandomTargetRow()
@@ -73,9 +64,9 @@ public class PlayerProperties : MonoBehaviour
         targetRow = randomTargetRow;
     }
 
-    private void ChangeWeapon(Weapon selectedWeapon)
+    private void ChangeWeapon(WeaponJsonReader.WeaponType selectedWeapon)
     {
-        if (IsActionAllowed())
+        if (phase == PhaseHandler.Phase.Decision)
         {
             print("Changing Weapon to");
             print(selectedWeapon);
@@ -90,7 +81,7 @@ public class PlayerProperties : MonoBehaviour
 
     private void ChangeTargetRow(TargetRow selectedTargetRow)
     {
-        if (IsActionAllowed())
+        if (phase == PhaseHandler.Phase.Decision)
         {
             print("Changing TargetRow to");
             targetRow = selectedTargetRow;
@@ -110,12 +101,12 @@ public class PlayerProperties : MonoBehaviour
 
     private void OnSouthPress()
     {
-        ChangeWeapon(Weapon.Scissors);
+        ChangeWeapon(WeaponJsonReader.WeaponType.Scissors);
     }
 
     private void OnEastPress()
     {
-        ChangeWeapon(Weapon.Lego);
+        ChangeWeapon(WeaponJsonReader.WeaponType.Lego);
     }
 
     private void OnNorthPress()
@@ -130,65 +121,34 @@ public class PlayerProperties : MonoBehaviour
 
         if (input.Equals(Vector2.up))
         {
-            ChangeWeapon(Weapon.Paper);
+            ChangeWeapon(WeaponJsonReader.WeaponType.Paper);
         }
     }
     #endregion
 
-    // only change things during the decision phase!
-    public static Boolean IsActionAllowed()
-    {
-        if (phase == PhaseHandler.Phase.Decision)
-        {
-            return true;
-        }
 
-        else
-        {
-            return false;
-        }
+    void ChangeLeftHandWeapon(RowPosition rowPosition, WeaponJsonReader.WeaponType weaponType)
+    {  
+            // load a gameobject with the correct prefab
+            leftHandPosition = transform.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").GetComponent<Transform>().position;
+            Weapon[] matchingWeapons = WeaponJsonReader.GetWeapon(weaponType, rowPosition);
+            if(matchingWeapons.Length > 0 && leftHandWeapon == null)
+            {
+                string assetPath = matchingWeapons[0].asset;
+                GameObject prefab = Resources.Load<GameObject>("Prefabs/" + assetPath) as GameObject;
+                leftHandWeapon = Instantiate(prefab, leftHandPosition, transform.rotation);
+
+                // set the weapon as a child of left hand
+               leftHandWeapon.transform.parent = transform.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").transform;
+               leftHandWeapon.transform.localScale = new Vector3(1, 1, 1);
+            }
     }
 
-    void GetChosenWeapon(RowPosition rowPosition, Weapon weapon)
+    void RemoveLeftHandWeapon()
     {
-        Vector3 thePosition = transform.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").GetComponent<Transform>().position;
-
-        if (weapon == Weapon.Scissors)
+        if (leftHandWeapon != null)
         {
-            scissors = Instantiate(scissors, thePosition, transform.rotation);
-            // Make Scissors Child of left Hand.
-            scissors.transform.parent = transform.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").transform;
-            scissors.transform.localScale = new Vector3(1, 1, 1);
-        }
-        else if (weapon == Weapon.Paper)
-        {
-            paper = Instantiate(paper, thePosition, transform.rotation);
-            // Make Paper Child of left Hand.
-            paper.transform.parent = transform.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").transform;
-            paper.transform.localScale = new Vector3(2, 2, 2);
-        }
-        else
-        {
-            lego = Instantiate(lego, thePosition, transform.rotation);
-            // Make Lego Child of left Hand.
-            lego.transform.parent = transform.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").transform;
-            lego.transform.localScale = new Vector3(1, 1, 1);
-        }
-    }
-
-    void RemoveChosenWeapon()
-    {
-        if (weapon == Weapon.Scissors)
-        {
-            Destroy(scissors);
-        }
-        else if (weapon == Weapon.Paper)
-        {
-            Destroy(paper);
-        }
-        else
-        {
-            Destroy(lego);
+           DestroyImmediate(leftHandWeapon, true);
         }
     }
 
@@ -198,15 +158,21 @@ public class PlayerProperties : MonoBehaviour
         // initialize properties
         SetMaxHp();
         EquipRandomWeapon();
-        GetChosenWeapon(rowPosition, weapon);
-
+        //ChangeLeftHandWeapon(rowPosition, weapon);
         SelectRandomTargetRow();
     }
 
     // Update is called once per frame
     void Update()
     {
-
         phase = PhaseHandler.phase;
+        if(phase == PhaseHandler.Phase.Action)
+        {
+            ChangeLeftHandWeapon(rowPosition, weapon);
+        }
+        else if(phase == PhaseHandler.Phase.Decision)
+        {
+            RemoveLeftHandWeapon();
+        }
     }
 }

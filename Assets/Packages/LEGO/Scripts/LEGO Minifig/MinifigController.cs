@@ -1025,9 +1025,8 @@ public class MinifigController : MonoBehaviour
     // plays an annimation according to whether its action/decision phase and which kind of decision was made
     private void PlayActionPhaseAnimation(Decision decision)
     {
-        print("decision: ");
-        print(decision);
-        if (PlayerProperties.IsActionAllowed())
+        print($"animation decision: {decision}");
+        if (PhaseHandler.phase == PhaseHandler.Phase.Decision)
         {
             
             if (decision == Decision.Weapon)

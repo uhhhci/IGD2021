@@ -253,8 +253,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 215571963}
+  - component: {fileID: 215571964}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,6 +275,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &215571964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215571962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd28219d34b56a45ad5b6e8612b954c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jsonFile: {fileID: 4900000, guid: 9fab7b5d79198914c8a3ed324da5c611, type: 3}
 --- !u!1001 &226048570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -605,15 +619,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa90826fedf25c4458a8f7b0e294985c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phase: 0
-  secondsUntilActionPhase: 2
-  secondsPassed: 0
-  timeLeft: 0
-  canStartGame: 1
-  isBattleAnimationFinished: 0
-  descriptionTextMesh: {fileID: 0}
   description: 
   title: 
+  timeLeft: 0
+  phase: 0
 --- !u!1 &604551748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1108,7 +1117,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a55d2b3365622341adce002401e895f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phase: 0
   secondsUntilActionPhase: 2
   secondsPassed: 0
   isBattleAnimationFinished: 0
@@ -1150,6 +1158,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1420739009756056, guid: b8991e610cafd4244aa5ee1a42b52097,
         type: 3}
+    - target: {fileID: 3578296932868908729, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: leftHandWeapon
+      value: 
+      objectReference: {fileID: 120076, guid: 454ecfe8d64029140963b6461b2f7d0d, type: 3}
     - target: {fileID: 8274144547116985095, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_Icon

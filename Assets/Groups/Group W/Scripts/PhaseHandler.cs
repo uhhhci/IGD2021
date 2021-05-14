@@ -10,10 +10,9 @@ public class PhaseHandler : MonoBehaviour
     public static Phase phase;
     public static float timeLeft;
 
-    public float secondsUntilActionPhase = 2f;
+    public float secondsUntilActionPhase = 5f;
     public float secondsPassed = 0f;
     
-
     public bool isBattleAnimationFinished;
 
     public enum Phase
