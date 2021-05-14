@@ -18,7 +18,17 @@ public class Tile : MonoBehaviour
     public Tile up;
     public Tile down;
 
+    private bool goldenBrickPresent;
+
     public Vector3 getPosition() {
         return this.transform.position;
+    }
+
+    public bool hasGoldenBrick() {
+        return goldenBrickPresent;
+    }
+
+    public void setHasGoldenBrick(bool newValue) {
+        goldenBrickPresent = newValue;
     }
 }

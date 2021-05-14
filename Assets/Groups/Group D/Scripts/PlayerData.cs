@@ -19,6 +19,7 @@ public class PlayerData : MonoBehaviour
     private Tile tile;
     private bool idle = true;
     private int credits = 0;
+    private int bricks = 0;
 
     public bool isIdle() {
         return idle;
@@ -47,6 +48,10 @@ public class PlayerData : MonoBehaviour
         actionPoints = availablePoints;
     }
 
+    public void addActionPoints(int amount) {
+        actionPoints += amount;
+    }
+
     public int actionPointsLeft() {
         return actionPoints;
     }
@@ -58,6 +63,14 @@ public class PlayerData : MonoBehaviour
     public void addCreditAmount(int amount) {
         // use negative amount for substraction
         credits += amount;
+    }
+
+    public int goldenBricks() {
+        return bricks;
+    }
+
+    public void addGoldenBrick() {
+        bricks++;
     }
 
     // Start is called before the first frame update

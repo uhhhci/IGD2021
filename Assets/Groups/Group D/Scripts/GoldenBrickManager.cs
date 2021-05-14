@@ -8,6 +8,9 @@ public class GoldenBrickManager : MonoBehaviour
 
     public float hoverDistance = 1f;
 
+    private Tile location;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,11 +18,20 @@ public class GoldenBrickManager : MonoBehaviour
     }
 
     public void relocate() {
+        if (location) {
+            location.setHasGoldenBrick(false);
+        }
+
         // make sure that the start tile is not tagged/included
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+        
+        GameObject selected = tiles[Random.Range(0, tiles.Length)];
+        location = selected.GetComponent(typeof(Tile)) as Tile;
 
-        Vector3 newPos = tiles[Random.Range(0, tiles.Length)].transform.position;
+        Vector3 newPos = selected.transform.position;
         newPos.y += hoverDistance;
         brick.position = newPos;
+
+        location.setHasGoldenBrick(true);
     }
 }

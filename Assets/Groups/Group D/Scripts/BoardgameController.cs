@@ -17,6 +17,7 @@ public class BoardgameController : MonoBehaviour
 
     public PlayerData playerData;
     public Vector3 tileCenterOffset;
+    public InteractionMenu interactions;
 
     // Internal classes used to define targets when automatically animating.
     class MoveTarget
@@ -991,7 +992,7 @@ public class BoardgameController : MonoBehaviour
     }
 
     public void MoveToTile(Tile nextTile) { // public so that it can be used by the AI
-        if (!inputEnabled || !playerData.isIdle() || airborne) {
+        if (!inputEnabled || !acceptingCommands()) {
             // last movement was not completed
             return;
         }
@@ -1011,6 +1012,10 @@ public class BoardgameController : MonoBehaviour
         });
     }
 
+    private bool acceptingCommands() {
+        return !airborne && playerData.isIdle();
+    }
+
     private void OnMenu()
     {
         print("OnMenu");
@@ -1018,7 +1023,9 @@ public class BoardgameController : MonoBehaviour
 
     private void OnNorthPress()
     {
-        print("OnNorthPress");
+        if (inputEnabled && acceptingCommands()) {
+            interactions.nextAction();
+        }
     }
 
     private void OnNorthRelease()
@@ -1028,7 +1035,9 @@ public class BoardgameController : MonoBehaviour
 
     private void OnEastPress()
     {
-        print("OnEastPress");
+        if (inputEnabled && acceptingCommands()) {
+            interactions.chooseAction();
+        }
     }
 
     private void OnEastRelease()
@@ -1038,7 +1047,9 @@ public class BoardgameController : MonoBehaviour
 
     private void OnSouthPress()
     {
-        print("OnSouthPress");
+        if (inputEnabled && acceptingCommands()) {
+            interactions.previousAction();
+        }
     }
 
     private void OnSouthRelease()

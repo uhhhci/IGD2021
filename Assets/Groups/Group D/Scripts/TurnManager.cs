@@ -14,6 +14,7 @@ public class TurnManager : MonoBehaviour
     public Transform playerMarkerTransform;
  
     public HUD hud;
+    public InteractionMenu interactions;
 
     public float playerMarkerHoverDistance = 3.0f;
     public float playerMarkerBobbleSpeed = 2.0f;
@@ -32,7 +33,7 @@ public class TurnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerData[activePlayer].actionPointsLeft() == 0 && playerData[activePlayer].isIdle()) {
+        if (playerData[activePlayer].actionPointsLeft() <= 0 && playerData[activePlayer].isIdle()) {
             nextTurn();
         }
         
@@ -59,6 +60,8 @@ public class TurnManager : MonoBehaviour
         // unlock controls of the previous player 
         players[activePlayer].SetInputEnabled(true);
 
+        interactions.setActivePlayer(playerData[activePlayer]);
+
         // TODO: replace with a dice roll/random number
         playerData[activePlayer].setActionPoints(initialActionPoints);
     }
@@ -69,7 +72,7 @@ public class TurnManager : MonoBehaviour
 
         for (int i = 0; i < 4; i++) {
             hud.updateCredits(i, playerData[i].creditAmount());
-            hud.updateBricks(i, 0); // TODO
+            hud.updateBricks(i, playerData[i].goldenBricks());
         }
 
         // marker other active player
