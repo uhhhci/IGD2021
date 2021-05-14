@@ -1,11 +1,13 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject BuildingFinishedUI;
-    public Transform CameraTransform;
+    public GameObject buildingFinishedUI;
+    public Transform cameraTransform;
+    public Animator cameraAnimator;
     
     private bool buildingFinished = false;
     public void FinishBuilding()
@@ -13,16 +15,15 @@ public class GameManager : MonoBehaviour
         if (!buildingFinished)
         {
             buildingFinished = true;
-            BuildingFinishedUI.SetActive(true);
-            Invoke(nameof(LoadRacingView), 3f);
+            buildingFinishedUI.SetActive(true);
+            cameraAnimator.enabled = true;
+            Invoke(nameof(LoadRacingViewFinished), 3f);
         }
     }
 
-    private void LoadRacingView()
+    private void LoadRacingViewFinished()
     {
-        var position = CameraTransform.position;
-        position = new Vector3(position.x, position.y + 10, position.z);
-        CameraTransform.position = position;
-        BuildingFinishedUI.SetActive(false);
+        buildingFinishedUI.SetActive(false);
+        cameraAnimator.enabled = false;
     }
 }
