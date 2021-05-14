@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// place for stats and properties of the player
+// e.g. distance walked, current amounts of credits and golden bricks,
+// tile the player is currently on, etc.
 public class PlayerData : MonoBehaviour
 {
     public Tile startTile;
     
     // TODO inventory
-    // TODO credits
     // TODO more stats for achievements
     // TODO golden bricks
     // TODO true party person status flag
@@ -16,6 +18,7 @@ public class PlayerData : MonoBehaviour
     private int actionPoints = 0;
     private Tile tile;
     private bool idle = true;
+    private int credits = 0;
 
     public bool isIdle() {
         return idle;
@@ -46,6 +49,15 @@ public class PlayerData : MonoBehaviour
 
     public int actionPointsLeft() {
         return actionPoints;
+    }
+
+    public int creditAmount() {
+        return credits;
+    }
+
+    public void addCreditAmount(int amount) {
+        // use negative amount for substraction
+        credits += amount;
     }
 
     // Start is called before the first frame update
