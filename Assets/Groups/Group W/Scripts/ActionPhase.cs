@@ -9,11 +9,28 @@ public class ActionPhase : MonoBehaviour
     public TextAsset jsonFile;
     public WeaponTypes weaponTypes;
 
+
+    float CalculateDamage(WeaponJsonReader.WeaponType equippedWeaponType, PlayerProperties.RowPosition rowPosition, WeaponJsonReader.WeaponType targetWeaponType)
+    {
+        Weapon[] matchingWeapons = WeaponJsonReader.GetWeapon(equippedWeaponType, rowPosition);
+        if (matchingWeapons.Length > 0)
+        {
+            int baseDamage = Int16.Parse(matchingWeapons[0].power);
+            float multiplier = GetMultiplier(equippedWeaponType, targetWeaponType);
+            return baseDamage * multiplier;
+        }
+
+        else
+        {
+            return 0f;
+        }
+    }
+
     // returns a damage multipler based on the equipped weapon type and the target weapon type strength/weakness
     float GetMultiplier(WeaponJsonReader.WeaponType equippedWeaponType, WeaponJsonReader.WeaponType targetWeaponType)
     {
         WeaponType equippedWeaponTypeInfo = Array.FindAll<WeaponType>(weaponTypes.weaponTypes, weaponType => weaponType.type == equippedWeaponType.ToString())[0];
-        if(targetWeaponType.ToString() == equippedWeaponTypeInfo.strength)
+        if (targetWeaponType.ToString() == equippedWeaponTypeInfo.strength)
         {
             return 2f;
         }
@@ -46,10 +63,8 @@ public class ActionPhase : MonoBehaviour
 
     }
 
-    void Attack()
+    void Attack(Transform targetPlayer, float damage)
     {
-
-        // calculate damage
         // pay attention to only access valid targets
         // lower hp of attacked players
     }
@@ -67,16 +82,18 @@ public class ActionPhase : MonoBehaviour
  
         foreach (Transform child in transform)
         {
-            // use team and targetRow to access target player
+            // access target player
             PlayerProperties.Team ownTeam = child.GetComponent<PlayerProperties>().team;
+            PlayerProperties.RowPosition rowPosition = child.GetComponent<PlayerProperties>().rowPosition;
             PlayerProperties.RowPosition targetRow = child.GetComponent<PlayerProperties>().targetRow;
 
-            // use equippedWeaponType and targetWeaponType to calculate damage
+            // calculate damage
             WeaponJsonReader.WeaponType equippedWeaponType = child.GetComponent<PlayerProperties>().weapon;
             WeaponJsonReader.WeaponType targetWeaponType = GetTargetWeaponType(ownTeam, targetRow);
-            float multiplier = GetMultiplier(equippedWeaponType, targetWeaponType);
+            float damage = CalculateDamage(equippedWeaponType, rowPosition, targetWeaponType);
             print($"targetWeaponType: {targetWeaponType}");
-            print($"multiplier: {multiplier}");
+            print($"damage: {damage}");
+
         }
 
         // print($"transform.name: {transform.name}");

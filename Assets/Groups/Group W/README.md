@@ -5,13 +5,10 @@ Im Folgenden finden sich TODOs und DONEs.
 * Anzeige HP-Balken der Charaktere
 
 ## Kampfmodus
-### Charaktere bekommen ausgewählte Waffen in die Hand gespawned
-* Methode/Funktion mit folgendem Verhalten:
-	* eine Reihe (Front/Back) und einen Waffentyp (Lego/Paper/Scissors) als Parameter entgegen nehmen
-		*  für entsprechende Enums, siehe PlayerProperties.cs
-	* der entsprechende Charakter, an dem das Script attached ist, sollte dann (visuell) die entsprechende Waffe in die Hand gelegt bekommen
-		* Waffe sollte sich bei Bewegung des Charakters mitbewegen
+
 ### Schadensverteilung entsprechend ausgewählter Waffen / Ziele
+* Nach Schadensberechnung: HP abziehen
+
 ### Angriffsanimation
 * Front: zu Gegner hinlaufen, angreifen
 * Back: stehenbleiben, Fernkampfwaffe nutzen
@@ -53,6 +50,18 @@ Im Folgenden finden sich TODOs und DONEs.
 		* Ziel ausgewählt: Wave
 	* Wenn in Action Phase:
 		* Waffe/Ziel ausgwählt: IdleImpatient
+* JSONs zum externen konfigurieren von Waffeneigenschaften
+	* type
+	* weakness
+	* strength
+	* asset
+	* power
+	* row
+* Schadensberechnung - Base damage der Waffe (Vorder/Hinterreihe) mal Multiplier (Stärke/Schwäche/Neutralität gegenüber Ziel)
 
 # DONEs Polina
-* ?
+* Methode/Funktion mit folgendem Verhalten:
+	* eine Reihe (Front/Back) und einen Waffentyp (Lego/Paper/Scissors) als Parameter entgegen nehmen
+		*  für entsprechende Enums, siehe PlayerProperties.cs
+	* der entsprechende Charakter, an dem das Script attached ist, sollte dann (visuell) die entsprechende Waffe in die Hand gelegt bekommen
+		* Waffe sollte sich bei Bewegung des Charakters mitbewegen
