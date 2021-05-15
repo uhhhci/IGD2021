@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiceScript : MonoBehaviour
+public class DieScript : MonoBehaviour
 {
 	static Rigidbody rb;
-	public static Vector3 diceVelocity;
+	public static Vector3 dieVelocity;
     public int counter = 0;
     float dirX;
     float dirY;
@@ -20,7 +20,7 @@ public class DiceScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		diceVelocity = rb.velocity;
+		dieVelocity = rb.velocity;
 		dirX = Random.Range (0, 600);
 		dirY = Random.Range (0, 600);
 		dirZ = Random.Range (0, 600);
