@@ -65,7 +65,8 @@ public class TurnManager : MonoBehaviour
         // TODO: replace with a dice roll
         System.Random rnd = new System.Random();
         int initialActionPoints = rnd.Next(1, 6);
-        // get number currentSide from DieSideChecker
+        // start dice toss
+        // get number rollResult from DieScript
         playerData[activePlayer].setActionPoints(initialActionPoints);
     }
 
