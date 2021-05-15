@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class GameManager : MonoBehaviour
         if (thePlayer.rounds == 3)
         {
             player.GetComponent<MinifigController>().enabled = false;
-            totalWinners += 1;
+            //totalWinners += 1;
             Debug.Log("Winner");
         }
 
