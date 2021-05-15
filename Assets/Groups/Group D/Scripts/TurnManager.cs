@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
     public int initialActionPoints; 
+
+    // number of rounds until the game ends
+    public int numberOfRounds = 10;
 
     // the four player controllers
     public List<BoardgameController> players = new List<BoardgameController>(4);
@@ -53,7 +57,21 @@ public class TurnManager : MonoBehaviour
             round++;
         }
 
-        startNewTurn();
+        if (round >= numberOfRounds) {
+            endGame();
+        } 
+        else {
+            startNewTurn();
+        }
+    }
+
+    private void endGame() {
+        // pass some parameters to the next scene
+        for (int i = 0; i < 4; i++) {
+            EndScreen.playerStats[i] = new EndScreen.PlayerStats(i, playerData[i].goldenBricks(), playerData[i].creditAmount());
+        }
+
+        SceneManager.LoadScene("Groups/Group D/Scenes/EndScreen");
     }
 
     private void startNewTurn() {
