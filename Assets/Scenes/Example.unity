@@ -133,11 +133,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Minifig ZGHJ
       objectReference: {fileID: 0}
+    - target: {fileID: 70292193334677109, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 629297074304548042, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_DefaultControlScheme
       value: KeyboardZGHJ
       objectReference: {fileID: 0}
+    - target: {fileID: 629297074304548042, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 779776343}
     - target: {fileID: 8612489488774388799, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -524,6 +534,11 @@ PrefabInstance:
       propertyPath: m_DefaultControlScheme
       value: KeyboardNum
       objectReference: {fileID: 0}
+    - target: {fileID: 629297074304548042, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1644748240}
     - target: {fileID: 8612489488774388799, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -669,7 +684,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
     m_Reference: {fileID: 0}
   m_PlayerPrefab: {fileID: 0}
-  m_SplitScreen: 0
+  m_SplitScreen: 1
   m_MaintainAspectRatioInSplitScreen: 0
   m_FixedNumberOfSplitScreens: -1
   m_SplitScreenRect:
@@ -811,11 +826,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: "Player Minifig PL\xD6\xC4"
       objectReference: {fileID: 0}
+    - target: {fileID: 70292193334677109, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 629297074304548042, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_DefaultControlScheme
       value: "KeyboardPL\xD6\xC4"
       objectReference: {fileID: 0}
+    - target: {fileID: 629297074304548042, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1850840827}
     - target: {fileID: 8612489488774388799, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1154,9 +1179,9 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
-    y: 0.5
-    width: 0.5
-    height: 0.5
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1268,10 +1293,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.5
+    x: 0
     y: 0
-    width: 0.5
-    height: 0.5
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -1728,6 +1753,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Minifig WASD
       objectReference: {fileID: 0}
+    - target: {fileID: 629297074304548042, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1513503980}
     - target: {fileID: 5112891991118283379, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_Enabled
