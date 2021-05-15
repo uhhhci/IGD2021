@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CannonPlayer : MonoBehaviour {
+public class CannonMarker : MonoBehaviour {
 	
-	private GameObject cannon;
+	private Vector2 movement;
 	
-	public GameObject marker = null;
+	public float rotationSpeed = 0.05f;
 	
 	private void SwitchInput() {
 		string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
@@ -17,22 +17,18 @@ public class CannonPlayer : MonoBehaviour {
 	
 	void Start() {
 		SwitchInput();
-		
-		cannon = transform.Find("Cannon").gameObject;
 	}
 	
 	void Update() {
-		if (marker != null) {
-			cannon.transform.LookAt(marker.transform);
-		}
+		transform.Translate(-movement.x * rotationSpeed, movement.y * rotationSpeed, 0.0f);
 	}
 	
 	private void OnMove(InputValue value) {
-		;
+		movement = value.Get<Vector2>().normalized;
 	}
 	
 	private void OnMoveDpad(InputValue value) {
-		;
+		movement = value.Get<Vector2>().normalized;
 	}
 	
 }
