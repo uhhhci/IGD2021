@@ -245,7 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 156aa6419a5111b4db5bc8c6122b9ebe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
   movementForce: 0.5
   rotationForce: 0.1
 --- !u!4 &714189429
@@ -292,6 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minifigure1: {fileID: 1463955475}
+  gameManager: {fileID: 1811755883}
 --- !u!4 &954408859
 Transform:
   m_ObjectHideFlags: 0
@@ -490,7 +490,6 @@ GameObject:
   - component: {fileID: 1261720964}
   - component: {fileID: 1261720967}
   - component: {fileID: 1261720966}
-  - component: {fileID: 1261720965}
   m_Layer: 5
   m_Name: TimeDisplay
   m_TagString: Untagged
@@ -517,21 +516,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.0000076293945, y: 245}
   m_SizeDelta: {x: 275.72903, y: 153.73479}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1261720965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1261720963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eb08020858509348ad4f6da8f766c93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeRemaining: 10
-  timerDisplay: {fileID: 1261720966}
-  timerIsRunning: 0
 --- !u!114 &1261720966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -980,8 +964,9 @@ GameObject:
   - component: {fileID: 1687258584}
   - component: {fileID: 1687258582}
   - component: {fileID: 1687258586}
+  - component: {fileID: 1687258583}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -995,6 +980,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
   m_Enabled: 1
+--- !u!114 &1687258583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687258581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a2e789c56c5674e9917b1a54c45e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!20 &1687258584
 Camera:
   m_ObjectHideFlags: 0
@@ -1046,7 +1043,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
   m_LocalRotation: {x: 0.27059805, y: -0.6532815, z: 0.27059805, w: 0.6532815}
-  m_LocalPosition: {x: 5.06, y: 7.9, z: 0}
+  m_LocalPosition: {x: 5, y: 7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1168,6 +1165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1811755882}
   - component: {fileID: 1811755883}
+  - component: {fileID: 1811755884}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1201,10 +1199,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86fa64144c2173646924dee37b992c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftBridge: {fileID: 0}
-  leftBridgeMovement: {fileID: 714189428}
   minifigure1: {fileID: 1463955475}
-  levelManager: {fileID: 112256762}
+  levelManager: {fileID: 112256763}
+  leftBridgeMovement: {fileID: 714189428}
+  timer: {fileID: 1811755884}
+  mainCamera: {fileID: 1687258583}
+--- !u!114 &1811755884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811755881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eb08020858509348ad4f6da8f766c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitialTime: 10
+  timerDisplay: {fileID: 1261720966}
 --- !u!1 &1958957894
 GameObject:
   m_ObjectHideFlags: 0

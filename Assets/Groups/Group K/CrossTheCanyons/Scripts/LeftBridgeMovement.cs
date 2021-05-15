@@ -2,7 +2,7 @@
 
 public class LeftBridgeMovement : MonoBehaviour
 {
-    public Rigidbody rb;
+    private Rigidbody rb;
     public float movementForce = 1.0f;
     public float rotationForce = 1.0f;
 

@@ -3,12 +3,19 @@ using UnityEngine;
 
 public class CountdownTimer : MonoBehaviour
 {
-    public float timeRemaining = 10.0f;
+    public float InitialTime = 10.0f;
     public Text timerDisplay;
-    public bool timerIsRunning = false;
+    private float timeRemaining;
+    private bool timerIsRunning = false;
+
+    public void ResetTimer()
+    {
+        Start();
+    }
 
     void Start() 
     {
+        timeRemaining = InitialTime;
         timerIsRunning = true;
     }
 

@@ -2,35 +2,44 @@
 
 public class GameManager : MonoBehaviour
 {
-    public Rigidbody leftBridge;
-    public LeftBridgeMovement leftBridgeMovement;
-    private Vector2 nextGoal = new Vector2(0, 0);
+    private Rigidbody leftBridge;
     public GameObject minifigure1;
-    public GameObject levelManager;
+    public LevelManager levelManager;
+    public LeftBridgeMovement leftBridgeMovement;
+    public CountdownTimer timer;
+    public MoveCamera mainCamera;
 
     public void ReleaseBridgeSegments()
     {
         leftBridge.useGravity = true;
         leftBridgeMovement.enabled = false;
         float yPositionFigure1 = minifigure1.GetComponent<Transform>().position.y;
-        Vector3 goal = levelManager.GetComponent<LevelManager>().GetCurrentGoal();
-        minifigure1.GetComponent<MinifigController>().MoveTo(goal, onComplete: CelebrateSuccess, moveDelay: 2.0f, speedMultiplier: 0.5f);
-        //LoadNextLevel();
+        Vector3 goal = levelManager.GetCurrentGoal();
+        minifigure1.GetComponent<MinifigController>().MoveTo(goal, onComplete: SuccessfullyCrossed, moveDelay: 2.0f, speedMultiplier: 0.2f);
     }
 
-    private void LoadNextLevel()
+    public void GameOver()
     {
-        leftBridge = levelManager.GetComponent<LevelManager>().NextLevel();
+        Debug.Log("Game Over for both teams!");
+    }
+
+    private void StartNextLevel(bool cancelSpecial)
+    {
+        mainCamera.MoveForward(levelManager.DistanceBetweenCurrentPlatforms());
+        leftBridge = levelManager.NextLevel();
         leftBridgeMovement.SetBridgeBody(leftBridge);
-    }
-
-    private void CelebrateSuccess()
-    {
-        minifigure1.GetComponent<MinifigController>().PlaySpecialAnimation(MinifigController.SpecialAnimation.Dance);
+        timer.ResetTimer();
+        leftBridgeMovement.enabled = true;
     }
 
     private void Start()
     {
-        LoadNextLevel();
+        leftBridge = levelManager.Init();
+        leftBridgeMovement.SetBridgeBody(leftBridge);
+    }
+
+    private void SuccessfullyCrossed()
+    {
+        minifigure1.GetComponent<MinifigController>().PlaySpecialAnimation(MinifigController.SpecialAnimation.Dance, onSpecialComplete: StartNextLevel);
     }
 }
