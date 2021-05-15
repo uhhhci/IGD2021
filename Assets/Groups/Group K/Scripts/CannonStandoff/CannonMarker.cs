@@ -7,7 +7,7 @@ public class CannonMarker : MonoBehaviour {
 	
 	private Vector2 movement;
 	
-	public float rotationSpeed = 0.05f;
+	public float speed = 3.0f;
 	
 	private void SwitchInput() {
 		string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
@@ -20,7 +20,10 @@ public class CannonMarker : MonoBehaviour {
 	}
 	
 	void Update() {
-		transform.Translate(-movement.x * rotationSpeed, movement.y * rotationSpeed, 0.0f);
+		float movementHorizontal = -movement.x * speed * Time.deltaTime;
+		float movementVertical = movement.y * speed * Time.deltaTime;
+		
+		transform.Translate(movementHorizontal, movementVertical, 0.0f);
 	}
 	
 	private void OnMove(InputValue value) {
