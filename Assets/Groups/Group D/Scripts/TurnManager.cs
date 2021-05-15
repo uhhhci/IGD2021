@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
-    public int initialActionPoints; 
+    public int initialActionPoints = 0; 
 
     // the four player controllers
     public List<BoardgameController> players = new List<BoardgameController>(4);
@@ -62,7 +62,9 @@ public class TurnManager : MonoBehaviour
 
         interactions.setActivePlayer(playerData[activePlayer]);
 
-        // TODO: replace with a dice roll/random number
+        // TODO: replace with a dice roll
+        System.Random rnd = new System.Random();
+        int initialActionPoints = rnd.Next(1, 6);
         playerData[activePlayer].setActionPoints(initialActionPoints);
     }
 
