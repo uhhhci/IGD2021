@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class WeaponJsonReader : MonoBehaviour
+public class WeaponDefinitions : MonoBehaviour
 {
     public TextAsset jsonFile;
     public static Weapons weapons; 

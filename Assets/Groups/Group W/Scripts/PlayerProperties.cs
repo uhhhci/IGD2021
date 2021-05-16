@@ -6,10 +6,10 @@ public class PlayerProperties : MonoBehaviour
 {
     [Header("Health")]
     public int maxHp;
-    public int currentHp;
+    public float currentHp;
 
     [Header("Properties")]
-    public WeaponJsonReader.WeaponType weapon;
+    public WeaponDefinitions.WeaponType weapon;
     public RowPosition rowPosition;
     public RowPosition targetRow;
     public Team team;
@@ -52,9 +52,9 @@ public class PlayerProperties : MonoBehaviour
 
     void EquipRandomWeapon()
     {
-        Array values = Enum.GetValues(typeof(WeaponJsonReader.WeaponType));
+        Array values = Enum.GetValues(typeof(WeaponDefinitions.WeaponType));
         System.Random random = new System.Random();
-        WeaponJsonReader.WeaponType randomWeapon = (WeaponJsonReader.WeaponType)values.GetValue(random.Next(values.Length));
+        WeaponDefinitions.WeaponType randomWeapon = (WeaponDefinitions.WeaponType)values.GetValue(random.Next(values.Length));
         weapon = randomWeapon;
         print($"equipped random weapon: {randomWeapon}");
     }
@@ -67,7 +67,7 @@ public class PlayerProperties : MonoBehaviour
         targetRow = randomTargetRow;
     }
 
-    private void ChangeEquippedWeapon(WeaponJsonReader.WeaponType selectedWeapon)
+    private void ChangeEquippedWeapon(WeaponDefinitions.WeaponType selectedWeapon)
     {
         if (phase == PhaseHandler.Phase.Decision)
         {
@@ -104,12 +104,12 @@ public class PlayerProperties : MonoBehaviour
 
     private void OnSouthPress()
     {
-        ChangeEquippedWeapon(WeaponJsonReader.WeaponType.Scissors);
+        ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Scissors);
     }
 
     private void OnEastPress()
     {
-        ChangeEquippedWeapon(WeaponJsonReader.WeaponType.Lego);
+        ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Lego);
     }
 
     private void OnNorthPress()
@@ -124,17 +124,17 @@ public class PlayerProperties : MonoBehaviour
 
         if (input.Equals(Vector2.up))
         {
-            ChangeEquippedWeapon(WeaponJsonReader.WeaponType.Paper);
+            ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Paper);
         }
     }
     #endregion
 
 
-    void ChangeLeftHandWeapon(RowPosition rowPosition, WeaponJsonReader.WeaponType weaponType)
+    void ChangeLeftHandWeapon(RowPosition rowPosition, WeaponDefinitions.WeaponType weaponType)
     {  
             // load a gameobject with the correct prefab
             leftHandPosition = transform.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").GetComponent<Transform>().position;
-            Weapon[] matchingWeapons = WeaponJsonReader.GetWeapon(weaponType, rowPosition);
+            Weapon[] matchingWeapons = WeaponDefinitions.GetWeapon(weaponType, rowPosition);
             if(matchingWeapons.Length > 0 && leftHandWeapon == null)
             {
                 string assetPath = matchingWeapons[0].asset;

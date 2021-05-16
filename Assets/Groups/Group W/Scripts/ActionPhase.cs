@@ -8,15 +8,18 @@ public class ActionPhase : MonoBehaviour
     public PhaseHandler.Phase phase;
     public TextAsset jsonFile;
     public WeaponTypes weaponTypes;
+    private List<PlayerProperties> players;
 
 
-    float CalculateDamage(WeaponJsonReader.WeaponType equippedWeaponType, PlayerProperties.RowPosition rowPosition, WeaponJsonReader.WeaponType targetWeaponType)
+    // calculates the damage dealt by currentPlayer to targetPlayer
+    // takes the base damage and its multiplier (derived from the weapon types) into account
+    float CalculateDamage(PlayerProperties currentPlayer, PlayerProperties targetPlayer)
     {
-        Weapon[] matchingWeapons = WeaponJsonReader.GetWeapon(equippedWeaponType, rowPosition);
+        Weapon[] matchingWeapons = WeaponDefinitions.GetWeapon(currentPlayer.weapon, currentPlayer.rowPosition);
         if (matchingWeapons.Length > 0)
         {
             int baseDamage = Int16.Parse(matchingWeapons[0].power);
-            float multiplier = GetMultiplier(equippedWeaponType, targetWeaponType);
+            float multiplier = GetMultiplier(currentPlayer.weapon, targetPlayer.weapon);
             return baseDamage * multiplier;
         }
 
@@ -27,7 +30,7 @@ public class ActionPhase : MonoBehaviour
     }
 
     // returns a damage multipler based on the equipped weapon type and the target weapon type strength/weakness
-    float GetMultiplier(WeaponJsonReader.WeaponType equippedWeaponType, WeaponJsonReader.WeaponType targetWeaponType)
+    float GetMultiplier(WeaponDefinitions.WeaponType equippedWeaponType, WeaponDefinitions.WeaponType targetWeaponType)
     {
         WeaponType equippedWeaponTypeInfo = Array.FindAll<WeaponType>(weaponTypes.weaponTypes, weaponType => weaponType.type == equippedWeaponType.ToString())[0];
         if (targetWeaponType.ToString() == equippedWeaponTypeInfo.strength)
@@ -46,67 +49,88 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
-    WeaponJsonReader.WeaponType GetTargetWeaponType(PlayerProperties.Team ownTeam, PlayerProperties.RowPosition targetRow)
+    // searches for the player of the other team by chosing the other team and the target row
+    PlayerProperties GetTargetPlayer(PlayerProperties.Team ownTeam, PlayerProperties.RowPosition targetRow)
     {
         // opponent team is the team that is not the own team
         PlayerProperties.Team opponentTeam = ownTeam == PlayerProperties.Team.Left ? PlayerProperties.Team.Right : PlayerProperties.Team.Left;
-        foreach (Transform child in transform)
-        {
-            if(child.GetComponent<PlayerProperties>().team == opponentTeam && child.GetComponent<PlayerProperties>().rowPosition == targetRow)
-            {
-                return child.GetComponent<PlayerProperties>().weapon;
-            }
-        }
+        List<PlayerProperties> matchingPlayers = players.FindAll(player => player.team == opponentTeam
+                                                && player.rowPosition == targetRow);
 
-        // TODO this is ugly; if no weapon is equipped, no weapon type should be returned - but this should never happen anyway
-        return WeaponJsonReader.WeaponType.Lego;
+        if (matchingPlayers.Count > 0)
+        {
+            return matchingPlayers[0];
+        }
+        
+        else
+        {
+            // no player found
+            throw new InvalidOperationException();
+        }
 
     }
 
-    void Attack(Transform targetPlayer, float damage)
+    void Attack(PlayerProperties currentPlayer, PlayerProperties targetPlayer)
     {
-        // pay attention to only access valid targets
+        // TODO pay attention to only access valid targets
         // lower hp of attacked players
+
+        // calculate damage
+        float damage = CalculateDamage(currentPlayer, targetPlayer);
+
+        if(targetPlayer.currentHp >0)
+        {
+            targetPlayer.currentHp -= damage;
+            if (targetPlayer.currentHp > 0)
+
+            {
+                print($"damage: {damage}");
+                print($"new hp of target player: {targetPlayer.currentHp}");
+                // TODO play dying animation and prevent player from further being attacked
+                print("target player is dead now");
+            }
+
+        }
+
+        else
+        {
+            print("player is already dead");
+        }
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
         weaponTypes = JsonUtility.FromJson<WeaponTypes>(jsonFile.text);
+
+        // gather all players
+        players = new List<PlayerProperties>();
+        foreach (Transform child in transform)
+        {
+            players.Add(child.GetComponent<PlayerProperties>());
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         phase = PhaseHandler.phase;
- 
-        foreach (Transform child in transform)
-        {
-            // access target player
-            PlayerProperties.Team ownTeam = child.GetComponent<PlayerProperties>().team;
-            PlayerProperties.RowPosition rowPosition = child.GetComponent<PlayerProperties>().rowPosition;
-            PlayerProperties.RowPosition targetRow = child.GetComponent<PlayerProperties>().targetRow;
-
-            // calculate damage
-            WeaponJsonReader.WeaponType equippedWeaponType = child.GetComponent<PlayerProperties>().weapon;
-            WeaponJsonReader.WeaponType targetWeaponType = GetTargetWeaponType(ownTeam, targetRow);
-            float damage = CalculateDamage(equippedWeaponType, rowPosition, targetWeaponType);
-            print($"targetWeaponType: {targetWeaponType}");
-            print($"damage: {damage}");
-
-        }
-
-        // print($"transform.name: {transform.name}");
-        // print($"transform.parent: {transform.parent}");
 
         if (phase == PhaseHandler.Phase.Action)
         {
-            // for each player (children of Players), attack sequentially
+            // each player should attack sequentially
+            foreach (PlayerProperties player in players)
+            {
+                // access target player
+                // PlayerProperties currentPlayer = player.GetComponent<PlayerProperties>();
+                PlayerProperties targetPlayer = GetTargetPlayer(player.team, player.targetRow);
+
+                Attack(player, targetPlayer);
+            }
         }
     }
 }
-
-
 
 
 [System.Serializable]
