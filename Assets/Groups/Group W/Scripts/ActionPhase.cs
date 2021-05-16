@@ -8,7 +8,7 @@ public class ActionPhase : MonoBehaviour
     public PhaseHandler.Phase phase;
     public TextAsset jsonFile;
     public WeaponTypes weaponTypes;
-    private List<PlayerProperties> players;
+    public List<PlayerProperties> players;
 
 
     // calculates the damage dealt by currentPlayer to targetPlayer
@@ -84,19 +84,40 @@ public class ActionPhase : MonoBehaviour
             if (targetPlayer.currentHp > 0)
 
             {
-                print($"damage: {damage}");
-                print($"new hp of target player: {targetPlayer.currentHp}");
+                print($"damage to target ({targetPlayer.name}): {damage}");
+                print($"new hp of target: {targetPlayer.currentHp}");
                 // TODO play dying animation and prevent player from further being attacked
-                print("target player is dead now");
-            }
 
+                if(targetPlayer.currentHp <= 0)
+                {
+                    print($"target player ({targetPlayer.name}) is dead now");
+                }
+                
+            }
         }
 
         else
         {
-            print("player is already dead");
+            print($"target ({targetPlayer.name}) is already dead");
         }
 
+        SetNextActivePlayer(currentPlayer);
+    }
+
+    void SetNextActivePlayer(PlayerProperties currentPlayer)
+    {
+        currentPlayer.isActive = false;
+        int nextPlayerIndex = players.IndexOf(currentPlayer) + 1;
+        if (nextPlayerIndex < players.Count)
+        {
+            players[nextPlayerIndex].isActive = true;
+        }
+
+        else
+        {
+            // TODO start next decision phase
+            print("active phase is over now"); 
+        }
     }
 
     // Start is called before the first frame update
@@ -110,6 +131,9 @@ public class ActionPhase : MonoBehaviour
         {
             players.Add(child.GetComponent<PlayerProperties>());
         }
+
+        // set the first player active
+        players[0].isActive = true;
     }
 
     // Update is called once per frame
@@ -122,11 +146,14 @@ public class ActionPhase : MonoBehaviour
             // each player should attack sequentially
             foreach (PlayerProperties player in players)
             {
-                // access target player
-                // PlayerProperties currentPlayer = player.GetComponent<PlayerProperties>();
-                PlayerProperties targetPlayer = GetTargetPlayer(player.team, player.targetRow);
+                if (player.isActive)
+                {
+                    print($"current active player is {player.name}");
+                    // access target player
+                    PlayerProperties targetPlayer = GetTargetPlayer(player.team, player.targetRow);
+                    Attack(player, targetPlayer);
+                }
 
-                Attack(player, targetPlayer);
             }
         }
     }

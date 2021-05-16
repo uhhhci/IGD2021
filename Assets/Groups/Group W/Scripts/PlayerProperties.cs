@@ -10,14 +10,16 @@ public class PlayerProperties : MonoBehaviour
 
     [Header("Properties")]
     public WeaponDefinitions.WeaponType weapon;
+    public GameObject leftHandWeapon;
     public RowPosition rowPosition;
     public RowPosition targetRow;
     public Team team;
+    public bool isActive;
+    private Vector3 leftHandPosition;
 
-    [Header("External factors")]
+    [Header("External")]
     public static PhaseHandler.Phase phase;
-    public GameObject leftHandWeapon;
-    public Vector3 leftHandPosition;
+
 
     // if the row position changes, change the max hp accordingly
     public RowPosition CurrentRowPosition
@@ -163,6 +165,7 @@ public class PlayerProperties : MonoBehaviour
         EquipRandomWeapon();
         //ChangeLeftHandWeapon(rowPosition, weapon);
         SelectRandomTargetRow();
+        isActive = false;
     }
 
     // Update is called once per frame
