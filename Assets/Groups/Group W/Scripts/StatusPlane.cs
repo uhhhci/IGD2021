@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 /**
@@ -16,18 +17,6 @@ public class StatusPlane : MonoBehaviour
     public PhaseHandler.Phase phase;
     public int roundCount;
 
-    // determines what happens during the action phase
-    void ActionPhase()
-    {
-        description = "Fight!";
-    }
-
-    // determines what happens during the decision phase
-    void DecisionPhase()
-    {
-        description = "Select your opponent and weapon!";
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -42,16 +31,19 @@ public class StatusPlane : MonoBehaviour
             roundCount = PhaseHandler.roundCount;
             timeLeft = PhaseHandler.timeLeft;
             title = phase == PhaseHandler.Phase.Action ? "Action Phase" : "Decision Phase";
-            descriptionTextMesh.text = $"Round {roundCount}\n{title}\n{description}\n{timeLeft.ToString("F2")}";
+            
 
             if (phase == PhaseHandler.Phase.Action)
             {
-                ActionPhase();
+                description = "Fight!\n";
+
+                descriptionTextMesh.text = $"Round {roundCount}\n{title}\n{description}";    
             }
 
             if (phase == PhaseHandler.Phase.Decision)
             {
-                DecisionPhase();
+                description = "Select your opponent and weapon!";
+                descriptionTextMesh.text = $"Round {roundCount}\n{title}\n{description}\n{timeLeft.ToString("F2")}";
             }   
     }
 }

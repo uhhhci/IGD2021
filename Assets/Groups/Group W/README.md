@@ -1,24 +1,37 @@
 Im Folgenden finden sich TODOs und DONEs.
 
 # TODOs
-## Vorbereitungsmodus
-* Anzeige HP-Balken der Charaktere
-
 ## Kampfmodus
 
-### Schadensverteilung entsprechend ausgewählter Waffen / Ziele
-* Nach Schadensberechnung: HP abziehen
-
 ### Angriffsanimation
-* Front: zu Gegner hinlaufen, angreifen
-* Back: stehenbleiben, Fernkampfwaffe nutzen
-* Anzeige des Schadens, Update der HP-Balken
+* Back: stehenbleiben, Fernkampfwaffe nutzen (z.B. Waffe werfen)
 
+### Beschränkung der Handlungsmöglichkeiten innerhalb Decision Phase
+* Target ist valide, wenn 
+	* front vs. front
+	* back vs. front 
+	* back vs. back
+	* hp > 0
+
+* Target ist invalide, wenn
+	* front vs. back
+	* hp <= 0
+
+* auch entsprechende Animation einblenden, wenn invalide Auswahl getroffen wird
+
+## KI Mitspieler
+## Tutorial?
 
 ## Environment
-- Zusammenbasteln einer hübschen Umgebung
-- Beleuchtung
-- Waffen - Fernkampf + Nahkampf unterschiedlich
+* Zusammenbasteln einer hübschen Umgebung
+	* Boden
+	* Himmel / Decke
+	* Objekte (z.B. Bäume, Gebäude etc.)
+* Beleuchtung
+* Für Rundenanzeige/Beschreibung/HP-Balken:
+	* Etwas, damit es authentischer in die Szene passt, und nicht einfach nur eine weiße plane in der Gegend rumschwebt
+		* z.B. Holzschild, LED-Schild, Heißluftballon etc.
+
 
 # DONEs Larissa
 * Scenes, Scripts Ordner in unserem Group W Ordner angelegt
@@ -58,10 +71,14 @@ Im Folgenden finden sich TODOs und DONEs.
 	* power
 	* row
 * Schadensberechnung - Base damage der Waffe (Vorder/Hinterreihe) mal Multiplier (Stärke/Schwäche/Neutralität gegenüber Ziel)
+* Angriffsanimation
+	* Front: zu Gegner hinlaufen, angreifen (derzeit auch für Back)
+	* Update des HP-Balkens
 
 # DONEs Polina
 * Methode/Funktion mit folgendem Verhalten:
 	* eine Reihe (Front/Back) und einen Waffentyp (Lego/Paper/Scissors) als Parameter entgegen nehmen
 		*  für entsprechende Enums, siehe PlayerProperties.cs
+	    *  Assets Fernkampf + Nahkampf unterschiedlich
 	* der entsprechende Charakter, an dem das Script attached ist, sollte dann (visuell) die entsprechende Waffe in die Hand gelegt bekommen
 		* Waffe sollte sich bei Bewegung des Charakters mitbewegen

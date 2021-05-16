@@ -11,8 +11,8 @@ public class PhaseHandler : MonoBehaviour
     public static float timeLeft;
     public float secondsUntilActionPhase = 2f;
     public float secondsPassed = 0f;
-    public static bool isActionPhaseFinished;
-    public static bool isDecisionPhaseFinished;
+    public bool isActionPhaseFinished;
+    public bool isDecisionPhaseFinished;
     public static int roundCount;
 
     public enum Phase
@@ -27,6 +27,7 @@ public class PhaseHandler : MonoBehaviour
         // decision phase only lasts x seconds, then switch to action phase
         if (phase == Phase.Decision && secondsPassed >= secondsUntilActionPhase)
         {
+            // print("now beginning decision phase");
             isDecisionPhaseFinished = true;
             isActionPhaseFinished = false;
             phase = Phase.Action;
@@ -35,28 +36,17 @@ public class PhaseHandler : MonoBehaviour
 
         if (phase == Phase.Action)
         {
-            // WaitForActivePhaseEnd();
+            isActionPhaseFinished = ActionPhase.isActionPhaseFinished;
 
             // action phase is over as soon as all damage is dealt, will be updated by ActionPhase.cs
             if (isActionPhaseFinished)
             {
+                isDecisionPhaseFinished = false;
                 phase = Phase.Decision;
                 roundCount += 1;
             }
         }
     }
-
-    //// TODO this should later access some other component which determines wheter the animation is finished
-    //void WaitForActivePhaseEnd()
-    //{
-    //    // TODO set this to true after the battle animation is finished to begin the next phase
-    //    // !! waiting another 5 seconds is just a placeholder right now
-    //    if (secondsPassed >= secondsUntilActionPhase)
-    //    {
-    //        isActionPhase = true;
-    //        secondsPassed = 0f;
-    //    }
-    //}
 
     // Start is called before the first frame update
     void Start()
@@ -70,7 +60,8 @@ public class PhaseHandler : MonoBehaviour
     {
         secondsPassed = secondsPassed += Time.deltaTime;
         timeLeft = secondsUntilActionPhase - secondsPassed;
+
         SetCurrentPhase();
-        isActionPhaseFinished = ActionPhase.isActionPhaseFinished;
+        
     }
 }

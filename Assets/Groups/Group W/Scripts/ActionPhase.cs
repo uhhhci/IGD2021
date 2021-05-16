@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,9 +8,9 @@ public class ActionPhase : MonoBehaviour
     public static bool isActionPhaseFinished;
     public TextAsset jsonFile;
     public WeaponTypes weaponTypes;
-    public List<PlayerProperties> players;
+    public static List<PlayerProperties> players;
 
-    public bool isActionFinished;
+    public bool previousActionFinished;
     public bool isAttackFinished;
     private float moveStopDistance = 1f;
 
@@ -76,7 +75,7 @@ public class ActionPhase : MonoBehaviour
     // moves to the target and attacks it
     void AttackTarget(PlayerProperties activePlayer, PlayerProperties targetPlayer)
     {
-        isActionFinished = false;
+        previousActionFinished = false;
         var minifigController = activePlayer.GetComponent<MinifigController>();
         Vector3 targetPosition = targetPlayer.transform.position;
         // stop *in front of* target character, not on top
@@ -84,12 +83,21 @@ public class ActionPhase : MonoBehaviour
         minifigController.MoveTo(targetPosition, onComplete: () => { Attack(activePlayer, targetPlayer); });
     }
 
-    void ReturnToStartPosition(PlayerProperties activePlayer)
+    void ReturnToStartPosition(PlayerProperties activePlayer, PlayerProperties targetPlayer)
     {
         var minifigController = activePlayer.GetComponent<MinifigController>();
-        minifigController.MoveTo(activePlayer.startPosition, onComplete: () => { SetNextActivePlayer(activePlayer);});
-        // go a step back again, to look in the correct direction
-        minifigController.MoveTo(new Vector3(activePlayer.startPosition.x, activePlayer.startPosition.y + 0.2f, activePlayer.startPosition.z));
+        minifigController.MoveTo(activePlayer.startPosition, onComplete: () => { RotateBack(activePlayer, targetPlayer); });
+        // TODO face to the correct direction again! (change rotation)
+    }
+
+    void RotateBack(PlayerProperties activePlayer, PlayerProperties targetPlayer)
+    {
+        print("now rotating back");
+        var minifigController = activePlayer.GetComponent<MinifigController>();
+        // activePlayer.startPosition
+        // Vector3 originalRotation = new Vector3(5f, 5f, 5f);
+        Vector3 originalRotation = targetPlayer.transform.position;
+        minifigController.TurnTo(originalRotation, onComplete: () => { SetNextActivePlayer(activePlayer); });
     }
 
     void Attack(PlayerProperties activePlayer, PlayerProperties targetPlayer)
@@ -126,29 +134,28 @@ public class ActionPhase : MonoBehaviour
 
         // finish attack
         print("finished attack");
-        ReturnToStartPosition(activePlayer);
+        ReturnToStartPosition(activePlayer, targetPlayer);
     }
 
-    void SetNextActivePlayer(PlayerProperties currentPlayer)
+    void SetNextActivePlayer(PlayerProperties activePlayer)
     {
-        print($"setting next active player, current player index is {players.IndexOf(currentPlayer)}");
-        currentPlayer.isActive = false;
-        int nextPlayerIndex = players.IndexOf(currentPlayer) + 1;
+        activePlayer.isActive = false;
+        int nextPlayerIndex = players.IndexOf(activePlayer) + 1;
         if (nextPlayerIndex < players.Count)
         {
             print($"next active player is: {players[nextPlayerIndex].name}");
             players[nextPlayerIndex].isActive = true;
-            isActionFinished = true;
+            previousActionFinished = true;
             print($"player.isActive: {players[nextPlayerIndex].isActive}");
         }
 
         else
         {
-            // TODO start next decision phase
             print("active phase is over now");
+            previousActionFinished = true;
             isActionPhaseFinished = true;
             // begin next phase
-            // players[0].isActive = true;
+            players[0].isActive = true;
         }
     }
 
@@ -166,7 +173,7 @@ public class ActionPhase : MonoBehaviour
 
         // set the first player active
         players[0].isActive = true;
-        isActionFinished = true;
+        previousActionFinished = true;
     }
 
     // Update is called once per frame
@@ -185,7 +192,7 @@ public class ActionPhase : MonoBehaviour
                 PlayerProperties targetPlayer = GetTargetPlayer(activePlayer.team, activePlayer.targetRow);
 
                 // if the preceding player is finished, its the next ones turn
-                if (isActionFinished)
+                if (previousActionFinished)
                 {
                     print($"current active player is {activePlayer.name}");
                     AttackTarget(activePlayer, targetPlayer);
@@ -195,7 +202,7 @@ public class ActionPhase : MonoBehaviour
             else
             {
                 print($"Only exactly 1 active player is allowed to exist, but there were {activePlayers.Count}");
-            } 
+            }
         }
        
     }
