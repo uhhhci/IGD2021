@@ -31,6 +31,8 @@ public class CarController : MonoBehaviour
     public float maxVelocity = 30.0f;
     public List<Wheel> wheels;
     public Vector3 centerOfMass;
+    public Vector3 wheelRotationOffset;
+    public float downForce = 10.0f;
     
 
     void FixedUpdate()
@@ -38,6 +40,7 @@ public class CarController : MonoBehaviour
         CheckDrivingDirection(rb);
         Move();
         Turn();
+        ApplyDownForce();
     }
 
 
@@ -67,12 +70,12 @@ public class CarController : MonoBehaviour
             else if (movement.y < 0 && !backwards)
             {
                 wheel.collider.motorTorque = 0;
-                wheel.collider.brakeTorque = -movement.y * maxAcceleration * 100000 * Time.deltaTime;
+                wheel.collider.brakeTorque = -movement.y * maxAcceleration * 1000000 * Time.deltaTime;
             // driving backwards --> brake
             } else if(movement.y > 0 && backwards)
             {
                 wheel.collider.motorTorque = 0;
-                wheel.collider.brakeTorque = movement.y * maxAcceleration * 100000 * Time.deltaTime;
+                wheel.collider.brakeTorque = movement.y * maxAcceleration * 1000000 * Time.deltaTime;
             // driving backwards --> accelerate
             } else if(movement.y < 0 && backwards)
             {
@@ -86,8 +89,7 @@ public class CarController : MonoBehaviour
             // handbrake
             if(handbrake && wheel.axle == Axle.Rear)
             {
-                print("break torque " + maxAcceleration * 700 * Time.deltaTime);
-                wheel.collider.brakeTorque = maxAcceleration * 700 * Time.deltaTime;
+                wheel.collider.brakeTorque = maxAcceleration * 2000 * Time.deltaTime;
             }            
         }
     }
@@ -130,6 +132,14 @@ public class CarController : MonoBehaviour
         }
     }
 
+    private void ApplyDownForce()
+    {
+        if(rb.velocity.magnitude > 30)
+        {
+            rb.AddForce(Vector3.down * Time.deltaTime * rb.velocity.magnitude * downForce, ForceMode.Force);
+        }
+    }
+
     private void AnimateWheels()
     {
         foreach(Wheel wheel in wheels)
@@ -138,6 +148,7 @@ public class CarController : MonoBehaviour
             Vector3 wheelPosition;
             wheel.collider.GetWorldPose(out wheelPosition, out wheelRotation);
             wheel.model.transform.position = wheelPosition;
+            wheelRotation = wheelRotation * Quaternion.Euler(wheelRotationOffset);
             wheel.model.transform.rotation = wheelRotation;
         }
     }
