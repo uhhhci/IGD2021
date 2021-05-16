@@ -12,12 +12,19 @@ public class GenerateRings : MonoBehaviour
     public float yLevel = 0;
     public float randomCapProb = 0.1f;
     public float offsetRotation = 5f, offsetRadius = 1f, offsetAngle = 5f, offsetHeight = 0.1f;
+    public bool rotate = true;
+    public float rotationSpeed = 3f;
+    public int ringToRotate = 1;
+
+    //Arrays für Ringe
+    private List<GameObject> Rings = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
         for(int ring = 1; ring <= numberOfRings; ring++)
         {
+            GameObject currentRing = new GameObject();
             float circumference = (float)(Mathf.PI * 2 * radius * ring);
             int numberOfBlocks = Mathf.CeilToInt( circumference / lengthOfBlock);
             float currentRadius = (float)(radius * ring);
@@ -27,8 +34,11 @@ public class GenerateRings : MonoBehaviour
                 float currentAngle = (360f / numberOfBlocks) * block;
                 Vector3 position = PointOnCircle(currentRadius + Random.Range(-offsetRadius, offsetRadius), currentAngle + Random.Range(-offsetRotation, offsetRotation));
                 //Debug.Log("currentAngle: " + currentAngle + "  numberOfBlocks: " + numberOfBlocks + "  block: " + block + "  xPos: " + position.x + "  yPos: " + position.y);
-                Instantiate(wallPrefab, position, Quaternion.Euler(0, 360-currentAngle + Random.Range(-offsetAngle, offsetAngle), 0));
+
+                GameObject currentBlock = Instantiate(wallPrefab, position, Quaternion.Euler(0, 360-currentAngle + Random.Range(-offsetAngle, offsetAngle), 0));
+                currentBlock.transform.SetParent(currentRing.transform);
             }
+            Rings.Add(currentRing);
         }
     }
 
@@ -42,4 +52,16 @@ public class GenerateRings : MonoBehaviour
         return new Vector3(x, yLevel + Random.Range(-offsetHeight, offsetHeight), y);
     }
 
+
+
+    public void RotateRing(int ringNr, float angle)
+    {
+        Rings[ringNr - 1].transform.Rotate(0, angle, 0);
+    }
+
+    public int i = 0;
+    private void Update()
+    {
+        if(rotate) RotateRing(ringToRotate, rotationSpeed * Time.deltaTime);
+    }
 }
