@@ -9,27 +9,10 @@ public enum MiniGameType {
 }
 abstract public class MiniGame : MonoBehaviour
 {
+    public abstract string getDisplayName();
+    public abstract string getSceneName();
 
-    public string displayName { 
-        private set {}
-        get { return this.displayName; }
-    }
-    public string sceneName {
-        private set {}
-        get { return this.sceneName; }
-    }
-    public MiniGameType miniGameType {
-        private set {}
-        get { return this.miniGameType; }
-    }
-
-    public MiniGame(string displayName, string sceneName, MiniGameType miniGameType) {
-        this.displayName = displayName;
-        this.sceneName = sceneName;
-        this.miniGameType = miniGameType;
-    }
-
-    
+    public abstract MiniGameType getMiniGameType();
 
     public void initializePlayers() {
         //Set up keys from the InputManager to every player
