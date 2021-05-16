@@ -14,7 +14,7 @@ namespace Unity.LEGO.Minifig
             animator.SetBool(playSpecialHash, false);
             if (!minifigController)
             {
-                minifigController = animator.GetComponent<MinifigController>();
+                minifigController = animator.transform.parent.GetComponent<MinifigController>();
             }
 
         }
