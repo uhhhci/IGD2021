@@ -14,12 +14,14 @@ public class PlayerProperties : MonoBehaviour
     public RowPosition rowPosition;
     public RowPosition targetRow;
     public Team team;
-    public bool isActive;
+    public bool isActive = false;
     private Vector3 leftHandPosition;
+    public Vector3 startPosition;
 
     [Header("External")]
     public static PhaseHandler.Phase phase;
 
+    // TODO put decision phase related things in DecisionPhase.cs script
 
     // if the row position changes, change the max hp accordingly
     public RowPosition CurrentRowPosition
@@ -165,7 +167,7 @@ public class PlayerProperties : MonoBehaviour
         EquipRandomWeapon();
         //ChangeLeftHandWeapon(rowPosition, weapon);
         SelectRandomTargetRow();
-        isActive = false;
+        startPosition = transform.position;
     }
 
     // Update is called once per frame

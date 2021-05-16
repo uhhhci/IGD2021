@@ -6,10 +6,14 @@ using UnityEngine;
 public class ActionPhase : MonoBehaviour
 {
     public PhaseHandler.Phase phase;
+    public static bool isActionPhaseFinished;
     public TextAsset jsonFile;
     public WeaponTypes weaponTypes;
     public List<PlayerProperties> players;
 
+    public bool isActionFinished;
+    public bool isAttackFinished;
+    private float moveStopDistance = 1f;
 
     // calculates the damage dealt by currentPlayer to targetPlayer
     // takes the base damage and its multiplier (derived from the weapon types) into account
@@ -67,19 +71,39 @@ public class ActionPhase : MonoBehaviour
             // no player found
             throw new InvalidOperationException();
         }
-
     }
 
-    void Attack(PlayerProperties currentPlayer, PlayerProperties targetPlayer)
+    // moves to the target and attacks it
+    void AttackTarget(PlayerProperties activePlayer, PlayerProperties targetPlayer)
     {
-        // TODO pay attention to only access valid targets
-        // lower hp of attacked players
+        isActionFinished = false;
+        var minifigController = activePlayer.GetComponent<MinifigController>();
+        Vector3 targetPosition = targetPlayer.transform.position;
+        // stop *in front of* target character, not on top
+        targetPosition.z -= moveStopDistance;
+        minifigController.MoveTo(targetPosition, onComplete: () => { Attack(activePlayer, targetPlayer); });
+    }
+
+    void ReturnToStartPosition(PlayerProperties activePlayer)
+    {
+        var minifigController = activePlayer.GetComponent<MinifigController>();
+        minifigController.MoveTo(activePlayer.startPosition, onComplete: () => { SetNextActivePlayer(activePlayer);});
+        // go a step back again, to look in the correct direction
+        minifigController.MoveTo(new Vector3(activePlayer.startPosition.x, activePlayer.startPosition.y + 0.2f, activePlayer.startPosition.z));
+    }
+
+    void Attack(PlayerProperties activePlayer, PlayerProperties targetPlayer)
+    {
+        var minifigController = activePlayer.GetComponent<MinifigController>();
+        //minifigController.PlaySpecialAnimation(MinifigController.SpecialAnimation.Stretching);
 
         // calculate damage
-        float damage = CalculateDamage(currentPlayer, targetPlayer);
+        float damage = CalculateDamage(activePlayer, targetPlayer);
 
         if(targetPlayer.currentHp >0)
         {
+            // TODO play attack animation
+            // lower hp of targed
             targetPlayer.currentHp -= damage;
             if (targetPlayer.currentHp > 0)
 
@@ -92,7 +116,6 @@ public class ActionPhase : MonoBehaviour
                 {
                     print($"target player ({targetPlayer.name}) is dead now");
                 }
-                
             }
         }
 
@@ -101,22 +124,31 @@ public class ActionPhase : MonoBehaviour
             print($"target ({targetPlayer.name}) is already dead");
         }
 
-        SetNextActivePlayer(currentPlayer);
+        // finish attack
+        print("finished attack");
+        ReturnToStartPosition(activePlayer);
     }
 
     void SetNextActivePlayer(PlayerProperties currentPlayer)
     {
+        print($"setting next active player, current player index is {players.IndexOf(currentPlayer)}");
         currentPlayer.isActive = false;
         int nextPlayerIndex = players.IndexOf(currentPlayer) + 1;
         if (nextPlayerIndex < players.Count)
         {
+            print($"next active player is: {players[nextPlayerIndex].name}");
             players[nextPlayerIndex].isActive = true;
+            isActionFinished = true;
+            print($"player.isActive: {players[nextPlayerIndex].isActive}");
         }
 
         else
         {
             // TODO start next decision phase
-            print("active phase is over now"); 
+            print("active phase is over now");
+            isActionPhaseFinished = true;
+            // begin next phase
+            // players[0].isActive = true;
         }
     }
 
@@ -134,6 +166,7 @@ public class ActionPhase : MonoBehaviour
 
         // set the first player active
         players[0].isActive = true;
+        isActionFinished = true;
     }
 
     // Update is called once per frame
@@ -143,19 +176,28 @@ public class ActionPhase : MonoBehaviour
 
         if (phase == PhaseHandler.Phase.Action)
         {
-            // each player should attack sequentially
-            foreach (PlayerProperties player in players)
-            {
-                if (player.isActive)
-                {
-                    print($"current active player is {player.name}");
-                    // access target player
-                    PlayerProperties targetPlayer = GetTargetPlayer(player.team, player.targetRow);
-                    Attack(player, targetPlayer);
-                }
+            // each player attacks sequentially
+            List<PlayerProperties> activePlayers = players.FindAll(player => player.isActive);
 
+            if (activePlayers.Count == 1)
+            {
+                PlayerProperties activePlayer = activePlayers[0];
+                PlayerProperties targetPlayer = GetTargetPlayer(activePlayer.team, activePlayer.targetRow);
+
+                // if the preceding player is finished, its the next ones turn
+                if (isActionFinished)
+                {
+                    print($"current active player is {activePlayer.name}");
+                    AttackTarget(activePlayer, targetPlayer);
+                }
             }
+
+            else
+            {
+                print($"Only exactly 1 active player is allowed to exist, but there were {activePlayers.Count}");
+            } 
         }
+       
     }
 }
 

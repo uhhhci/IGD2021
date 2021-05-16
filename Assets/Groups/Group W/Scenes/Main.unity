@@ -640,6 +640,7 @@ MonoBehaviour:
   title: 
   timeLeft: 0
   phase: 0
+  roundCount: 0
 --- !u!1 &604551748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,7 +1144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secondsUntilActionPhase: 2
   secondsPassed: 0
-  isBattleAnimationFinished: 0
 --- !u!1001 &1241031188
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1672,6 +1672,8 @@ MonoBehaviour:
   jsonFile: {fileID: 4900000, guid: b66a08582476d4044ba0d714395ad258, type: 3}
   weaponTypes:
     weaponTypes: []
+  players: []
+  isMovementFinished: 0
 --- !u!1 &1681614177
 GameObject:
   m_ObjectHideFlags: 0

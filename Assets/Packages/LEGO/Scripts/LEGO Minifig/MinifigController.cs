@@ -20,7 +20,7 @@ public class MinifigController : MonoBehaviour
 
 
     // Internal classes used to define targets when automatically animating.
-    class MoveTarget
+    public class MoveTarget
     {
         public Vector3 destination;
         public float minDistance;
@@ -168,7 +168,7 @@ public class MinifigController : MonoBehaviour
     bool stepped;
 
     List<MoveTarget> moves = new List<MoveTarget>();
-    MoveTarget currentMove;
+    public MoveTarget currentMove;
     FollowTarget currentFollowTarget;
     TurnTarget currentTurnTarget;
     State state;
@@ -605,8 +605,7 @@ public class MinifigController : MonoBehaviour
     }
 
 
-
-    public void MoveTo(Vector3 destination, float minDistance = 0.0f, Action onComplete = null, float onCompleteDelay = 0.0f,
+    public MoveTarget MoveTo(Vector3 destination, float minDistance = 0.0f, Action onComplete = null, float onCompleteDelay = 0.0f,
         float moveDelay = 0.0f, bool cancelSpecial = true, float speedMultiplier = 1.0f, float rotationSpeedMultiplier = 1.0f, Vector3? turnToWhileCompleting = null)
     {
         MoveTarget move = new MoveTarget()
@@ -625,6 +624,7 @@ public class MinifigController : MonoBehaviour
         moves.Add(move);
 
         UpdateState();
+        return move;
     }
 
     public void ClearMoves()

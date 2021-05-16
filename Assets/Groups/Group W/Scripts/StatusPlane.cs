@@ -14,6 +14,7 @@ public class StatusPlane : MonoBehaviour
     // will be updated by PhaseHandler
     public float timeLeft;
     public PhaseHandler.Phase phase;
+    public int roundCount;
 
     // determines what happens during the action phase
     void ActionPhase()
@@ -38,9 +39,10 @@ public class StatusPlane : MonoBehaviour
     void Update()
     {
             phase = PhaseHandler.phase;
+            roundCount = PhaseHandler.roundCount;
             timeLeft = PhaseHandler.timeLeft;
             title = phase == PhaseHandler.Phase.Action ? "Action Phase" : "Decision Phase";
-            descriptionTextMesh.text = $"{title}\n{description}\n{timeLeft.ToString("F2")}";
+            descriptionTextMesh.text = $"Round {roundCount}\n{title}\n{description}\n{timeLeft.ToString("F2")}";
 
             if (phase == PhaseHandler.Phase.Action)
             {
