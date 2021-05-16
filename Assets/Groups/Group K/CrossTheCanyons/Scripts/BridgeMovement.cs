@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 
-public class LeftBridgeMovement : MonoBehaviour
+public class BridgeMovement : MonoBehaviour
 {
     private Rigidbody rb;
     public float movementForce = 1.0f;
     public float rotationForce = 1.0f;
 
+    public Player1Movement player1;
+    public Player2Movement player2;
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        Player1Movement player1 = FindObjectOfType<Player1Movement>();
-        Player2Movement player2 = FindObjectOfType<Player2Movement>();
         float bridgeHorizontalMovement = player1.GetBridge1HorizontalMovement();
         float bridgeVerticalMovement = player2.GetBridge1VerticalMovement();
         float rotationTorque = player1.GetClockwiseRotation() - player2.GetCounterclockwiseRotation();
