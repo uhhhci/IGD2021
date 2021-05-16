@@ -33,7 +33,7 @@ public class TurnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerData[activePlayer].actionPointsLeft() <= 0 && playerData[activePlayer].isIdle()) {
+        if (playerData[activePlayer].actionPointsLeft() == 0 && playerData[activePlayer].isIdle()) {
             nextTurn();
         }
         
@@ -62,11 +62,11 @@ public class TurnManager : MonoBehaviour
 
         interactions.setActivePlayer(playerData[activePlayer]);
 
-        // TODO: replace with a dice roll
-        System.Random rnd = new System.Random();
-        int initialActionPoints = rnd.Next(1, 6);
         // start dice toss
-        // get number rollResult from DieScript
+        System.Random rnd = new System.Random();
+        initialActionPoints = rnd.Next(1, 6);
+        //initialActionPoints = DieScript.rollResult;
+
         playerData[activePlayer].setActionPoints(initialActionPoints);
     }
 

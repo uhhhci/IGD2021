@@ -11,7 +11,8 @@ public class DieScript : MonoBehaviour
     float dirX;
     float dirY;
     float dirZ;
-	public int rollResult;
+	public static int rollResult = -1;
+	public static bool done = false;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +32,8 @@ public class DieScript : MonoBehaviour
     	{
         	counter = 0;
 			transform.position = new Vector3 (6.5f, 0.25f, -12f);
-			rollResult = 0;
+			rollResult = -1;
+			done = false;
 			restart = false;
     	}
       
@@ -55,6 +57,7 @@ public class DieScript : MonoBehaviour
 		{
 			rollResult = DieSideChecker.currentSide;
 			Debug.Log("You rolled a "+ rollResult);
+			done = true;
 		}
 
         counter++;
