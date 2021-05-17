@@ -8,16 +8,23 @@ public class PlayerStats : MonoBehaviour
     public int rounds;
     public Text text;
     public int CurrentZone;
+    public int position;
     // Start is called before the first frame update
     void Start()
     {
-        rounds = 0;
+        rounds = 1;
     }
 
     public void CountRound()
     {
         rounds += 1;
-        text.text = "Round: " + rounds + "/3";
+        if(rounds < 4)
+        {
+            text.text = "Round: " + rounds + "/3";
+        } else
+        {
+            text.text = "You finished!";
+        }
     }
 
     // Update is called once per frame

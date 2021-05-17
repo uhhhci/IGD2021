@@ -8,6 +8,7 @@ public class TrackCheckpoints : MonoBehaviour
     private List<TriggerZone> triggerZones;
     private List<int> nextCheckpointSingleIndexList;
     public List<Transform> carTransformList;
+    public GameManager gameManager;
     private void Awake()
     {
         Transform checkpointsTransform = transform.Find("Checkpoints");
@@ -32,11 +33,17 @@ public class TrackCheckpoints : MonoBehaviour
         int nextCheckpointSingleIndex = nextCheckpointSingleIndexList[carTransformList.IndexOf(carTransform)];
         if (triggerZones.IndexOf(triggerZone) == nextCheckpointSingleIndex)
         {
-            Debug.Log("Correct");
+            Debug.Log("---------------Correct------------------------");
             nextCheckpointSingleIndexList[carTransformList.IndexOf(carTransform)] = (nextCheckpointSingleIndex + 1) % triggerZones.Count;
+            if(nextCheckpointSingleIndex == (triggerZones.Count - 1))
+            {
+                gameManager.countRound(carTransform);
+            }
         } else
         {
             Debug.Log("Wrong");
         }
+        PlayerStats thePlayer = carTransform.GetComponent<PlayerStats>();
+        thePlayer.CurrentZone = nextCheckpointSingleIndex;
     }
 }

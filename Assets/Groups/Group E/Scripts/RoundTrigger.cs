@@ -6,6 +6,6 @@ public class RoundTrigger : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
         GameObject other = collision.gameObject;
-        gameManager.countRound(other);
+        //gameManager.countRound(other);
     }
 }
