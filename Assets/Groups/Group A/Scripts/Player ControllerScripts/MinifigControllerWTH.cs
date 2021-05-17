@@ -708,9 +708,13 @@ public class MinifigControllerWTH : MonoBehaviour
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (!(hit.collider.name == "SM_Bld_Castle_Tower_Base_01"))
+        if (hit.collider is CharacterController hitCharacter)
         {
             Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z) * Time.deltaTime * pushSpeed;
+            // This is instantanious and therefore not nice
+            hitCharacter.Move(pushDir);
+            // This should allow us to interact with this script directly and define an appropriate behaviour that way
+            MinifigControllerWTH hitCharacterController = hitCharacter.GetComponentInParent<MinifigControllerWTH>();
         }
         if (controller.isGrounded)
         {

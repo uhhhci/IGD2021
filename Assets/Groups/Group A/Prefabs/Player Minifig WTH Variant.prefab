@@ -13,19 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 1752125971}
---- !u!65 &-25012179752325602
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4385413062637091722}
-  m_Material: {fileID: 13400000, guid: 9ec49c7d655077a4989bc38d19c45819, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.5, y: 4, z: 1.5}
-  m_Center: {x: 0, y: 2, z: 0.3}
 --- !u!114 &1752125971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,6 +76,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SlopeLimit
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992792563859125981, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_Height
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992792563859125981, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992792563859125981, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8612489488774388799, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
