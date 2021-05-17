@@ -18,7 +18,7 @@ public class DieSideChecker : MonoBehaviour
 
     void OnTriggerStay(Collider col)
 	{
-		Debug.Log("Triggered");
+		//Debug.Log("Triggered");
 		if (stationary)
 		{
 			switch (col.gameObject.name) {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class DieScript : MonoBehaviour
 {
 	static Rigidbody rb;
+	private Vector3 initialPosition;
 	public static Vector3 dieVelocity;
     public int counter = 0;
 	private static bool restart = false;
@@ -18,6 +19,7 @@ public class DieScript : MonoBehaviour
     void Start()
     {
 		rb = GetComponent<Rigidbody> ();
+		initialPosition = transform.position;
     }
 
 	public static void rollDie() {
@@ -36,7 +38,8 @@ public class DieScript : MonoBehaviour
 			if(restart)
 			{
 				counter = 0;
-				transform.position = new Vector3 (6.5f, 0.25f, -12f);
+				Debug.Log("Position: "+transform.position);
+				transform.position = initialPosition;
 				rollResult = -1;
 				restart = false;
 			}
