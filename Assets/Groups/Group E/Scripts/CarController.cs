@@ -24,6 +24,7 @@ public class CarController : MonoBehaviour
     private Rigidbody rb;
     private bool backwards = false;
     private bool handbrake = false;
+    private bool controlEnabled = true;
 
     public float maxAcceleration = 20.0f;
     public float turnSensitivity = 1.0f;
@@ -33,7 +34,11 @@ public class CarController : MonoBehaviour
     public Vector3 centerOfMass;
     public Vector3 wheelRotationOffset;
     public float downForce = 10.0f;
-    
+
+    public void DisableControl()
+    {
+        controlEnabled = false;
+    }
 
     void FixedUpdate()
     {
@@ -59,38 +64,48 @@ public class CarController : MonoBehaviour
     {
         foreach (Wheel wheel in wheels)
         {
-            // driving forwards --> accelerate
-            if (movement.y > 0 && !backwards)
+            if (controlEnabled)
             {
-                wheel.collider.brakeTorque = 0;
-                ApplyMotorTorque(wheel);
-                
-            }
-            // driving forwards --> brake
-            else if (movement.y < 0 && !backwards)
-            {
-                wheel.collider.motorTorque = 0;
-                wheel.collider.brakeTorque = -movement.y * maxAcceleration * 1000000 * Time.deltaTime;
-            // driving backwards --> brake
-            } else if(movement.y > 0 && backwards)
-            {
-                wheel.collider.motorTorque = 0;
-                wheel.collider.brakeTorque = movement.y * maxAcceleration * 1000000 * Time.deltaTime;
-            // driving backwards --> accelerate
-            } else if(movement.y < 0 && backwards)
-            {
-                wheel.collider.brakeTorque = 0;
-                ApplyMotorTorque(wheel);
+                // driving forwards --> accelerate
+                if (movement.y > 0 && !backwards)
+                {
+                    wheel.collider.brakeTorque = 0;
+                    ApplyMotorTorque(wheel);
+
+                }
+                // driving forwards --> brake
+                else if (movement.y < 0 && !backwards)
+                {
+                    wheel.collider.motorTorque = 0;
+                    wheel.collider.brakeTorque = -movement.y * maxAcceleration * 1000000 * Time.deltaTime;
+                    // driving backwards --> brake
+                }
+                else if (movement.y > 0 && backwards)
+                {
+                    wheel.collider.motorTorque = 0;
+                    wheel.collider.brakeTorque = movement.y * maxAcceleration * 1000000 * Time.deltaTime;
+                    // driving backwards --> accelerate
+                }
+                else if (movement.y < 0 && backwards)
+                {
+                    wheel.collider.brakeTorque = 0;
+                    ApplyMotorTorque(wheel);
+                }
+                else
+                {
+                    wheel.collider.motorTorque = 0;
+                }
+
+                // handbrake
+                if (handbrake && wheel.axle == Axle.Rear)
+                {
+                    wheel.collider.brakeTorque = maxAcceleration * 2000 * Time.deltaTime;
+                }
             } else
             {
                 wheel.collider.motorTorque = 0;
+                wheel.collider.brakeTorque = maxAcceleration * 35 * Time.deltaTime;
             }
-
-            // handbrake
-            if(handbrake && wheel.axle == Axle.Rear)
-            {
-                wheel.collider.brakeTorque = maxAcceleration * 2000 * Time.deltaTime;
-            }            
         }
     }
 
@@ -114,7 +129,8 @@ public class CarController : MonoBehaviour
         if (wheel.collider.attachedRigidbody.velocity.magnitude < maxVelocity)
         {
             wheel.collider.motorTorque = movement.y * maxAcceleration * 500 * Time.deltaTime;
-        } else
+        }
+        else
         {
             wheel.collider.motorTorque = 0;
         }
@@ -122,19 +138,22 @@ public class CarController : MonoBehaviour
 
     private void Turn()
     {
-        foreach (Wheel wheel in wheels)
+        if(controlEnabled)
         {
-            if(wheel.axle == Axle.Front)
+            foreach (Wheel wheel in wheels)
             {
-                float steerAngle = movement.x * turnSensitivity * maxSteerAngle;
-                wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, steerAngle, 0.5f);
+                if (wheel.axle == Axle.Front)
+                {
+                    float steerAngle = movement.x * turnSensitivity * maxSteerAngle;
+                    wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, steerAngle, 0.5f);
+                }
             }
         }
     }
 
     private void ApplyDownForce()
     {
-        if(rb.velocity.magnitude > 30)
+        if (rb.velocity.magnitude > 30)
         {
             rb.AddForce(Vector3.down * Time.deltaTime * rb.velocity.magnitude * downForce, ForceMode.Force);
         }
@@ -142,7 +161,7 @@ public class CarController : MonoBehaviour
 
     private void AnimateWheels()
     {
-        foreach(Wheel wheel in wheels)
+        foreach (Wheel wheel in wheels)
         {
             Quaternion wheelRotation;
             Vector3 wheelPosition;
@@ -156,13 +175,11 @@ public class CarController : MonoBehaviour
     private void OnMove(InputValue value)
     {
         movement = value.Get<Vector2>();
-        print("OnMove: " + movement.x + ", " + movement.y);
     }
 
     private void OnMoveDpad(InputValue value)
     {
         movement = value.Get<Vector2>();
-        print("OnMove Dpad: " + movement.x + ", " + movement.y);
     }
 
     private void OnMenu()
@@ -192,13 +209,11 @@ public class CarController : MonoBehaviour
 
     private void OnSouthPress()
     {
-        print("OnSouthPress");
         handbrake = true;
     }
 
     private void OnSouthRelease()
     {
-        print("OnSouthRelease");
         handbrake = false;
     }
 
