@@ -13,6 +13,7 @@ public class PlayerHit : MonoBehaviour
     // Update is called once per frame
     void OnCollisionEnter(Collision other)
     {
+        Debug.Log("Treffer");
         if(other.gameObject.tag == "Vehicle")
         {
             Destroy(gameObject);
