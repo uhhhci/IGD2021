@@ -61,7 +61,7 @@ public class PlayerData : MonoBehaviour
     }
 
     public void addCreditAmount(int amount) {
-        // use negative amount for substraction
+        // use negative amount for subtraction
         credits += amount;
     }
 

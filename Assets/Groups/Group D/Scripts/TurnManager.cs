@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
-    public int initialActionPoints; 
-
     // number of rounds until the game ends
     public int numberOfRounds = 10;
 
@@ -27,17 +25,29 @@ public class TurnManager : MonoBehaviour
     private int activePlayer = 0;
     private int round = 0;
 
+    private enum TurnState {ROLLING_DIE, MOVING,};
+    private TurnState currentState;
+
     // Start is called before the first frame update
     void Start() {
         players.ForEach((p) => {p.SetInputEnabled(false);});
-
-        startNewTurn();
+        interactions.setActivePlayer(playerData[activePlayer]);
+        rollDie();
+        //startNewTurn();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerData[activePlayer].actionPointsLeft() <= 0 && playerData[activePlayer].isIdle()) {
+        if (currentState == TurnState.ROLLING_DIE && DieScript.isDone())
+        {
+            playerData[activePlayer].setActionPoints(DieScript.rollResult);
+            currentState =  TurnState.MOVING;
+            
+            playerData[activePlayer].setIdle(true);
+            startNewTurn();
+        }
+        if (currentState == TurnState.MOVING && playerData[activePlayer].actionPointsLeft() <= 0 && playerData[activePlayer].isIdle()) {
             nextTurn();
         }
         
@@ -61,8 +71,15 @@ public class TurnManager : MonoBehaviour
             endGame();
         } 
         else {
-            startNewTurn();
+            rollDie();
+            interactions.setActivePlayer(playerData[activePlayer]);
         }
+    }
+
+    private void rollDie() {
+        currentState =  TurnState.ROLLING_DIE;
+        playerData[activePlayer].setIdle(false);
+        DieScript.rollDie();
     }
 
     private void endGame() {
@@ -77,11 +94,6 @@ public class TurnManager : MonoBehaviour
     private void startNewTurn() {
         // unlock controls of the previous player 
         players[activePlayer].SetInputEnabled(true);
-
-        interactions.setActivePlayer(playerData[activePlayer]);
-
-        // TODO: replace with a dice roll/random number
-        playerData[activePlayer].setActionPoints(initialActionPoints);
     }
 
     private void updateHUD() {
