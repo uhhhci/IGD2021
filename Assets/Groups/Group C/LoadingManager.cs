@@ -18,7 +18,7 @@ public class LoadingManager : MonoBehaviour
     //this method is just for testing, it must be removed at the end.
     void Start()
     {   
-        LoadMiniGame();
+        LoadMiniGame(MiniGameType.singleVsTeam);
     }
 
     private void Awake () {
@@ -30,17 +30,26 @@ public class LoadingManager : MonoBehaviour
         }
     }
 
-    public void LoadMiniGame () {
+    public void LoadMiniGame (MiniGameType miniGameType) {
         randomPickerType = GameObject.Find("RandomPickerType");
 
-        int gameType = Random.Range(0, GameList.GAMES.Count);
+        int gameType = 0;
         List<MiniGame> games = null;
 
-        switch (gameType)
+        switch (miniGameType)
         {
-            case 0 : games = getRandomElements(GameList.FREE_FOR_ALL_LIST); break;
-            case 1 : games = getRandomElements(GameList.SINGLE_VS_TEAM_LIST); break;
-            case 2: games = getRandomElements(GameList.TEAM_VS_TEAM_LIST); break;
+            case MiniGameType.freeForAll: 
+                gameType = 0;
+                games = getRandomElements(GameList.FREE_FOR_ALL_LIST); 
+                break;
+            case MiniGameType.singleVsTeam : 
+                gameType = 1;
+                games = getRandomElements(GameList.SINGLE_VS_TEAM_LIST); 
+                break;
+            case MiniGameType.teamVsTeam: 
+                gameType = 2;
+                games = getRandomElements(GameList.TEAM_VS_TEAM_LIST); 
+                break;
         }
 
         int selectedGame = Random.Range(0, games.Count);
@@ -101,7 +110,7 @@ public class LoadingManager : MonoBehaviour
     }
 
     //Hides UI from picker
-    public void hidePicker() {
+    private void hidePicker() {
         randomPickerType.SetActive(false);
     }
 
@@ -200,9 +209,9 @@ public class LoadingManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1f);
-        freeForAll.enabled = false;
         singleVsTeam.enabled= false;
         teamVsTeam.enabled= false;
+        freeForAll.enabled= false;
 
         //show selected game
         banner.text = bannerText;
