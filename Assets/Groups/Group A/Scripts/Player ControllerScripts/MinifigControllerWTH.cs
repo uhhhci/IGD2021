@@ -82,6 +82,7 @@ public class MinifigControllerWTH : MonoBehaviour
     public float rotateAcceleration = 600f;
     public float jumpSpeed = 20f;
     public float gravity = 40f;
+    public float pushSpeed = 20f;
     private Vector2 _movement = new Vector2();
 
     [Header("Audio")]
@@ -707,6 +708,14 @@ public class MinifigControllerWTH : MonoBehaviour
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        if (hit.collider is CharacterController hitCharacter)
+        {
+            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z) * Time.deltaTime * pushSpeed;
+            // This is instantanious and therefore not nice
+            hitCharacter.Move(pushDir);
+            // This should allow us to interact with this script directly and define an appropriate behaviour that way
+            MinifigControllerWTH hitCharacterController = hitCharacter.GetComponentInParent<MinifigControllerWTH>();
+        }
         if (controller.isGrounded)
         {
             RaycastHit raycastHit;
