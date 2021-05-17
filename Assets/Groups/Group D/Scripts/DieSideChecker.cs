@@ -7,6 +7,7 @@ public class DieSideChecker : MonoBehaviour
 	Vector3 dieVelocity;
 	public static bool stationary;
     public static int currentSide = 0;
+	public static bool done = false;
     
     // Update is called once per frame
     void Update()
@@ -17,6 +18,7 @@ public class DieSideChecker : MonoBehaviour
 
     void OnTriggerStay(Collider col)
 	{
+		Debug.Log("Triggered");
 		if (stationary)
 		{
 			switch (col.gameObject.name) {
@@ -45,6 +47,7 @@ public class DieSideChecker : MonoBehaviour
                 currentSide = 1;
 				break;
 			}
+			done = true;
 		}
 	}
 }

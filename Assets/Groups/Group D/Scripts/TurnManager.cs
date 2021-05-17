@@ -23,17 +23,34 @@ public class TurnManager : MonoBehaviour
     private int activePlayer = 0;
     private int round = 0;
 
+    private enum turnState {rollingDie, moving,};
+    private turnState currentState;
+
     // Start is called before the first frame update
     void Start() {
         players.ForEach((p) => {p.SetInputEnabled(false);});
-
-        startNewTurn();
+        interactions.setActivePlayer(playerData[activePlayer]);
+        currentState =  turnState.rollingDie;
+        playerData[activePlayer].setIdle(false);
+        DieScript.restart = true;
+        //startNewTurn();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerData[activePlayer].actionPointsLeft() == 0 && playerData[activePlayer].isIdle()) {
+        if (currentState == turnState.rollingDie)
+        {
+            if (DieScript.done)
+            {
+                playerData[activePlayer].setActionPoints(DieScript.rollResult);
+                currentState =  turnState.moving;
+                
+                playerData[activePlayer].setIdle(true);
+                startNewTurn();
+            }
+        }
+        if (currentState == turnState.moving && playerData[activePlayer].actionPointsLeft() == 0 && playerData[activePlayer].isIdle()) {
             nextTurn();
         }
         
@@ -52,8 +69,11 @@ public class TurnManager : MonoBehaviour
             activePlayer = 0;
             round++;
         }
-
-        startNewTurn();
+        
+        currentState =  turnState.rollingDie;
+        playerData[activePlayer].setIdle(false);
+        DieScript.restart = true;
+        
     }
 
     private void startNewTurn() {
@@ -61,13 +81,6 @@ public class TurnManager : MonoBehaviour
         players[activePlayer].SetInputEnabled(true);
 
         interactions.setActivePlayer(playerData[activePlayer]);
-
-        // start dice toss
-        System.Random rnd = new System.Random();
-        initialActionPoints = rnd.Next(1, 6);
-        //initialActionPoints = DieScript.rollResult;
-
-        playerData[activePlayer].setActionPoints(initialActionPoints);
     }
 
     private void updateHUD() {

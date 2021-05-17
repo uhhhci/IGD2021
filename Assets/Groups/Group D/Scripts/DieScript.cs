@@ -7,7 +7,7 @@ public class DieScript : MonoBehaviour
 	static Rigidbody rb;
 	public static Vector3 dieVelocity;
     public int counter = 0;
-	public bool restart = true;
+	public static bool restart = false;
     float dirX;
     float dirY;
     float dirZ;
@@ -21,13 +21,8 @@ public class DieScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-		if(Input.anyKey)
-		{
-			restart = true;
-		}
-
     	if(restart)
     	{
         	counter = 0;
@@ -47,13 +42,16 @@ public class DieScript : MonoBehaviour
         	rb.AddForce (0,900,0);
         }
 		 
-        if(counter > 20 && counter < 60 )
+        if(counter > 20 && counter < 100 )
         {
 		    rb.AddTorque (dirX, dirY, dirZ);
         	rb.AddForce (Random.Range (-10, 10),0,Random.Range (-10, 10));
         }
-        
-		if (counter > 200 && DieSideChecker.stationary)
+        if (counter == 100)
+		{
+			DieSideChecker.done = false;
+		}
+		if (counter > 120 && DieSideChecker.done)
 		{
 			rollResult = DieSideChecker.currentSide;
 			Debug.Log("You rolled a "+ rollResult);
