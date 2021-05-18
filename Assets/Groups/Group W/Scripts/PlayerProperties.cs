@@ -171,7 +171,7 @@ public class PlayerProperties : MonoBehaviour
         //ChangeLeftHandWeapon(rowPosition, weapon);
         SelectRandomTargetRow();
         startPosition = transform.position;
-        healthStatus = transform.GetChild(1).GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>();
+        healthStatus = transform.GetChild(1).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>();
 
     }
 
