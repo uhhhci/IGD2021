@@ -1,36 +1,37 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuildingClock : MonoBehaviour
+namespace Groups.Group_S
 {
-    public int maxBuildingTime = 60;
-    private Text timerDisplay;
-
-    private double _currentTime = 0;
-    private GameManager _gameManager;
-
-    private void Start()
+    public class BuildingClock : MonoBehaviour
     {
-        _gameManager = FindObjectOfType<GameManager>();
-        timerDisplay = GetComponent<Text>();
-    }
+        public int maxBuildingTime = 60;
+        private Text timerDisplay;
 
-    void Update()
-    {
-        _currentTime += Time.deltaTime;
-        int displayedTime = (int) Math.Ceiling(maxBuildingTime - _currentTime);
-        if (displayedTime > 0)
+        private double _currentTime = 0;
+        private GameManager _gameManager;
+
+        private void Start()
         {
-            timerDisplay.text = displayedTime.ToString(CultureInfo.InvariantCulture);
+            _gameManager = FindObjectOfType<GameManager>();
+            timerDisplay = GetComponent<Text>();
         }
-        else
+
+        void Update()
         {
-            timerDisplay.text = "Times up!";
-            _gameManager.FinishBuilding();
+            _currentTime += Time.deltaTime;
+            int displayedTime = (int) Math.Ceiling(maxBuildingTime - _currentTime);
+            if (displayedTime > 0)
+            {
+                timerDisplay.text = displayedTime.ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                timerDisplay.text = "Times up!";
+                _gameManager.FinishBuilding();
+            }
         }
     }
 }
