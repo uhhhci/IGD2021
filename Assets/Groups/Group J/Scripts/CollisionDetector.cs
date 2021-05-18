@@ -29,7 +29,7 @@ public class CollisionDetector : MonoBehaviour
 
     IEnumerator ActivateInvincibility()
     {
-        Physics.IgnoreLayerCollision(9, 13, true);
+        Physics.IgnoreLayerCollision(gameObject.layer, 13, true);
 
         if (hitSound)
         {
@@ -50,7 +50,7 @@ public class CollisionDetector : MonoBehaviour
             yield return new WaitForSeconds(deltaTime);
         }
 
-        Physics.IgnoreLayerCollision(9, 13, false);
+        Physics.IgnoreLayerCollision(gameObject.layer, 13, false);
         ScaleModelTo(Vector3.one);
     }
 
