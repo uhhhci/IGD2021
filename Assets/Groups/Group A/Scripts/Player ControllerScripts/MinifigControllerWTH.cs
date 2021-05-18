@@ -219,6 +219,7 @@ public class MinifigControllerWTH : MonoBehaviour
     {
         string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
+        Respawn();
     }
 
     void Update()
@@ -719,9 +720,7 @@ public class MinifigControllerWTH : MonoBehaviour
         }
         if (hit.collider.tag == "floor") 
         {
-            GenerateRings rings = RespawnPointsSource.GetComponent<GenerateRings>();
-            Vector3 spwanLocation = rings.getSpawnLocation();
-            controller.transform.position = spwanLocation;
+            Respawn();
         }
         if (controller.isGrounded)
         {
@@ -940,6 +939,13 @@ public class MinifigControllerWTH : MonoBehaviour
         completeFunc?.Invoke();
 
         UpdateState();
+    }
+
+    void Respawn()
+    {
+        GenerateRings rings = RespawnPointsSource.GetComponent<GenerateRings>();
+        Vector3 spwanLocation = rings.getSpawnLocation();
+        controller.transform.position = spwanLocation;
     }
 
     #region Input Handling

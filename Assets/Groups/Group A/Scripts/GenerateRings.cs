@@ -20,7 +20,7 @@ public class GenerateRings : MonoBehaviour
     private List<GameObject> Rings = new List<GameObject>();
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         for(int ring = 1; ring <= numberOfRings; ring++)
         {
