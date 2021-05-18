@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoldenBrick : MonoBehaviour
+public class TurnAnimationCredit : MonoBehaviour
 {
 
-    public float rotationSpeed = 5.0f;
+    public float rotationSpeed = -90f;
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +16,6 @@ public class GoldenBrick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.RotateAround(transform.position, transform.up, rotationSpeed * Time.deltaTime);
+        transform.RotateAround(transform.position, transform.right, rotationSpeed * Time.deltaTime);
     }
 }

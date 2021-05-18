@@ -48,15 +48,33 @@ public class TurnManager : MonoBehaviour
             startNewTurn();
         }
         if (currentState == TurnState.MOVING && playerData[activePlayer].actionPointsLeft() <= 0 && playerData[activePlayer].isIdle()) {
-            nextTurn();
+            endTurn();
         }
         
         updateHUD();
     }
 
-    public void nextTurn() {
+    public void endTurn() {
         // lock controls of the previous player 
         players[activePlayer].SetInputEnabled(false);
+
+        switch(playerData[activePlayer].currentTile().type) {
+            case Tile.TileType.GAIN_COINS:
+                Debug.Log("Standing on a blue tile");
+                break;
+            case Tile.TileType.LOSE_COINS:
+                Debug.Log("Standing on a red tile");
+                break;
+            case Tile.TileType.RANDOM_EVENT:
+                Debug.Log("Standing on a purple tile");
+                break;
+            case Tile.TileType.MASTER_HAND:
+                Debug.Log("Standing on a orange tile");
+                break;
+            case Tile.TileType.START:
+                Debug.Log("Standing on the start tile");
+                break;
+        }
 
         // next player
         activePlayer++;
