@@ -20,7 +20,7 @@ public class GenerateRings : MonoBehaviour
     private List<GameObject> Rings = new List<GameObject>();
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         for(int ring = 1; ring <= numberOfRings; ring++)
         {
@@ -50,6 +50,15 @@ public class GenerateRings : MonoBehaviour
         float y = (float)(radius * Mathf.Sin(angleInDegrees * Mathf.PI / 180F));
 
         return new Vector3(x, yLevel + Random.Range(-offsetHeight, offsetHeight), y);
+    }
+
+    public Vector3 getSpawnLocation()
+    {
+        GameObject ring = Rings[Rings.Count - 1];
+        Transform block = ring.transform.GetChild(Random.Range(0, ring.transform.childCount));
+        Vector3 spawnLocation = block.position;
+        spawnLocation.y += block.lossyScale.y / 2;
+        return spawnLocation;
     }
 
 

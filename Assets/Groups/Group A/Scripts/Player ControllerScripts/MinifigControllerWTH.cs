@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class MinifigControllerWTH : MonoBehaviour
 {
     public GameObject Minifig;
+    public GameObject RespawnPointsSource;
     // Constants.
     const float stickyTime = 0.05f;
     const float stickyForce = 9.6f;
@@ -218,6 +219,7 @@ public class MinifigControllerWTH : MonoBehaviour
     {
         string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
+        Respawn();
     }
 
     void Update()
@@ -716,6 +718,10 @@ public class MinifigControllerWTH : MonoBehaviour
             // This should allow us to interact with this script directly and define an appropriate behaviour that way
             MinifigControllerWTH hitCharacterController = hitCharacter.GetComponentInParent<MinifigControllerWTH>();
         }
+        if (hit.collider.tag == "floor") 
+        {
+            Respawn();
+        }
         if (controller.isGrounded)
         {
             RaycastHit raycastHit;
@@ -933,6 +939,13 @@ public class MinifigControllerWTH : MonoBehaviour
         completeFunc?.Invoke();
 
         UpdateState();
+    }
+
+    void Respawn()
+    {
+        GenerateRings rings = RespawnPointsSource.GetComponent<GenerateRings>();
+        Vector3 spwanLocation = rings.getSpawnLocation();
+        controller.transform.position = spwanLocation;
     }
 
     #region Input Handling
