@@ -31,6 +31,11 @@ public class TrackCheckpoints : MonoBehaviour
     public void CarThroughCheckpoint(TriggerZone triggerZone, Transform carTransform)
     {
         int nextCheckpointSingleIndex = nextCheckpointSingleIndexList[carTransformList.IndexOf(carTransform)];
+        PlayerStats thePlayer = carTransform.GetComponent<PlayerStats>();
+        thePlayer.CurrentZone = nextCheckpointSingleIndex;
+        TriggerZone lastCheckPoint = triggerZones[(nextCheckpointSingleIndex + 1) % triggerZones.Count];
+        thePlayer.lastZone = lastCheckPoint.gameObject.transform;
+
         if (triggerZones.IndexOf(triggerZone) == nextCheckpointSingleIndex)
         {
             Debug.Log("---------------Correct------------------------");
@@ -43,7 +48,6 @@ public class TrackCheckpoints : MonoBehaviour
         {
             Debug.Log("Wrong");
         }
-        PlayerStats thePlayer = carTransform.GetComponent<PlayerStats>();
-        thePlayer.CurrentZone = nextCheckpointSingleIndex;
+        
     }
 }

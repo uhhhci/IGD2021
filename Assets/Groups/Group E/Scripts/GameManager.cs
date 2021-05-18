@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     int totalWinners;
+    public List<Transform> carTransformList;
+    public List<Transform> carPositionList;
     public void countRound(Transform player)
     {
         PlayerStats thePlayer = player.GetComponent<PlayerStats>();
@@ -24,6 +27,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        
+        foreach (Transform car in carTransformList)
+        {
+            PlayerStats thePlayer = car.GetComponent<PlayerStats>();
+            //Debug.Log(thePlayer.GetKartPosition(carTransformList));
+            thePlayer.GetKartPosition(carTransformList);
+            //carPositionList[thePlayer.GetKartPosition(carTransformList)] = car;
+        }
     }
 }
