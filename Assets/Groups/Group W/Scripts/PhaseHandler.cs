@@ -5,7 +5,7 @@ using UnityEngine;
 
 /**
  * Class used to switch between battle phases
- */ 
+ */
 public class PhaseHandler : MonoBehaviour
 {
     public static Phase phase;
@@ -72,7 +72,7 @@ public class PhaseHandler : MonoBehaviour
         // index der aktiven phase
         // if(update aktive phase) increment index modulo
 
-        if (phase == Phase.Decision )
+        if (phase == Phase.Decision)
         {
             secondsPassed = secondsPassed += Time.deltaTime;
             timeLeft = secondsUntilActionPhase - secondsPassed;
@@ -103,9 +103,10 @@ public class PhaseHandler : MonoBehaviour
             {
                 ActionPhase activePlayerActionPhase = players[activePlayerIndex].GetComponent<ActionPhase>();
 
-               // print($"activePlayerIndex: {activePlayerIndex}");
+                //print($"activePlayerIndex: {activePlayerIndex}");
+                //print($"arePlayersDoingThings Count: {arePlayersDoingThings.Count}");
                 bool isCurrentPlayerDoingThings = arePlayersDoingThings[activePlayerIndex];
-              //  print($"isCurrentPlayerDoingThings: {isCurrentPlayerDoingThings}");
+                //print($"isCurrentPlayerDoingThings: {isCurrentPlayerDoingThings}");
 
                 if (!isCurrentPlayerDoingThings)
                 {

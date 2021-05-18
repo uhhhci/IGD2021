@@ -37,8 +37,6 @@ public class PlayerProperties : MonoBehaviour
         }
     }
 
-
-
     public void SetMaxHp()
     {
         maxHp = rowPosition == PhaseHandler.RowPosition.Front ? 100 : 50;
