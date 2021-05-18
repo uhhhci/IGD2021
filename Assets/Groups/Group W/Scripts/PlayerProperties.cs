@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerProperties : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class PlayerProperties : MonoBehaviour
     public bool isActive = false;
     private Vector3 leftHandPosition;
     public Vector3 startPosition;
+
+    public Image healthStatus;
 
     [Header("External")]
     public static PhaseHandler.Phase phase;
@@ -168,6 +171,8 @@ public class PlayerProperties : MonoBehaviour
         //ChangeLeftHandWeapon(rowPosition, weapon);
         SelectRandomTargetRow();
         startPosition = transform.position;
+        healthStatus = transform.GetChild(1).GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>();
+
     }
 
     // Update is called once per frame
@@ -182,5 +187,8 @@ public class PlayerProperties : MonoBehaviour
         {
             RemoveLeftHandWeapon();
         }
+        
+        healthStatus.fillAmount = (currentHp/maxHp);
+
     }
 }
