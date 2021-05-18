@@ -19,18 +19,10 @@ Im Folgenden finden sich TODOs und DONEs.
 
 * auch entsprechende Animation einblenden, wenn invalide Auswahl getroffen wird
 
+# Toter Spieler sollte auf dem Boden liegen und nicht mehr angegriffen werden können
+
 ## KI Mitspieler
 ## Tutorial?
-
-## Environment
-* Zusammenbasteln einer hübschen Umgebung
-	* Boden
-	* Himmel / Decke
-	* Objekte (z.B. Bäume, Gebäude etc.)
-* Beleuchtung
-* Für Rundenanzeige/Beschreibung/HP-Balken:
-	* Etwas, damit es authentischer in die Szene passt, und nicht einfach nur eine weiße plane in der Gegend rumschwebt
-		* z.B. Holzschild, LED-Schild, Heißluftballon etc.
 
 
 # DONEs Larissa
@@ -82,3 +74,15 @@ Im Folgenden finden sich TODOs und DONEs.
 	    *  Assets Fernkampf + Nahkampf unterschiedlich
 	* der entsprechende Charakter, an dem das Script attached ist, sollte dann (visuell) die entsprechende Waffe in die Hand gelegt bekommen
 		* Waffe sollte sich bei Bewegung des Charakters mitbewegen
+
+* Environment
+	* Zusammenbasteln einer hübschen Umgebung
+		* Boden
+		* Himmel / Decke
+		* Objekte (z.B. Bäume, Gebäude etc.)
+	* Beleuchtung
+	* Passendere Asssets für Rundenanzeige und HP-Balken
+
+
+# Known Bugs
+* Animation auf Dpad open wird nicht abgespielt, Event wird aber korrekt abgegriffen und Methode ausgeführt. Fehlersuche ausstehend.

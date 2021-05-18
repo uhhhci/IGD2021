@@ -147,7 +147,7 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
-    void ChangeLeftHandWeapon(PhaseHandler.RowPosition rowPosition, WeaponDefinitions.WeaponType weaponType)
+    public void ChangeLeftHandWeapon(PhaseHandler.RowPosition rowPosition, WeaponDefinitions.WeaponType weaponType)
     {
         // load a gameobject with the correct prefab
 
@@ -173,7 +173,7 @@ public class ActionPhase : MonoBehaviour
 
     public void DoAction()
     {
-        ChangeLeftHandWeapon(player.rowPosition, player.weapon);
+        // ChangeLeftHandWeapon(player.rowPosition, player.weapon);
         PlayerProperties targetPlayer = GetTargetPlayer(player.team, player.targetRow);
 
         // if the preceding player is finished, its the next ones turn

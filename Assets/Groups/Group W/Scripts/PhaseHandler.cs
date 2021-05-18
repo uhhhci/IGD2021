@@ -11,13 +11,13 @@ public class PhaseHandler : MonoBehaviour
     public static Phase phase;
     public static int roundCount;
     public static float timeLeft;
-    public float secondsUntilActionPhase = 2f;
+    public float secondsUntilActionPhase = 5f;
     public float secondsPassed = 0f;
     public static List<PlayerProperties> players;
 
     public static int activePlayerIndex;
     public bool isActionPhaseFinished;
-    public List<bool> arePlayersDoingThings;
+    public List<bool> arePlayerActionsOver;
 
     public enum Phase
     {
@@ -57,7 +57,7 @@ public class PhaseHandler : MonoBehaviour
         foreach (Transform child in transform)
         {
             players.Add(child.GetComponent<PlayerProperties>());
-            arePlayersDoingThings.Add(false);
+            arePlayerActionsOver.Add(false);
         }
 
         // set the first player active
@@ -87,8 +87,6 @@ public class PhaseHandler : MonoBehaviour
         if (phase == Phase.Action)
         {
             secondsPassed = 0f;
-            // each player attacks sequentially
-            // end if the last active player is finished
             isActionPhaseFinished = activePlayerIndex >= players.Count;
 
             if (isActionPhaseFinished)
@@ -97,21 +95,28 @@ public class PhaseHandler : MonoBehaviour
                 phase = Phase.Decision;
                 roundCount += 1;
                 activePlayerIndex = 0;
-                arePlayersDoingThings = Enumerable.Repeat(false, players.Count).ToList();
+                arePlayerActionsOver = Enumerable.Repeat(false, players.Count).ToList();
             }
             else
             {
+                // TODO it's sufficient to call this one time per round
+                // equip new weapon for each player
+                foreach (PlayerProperties player in players)
+                {
+                    ActionPhase actionPhase = player.GetComponent<ActionPhase>();
+                    actionPhase.ChangeLeftHandWeapon(player.rowPosition, player.weapon);
+                }
+
+                // each player attacks sequentially
+                // end if the last active player is finished
                 ActionPhase activePlayerActionPhase = players[activePlayerIndex].GetComponent<ActionPhase>();
 
-                //print($"activePlayerIndex: {activePlayerIndex}");
-                //print($"arePlayersDoingThings Count: {arePlayersDoingThings.Count}");
-                bool isCurrentPlayerDoingThings = arePlayersDoingThings[activePlayerIndex];
-                //print($"isCurrentPlayerDoingThings: {isCurrentPlayerDoingThings}");
+                bool isPlayerActionOver = arePlayerActionsOver[activePlayerIndex];
 
-                if (!isCurrentPlayerDoingThings)
+                if (!isPlayerActionOver)
                 {
                     activePlayerActionPhase.DoAction();
-                    arePlayersDoingThings[activePlayerIndex] = true;
+                    arePlayerActionsOver[activePlayerIndex] = true;
                 }
             }
         }
