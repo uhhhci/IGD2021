@@ -52,6 +52,15 @@ public class GenerateRings : MonoBehaviour
         return new Vector3(x, yLevel + Random.Range(-offsetHeight, offsetHeight), y);
     }
 
+    public Vector3 getSpawnLocation()
+    {
+        GameObject ring = Rings[Rings.Count - 1];
+        Transform block = ring.transform.GetChild(Random.Range(0, ring.transform.childCount));
+        Vector3 spawnLocation = block.position;
+        spawnLocation.y += block.lossyScale.y / 2;
+        return spawnLocation;
+    }
+
 
 
     public void RotateRing(int ringNr, float angle)

@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class MinifigControllerWTH : MonoBehaviour
 {
     public GameObject Minifig;
+    public GameObject RespawnPointsSource;
     // Constants.
     const float stickyTime = 0.05f;
     const float stickyForce = 9.6f;
@@ -715,6 +716,12 @@ public class MinifigControllerWTH : MonoBehaviour
             hitCharacter.Move(pushDir);
             // This should allow us to interact with this script directly and define an appropriate behaviour that way
             MinifigControllerWTH hitCharacterController = hitCharacter.GetComponentInParent<MinifigControllerWTH>();
+        }
+        if (hit.collider.tag == "floor") 
+        {
+            GenerateRings rings = RespawnPointsSource.GetComponent<GenerateRings>();
+            Vector3 spwanLocation = rings.getSpawnLocation();
+            controller.transform.position = spwanLocation;
         }
         if (controller.isGrounded)
         {
