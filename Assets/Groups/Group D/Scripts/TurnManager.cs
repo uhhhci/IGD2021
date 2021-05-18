@@ -25,8 +25,17 @@ public class TurnManager : MonoBehaviour
     private int activePlayer = 0;
     private int round = 0;
 
-    private enum TurnState {ROLLING_DIE, MOVING,};
+    private enum TurnState {ROLLING_DIE, MOVING, APPLYING_TILE_EFFECT, TURN_ENDED,};
     private TurnState currentState;
+
+    // all of the following variables are only used by the tile effect code
+    // TODO: refactor the tile effect code
+    // TODO: the "gaining/losing credits animations" (+ sounds when added) must be reusable (buying things, after minigames, etc.) 
+    private enum TileEffect {GAINING_CREDITS, LOSING_CREDITS, NONE};
+    private int animationStep = 0;
+    private TileEffect currentTileEffect = TileEffect.NONE;
+    private double animationClock = 0.0;
+
 
     // Start is called before the first frame update
     void Start() {
@@ -47,17 +56,112 @@ public class TurnManager : MonoBehaviour
             playerData[activePlayer].setIdle(true);
             startNewTurn();
         }
-        if (currentState == TurnState.MOVING && playerData[activePlayer].actionPointsLeft() <= 0 && playerData[activePlayer].isIdle()) {
-            nextTurn();
+        else if (currentState == TurnState.MOVING && playerData[activePlayer].actionPointsLeft() <= 0 && playerData[activePlayer].isIdle()) {
+            applyTileEffect();
+        }
+        else if (currentState == TurnState.APPLYING_TILE_EFFECT) {
+
+            animationClock += Time.deltaTime;
+
+            switch (currentTileEffect) {
+                // use animationStep to prevent that the same action is executed multiple times by different updates
+                case TileEffect.GAINING_CREDITS:
+                    if (animationClock > 1.0 && animationStep == 3) {  // 1 second
+                        hud.setCreditBobble(activePlayer, false);
+                        currentState = TurnState.TURN_ENDED;
+                        animationStep++;
+                    } 
+                    else if (animationClock > 0.6 && animationStep == 2) {
+                        hud.setCreditBobble(activePlayer, true);
+                        playerData[activePlayer].addCreditAmount(1);
+                        animationStep++;
+                    } 
+                    else if (animationClock > 0.4 && animationStep == 1) {
+                        hud.setCreditBobble(activePlayer, false);
+                        animationStep++;
+                    }
+                    else if (animationClock > 0.0 && animationStep == 0) {
+                        hud.setCreditBobble(activePlayer, true);
+                        playerData[activePlayer].addCreditAmount(1);
+                        animationStep++;
+                    }
+                    break;
+                case TileEffect.LOSING_CREDITS:
+                    // TODO same code as in the previous case, but credtis are lost instead of added
+                    if (animationClock > 1.0 && animationStep == 3) {  // 1 second
+                        hud.setCreditBobble(activePlayer, false);
+                        currentState = TurnState.TURN_ENDED;
+                        animationStep++;
+                    } 
+                    else if (animationClock > 0.6 && animationStep == 2) {
+                        if (playerData[activePlayer].creditAmount() <= 0) {
+                            // skip the remaining animation
+                            currentState = TurnState.TURN_ENDED;
+                        }
+                        else {
+                            hud.setCreditBobble(activePlayer, true);
+                            playerData[activePlayer].addCreditAmount(-1);
+                            animationStep++;
+                        }
+                    } 
+                    else if (animationClock > 0.4 && animationStep == 1) {
+                        hud.setCreditBobble(activePlayer, false);
+                        animationStep++;
+                    }
+                    else if (animationClock > 0.0 && animationStep == 0) {
+                        if (playerData[activePlayer].creditAmount() <= 0) {
+                            // skip the animation
+                            currentState = TurnState.TURN_ENDED;
+                            break;
+                        }
+                        else {
+                            hud.setCreditBobble(activePlayer, true);
+                            playerData[activePlayer].addCreditAmount(-1);
+                            animationStep++;
+                        }
+                    }
+                    break;
+                default:
+                    currentState = TurnState.TURN_ENDED;
+                    break;
+            }
+        }
+        else if (currentState == TurnState.TURN_ENDED) {
+            finishTurn();
         }
         
         updateHUD();
     }
 
-    public void nextTurn() {
+    private void applyTileEffect() {
         // lock controls of the previous player 
         players[activePlayer].SetInputEnabled(false);
 
+        currentState = TurnState.APPLYING_TILE_EFFECT;
+        currentTileEffect = TileEffect.NONE;
+        animationClock = 0.0;
+        animationStep = 0;
+
+        switch(playerData[activePlayer].currentTile().type) {
+            case Tile.TileType.GAIN_COINS:
+                currentTileEffect = TileEffect.GAINING_CREDITS;
+                break;
+            case Tile.TileType.LOSE_COINS:
+                currentTileEffect = TileEffect.LOSING_CREDITS;
+                break;
+            case Tile.TileType.RANDOM_EVENT:
+                Debug.Log("Standing on a purple tile");
+                break;
+            case Tile.TileType.MASTER_HAND:
+                Debug.Log("Standing on a orange tile");
+                break;
+            case Tile.TileType.START:
+                Debug.Log("Standing on the start tile");
+                break;
+        }
+    }
+
+    private void finishTurn() {
         // next player
         activePlayer++;
 

@@ -38,7 +38,7 @@ public class DieScript : MonoBehaviour
 			if(restart)
 			{
 				counter = 0;
-				Debug.Log("Position: "+transform.position);
+				// Debug.Log("Position: "+transform.position);
 				transform.position = initialPosition;
 				rollResult = -1;
 				restart = false;
