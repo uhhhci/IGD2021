@@ -16,7 +16,7 @@ public class HP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        List<PlayerProperties> players = ActionPhase.players;
+        List<PlayerProperties> players = PhaseHandler.players;
         List<PlayerProperties> matchingPlayers = players.FindAll(player => player.name == playerName);
         if(matchingPlayers.Count == 1)
         {
@@ -28,6 +28,5 @@ public class HP : MonoBehaviour
         {
             print($"no matching players found for player name {playerName}. can not show hp.");
         }
-
     }
 }

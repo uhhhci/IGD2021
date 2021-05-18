@@ -5,14 +5,16 @@ using UnityEngine;
 public class ActionPhase : MonoBehaviour
 {
     public PhaseHandler.Phase phase;
-    public static bool isActionPhaseFinished;
-    public TextAsset jsonFile;
+    public TextAsset weaponTypesJsonFile;
     public WeaponTypes weaponTypes;
-    public static List<PlayerProperties> players;
 
-    public bool previousActionFinished;
-    public bool isAttackFinished;
     private float moveStopDistance = 1f;
+    public static int activePlayerIndex = 0;
+    PlayerProperties player;
+    public static List<PlayerProperties> players;
+    bool isActionPhase;
+    public GameObject leftHandWeapon;
+    public Vector3 leftHandPosition;
 
     // calculates the damage dealt by currentPlayer to targetPlayer
     // takes the base damage and its multiplier (derived from the weapon types) into account
@@ -53,10 +55,11 @@ public class ActionPhase : MonoBehaviour
     }
 
     // searches for the player of the other team by chosing the other team and the target row
-    PlayerProperties GetTargetPlayer(PlayerProperties.Team ownTeam, PlayerProperties.RowPosition targetRow)
+    PlayerProperties GetTargetPlayer(PhaseHandler.Team ownTeam, PhaseHandler.RowPosition targetRow)
     {
+
         // opponent team is the team that is not the own team
-        PlayerProperties.Team opponentTeam = ownTeam == PlayerProperties.Team.Left ? PlayerProperties.Team.Right : PlayerProperties.Team.Left;
+        PhaseHandler.Team opponentTeam = ownTeam == PhaseHandler.Team.Left ? PhaseHandler.Team.Right : PhaseHandler.Team.Left;
         List<PlayerProperties> matchingPlayers = players.FindAll(player => player.team == opponentTeam
                                                 && player.rowPosition == targetRow);
 
@@ -75,7 +78,6 @@ public class ActionPhase : MonoBehaviour
     // moves to the target and attacks it
     void AttackTarget(PlayerProperties activePlayer, PlayerProperties targetPlayer)
     {
-        previousActionFinished = false;
         var minifigController = activePlayer.GetComponent<MinifigController>();
         Vector3 targetPosition = targetPlayer.transform.position;
         // stop *in front of* target character, not on top
@@ -83,47 +85,25 @@ public class ActionPhase : MonoBehaviour
         minifigController.MoveTo(targetPosition, onComplete: () => { Attack(activePlayer, targetPlayer); });
     }
 
-    void ReturnToStartPosition(PlayerProperties activePlayer, PlayerProperties targetPlayer)
-    {
-        var minifigController = activePlayer.GetComponent<MinifigController>();
-        minifigController.MoveTo(activePlayer.startPosition, onComplete: () => { RotateBack(activePlayer, targetPlayer); });
-        // TODO face to the correct direction again! (change rotation)
-    }
-
-    void RotateBack(PlayerProperties activePlayer, PlayerProperties targetPlayer)
-    {
-        print("now rotating back");
-        var minifigController = activePlayer.GetComponent<MinifigController>();
-        // activePlayer.startPosition
-        // Vector3 originalRotation = new Vector3(5f, 5f, 5f);
-        Vector3 originalRotation = targetPlayer.transform.position;
-        minifigController.TurnTo(originalRotation, onComplete: () => { SetNextActivePlayer(activePlayer); });
-    }
 
     void Attack(PlayerProperties activePlayer, PlayerProperties targetPlayer)
     {
         var minifigController = activePlayer.GetComponent<MinifigController>();
-        //minifigController.PlaySpecialAnimation(MinifigController.SpecialAnimation.Stretching);
-
+        
         // calculate damage
         float damage = CalculateDamage(activePlayer, targetPlayer);
 
         if(targetPlayer.currentHp >0)
         {
             // TODO play attack animation
-            // lower hp of targed
+            // minifigController.PlaySpecialAnimation(MinifigController.SpecialAnimation.Stretching);
+
+            // lower hp of target
             targetPlayer.currentHp -= damage;
             if (targetPlayer.currentHp > 0)
-
             {
-                print($"damage to target ({targetPlayer.name}): {damage}");
-                print($"new hp of target: {targetPlayer.currentHp}");
-                // TODO play dying animation and prevent player from further being attacked
-
-                if(targetPlayer.currentHp <= 0)
-                {
-                    print($"target player ({targetPlayer.name}) is dead now");
-                }
+                print($"damage to target ({targetPlayer.name}): {damage}. New HP: {targetPlayer.currentHp}");
+                CheckForDeath(targetPlayer);
             }
         }
 
@@ -137,74 +117,75 @@ public class ActionPhase : MonoBehaviour
         ReturnToStartPosition(activePlayer, targetPlayer);
     }
 
-    void SetNextActivePlayer(PlayerProperties activePlayer)
-    {
-        activePlayer.isActive = false;
-        int nextPlayerIndex = players.IndexOf(activePlayer) + 1;
-        if (nextPlayerIndex < players.Count)
-        {
-            print($"next active player is: {players[nextPlayerIndex].name}");
-            players[nextPlayerIndex].isActive = true;
-            previousActionFinished = true;
-            print($"player.isActive: {players[nextPlayerIndex].isActive}");
-        }
 
-        else
+    void ReturnToStartPosition(PlayerProperties activePlayer, PlayerProperties targetPlayer)
+    {
+        var minifigController = activePlayer.GetComponent<MinifigController>();
+        minifigController.MoveTo(activePlayer.startPosition, onComplete: () => { RotateBack(activePlayer, targetPlayer); });
+    }
+
+    void RotateBack(PlayerProperties activePlayer, PlayerProperties targetPlayer)
+    {
+        // face to the correct direction again!(change rotation)
+        print("now rotating back");
+        var minifigController = activePlayer.GetComponent<MinifigController>();
+        Vector3 originalRotation = targetPlayer.transform.position;
+        // when the animation is finished, it's the next players turn
+        // gameObject.GetComponent<PhaseHandler>()
+        minifigController.TurnTo(originalRotation, onComplete: () => { PhaseHandler.SetNextActivePlayer(); });
+    }
+
+    void CheckForDeath(PlayerProperties player)
+    {
+        var minifigController = player.GetComponent<MinifigController>();
+        if (player.currentHp <= 0)
         {
-            print("active phase is over now");
-            previousActionFinished = true;
-            isActionPhaseFinished = true;
-            // begin next phase
-            players[0].isActive = true;
+            // TODO prevent player from further being attacked
+            // TODO player should die and not stand up anymore
+            minifigController.PlaySpecialAnimation(MinifigController.SpecialAnimation.Crawl);
+            print($"player ({player.name}) is dead now");
+        }
+    }
+
+    void ChangeLeftHandWeapon(PhaseHandler.RowPosition rowPosition, WeaponDefinitions.WeaponType weaponType)
+    {
+        // load a gameobject with the correct prefab
+
+        Weapon[] matchingWeapons = WeaponDefinitions.GetWeapon(weaponType, rowPosition);
+        if (matchingWeapons.Length > 0 && leftHandWeapon == null)
+        {
+            string assetPath = matchingWeapons[0].asset;
+            GameObject prefab = Resources.Load<GameObject>("Prefabs/" + assetPath) as GameObject;
+            leftHandWeapon = Instantiate(prefab, leftHandPosition, player.transform.rotation);
+
+            // set the weapon as a child of left hand
+            leftHandWeapon.transform.parent = player.transform.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").transform;
+            leftHandWeapon.transform.localScale = new Vector3(1, 1, 1);
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        weaponTypes = JsonUtility.FromJson<WeaponTypes>(jsonFile.text);
+        weaponTypes = JsonUtility.FromJson<WeaponTypes>(weaponTypesJsonFile.text);
+        player = gameObject.GetComponent<PlayerProperties>();
+    }
 
-        // gather all players
-        players = new List<PlayerProperties>();
-        foreach (Transform child in transform)
-        {
-            players.Add(child.GetComponent<PlayerProperties>());
-        }
+    public void DoAction()
+    {
+        ChangeLeftHandWeapon(player.rowPosition, player.weapon);
+        PlayerProperties targetPlayer = GetTargetPlayer(player.team, player.targetRow);
 
-        // set the first player active
-        players[0].isActive = true;
-        previousActionFinished = true;
+        // if the preceding player is finished, its the next ones turn
+        // print($"current active player is {player.name}");
+        AttackTarget(player, targetPlayer);
     }
 
     // Update is called once per frame
     void Update()
     {
-        phase = PhaseHandler.phase;
-
-        if (phase == PhaseHandler.Phase.Action)
-        {
-            // each player attacks sequentially
-            List<PlayerProperties> activePlayers = players.FindAll(player => player.isActive);
-
-            if (activePlayers.Count == 1)
-            {
-                PlayerProperties activePlayer = activePlayers[0];
-                PlayerProperties targetPlayer = GetTargetPlayer(activePlayer.team, activePlayer.targetRow);
-
-                // if the preceding player is finished, its the next ones turn
-                if (previousActionFinished)
-                {
-                    print($"current active player is {activePlayer.name}");
-                    AttackTarget(activePlayer, targetPlayer);
-                }
-            }
-
-            else
-            {
-                print($"Only exactly 1 active player is allowed to exist, but there were {activePlayers.Count}");
-            }
-        }
-       
+        leftHandPosition = player.leftHandPosition;
+        players = PhaseHandler.players;
     }
 }
 

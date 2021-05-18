@@ -27,7 +27,7 @@ public class WeaponDefinitions : MonoBehaviour
     }
 
     // searches through all availabe weapons and returns the ones that match the weapon type and row position
-    public static Weapon[] GetWeapon(WeaponType weaponType, PlayerProperties.RowPosition rowPosition)
+    public static Weapon[] GetWeapon(WeaponType weaponType, PhaseHandler.RowPosition rowPosition)
     {
         return Array.FindAll<Weapon>(weapons.weapons, weapon => weapon.type == weaponType.ToString()
                                                             && weapon.row == rowPosition.ToString()); 
