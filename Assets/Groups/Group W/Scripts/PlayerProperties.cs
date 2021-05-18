@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerProperties : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class PlayerProperties : MonoBehaviour
     public Vector3 leftHandPosition;
     public Vector3 startPosition;
 
+    public Image healthStatus;
+
     [Header("External")]
     public static PhaseHandler.Phase phase;
     DecisionPhase decisionPhase;
@@ -31,7 +34,7 @@ public class PlayerProperties : MonoBehaviour
         {
             rowPosition = value;
             SetMaxHp();
-        }    
+        }
     }
 
 
@@ -68,6 +71,7 @@ public class PlayerProperties : MonoBehaviour
         SelectRandomTargetRow();
         startPosition = transform.position;
         decisionPhase = gameObject.GetComponent<DecisionPhase>();
+        healthStatus = transform.GetChild(1).GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -76,5 +80,6 @@ public class PlayerProperties : MonoBehaviour
         weapon = decisionPhase.selectedWeapon;
         targetRow = decisionPhase.selectedTargetRow;
         leftHandPosition = transform.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").GetComponent<Transform>().position;
+        healthStatus.fillAmount = (currentHp / maxHp);
     }
 }
