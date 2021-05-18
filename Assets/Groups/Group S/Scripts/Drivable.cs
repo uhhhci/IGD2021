@@ -14,8 +14,8 @@ namespace Groups.Group_S
         public float acceleration = 15f;
         public float gravity = 9.81f;
         public float steeringRate = 2f;
-
-        [SerializeField] private bool inputEnabled = true;
+        public bool inputEnabled = true;
+        
         private CharacterController _controller;
         private Vector3 _speed = Vector3.zero;
         private Vector2 _input = Vector2.zero;
@@ -59,13 +59,15 @@ namespace Groups.Group_S
         [UsedImplicitly]
         private void OnMove(InputValue value)
         {
-            _input = value.Get<Vector2>();
+            if (inputEnabled)
+                _input = value.Get<Vector2>();
         }
 
         [UsedImplicitly]
         private void OnMoveDpad(InputValue value)
         {
-            _input = value.Get<Vector2>();
+            if (inputEnabled)
+                _input = value.Get<Vector2>();
         }
 
         #endregion
