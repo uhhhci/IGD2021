@@ -26,13 +26,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Minifig: {fileID: 3789296624512031367}
+  RespawnPointsSource: {fileID: 0}
   maxForwardSpeed: 5
   maxBackwardSpeed: 4
   acceleration: 20
   maxRotateSpeed: 150
   rotateAcceleration: 600
-  jumpSpeed: 20
-  gravity: 40
+  jumpSpeed: 6.6
+  gravity: 20
   pushSpeed: 20
   stepAudioClips:
   - {fileID: 8300000, guid: 39948ec2175e749819ecd850a1d0e5af, type: 3}
