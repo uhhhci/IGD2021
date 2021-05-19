@@ -627,6 +627,8 @@ MonoBehaviour:
   model: {fileID: 1099402470}
   durationSeconds: 1.5
   deltaTime: 0.15
+  isTeam1: 0
+  isTeam2: 1
 --- !u!136 &325991071
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -721,12 +723,12 @@ PrefabInstance:
     - target: {fileID: 70292193334677109, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_TagString
-      value: Team1
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 627107172102532984, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_TagString
-      value: Team1
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 629297074304548042, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
@@ -1548,7 +1550,7 @@ PrefabInstance:
     - target: {fileID: 70292193334677109, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_TagString
-      value: Team2
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 118627664333904641, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
@@ -1618,7 +1620,7 @@ PrefabInstance:
     - target: {fileID: 627107172102532984, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_TagString
-      value: Team2
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 629297074304548042, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
@@ -2508,6 +2510,8 @@ MonoBehaviour:
   model: {fileID: 527372539}
   durationSeconds: 1.5
   deltaTime: 0.15
+  isTeam1: 1
+  isTeam2: 0
 --- !u!136 &942817882
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2838,7 +2842,7 @@ PrefabInstance:
     - target: {fileID: 70292193334677109, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_TagString
-      value: Team2
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 118627664333904641, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
@@ -2908,7 +2912,7 @@ PrefabInstance:
     - target: {fileID: 627107172102532984, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_TagString
-      value: Team2
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 629297074304548042, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
@@ -3806,6 +3810,8 @@ MonoBehaviour:
   model: {fileID: 838320408426023521}
   durationSeconds: 1.5
   deltaTime: 0.15
+  isTeam1: 1
+  isTeam2: 0
 --- !u!136 &1183222287
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3882,6 +3888,8 @@ MonoBehaviour:
   model: {fileID: 845417620}
   durationSeconds: 1.5
   deltaTime: 0.15
+  isTeam1: 0
+  isTeam2: 1
 --- !u!136 &1344651179
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4606,7 +4614,7 @@ PrefabInstance:
     - target: {fileID: 70292193334677109, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_TagString
-      value: Team1
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 118627664333904641, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
@@ -4676,7 +4684,7 @@ PrefabInstance:
     - target: {fileID: 627107172102532984, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_TagString
-      value: Team1
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 694506411937979334, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
@@ -5490,6 +5498,8 @@ MonoBehaviour:
   model: {fileID: 0}
   durationSeconds: 0
   deltaTime: 0
+  isTeam1: 0
+  isTeam2: 0
 --- !u!114 &5036437753873524586 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5112891991118283379, guid: ef277551de3652c4dab21591da2a6201,

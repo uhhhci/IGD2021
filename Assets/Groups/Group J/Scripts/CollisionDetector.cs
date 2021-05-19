@@ -13,6 +13,8 @@ public class CollisionDetector : MonoBehaviour
     [SerializeField]
     private float deltaTime;
     private GameManager gameplayManager;
+    public bool isTeam1 = false;
+    public bool isTeam2 = false;
 
     void Awake()
     {
@@ -31,7 +33,7 @@ public class CollisionDetector : MonoBehaviour
         if(collision.gameObject.tag == ("Obstacle"))
         {
             StartCoroutine(ActivateInvincibility());
-            gameplayManager.UpdateDeath(gameObject.tag == "Team1");
+            gameplayManager.UpdateDeath(isTeam1);
         }
     }
 
