@@ -7,6 +7,7 @@ public enum MiniGameType {
     singleVsTeam,
     teamVsTeam
 }
+
 abstract public class MiniGame : MonoBehaviour
 {
     public abstract string getDisplayName();
