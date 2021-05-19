@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.registerPlayer(this.gameObject);
-        KeyPressHandler.registerPlayer(this.gameObject);
+        GameManager.instance.registerPlayer(this.gameObject);
+        KeyPressHandler.instance.registerPlayer(this.gameObject);
     }
 
     // Update is called once per frame

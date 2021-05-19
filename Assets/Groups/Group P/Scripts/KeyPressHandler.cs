@@ -5,14 +5,27 @@ using UnityEngine;
 namespace GroupP {
     public class KeyPressHandler : MonoBehaviour
     {
+
+        private static KeyPressHandler _instance;
+        public static KeyPressHandler instance { get { return _instance; }}
+        
         private class PlayerStat {
             public GameObject player;
             public bool hasHitLastNote;
         }
 
-        static List<PlayerStat> playerStats = new List<PlayerStat>();
+        List<PlayerStat> playerStats = new List<PlayerStat>();
 
-        static List<Note> currentNotes = new List<Note>();
+        List<Note> currentNotes = new List<Note>();
+
+        void Awake() {
+            if(_instance != null && _instance != this) {
+                Destroy(this.gameObject);
+            } else {
+                _instance = this;
+            }
+        }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -25,19 +38,19 @@ namespace GroupP {
             
         }
 
-        public static void registerPlayer(GameObject player) {
+        public void registerPlayer(GameObject player) {
             PlayerStat playerStat = new PlayerStat();
             playerStat.player = player;
             playerStat.hasHitLastNote = false;
             playerStats.Add(playerStat);
-Debug.Log(playerStats.Count);
+            Debug.Log(playerStats.Count);
         }
 
-        public static void registerNote(Note note) {
+        public void registerNote(Note note) {
             currentNotes.Add(note);
         }
 
-        public static void deregisterNote(Note note) {
+        public void deregisterNote(Note note) {
             //TODO call MissedHit() for players who havent hit the note
             foreach(var playerStat in playerStats) {
                 if(!playerStat.hasHitLastNote) {
@@ -48,7 +61,7 @@ Debug.Log(playerStats.Count);
             currentNotes.Remove(note);
         }
 
-        static public void keyPressed(GameObject currentPlayer, KeyType keyType) {
+        public void keyPressed(GameObject currentPlayer, KeyType keyType) {
             
             foreach (var note in currentNotes)
             {
