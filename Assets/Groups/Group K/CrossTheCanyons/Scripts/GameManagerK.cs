@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManagerK : MonoBehaviour
 {
     public MinifigControllerModified minifigure1;
     public MinifigControllerModified minifigure2;

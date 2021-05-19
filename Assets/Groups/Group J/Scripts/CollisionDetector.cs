@@ -12,13 +12,13 @@ public class CollisionDetector : MonoBehaviour
     private float durationSeconds;
     [SerializeField]
     private float deltaTime;
-    private GameManager gameplayManager;
+    private GameManagerJ gameplayManager;
     public bool isTeam1 = false;
     public bool isTeam2 = false;
 
     void Awake()
     {
-        gameplayManager = GameObject.FindObjectOfType<GameManager>();
+        gameplayManager = GameObject.FindObjectOfType<GameManagerJ>();
     }
     public void Start()
     {

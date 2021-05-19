@@ -9,7 +9,7 @@ public class GameOverChecker : MonoBehaviour
     bool minifigure2_isDead = false;
     public GameObject minifigure1;
     public GameObject minifigure2;
-    public GameManager gameManager;
+    public GameManagerK gameManager;
     public LevelManager levelManager;
     void Update()
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManagerJ : MonoBehaviour
 {
     // Start is called before the first frame update
     public int deathCount1 = 0;

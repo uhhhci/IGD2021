@@ -31,7 +31,7 @@ public class CountdownTimer : MonoBehaviour
             {
                 timerIsRunning = false;
                 timeRemaining = 0.0f;
-                FindObjectOfType<GameManager>().ReleaseBridgeSegments();
+                FindObjectOfType<GameManagerK>().ReleaseBridgeSegments();
             }
             DisplayRemainingTime(timeRemaining);
         }
