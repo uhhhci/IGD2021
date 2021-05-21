@@ -30,7 +30,6 @@ namespace GroupP {
         private bool hasStarted;
 
         public Queue<NoteEntry> noteQueue;
-        public Queue<UnityEngine.GameObject> activated;
 
         public void setHasStarted() {
             hasStarted = true;
@@ -39,7 +38,6 @@ namespace GroupP {
         {
             tempo = beatsPerMinute;// / 60f;
             noteQueue = new Queue<NoteEntry>();
-            activated = new Queue<UnityEngine.GameObject>();
 
             lastBeat = 0;
             deltaBeatS = 1 / tempo;
@@ -52,7 +50,7 @@ namespace GroupP {
                 int n = UnityEngine.Random.Range(1, 3);
                 for(int j=0;j<n;++j) {
                     int index = UnityEngine.Random.Range(0, keys.Count);
-                    activated.Enqueue(spawnNote(i*tempo * 2 + 0.5f*tempo, keys[index]));
+                    spawnNote(i*tempo * 2 + 0.5f*tempo, keys[index]);
                     keys.RemoveAt(index);
                 }
             }
@@ -90,8 +88,6 @@ namespace GroupP {
             obj.transform.parent = gameObject.transform;
             obj.transform.localScale = notePrefab.transform.localScale;
             obj.transform.localPosition = new Vector3(position, 0f, 0f);
-            
-            activated.Enqueue(obj);
 
             return obj;
         }

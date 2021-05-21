@@ -32,19 +32,19 @@ namespace GroupP {
 
 
         private void  OnUpPress() {
-            KeyPressHandler.keyPressed(gameObject, KeyType.UP);
+            KeyPressHandler.instance.keyPressed(gameObject, KeyType.UP);
         }
 
         private void OnDownPress() {
-            KeyPressHandler.keyPressed(gameObject, KeyType.DOWN);
+            KeyPressHandler.instance.keyPressed(gameObject, KeyType.DOWN);
         }
 
         private void OnLeftPress() {
-            KeyPressHandler.keyPressed(gameObject, KeyType.LEFT);
+            KeyPressHandler.instance.keyPressed(gameObject, KeyType.LEFT);
         }
 
         private void OnRightPress()  {
-            KeyPressHandler.keyPressed(gameObject, KeyType.RIGHT);
+            KeyPressHandler.instance.keyPressed(gameObject, KeyType.RIGHT);
         }
 
 

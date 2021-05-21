@@ -6,8 +6,11 @@ using UnityEngine;
 namespace GroupP {
     public class GameManager : MonoBehaviour
     {
+        private static GameManager _instance;
 
-        static List<GameObject> players = new List<GameObject>();
+        public static GameManager instance { get { return _instance; }}
+
+        List<GameObject> players = new List<GameObject>();
 
         public AudioSource music;
 
@@ -28,9 +31,18 @@ namespace GroupP {
         //float accentpoint;
         // ---------------------------------------
 
+        void Awake() {
+            if(_instance != null && _instance != this) {
+                Destroy(this.gameObject);
+            } else {
+                _instance = this;    
+            }
+        }
+
         // Start is called before the first frame update
         void Start()
         {
+            _instance = this;
             // DANCE
             beatsPerMinute = noteSystem.beatsPerMinute;
             sekPerBeat = 60f / beatsPerMinute;
@@ -54,7 +66,7 @@ namespace GroupP {
         }
 
         //DANCE
-        public static void registerPlayer(GameObject player) {
+        public void registerPlayer(GameObject player) {
             players.Add(player);
         }
 

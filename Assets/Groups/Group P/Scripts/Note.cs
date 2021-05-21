@@ -60,18 +60,18 @@ namespace GroupP {
                 Debug.Log("OnTriggerEnter");
                 collisionObject = other;
                 
-                KeyPressHandler.registerNote(this);
+                KeyPressHandler.instance.registerNote(this);
                 collision = true;
 
-                //Debug.Log(transform.position.x);
-                //Debug.Log(collisionObject.transform.position.x);
+                Debug.Log(transform.position.x);
+                Debug.Log(collisionObject.transform.position.x);
             }
         }
 
         private void OnTriggerExit2D(Collider2D other) {
             if(other.tag == "activator") {
                 //Debug.Log("OnTriggerExit");
-                KeyPressHandler.deregisterNote(this);
+                KeyPressHandler.instance.deregisterNote(this);
                 
                 Destroy(gameObject, 0.2f);
             }
