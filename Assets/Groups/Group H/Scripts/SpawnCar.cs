@@ -35,7 +35,6 @@ public class SpawnCar : MonoBehaviour
             GameObject newCar = Instantiate(cars[carnumber],new Vector3(xPos,0,zPos),target);
             Destroy(newCar,3);  
             yield return new WaitForSeconds(waitingSeconds);
-            Debug.Log("Super! Auto erstellt!"+" "+xPos+" "+zPos+" "+rotation);
         }
     }
 }

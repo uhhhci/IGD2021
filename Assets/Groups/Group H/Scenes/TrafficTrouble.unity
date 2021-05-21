@@ -2015,6 +2015,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explodeAudioClip: {fileID: 8300000, guid: b9b607b06267c4394b07c19523c455f1, type: 3}
+  collider: {fileID: 815301987}
+  minifigCharacter: {fileID: 527372539}
 --- !u!136 &815301987
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5238,6 +5240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explodeAudioClip: {fileID: 8300000, guid: b9b607b06267c4394b07c19523c455f1, type: 3}
+  collider: {fileID: 1856573236}
+  minifigCharacter: {fileID: 1099402470}
 --- !u!54 &1856573238
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5287,6 +5291,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explodeAudioClip: {fileID: 8300000, guid: b9b607b06267c4394b07c19523c455f1, type: 3}
+  collider: {fileID: 1957912589}
+  minifigCharacter: {fileID: 838320408426023521}
 --- !u!54 &1957912591
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5393,6 +5399,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explodeAudioClip: {fileID: 8300000, guid: b9b607b06267c4394b07c19523c455f1, type: 3}
+  collider: {fileID: 2067737571}
+  minifigCharacter: {fileID: 845417620}
 --- !u!54 &2067737573
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6413,6 +6421,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8612489488774388799, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8612489488774388799, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 8612489488774388799, guid: ef277551de3652c4dab21591da2a6201,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 8670000007365667510, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
