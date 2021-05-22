@@ -14,7 +14,7 @@ public class PassivePlayerController : MonoBehaviour
     public AudioClip ShootAudioClip;
 
 
-    public GameObject WaveHazard;
+    public GameObject[] WaveHazards;
     public Vector3 WaveSpawnValues;
     public int HazardCount = 3;
     public float WaveRate = 5.0f;
@@ -120,9 +120,10 @@ public class PassivePlayerController : MonoBehaviour
     {
         for (int i = 0; i < HazardCount; i++)
         {
+            GameObject waveHazard = WaveHazards[Random.Range(0, WaveHazards.Length)];
             Vector3 spawnPosition = new Vector3(Random.Range(-WaveSpawnValues.x, WaveSpawnValues.x), WaveSpawnValues.y, WaveSpawnValues.z);
             Quaternion spawnRotation = Quaternion.identity;
-            Instantiate(WaveHazard, spawnPosition, spawnRotation);
+            Instantiate(waveHazard, spawnPosition, spawnRotation);
         }
     }
     private void OnWestRelease()

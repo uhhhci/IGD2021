@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 25
-  Tilt: 0
+  Tilt: 1
   Boundary:
     xMin: -35
     xMax: 35
@@ -268,10 +268,12 @@ MonoBehaviour:
   ShotSpawn: {fileID: 7592515312601394471}
   FireRate: 1
   ShootAudioClip: {fileID: 8300000, guid: 990463f92f00248b09c640c2fefed602, type: 3}
-  WaveHazard: {fileID: 4656878949886663458, guid: 9b9780eedcbab684e88813b608e59a77,
-    type: 3}
+  WaveHazards:
+  - {fileID: 4656878949886663458, guid: 9b9780eedcbab684e88813b608e59a77, type: 3}
+  - {fileID: 4877823420733065649, guid: 36cacbd90208b534485ada9ed8405929, type: 3}
+  - {fileID: 7107171120353065564, guid: d47aa9f74e901bb4a82fb000bc8d1012, type: 3}
   WaveSpawnValues: {x: 43, y: 0, z: 40}
-  HazardCount: 3
+  HazardCount: 5
   WaveRate: 5
 --- !u!1 &4292560904320621708
 GameObject:
