@@ -48,9 +48,9 @@ public class TurnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentState == TurnState.ROLLING_DIE && DieScript.isDone())
+        if (currentState == TurnState.ROLLING_DIE && DieScript.isDone()&& DieScript2.isDone())
         {
-            playerData[activePlayer].setActionPoints(DieScript.rollResult);
+            playerData[activePlayer].setActionPoints(DieScript.rollResult+DieScript2.rollResult);
             currentState =  TurnState.MOVING;
             
             playerData[activePlayer].setIdle(true);
@@ -184,6 +184,7 @@ public class TurnManager : MonoBehaviour
         currentState =  TurnState.ROLLING_DIE;
         playerData[activePlayer].setIdle(false);
         DieScript.rollDie();
+        DieScript2.rollDie();
     }
 
     private void endGame() {

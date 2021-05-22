@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DieScript : MonoBehaviour
+public class DieScript2 : MonoBehaviour
 {
 	static Rigidbody rb;
 	private Vector3 initialPosition;
@@ -51,13 +51,13 @@ public class DieScript : MonoBehaviour
 
 			if(counter == 20)
 			{
-				rb.AddForce (0,900,0);
+				rb.AddForce (0,1000,0);
 			}
 			
 			if(counter > 20 && counter < 100 )
 			{
 				rb.AddTorque (dirX, dirY, dirZ);
-				rb.AddForce (Random.Range (-10, 11),0,Random.Range (-10, 11));
+				rb.AddForce (Random.Range (-11, 10),0,Random.Range (-11, 10));
 			}
 			if (counter == 100)
 			{
@@ -65,7 +65,7 @@ public class DieScript : MonoBehaviour
 			}
 			if (counter > 120 && DieSideChecker.done && !done)
 			{
-				rollResult = DieSideChecker.currentSide;
+				rollResult = DieSideChecker.currentSide2;
 				done = true;
 			}
 
