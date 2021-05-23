@@ -23,6 +23,7 @@ public class GameManager_E : MonoBehaviour
     private void Start()
     {
         totalWinners = 0;
+
     }
 
     private void Update()

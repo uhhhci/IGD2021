@@ -48,7 +48,7 @@ public class PlayerStats : MonoBehaviour
                 position++;
             }
         }
-        Debug.Log("Position: " + position);
+        //Debug.Log("Position: " + position);
         textPosition.text = "Position: " + position + "/4";
         return position;
     }
