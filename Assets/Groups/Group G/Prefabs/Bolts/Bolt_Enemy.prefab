@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1426405224995932479}
   - component: {fileID: 1426405224995932477}
   - component: {fileID: 8853800989086929448}
+  - component: {fileID: -9048575715989600955}
   m_Layer: 0
   m_Name: Bolt_Enemy
   m_TagString: Enemy
@@ -91,7 +92,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Explosion: {fileID: 0}
-  PlayerExplosion: {fileID: 191186, guid: 43bd8aead64a7a34f8c39213da13889c, type: 3}
+  HitPoints: 0
+  HealthBar: {fileID: 0}
+--- !u!114 &-9048575715989600955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426405224995932473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0efc885b2163fa44bb0c56f7f7c2c6d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 10
 --- !u!1 &1426405225796097886
 GameObject:
   m_ObjectHideFlags: 0
