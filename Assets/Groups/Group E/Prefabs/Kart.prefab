@@ -5977,9 +5977,11 @@ GameObject:
   - component: {fileID: 7566994460132671681}
   - component: {fileID: 7566994460132671680}
   - component: {fileID: 7566994460132671683}
+  - component: {fileID: 5086430652124678788}
+  - component: {fileID: 4989659760169832586}
   m_Layer: 0
   m_Name: Kart
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6149,6 +6151,37 @@ MonoBehaviour:
   m_DefaultActionMap: Ingame
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 7566994461372603813}
+--- !u!65 &5086430652124678788
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7566994460132671682}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.2, y: 2.88, z: 3.5}
+  m_Center: {x: 0, y: 1.7, z: 0}
+--- !u!114 &4989659760169832586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7566994460132671682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d03ee56e2949f148aa21688d06a6361, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rounds: 0
+  textRounds: {fileID: 2689254263456266382}
+  textPosition: {fileID: 133337440374150691}
+  CurrentZone: 0
+  lastZone: {fileID: 0}
+  position: 0
 --- !u!1 &7566994460142245588
 GameObject:
   m_ObjectHideFlags: 0
@@ -10157,7 +10190,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7566994460675021780}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d03ee56e2949f148aa21688d06a6361, type: 3}
   m_Name: 
