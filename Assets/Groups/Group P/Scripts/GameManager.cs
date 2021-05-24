@@ -12,16 +12,13 @@ namespace GroupP {
 
         List<GameObject> players = new List<GameObject>();
 
-        public AudioSource music;
+        public List<GameObject> songs = new List<GameObject>();
 
         public bool startPlaying;
 
-        public NoteSystem noteSystem;     //<-- Tutorial: BeatScroller theBS (theBS === noteSystem)
+        public int songIndex = -1;
 
-        //GameObject player1 = GameObject.Find("Player Minifig WASD");
-        //GameObject player2 = GameObject.Find("Player Minifig ZGHJ");
-        //GameObject player3 = GameObject.Find("Player Minifig PLÖÄ");
-        //GameObject player4 = GameObject.Find("Player Minifig KeyboardNum");
+        public NoteSystem noteSystem;     //<-- Tutorial: BeatScroller theBS (theBS === noteSystem)
 
         // ----------------- DANCE---------------
         float beatsPerMinute;
@@ -37,6 +34,9 @@ namespace GroupP {
             } else {
                 _instance = this;    
             }
+            if(songIndex < 0) {
+                songIndex = UnityEngine.Random.Range(0, songs.Count);
+            }
         }
 
         // Start is called before the first frame update
@@ -44,7 +44,7 @@ namespace GroupP {
         {
             _instance = this;
             // DANCE
-            beatsPerMinute = noteSystem.beatsPerMinute;
+            beatsPerMinute = songs[songIndex].GetComponent<Song>().beatsPerMinute;
             sekPerBeat = 60f / beatsPerMinute;
             animOffset = 0.7f;
         }
@@ -57,12 +57,16 @@ namespace GroupP {
                     
                     startPlaying = true;
                     noteSystem.setHasStarted();
-                    music.Play();
+                    songs[songIndex].GetComponent<AudioSource>().Play();
                     //DANCE
                     InvokeRepeating("DanceEvent", (8 + animOffset) * sekPerBeat, 8 * sekPerBeat);
                     InvokeRepeating("BeatEvent", animOffset * sekPerBeat, sekPerBeat);
                 }
             }
+        }
+
+        public GameObject getSong() {
+            return songs[songIndex];
         }
 
         //DANCE
