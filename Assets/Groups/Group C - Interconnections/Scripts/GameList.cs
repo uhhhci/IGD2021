@@ -8,7 +8,8 @@ public static class GameList
     public static List<MiniGame> FREE_FOR_ALL_LIST = new List<MiniGame>{
         new TestingGame(),
         new TestingGame(),
-        new TestingGame()
+        new TestingGame(),
+        new KartRacingGame()
     };
 
     public static List<MiniGame> SINGLE_VS_TEAM_LIST = new List<MiniGame>{
