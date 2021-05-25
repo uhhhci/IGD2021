@@ -21,7 +21,6 @@ class PowerUpSpeed : PowerUp, IPlayerEvents
 
     void IPlayerEvents.OnPlayerHurt(int newHealth)
     {
-        Debug.Log("On Player HUUURT");
         if (State != PowerUpState.IsCollected)
         {
             return;

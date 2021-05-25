@@ -12,12 +12,12 @@ public class PowerUp : MonoBehaviour
 
     protected Player_G Player;
     protected PlayerController PlayerController;
-    private MeshRenderer MeshRenderer;
+    private ParticleSystem ParticleSystem;
     private Collider Collider;
 
     protected virtual void Awake()
     {
-        MeshRenderer = GetComponent<MeshRenderer>();
+        ParticleSystem = GetComponent<ParticleSystem>();
         Collider = GetComponent<Collider>();
 
     }
@@ -70,9 +70,9 @@ public class PowerUp : MonoBehaviour
         {
             ExecuteEvents.Execute<IPowerUpEvents>(go, null, (x, y) => x.OnPowerUpCollected(this, Player));
         }
-      
 
-        MeshRenderer.enabled = false;
+
+        
         Collider.enabled = false;
     }
 
@@ -117,6 +117,7 @@ public class PowerUp : MonoBehaviour
 
     protected virtual void DestroySelfAfterDelay()
     {
+        ParticleSystem.Stop();
         Destroy(gameObject, 10f);
     }
     

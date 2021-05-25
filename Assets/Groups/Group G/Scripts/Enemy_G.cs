@@ -8,6 +8,10 @@ public class Enemy_G : MonoBehaviour
     public int HitPoints;
     public HealthBar HealthBar;
 
+    public GameObject[] DropPowerUps;
+    [Range(0.0f, 1.0f)]
+    public float DropChance;
+
     private GameController GameController;
     private HealthSystem HealthSystem;
     void Start()
@@ -47,14 +51,30 @@ public class Enemy_G : MonoBehaviour
             HealthSystem.Damage(other.GetComponent<Attack>().Damage);
             if(other.tag == "Bullet")
             {
+                if (other.GetComponent<CollisionExplosion>() != null)
+                {
+                    Instantiate(other.GetComponent<CollisionExplosion>().Explosion, other.transform.position, other.transform.rotation);
+                }
+
                 Destroy(other.gameObject);
             }
         }
-
+        //on death
         if(Explosion != null && HealthSystem.GetHealth() == 0)
         {
             Instantiate(Explosion, transform.position, transform.rotation);
+            if (Random.Range(0f, 1f) <= DropChance)
+            {
+                DropPowerUp();
+            }
             Destroy(gameObject);
         }
+    }
+
+    private void DropPowerUp()
+    {
+        GameObject powerUp = DropPowerUps[Random.Range(0, DropPowerUps.Length)];
+        GameObject go = Instantiate(powerUp, transform.position, transform.rotation);
+        EventSystemListeners.main.AddListener(go);
     }
 }

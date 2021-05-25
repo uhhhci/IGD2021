@@ -35,7 +35,6 @@ public class GameController : MonoBehaviour, IPowerUpEvents
         {
             EndGame();
         }
-        Debug.Log(ActivePowerUps.Count);
     }
 
     public void BeginGame()

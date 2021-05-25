@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 Movement;
     private float NextFire;
     private float SpeedOriginal;
-
+    
     AudioSource AudioSource;
 
     private void Start()

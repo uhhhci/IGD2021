@@ -46,10 +46,9 @@ public class EventSystemListeners : MonoBehaviour
     public void AddListener(GameObject go)
     {
         // Don't add if already there
-        if (!listeners.Contains(go))
-        {
-            listeners.Add(go);
-        }
+
+        listeners.Add(go);
+        
     }
 
     // Update is called once per frame
