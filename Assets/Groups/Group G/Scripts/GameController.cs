@@ -2,20 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class GameController : MonoBehaviour
+public class GameController : MonoBehaviour, IPowerUpEvents
 {
+    public static GameController main;
+
     public Text EndGameText;
     public List<GameObject> Players = new List<GameObject>();
 
     private bool GamePlaying;
-     void Awake()
+    private List<PowerUp> ActivePowerUps;
+    void Awake()
     {
         if (Players.Count == 0)
         {
             Debug.Log("No Players linked!");
             return;
         }
+        ActivePowerUps = new List<PowerUp>();
     }
 
     void Start()
@@ -30,7 +35,7 @@ public class GameController : MonoBehaviour
         {
             EndGame();
         }
-        
+        Debug.Log(ActivePowerUps.Count);
     }
 
     public void BeginGame()
@@ -51,5 +56,20 @@ public class GameController : MonoBehaviour
     public void RemovePlayer(GameObject p)
     {
         Players.RemoveAt(Players.IndexOf(p));
+    }
+
+    void IPowerUpEvents.OnPowerUpCollected(PowerUp powerUp, Player_G player)
+    {
+        // We dont bother storing those that expire immediately
+        if (!powerUp.ExpiresImmediately)
+        {
+            ActivePowerUps.Add(powerUp);
+            //UpdateActivePowerUpUi();
+        }
+    }
+    void IPowerUpEvents.OnPowerUpExpired(PowerUp powerUp, Player_G player)
+    {
+        ActivePowerUps.Remove(powerUp);
+        //UpdateActivePowerUpUi();
     }
 }

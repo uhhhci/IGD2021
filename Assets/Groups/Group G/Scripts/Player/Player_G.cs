@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Player_G : MonoBehaviour
 {
@@ -26,6 +27,10 @@ public class Player_G : MonoBehaviour
         HealthBar.Setup(HealthSystem);
 
     }
+    public HealthSystem GetHealthSystem()
+    {
+        return this.HealthSystem;
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -36,6 +41,8 @@ public class Player_G : MonoBehaviour
             if(other.GetComponent<Attack>() != null)
             {
                 HealthSystem.Damage(other.GetComponent<Attack>().Damage);
+                SendPlayerHurtMessages();
+                
             }
             
         }
@@ -54,5 +61,15 @@ public class Player_G : MonoBehaviour
             }
         }
     }
-    
+
+    private void SendPlayerHurtMessages()
+    {
+        
+        // Send message to any listeners
+        foreach (GameObject go in EventSystemListeners.main.listeners)
+        {
+            ExecuteEvents.Execute<IPlayerEvents>(go, null, (x, y) => x.OnPlayerHurt(HealthSystem.GetHealth()));
+        }
+    }
+
 }

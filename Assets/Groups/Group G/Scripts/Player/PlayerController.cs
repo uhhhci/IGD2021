@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 Movement;
     private float NextFire;
+    private float SpeedOriginal;
 
     AudioSource AudioSource;
 
@@ -53,6 +54,17 @@ public class PlayerController : MonoBehaviour
         );
 
         GetComponent<Rigidbody>().rotation = Quaternion.Euler(0.0f, 0.0f, GetComponent<Rigidbody>().velocity.x * -Tilt);
+    }
+
+    public void SetSpeedBoostOn(float speedMultiplier)
+    {
+        SpeedOriginal = Speed;
+        Speed *= speedMultiplier;
+    }
+
+    public void SetSpeedBoostOff()
+    {
+        Speed = SpeedOriginal;
     }
 
     private void OnMoveDpad(InputValue value)
