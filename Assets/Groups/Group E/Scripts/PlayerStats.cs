@@ -13,10 +13,14 @@ public class PlayerStats : MonoBehaviour
     public int position;
     private static int WAYPOINT_VALUE = 100;
     private static int LAP_VALUE = 10000;
+    public PowerUp power;
+    public bool hasPowerup;
+
     // Start is called before the first frame update
     void Start()
     {
         rounds = 1;
+        hasPowerup = false;
     }
 
     public void CountRound()

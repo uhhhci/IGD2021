@@ -31,8 +31,9 @@ public class GameManager_E : MonoBehaviour
         foreach (Transform car in carTransformList)
         {
             PlayerStats thePlayer = car.GetComponent<PlayerStats>();
-            //Debug.Log(thePlayer.GetKartPosition(carTransformList));
             thePlayer.GetKartPosition(carTransformList);
+            
+            // some error
             //carPositionList[thePlayer.GetKartPosition(carTransformList)] = car;
         }
     }
