@@ -193,7 +193,7 @@ public class TurnManager : MonoBehaviour
             EndScreen.playerStats[i] = new EndScreen.PlayerStats(i, playerData[i].goldenBricks(), playerData[i].creditAmount());
         }
 
-        SceneManager.LoadScene("Groups/Group D/Scenes/EndScreen");
+        SceneManager.LoadScene("Groups/Group D - Boardgame/Scenes/EndScreen");
     }
 
     private void startNewTurn() {

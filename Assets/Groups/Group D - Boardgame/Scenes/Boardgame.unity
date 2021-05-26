@@ -27883,6 +27883,11 @@ PrefabInstance:
       propertyPath: up
       value: 
       objectReference: {fileID: 2118391827}
+    - target: {fileID: 4175672539614300484, guid: 6f61240b00f89e84db00c02f312eab6d,
+        type: 3}
+      propertyPath: down
+      value: 
+      objectReference: {fileID: 1984750083}
     - target: {fileID: 7674975549393280167, guid: 6f61240b00f89e84db00c02f312eab6d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67520,6 +67525,7 @@ GameObject:
   - component: {fileID: 4872158841588421760}
   - component: {fileID: 4872158841587715090}
   - component: {fileID: 4872158841586675216}
+  - component: {fileID: 4872158841588715045}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -67527,6 +67533,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &4872158841588715045
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872158841588715044}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 30, y: 0.43344823, z: 30.000004}
+  m_Center: {x: -14.995285, y: 0.19393556, z: 15.126102}
 --- !u!65 &4995683429320410845
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68239,6 +68258,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1656152134}
     m_Modifications:
+    - target: {fileID: 347005302070840085, guid: 4de904f844382b147a666ea15dabb34b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1706558906003868456, guid: 4de904f844382b147a666ea15dabb34b,
         type: 3}
       propertyPath: m_Name
