@@ -1,32 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HP : MonoBehaviour
 {
     TextMesh hpTextMesh;
     public string playerName;
+    public Image healthStatus;
 
     // Start is called before the first frame update
     void Start()
     {
         hpTextMesh = gameObject.GetComponent<TextMesh>();
+        healthStatus = transform.parent.Find("HpBar/Foreground").GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        List<PlayerProperties> players = PhaseHandler.players;
-        List<PlayerProperties> matchingPlayers = players.FindAll(player => player.name == playerName);
-        if(matchingPlayers.Count == 1)
-        {
-            PlayerProperties player = matchingPlayers[0];
-            hpTextMesh.text = $"{player.currentHp}/{player.maxHp}\n";
-        }
-
-        else
-        {
-            print($"no matching players found for player name {playerName}. can not show hp.");
-        }
+        Transform playerTransform = transform.parent.transform.parent.transform.parent;
+        PlayerProperties player = playerTransform.Find("LegoPaperScissors").GetComponent<PlayerProperties>();
+        hpTextMesh.text = $"{player.currentHp}/{player.maxHp}\n";
+        healthStatus.fillAmount = player.currentHp / player.maxHp;
     }
 }
