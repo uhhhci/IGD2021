@@ -26,6 +26,8 @@ public class Enemy_G : MonoBehaviour
             Debug.Log("Cannot find 'GameController' script");
         }
 
+        EventSystemListeners.main.AddListener(gameObject);
+
         HealthSystem = new HealthSystem(HitPoints);
         if(HealthBar != null)
         {
@@ -67,6 +69,7 @@ public class Enemy_G : MonoBehaviour
             {
                 DropPowerUp();
             }
+            EventSystemListeners.main.RemoveListener(gameObject);
             Destroy(gameObject);
         }
     }

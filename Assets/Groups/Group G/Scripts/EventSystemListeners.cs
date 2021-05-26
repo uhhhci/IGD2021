@@ -23,7 +23,7 @@ public class EventSystemListeners : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("EventSystemListeners re-creation attempted, destroying the new one");
+            //Debug.LogWarning("EventSystemListeners re-creation attempted, destroying the new one");
             //Destroy(gameObject);
         }
     }
@@ -49,6 +49,14 @@ public class EventSystemListeners : MonoBehaviour
 
         listeners.Add(go);
         
+    }
+
+    public void RemoveListener(GameObject go)
+    {
+        // Don't add if already there
+
+        listeners.Remove(go);
+
     }
 
     // Update is called once per frame
