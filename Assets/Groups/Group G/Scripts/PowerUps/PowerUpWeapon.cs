@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class PowerUpWeapon : PowerUp
 {
-    public GameObject[] WeaponHierarchy;
-
     protected override void PowerUpPayload()
     {
         base.PowerUpPayload();
 
-        
+        PlayerController pc = PlayerController;
+        pc.UpdateWeaponByIndex(pc.GetCurrentWeaponIndex() + 1);
     }
 }

@@ -14,15 +14,12 @@ public class PlayerController : MonoBehaviour
     public float Speed;
     public float Tilt;
     public Boundary Boundary;
-    public GameObject Shot;
-    public Transform ShotSpawn;
-    public float FireRate;
-    public AudioClip ShootAudioClip;
+    public WeaponSystem[] WeaponSystems;
 
     private Vector2 Movement;
-    private float NextFire;
     private float SpeedOriginal;
-    
+    private int CurrentWeaponIndex = 0;
+
     AudioSource AudioSource;
 
     private void Start()
@@ -66,6 +63,16 @@ public class PlayerController : MonoBehaviour
     {
         Speed = SpeedOriginal;
     }
+    
+    public void UpdateWeaponByIndex(int index)
+    {
+        CurrentWeaponIndex = Mathf.Clamp(index, 0, WeaponSystems.Length - 1);
+    }
+    
+    public int GetCurrentWeaponIndex()
+    {
+        return CurrentWeaponIndex;
+    }
 
     private void OnMoveDpad(InputValue value)
     {
@@ -102,15 +109,7 @@ public class PlayerController : MonoBehaviour
     private void OnSouthPress()
     {
         print("OnSouthPress");
-        if(Time.time > NextFire)
-        {
-            NextFire = Time.time + FireRate;
-            Instantiate(Shot, ShotSpawn.position, ShotSpawn.rotation);
-            if (ShootAudioClip)
-            {
-                AudioSource.PlayOneShot(ShootAudioClip);
-            }
-        }
+        WeaponSystems[CurrentWeaponIndex].Fire();
     }
     private void OnSouthRelease()
     {

@@ -80,7 +80,7 @@ public class PowerUp : MonoBehaviour
     {
         if (PickUpEffect != null)
         {
-            Instantiate(PickUpEffect, transform.position, transform.rotation, transform);
+            Instantiate(PickUpEffect, transform.position, transform.rotation);
         }
 
         if (SoundEffect != null && Player.gameObject.GetComponent<AudioSource>() != null)
