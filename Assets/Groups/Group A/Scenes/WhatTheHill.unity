@@ -2106,6 +2106,52 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2144395282}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1201064280
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1201064282}
+  - component: {fileID: 1201064281}
+  m_Layer: 0
+  m_Name: PointsSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1201064281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201064280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 965309ff7c550614ebd7fc61bdeec434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToSpawnInSeconds: 2
+  creditPrefab: {fileID: 1454492358339617666, guid: c8121758cbd682a4f8bb99e201036fe1,
+    type: 3}
+--- !u!4 &1201064282
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201064280}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1201350447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3021,6 +3067,10 @@ PrefabInstance:
     - target: {fileID: 178616, guid: b6f3dfbb5c58a34489071b09c45b8f94, type: 3}
       propertyPath: m_Name
       value: SM_Bld_Castle_Tower_Base_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 178616, guid: b6f3dfbb5c58a34489071b09c45b8f94, type: 3}
+      propertyPath: m_TagString
+      value: MiddlePlattform
       objectReference: {fileID: 0}
     - target: {fileID: 425136, guid: b6f3dfbb5c58a34489071b09c45b8f94, type: 3}
       propertyPath: m_LocalPosition.x
