@@ -20,7 +20,7 @@ public class HP : MonoBehaviour
     {
         Transform playerTransform = transform.parent.transform.parent.transform.parent;
         PlayerProperties player = playerTransform.Find("LegoPaperScissors").GetComponent<PlayerProperties>();
-        hpTextMesh.text = $"{player.currentHp}/{player.maxHp}\n";
+        hpTextMesh.text = $"{player.playerName}\n{player.currentHp}/{player.maxHp}\n";
         healthStatus.fillAmount = player.currentHp / player.maxHp;
     }
 }

@@ -57,22 +57,32 @@ public class ActionPhase : MonoBehaviour
     }
 
     // searches for the player of the other team by chosing the other team and the target row
-    PlayerProperties GetTargetPlayer(PhaseHandler.Team ownTeam, PhaseHandler.RowPosition targetRow)
+    PlayerProperties GetTargetPlayer()
     {
-
         // opponent team is the team that is not the own team
-        PhaseHandler.Team opponentTeam = ownTeam == PhaseHandler.Team.Left ? PhaseHandler.Team.Right : PhaseHandler.Team.Left;
+        PhaseHandler.Team opponentTeam = player.team == PhaseHandler.Team.Left ? PhaseHandler.Team.Right : PhaseHandler.Team.Left;
         List<PlayerProperties> matchingPlayers = players.FindAll(player => player.team == opponentTeam
-                                                && player.rowPosition == targetRow);
+                                                && player.rowPosition == player.targetRow);
 
-        if (matchingPlayers.Count > 0)
+        print($"Player { player.playerName} is targeting player from team { opponentTeam} on row { player.targetRow}.");
+        if (matchingPlayers.Count == 1)
         {
+            print($"Matching target player is: {matchingPlayers[0].playerName}");
             return matchingPlayers[0];
         }
         
         else
         {
-            // no player found
+            // more or less than one player found
+            print($"found {matchingPlayers.Count} matching players, but there should be only exactly 1");
+            if(matchingPlayers.Count > 1)
+            {
+                print("found following players:");
+                foreach (PlayerProperties player in matchingPlayers)
+                {
+                    print(player.playerName);
+                }
+            }
             throw new InvalidOperationException();
         }
     }
@@ -96,16 +106,22 @@ public class ActionPhase : MonoBehaviour
         playerMinifigController.MoveTo(targetPosition, onComplete: () => { MeleeAttack(targetPlayer); });
     }
 
-    bool CanPlayerAttack(PlayerProperties activePlayer, PlayerProperties targetPlayer)
+    bool CanPlayerAttack(PlayerProperties targetPlayer)
     {
-        bool bothOnFrontRow = activePlayer.CurrentRowPosition == PhaseHandler.RowPosition.Front && targetPlayer.CurrentRowPosition == PhaseHandler.RowPosition.Front;
-        bool activePlayerIsBackRow = activePlayer.CurrentRowPosition == PhaseHandler.RowPosition.Back;
-        bool targetIsAlive = targetPlayer.currentHp > 0;
-        bool isPlayerAlive = activePlayer.currentHp > 0;
+        bool areBothOnFrontRow = player.CurrentRowPosition == PhaseHandler.RowPosition.Front && targetPlayer.CurrentRowPosition == PhaseHandler.RowPosition.Front;
+        bool isPlayerOnBackRow = player.CurrentRowPosition == PhaseHandler.RowPosition.Back;
+        bool isTargetAlive = targetPlayer.currentHp > 0;
+        bool isPlayerAlive = player.currentHp > 0;
 
-        if (targetIsAlive && isPlayerAlive)
+        //print($"is target alive: {isTargetAlive}");
+        //print($"is player alive: {isPlayerAlive}");
+        //print($"both on front row (would be ok): {areBothOnFrontRow}");
+        //print($"is player on back row (would be ok): {isPlayerOnBackRow}");
+
+        if (isTargetAlive && isPlayerAlive)
         {
-            return bothOnFrontRow || activePlayerIsBackRow;
+            // true if one of them evaluates to true
+            return areBothOnFrontRow || isPlayerOnBackRow;
         }
 
         else
@@ -132,7 +148,7 @@ public class ActionPhase : MonoBehaviour
         // lower hp of target, but prevent hp from falling below 0
         float newHp = targetPlayer.currentHp - damage;
         targetPlayer.currentHp = newHp > 0 ? newHp : 0;
-        print($"damage to target ({targetPlayer.name}): {damage}. New HP: {targetPlayer.currentHp}");
+        print($"damage to target ({targetPlayer.playerName}): {damage}. New HP: {targetPlayer.currentHp}");
 
         if (targetPlayer.currentHp <= 0)
         {
@@ -172,7 +188,7 @@ public class ActionPhase : MonoBehaviour
         //rotationVector.x = -90;
         //player.transform.rotation = Quaternion.Euler(rotationVector);
 
-        print($"player ({player.name}) is dead now");
+        print($"player ({player.playerName}) is dead now");
     }
 
     void RemoveLeftHandWeapon()
@@ -235,8 +251,11 @@ public class ActionPhase : MonoBehaviour
         // following code is adapted from https://gist.github.com/marcelschmidt1337/e46d166b639c06af3ba896fcb8412be4
         float throwAngle = 45.0f;
         float gravity = 9.8f;
-        // TODO should land on the ground, not on the middle of the target character
-        Vector3 target = new Vector3(targetPlayer.transform.position.x, targetPlayer.transform.position.y, targetPlayer.transform.position.z);
+
+        //Vector3 target = new Vector3(targetPlayer.transform.position.x, targetPlayer.transform.position.y, targetPlayer.transform.position.z);
+        Vector3 target = targetPlayer.transform.parent.transform.position;
+        // Vector3 target = new Vector3(targetPlayer.transform.position.x, targetPlayer.transform.position.y, targetPlayer.transform.position.z);
+
         print($"target: {target}, player position: {targetPlayer.transform.position}");
         float targetDistance = Vector3.Distance(throwableWeapon.transform.position, target);
 
@@ -273,10 +292,10 @@ public class ActionPhase : MonoBehaviour
 
     public void DoAction()
     {
-        PlayerProperties targetPlayer = GetTargetPlayer(player.team, player.targetRow);
+        PlayerProperties targetPlayer = GetTargetPlayer();
 
         // checks for restrictions before attacking
-        if (CanPlayerAttack(player, targetPlayer))
+        if (CanPlayerAttack(targetPlayer))
         {
             // TODO check if player is front or back row to choose whether player should move or throw weapon
             // -> front should move and swing weapon, back should throw weapon
@@ -295,7 +314,7 @@ public class ActionPhase : MonoBehaviour
         }
         else
         {
-            print($"target ({targetPlayer.name}) can currently not be attacked. Switching to next player now.");
+            print($"target ({targetPlayer.playerName}) can currently not be attacked. Switching to next player now.");
             // somehow this has to be done via callback, otherwise the next phase won't be triggered
             // PhaseHandler.SetNextActivePlayer();
             // StartCoroutine(SetNextActivePlayer(onComplete: () => { PhaseHandler.SetNextActivePlayer(); }));
@@ -323,10 +342,7 @@ public class ActionPhase : MonoBehaviour
     {
         weaponTypes = JsonUtility.FromJson<WeaponTypes>(weaponTypesJsonFile.text);
         player = gameObject.GetComponent<PlayerProperties>();
-        print($"ActionPhase test: {gameObject.transform.parent.name}");
         playerMinifigController = gameObject.transform.parent.GetComponent<MinifigControllerGroupW>();
-        print($"ActionPhase player: {player}");
-        print($"ActionPhase playerMinifigcontroller: {playerMinifigController}");
     }
 
     // Update is called once per frame

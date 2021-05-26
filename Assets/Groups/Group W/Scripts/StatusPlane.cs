@@ -31,7 +31,6 @@ public class StatusPlane : MonoBehaviour
             roundCount = PhaseHandler.roundCount;
             timeLeft = PhaseHandler.timeLeft;
             title = phase == PhaseHandler.Phase.Action ? "Action Phase" : "Decision Phase";
-            
 
             if (phase == PhaseHandler.Phase.Action)
             {

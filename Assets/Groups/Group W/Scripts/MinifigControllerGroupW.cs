@@ -6,20 +6,20 @@ using UnityEngine.InputSystem;
 
 public class MinifigControllerGroupW : MinifigController
 {
-    // TODO outsource some parts to DecisionPhase.cs?
     // this is currently only experimental .. 
-
-    public PhaseHandler.Phase phase;
+    PhaseHandler.Phase phase;
+    DecisionPhase decisionPhase;
 
     private void OnMoveDpad(InputValue value)
     {
-        print("prevented moving through overriding");
+        //print("prevented moving through overriding");
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
         if (input.Equals(Vector2.up))
         {
             print("selected Paper");
-            PlayActionPhaseAnimation(Decision.Weapon);
+            decisionPhase.PlayActionPhaseAnimation(DecisionPhase.Decision.Weapon);
+            decisionPhase.ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Paper);
         }
     }
 
@@ -27,73 +27,58 @@ public class MinifigControllerGroupW : MinifigController
     private void OnEastPress()
     {
         print("selected Lego");
-        PlayActionPhaseAnimation(Decision.Weapon);
+        decisionPhase.PlayActionPhaseAnimation(DecisionPhase.Decision.Weapon);
+        decisionPhase.ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Lego);
     }
 
 
     private void OnSouthPress()
     {
-        print("prevented jumping through overriding");
+        //print("prevented jumping through overriding");
         print("selected Scissors");
-        PlayActionPhaseAnimation(Decision.Weapon);
+        decisionPhase.PlayActionPhaseAnimation(DecisionPhase.Decision.Weapon);
+        decisionPhase.ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Scissors);
     }
 
     // e.g. R
     private void OnNorthPress()
     {
         print("selected FrontRow");
-        PlayActionPhaseAnimation(Decision.Row);
+        decisionPhase.PlayActionPhaseAnimation(DecisionPhase.Decision.Row);
+        decisionPhase.ChangeTargetRow(PhaseHandler.RowPosition.Front);
     }
 
     // e.g. F
     private void OnWestPress()
     {
-        print("Selected BackRow");
-        PlayActionPhaseAnimation(Decision.Row);
+        print("selected BackRow");
+        decisionPhase.PlayActionPhaseAnimation(DecisionPhase.Decision.Row);
+        decisionPhase.ChangeTargetRow(PhaseHandler.RowPosition.Back);
     }
 
 
-    #region Lego-Paper-Scissors specifc methods
-    // plays an annimation according to whether its action/decision phase and which kind of decision was made
-    private void PlayActionPhaseAnimation(Decision decision)
+    // just to prevent the prints from MinifigController
+    private void OnSouthRelease()
     {
-        print($"animation decision: {decision}");
-        if (PhaseHandler.phase == PhaseHandler.Phase.Decision)
-        {
-            if (decision == Decision.Weapon)
-            {
-                print("Playing Anmation for Weapon ");
-                PlaySpecialAnimation(SpecialAnimation.Dance);
-            }
-            else if (decision == Decision.Row)
-            {
-                print("Playing Anmation for Row");
-                PlaySpecialAnimation(SpecialAnimation.Wave);
-            }
-            else
-            {
-                print($"Invalid Decision: {decision}");
-                PlaySpecialAnimation(SpecialAnimation.IdleImpatient);
-            }
-        }
-        else
-        {
-            print("Decision is currently not allowed");
-            PlaySpecialAnimation(SpecialAnimation.IdleImpatient);
-        }
-    }
-    #endregion
-
-    // valid decision types
-    public enum Decision
-    {
-        Weapon,
-        Row
     }
 
-    void update()
+    private void OnWestRelease()
     {
+    }
+
+    private void OnNorthRelease()
+    {
+    }
+
+    private void OnEastRelease()
+    {
+    }
+
+    new void Update()
+    {
+        base.Update();
         phase = PhaseHandler.phase;
+        decisionPhase = GameObject.Find("LegoPaperScissors").GetComponent<DecisionPhase>();
     }
 }
 

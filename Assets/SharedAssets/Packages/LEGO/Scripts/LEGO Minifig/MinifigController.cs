@@ -219,7 +219,7 @@ public class MinifigController : MonoBehaviour
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
     }
 
-    void Update()
+    protected void Update()
     {
         if (exploded)
         {

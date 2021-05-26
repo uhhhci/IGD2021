@@ -62,6 +62,7 @@ public class PhaseHandler : MonoBehaviour
             arePlayerActionsOver.Add(false);
             havePlayersEquippedWeapons.Add(false);
         }
+        print($"initialized game with {players.Count} players");
         // set the first player active
         activePlayerIndex = 0;
         equippingPlayerIndex = 0;
