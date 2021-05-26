@@ -12,8 +12,6 @@ public class InteractionMenu : MonoBehaviour
     public float bobbleSpeed = 5f;
     public float boobleAmplitude = 0.5f;
 
-    public int goldenBrickPrice = 5;
-
     public Vector3 spriteOffset = new Vector3(1.2f, 0.0f, 0.0f); 
 
     private List<PlayerAction> possibleActions = new List<PlayerAction>();
@@ -30,7 +28,9 @@ public class InteractionMenu : MonoBehaviour
         renderActiveSprites();
 
         if (takeAction) {
-            executeAction(possibleActions[highlighted]);
+            if (canAfford(possibleActions[highlighted])) {
+                executeAction(possibleActions[highlighted]);
+            }
             takeAction = false;
         }
     }
@@ -55,6 +55,23 @@ public class InteractionMenu : MonoBehaviour
         takeAction = activePlayer.isIdle();
     }
 
+    /// returns whether an action is currently selected
+    public bool anActionIsSelected() {
+        return possibleActions.Count > 0;
+    }
+
+    /// returns the AP costs of  the currently selected action
+    /// must not be called when actionIsSelected() == false
+    public int getSelectedActionAPCost() {
+        return possibleActions[highlighted].requiredAP;
+    }
+
+    /// returns the credit costs of  the currently selected action
+    /// must not be called when actionIsSelected() == false
+    public int getSelectedActionCreditCost() {
+        return possibleActions[highlighted].requiredCredits;
+    }
+
     private void updatePossibleActions() {
         possibleActions.Clear();
         if (activePlayer && activePlayer.isIdle()) {
@@ -71,16 +88,19 @@ public class InteractionMenu : MonoBehaviour
         }
     }
 
-    private bool isActive(int i) {
-        if (actions[i].requiredAP > activePlayer.actionPointsLeft()) {
-            return false;
-        }
+    /// returns whether the player can afford the given action (i.e. whether they have enough AP and credits)
+    private bool canAfford(PlayerAction action) {
+        return action.requiredAP <= activePlayer.actionPointsLeft() && action.requiredCredits <= activePlayer.creditAmount();
+    }
 
+    /// returns whether the given action is "in principle" currently available for the player,
+    /// i.e. whether the action could be used in this state independently of the action's costs (AP + credits)
+    private bool isActive(int i) {
         switch (actions[i].type) {
             case PlayerAction.Type.END_TURN:
                 return true;
             case PlayerAction.Type.BUY_GOLDEN_BRICK:
-                return activePlayer.currentTile().hasGoldenBrick() && activePlayer.creditAmount() >= goldenBrickPrice;
+                return activePlayer.currentTile().hasGoldenBrick();
         }
         return false;
     }
@@ -90,6 +110,9 @@ public class InteractionMenu : MonoBehaviour
 
         for (int i = 0; i < actions.Length; i++) {
             if (isActive(i)) {
+                // display/hide the "Unusable" overlay sprite when the player can (not) afford the action
+                actions[i].setEnabled(canAfford(actions[i]));
+
                 // render the sprite
                 Vector3 spritePos = nextPos;
 
@@ -117,12 +140,12 @@ public class InteractionMenu : MonoBehaviour
                 activePlayer.setActionPoints(0);
                 break;
             case PlayerAction.Type.BUY_GOLDEN_BRICK:
-                activePlayer.addCreditAmount(-goldenBrickPrice);
                 activePlayer.addGoldenBrick();
                 brickManager.relocate();
                 break;
         }
 
         activePlayer.addActionPoints(-action.requiredAP);
+        activePlayer.addCreditAmount(-action.requiredCredits);
     }
 }

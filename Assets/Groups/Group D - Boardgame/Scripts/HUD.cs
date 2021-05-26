@@ -14,7 +14,19 @@ public class HUD : MonoBehaviour
     public List<TurnAnimationBrick> bricks;
     
     public void updateActionPoints(int actionPoints) {
-        actionPointDisplay.text = "AP: " + actionPoints.ToString();
+        actionPointDisplay.text = getAPText(actionPoints);
+    }
+
+    public void updateActionPoints(int actionPoints, int costs) {
+        actionPointDisplay.text = getAPText(actionPoints) + getCostsSuffix(costs);
+    }
+
+    private string getAPText(int amount) {
+        return "AP: " + amount.ToString();
+    }
+
+    private string getCostsSuffix(int amount) {
+        return "(-" + amount.ToString() + ")";
     }
 
     public void updateRound(int round) {
@@ -22,7 +34,15 @@ public class HUD : MonoBehaviour
     }
 
     public void updateCredits(int player, int amount) {
-        creditDisplays[player].text = ": " + amount.ToString();
+        creditDisplays[player].text = getCreditText(amount);
+    }
+
+    public void updateCredits(int player, int amount, int costs) {
+        creditDisplays[player].text = getCreditText(amount) + getCostsSuffix(costs);
+    }
+
+    private string getCreditText(int amount) {
+        return ": " + amount.ToString();
     }
 
     public void updateBricks(int player, int amount) {

@@ -69,6 +69,7 @@ public class TurnManager : MonoBehaviour
                     if (animationClock > 1.0 && animationStep == 3) {  // 1 second
                         hud.setCreditBobble(activePlayer, false);
                         currentState = TurnState.TURN_ENDED;
+                        playerData[activePlayer].setIdle(true);
                         animationStep++;
                     } 
                     else if (animationClock > 0.6 && animationStep == 2) {
@@ -91,12 +92,14 @@ public class TurnManager : MonoBehaviour
                     if (animationClock > 1.0 && animationStep == 3) {  // 1 second
                         hud.setCreditBobble(activePlayer, false);
                         currentState = TurnState.TURN_ENDED;
+                        playerData[activePlayer].setIdle(true);
                         animationStep++;
                     } 
                     else if (animationClock > 0.6 && animationStep == 2) {
                         if (playerData[activePlayer].creditAmount() <= 0) {
                             // skip the remaining animation
                             currentState = TurnState.TURN_ENDED;
+                            playerData[activePlayer].setIdle(true);
                         }
                         else {
                             hud.setCreditBobble(activePlayer, true);
@@ -112,6 +115,7 @@ public class TurnManager : MonoBehaviour
                         if (playerData[activePlayer].creditAmount() <= 0) {
                             // skip the animation
                             currentState = TurnState.TURN_ENDED;
+                            playerData[activePlayer].setIdle(true);
                             break;
                         }
                         else {
@@ -136,6 +140,7 @@ public class TurnManager : MonoBehaviour
     private void applyTileEffect() {
         // lock controls of the previous player 
         players[activePlayer].SetInputEnabled(false);
+        playerData[activePlayer].setIdle(false);
 
         currentState = TurnState.APPLYING_TILE_EFFECT;
         currentTileEffect = TileEffect.NONE;
@@ -202,11 +207,22 @@ public class TurnManager : MonoBehaviour
     }
 
     private void updateHUD() {
-        hud.updateActionPoints(playerData[activePlayer].actionPointsLeft());
         hud.updateRound(round);
 
+        if (interactions.anActionIsSelected()) { // display the costs of the selected action 
+            hud.updateActionPoints(playerData[activePlayer].actionPointsLeft(), interactions.getSelectedActionAPCost());
+        } 
+        else {
+            hud.updateActionPoints(playerData[activePlayer].actionPointsLeft());
+        }
+
         for (int i = 0; i < 4; i++) {
-            hud.updateCredits(i, playerData[i].creditAmount());
+            if (i == activePlayer && interactions.anActionIsSelected()) { // display the costs of the selected action
+                hud.updateCredits(i, playerData[i].creditAmount(), interactions.getSelectedActionCreditCost());
+            }
+            else {
+                hud.updateCredits(i, playerData[i].creditAmount());
+            }
             hud.updateBricks(i, playerData[i].goldenBricks());
         }
 
