@@ -195,6 +195,7 @@ public class MinifigControllerWTH : MonoBehaviour
     int cancelSpecialHash = Animator.StringToHash("Cancel Special");
     int specialIdHash = Animator.StringToHash("Special Id");
 
+    public int playerPoints = 0;
     Action<bool> onSpecialComplete;
 
     void OnValidate()
@@ -946,6 +947,11 @@ public class MinifigControllerWTH : MonoBehaviour
         GenerateRings rings = RespawnPointsSource.GetComponent<GenerateRings>();
         Vector3 spwanLocation = rings.getSpawnLocation();
         controller.transform.position = spwanLocation;
+    }
+
+    public void AddPoints(int points)
+    {
+        playerPoints += points;
     }
 
     #region Input Handling

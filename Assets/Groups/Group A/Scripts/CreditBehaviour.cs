@@ -16,5 +16,12 @@ public class CreditBehaviour : MonoBehaviour
         {
             rigidbody.isKinematic = true;
         }
+
+        if(collision.gameObject.tag == "Player")
+        {
+            MinifigControllerWTH controller = collision.gameObject.GetComponent<MinifigControllerWTH>();
+            controller.AddPoints(1);
+            Destroy(this.gameObject);
+        }
     }
 }
