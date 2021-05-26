@@ -95,6 +95,11 @@ public class OurMinifigController : MonoBehaviour
     /// </summary>
     public Vector3 endZone = new Vector3(-24,7,0);
 
+    /// <summary>
+    /// Whether this player has picked up an item in his hand
+    /// </summary>
+    public bool hasItem = false;
+
 
     [Header("Audio")]
 

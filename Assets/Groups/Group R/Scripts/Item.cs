@@ -18,8 +18,9 @@ public class Item : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         GameObject gameObj = collision.gameObject;
-        if(!isPickedUp && gameObj.tag=="Player"){
+        if(!isPickedUp && gameObj.tag=="Player" && !gameObj.GetComponent<OurMinifigController>().hasItem){
             isPickedUp = true;
+            gameObj.GetComponent<OurMinifigController>().hasItem = true;
             var tree = new List<int>(){0,1,0,1,0,0,0,0,0,0,2,0,0,1,0,0,2};
             Transform child = gameObj.transform;
             foreach (var subtree in tree)
