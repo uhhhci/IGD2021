@@ -53006,6 +53006,7 @@ GameObject:
   - component: {fileID: 1687258584}
   - component: {fileID: 1687258582}
   - component: {fileID: 1687258586}
+  - component: {fileID: 1687258583}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -53021,6 +53022,28 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
   m_Enabled: 1
+--- !u!114 &1687258583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687258581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 789558a50c34bfd4f9ccb5edf6eb7c8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraOffset: {x: 5, y: 5, z: 0}
+  cameraSpeed: 3
+  deadzone: 0.1
+  diceArea: {fileID: 829670778}
+  players:
+  - {fileID: 1117518325}
+  - {fileID: 291888328}
+  - {fileID: 1172182004}
+  - {fileID: 923006358}
+  goldenBrick: {fileID: 148516658}
 --- !u!20 &1687258584
 Camera:
   m_ObjectHideFlags: 0
@@ -66894,6 +66917,11 @@ PrefabInstance:
       propertyPath: interactions
       value: 
       objectReference: {fileID: 1475481028}
+    - target: {fileID: 2964209686310888906, guid: f478da12e8d3bd646b84ef6da2d71898,
+        type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 1687258583}
     - target: {fileID: 2964209686310888907, guid: f478da12e8d3bd646b84ef6da2d71898,
         type: 3}
       propertyPath: m_Name
