@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Minifig: {fileID: 2885056653073922829}
-  maxForwardSpeed: 5.5
+  maxForwardSpeed: 10
   maxBackwardSpeed: 0
   acceleration: 100
   maxRotateSpeed: 2000
@@ -255,6 +255,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Minifig Character
       objectReference: {fileID: 0}
+    - target: {fileID: 4467856664629852824, guid: 97ae038d837a3a74484d0cbc8733ad2d,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ecc9663836057da43bf45cfa886cabca, type: 2}
     - target: {fileID: 6367911877577183709, guid: 97ae038d837a3a74484d0cbc8733ad2d,
         type: 3}
       propertyPath: m_LocalPosition.x
