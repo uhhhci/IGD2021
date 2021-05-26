@@ -15,6 +15,8 @@ public class TurnManager : MonoBehaviour
  
     public Transform playerMarkerTransform;
  
+    public CameraMovement camera;
+
     public HUD hud;
     public InteractionMenu interactions;
 
@@ -23,9 +25,9 @@ public class TurnManager : MonoBehaviour
     public float playerMarkerBobbleAmplitude = 0.5f;
 
     private int activePlayer = 0;
-    private int round = 0;
+    private int round = 1;
 
-    private enum TurnState {ROLLING_DIE, MOVING, APPLYING_TILE_EFFECT, TURN_ENDED,};
+    private enum TurnState {MOVING_TO_DIE, ROLLING_DIE, MOVING_TO_PLAYER, MOVING, APPLYING_TILE_EFFECT, TURN_ENDED,};
     private TurnState currentState;
 
     // all of the following variables are only used by the tile effect code
@@ -41,100 +43,106 @@ public class TurnManager : MonoBehaviour
     void Start() {
         players.ForEach((p) => {p.SetInputEnabled(false);});
         interactions.setActivePlayer(playerData[activePlayer]);
-        rollDie();
-        //startNewTurn();
+        moveToDie();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentState == TurnState.ROLLING_DIE && DieScript.isDone()&& DieScript2.isDone())
+        if (currentState == TurnState.MOVING_TO_DIE && camera.movementCompleted()) {
+            rollDie();
+        }
+        else if (currentState == TurnState.ROLLING_DIE && DieScript.isDone() && DieScript2.isDone())
         {
-            playerData[activePlayer].setActionPoints(DieScript.rollResult+DieScript2.rollResult);
-            currentState =  TurnState.MOVING;
-            
-            playerData[activePlayer].setIdle(true);
+            playerData[activePlayer].setActionPoints(DieScript.rollResult + DieScript2.rollResult);
+            currentState = TurnState.MOVING_TO_PLAYER;
+            camera.moveToPlayer(activePlayer);
+        }
+        else if (currentState == TurnState.MOVING_TO_PLAYER && camera.movementCompleted()) {
             startNewTurn();
         }
         else if (currentState == TurnState.MOVING && playerData[activePlayer].actionPointsLeft() <= 0 && playerData[activePlayer].isIdle()) {
             applyTileEffect();
         }
         else if (currentState == TurnState.APPLYING_TILE_EFFECT) {
-
-            animationClock += Time.deltaTime;
-
-            switch (currentTileEffect) {
-                // use animationStep to prevent that the same action is executed multiple times by different updates
-                case TileEffect.GAINING_CREDITS:
-                    if (animationClock > 1.0 && animationStep == 3) {  // 1 second
-                        hud.setCreditBobble(activePlayer, false);
-                        currentState = TurnState.TURN_ENDED;
-                        playerData[activePlayer].setIdle(true);
-                        animationStep++;
-                    } 
-                    else if (animationClock > 0.6 && animationStep == 2) {
-                        hud.setCreditBobble(activePlayer, true);
-                        playerData[activePlayer].addCreditAmount(1);
-                        animationStep++;
-                    } 
-                    else if (animationClock > 0.4 && animationStep == 1) {
-                        hud.setCreditBobble(activePlayer, false);
-                        animationStep++;
-                    }
-                    else if (animationClock > 0.0 && animationStep == 0) {
-                        hud.setCreditBobble(activePlayer, true);
-                        playerData[activePlayer].addCreditAmount(1);
-                        animationStep++;
-                    }
-                    break;
-                case TileEffect.LOSING_CREDITS:
-                    // TODO same code as in the previous case, but credtis are lost instead of added
-                    if (animationClock > 1.0 && animationStep == 3) {  // 1 second
-                        hud.setCreditBobble(activePlayer, false);
-                        currentState = TurnState.TURN_ENDED;
-                        playerData[activePlayer].setIdle(true);
-                        animationStep++;
-                    } 
-                    else if (animationClock > 0.6 && animationStep == 2) {
-                        if (playerData[activePlayer].creditAmount() <= 0) {
-                            // skip the remaining animation
-                            currentState = TurnState.TURN_ENDED;
-                            playerData[activePlayer].setIdle(true);
-                        }
-                        else {
-                            hud.setCreditBobble(activePlayer, true);
-                            playerData[activePlayer].addCreditAmount(-1);
-                            animationStep++;
-                        }
-                    } 
-                    else if (animationClock > 0.4 && animationStep == 1) {
-                        hud.setCreditBobble(activePlayer, false);
-                        animationStep++;
-                    }
-                    else if (animationClock > 0.0 && animationStep == 0) {
-                        if (playerData[activePlayer].creditAmount() <= 0) {
-                            // skip the animation
-                            currentState = TurnState.TURN_ENDED;
-                            playerData[activePlayer].setIdle(true);
-                            break;
-                        }
-                        else {
-                            hud.setCreditBobble(activePlayer, true);
-                            playerData[activePlayer].addCreditAmount(-1);
-                            animationStep++;
-                        }
-                    }
-                    break;
-                default:
-                    currentState = TurnState.TURN_ENDED;
-                    break;
-            }
+            animateTileEffect();
         }
         else if (currentState == TurnState.TURN_ENDED) {
             finishTurn();
         }
         
         updateHUD();
+    }
+
+    private void animateTileEffect() {
+        animationClock += Time.deltaTime;
+
+        switch (currentTileEffect) {
+            // use animationStep to prevent that the same action is executed multiple times by different updates
+            case TileEffect.GAINING_CREDITS:
+                if (animationClock > 1.0 && animationStep == 3) {  // 1 second
+                    hud.setCreditBobble(activePlayer, false);
+                    currentState = TurnState.TURN_ENDED;
+                    playerData[activePlayer].setIdle(true);
+                    animationStep++;
+                } 
+                else if (animationClock > 0.6 && animationStep == 2) {
+                    hud.setCreditBobble(activePlayer, true);
+                    playerData[activePlayer].addCreditAmount(1);
+                    animationStep++;
+                } 
+                else if (animationClock > 0.4 && animationStep == 1) {
+                    hud.setCreditBobble(activePlayer, false);
+                    animationStep++;
+                }
+                else if (animationClock > 0.0 && animationStep == 0) {
+                    hud.setCreditBobble(activePlayer, true);
+                    playerData[activePlayer].addCreditAmount(1);
+                    animationStep++;
+                }
+                break;
+            case TileEffect.LOSING_CREDITS:
+                // TODO same code as in the previous case, but credtis are lost instead of added
+                if (animationClock > 1.0 && animationStep == 3) {  // 1 second
+                    hud.setCreditBobble(activePlayer, false);
+                    currentState = TurnState.TURN_ENDED;
+                    playerData[activePlayer].setIdle(true);
+                    animationStep++;
+                } 
+                else if (animationClock > 0.6 && animationStep == 2) {
+                    if (playerData[activePlayer].creditAmount() <= 0) {
+                        // skip the remaining animation
+                        currentState = TurnState.TURN_ENDED;
+                        playerData[activePlayer].setIdle(true);
+                    }
+                    else {
+                        hud.setCreditBobble(activePlayer, true);
+                        playerData[activePlayer].addCreditAmount(-1);
+                        animationStep++;
+                    }
+                } 
+                else if (animationClock > 0.4 && animationStep == 1) {
+                    hud.setCreditBobble(activePlayer, false);
+                    animationStep++;
+                }
+                else if (animationClock > 0.0 && animationStep == 0) {
+                    if (playerData[activePlayer].creditAmount() <= 0) {
+                        // skip the animation
+                        currentState = TurnState.TURN_ENDED;
+                        playerData[activePlayer].setIdle(true);
+                        break;
+                    }
+                    else {
+                        hud.setCreditBobble(activePlayer, true);
+                        playerData[activePlayer].addCreditAmount(-1);
+                        animationStep++;
+                    }
+                }
+                break;
+            default:
+                currentState = TurnState.TURN_ENDED;
+                break;
+        }
     }
 
     private void applyTileEffect() {
@@ -180,14 +188,19 @@ public class TurnManager : MonoBehaviour
             endGame();
         } 
         else {
-            rollDie();
+            moveToDie();
             interactions.setActivePlayer(playerData[activePlayer]);
         }
     }
 
-    private void rollDie() {
-        currentState =  TurnState.ROLLING_DIE;
+    private void moveToDie() {
+        camera.moveToDice();
         playerData[activePlayer].setIdle(false);
+        currentState = TurnState.MOVING_TO_DIE;
+    }
+
+    private void rollDie() {
+        currentState = TurnState.ROLLING_DIE;
         DieScript.rollDie();
         DieScript2.rollDie();
     }
@@ -204,6 +217,8 @@ public class TurnManager : MonoBehaviour
     private void startNewTurn() {
         // unlock controls of the previous player 
         players[activePlayer].SetInputEnabled(true);
+        currentState = TurnState.MOVING;
+        playerData[activePlayer].setIdle(true);
     }
 
     private void updateHUD() {
