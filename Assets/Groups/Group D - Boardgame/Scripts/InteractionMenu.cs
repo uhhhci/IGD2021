@@ -5,20 +5,18 @@ using UnityEngine;
 
 public class InteractionMenu : MonoBehaviour
 {
+    /// all possible actions
     public PlayerAction[] actions;
-
-    public GoldenBrickManager brickManager;
 
     public float bobbleSpeed = 5f;
     public float boobleAmplitude = 0.5f;
 
     public Vector3 spriteOffset = new Vector3(1.2f, 0.0f, 0.0f); 
 
-    private List<PlayerAction> possibleActions = new List<PlayerAction>();
-    private int highlighted = 0;
-    private PlayerData activePlayer;
-    private Vector3 neverSeen = new Vector3(0f, -2000f, 0f);
-    private bool takeAction = false;
+    private List<PlayerAction> possibleActions = new List<PlayerAction>(); // all actions which are currently avaible to, but not neccessary affordable by the player
+    private int highlighted = 0; // currently "selected"/highlighted action, an index in possible actions
+
+    private Vector3 neverSeen = new Vector3(0f, -2000f, 0f); // a location which is never seen by players
 
     // Update is called once per frame
     void Update()
@@ -26,18 +24,14 @@ public class InteractionMenu : MonoBehaviour
         updatePossibleActions();
 
         renderActiveSprites();
-
-        if (takeAction) {
-            if (canAfford(possibleActions[highlighted])) {
-                executeAction(possibleActions[highlighted]);
-            }
-            takeAction = false;
-        }
     }
 
-    public void setActivePlayer(PlayerData data) {
-        highlighted = 0;
-        activePlayer = data;
+
+    public PlayerAction getSelectedAction() {
+        if (highlighted > possibleActions.Count) {
+            return null;
+        }
+        return possibleActions[highlighted];
     }
 
     public void nextAction() {
@@ -49,10 +43,6 @@ public class InteractionMenu : MonoBehaviour
         if (highlighted < 0) {
             highlighted = possibleActions.Count - 1;
         }
-    }
-
-    public void chooseAction() {
-        takeAction = activePlayer.isIdle();
     }
 
     /// returns whether an action is currently selected
@@ -74,11 +64,9 @@ public class InteractionMenu : MonoBehaviour
 
     private void updatePossibleActions() {
         possibleActions.Clear();
-        if (activePlayer && activePlayer.isIdle()) {
-            for (int i = 0; i < actions.Length; i++) {
-                if (isActive(i)) {
-                    possibleActions.Add(actions[i]);
-                }
+        for (int i = 0; i < actions.Length; i++) {
+            if (isActive(i)) {
+                possibleActions.Add(actions[i]);
             }
         }
         if (highlighted >= possibleActions.Count) {
@@ -90,19 +78,13 @@ public class InteractionMenu : MonoBehaviour
 
     /// returns whether the player can afford the given action (i.e. whether they have enough AP and credits)
     private bool canAfford(PlayerAction action) {
-        return action.requiredAP <= activePlayer.actionPointsLeft() && action.requiredCredits <= activePlayer.creditAmount();
+        return action.isUsable();
     }
 
     /// returns whether the given action is "in principle" currently available for the player,
     /// i.e. whether the action could be used in this state independently of the action's costs (AP + credits)
     private bool isActive(int i) {
-        switch (actions[i].type) {
-            case PlayerAction.Type.END_TURN:
-                return true;
-            case PlayerAction.Type.BUY_GOLDEN_BRICK:
-                return activePlayer.currentTile().hasGoldenBrick();
-        }
-        return false;
+        return actions[i].isPresent();
     }
 
     private void renderActiveSprites() {
@@ -132,20 +114,5 @@ public class InteractionMenu : MonoBehaviour
                 actions[i].setPosition(neverSeen);
             }
         }
-    }
-
-    private void executeAction(PlayerAction action) {
-        switch (action.type) {
-            case PlayerAction.Type.END_TURN:
-                activePlayer.setActionPoints(0);
-                break;
-            case PlayerAction.Type.BUY_GOLDEN_BRICK:
-                activePlayer.addGoldenBrick();
-                brickManager.relocate();
-                break;
-        }
-
-        activePlayer.addActionPoints(-action.requiredAP);
-        activePlayer.addCreditAmount(-action.requiredCredits);
     }
 }

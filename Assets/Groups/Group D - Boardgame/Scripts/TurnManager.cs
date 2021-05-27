@@ -1,20 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class TurnManager : MonoBehaviour
 {
+    public enum Directions {
+        LEFT,
+        RIGHT, 
+        UP,
+        DOWN,
+    }
     // number of rounds until the game ends
     public int numberOfRounds = 10;
 
-    // the four player controllers
+    // the four player controllers (used to animate the player figures)
     public List<BoardgameController> players = new List<BoardgameController>(4);
-    // their associated date
+    // their associated data
     public List<PlayerData> playerData = new List<PlayerData>(4);
- 
+
+    public List<ItemD> allItems;
+
+    // mapping from item enum values to the respective item object
+    private Dictionary<ItemD.Type, ItemD> itemDataBase;
+
+    // stores the credits, golden bricks, and items of each player
+    public List<PlayerDisplay> playerBelongings = new List<PlayerDisplay>(4);
+    
+    public GoldenBrickManager brickManager;
+
     public Transform playerMarkerTransform;
- 
+
     public CameraMovement camera;
 
     public HUD hud;
@@ -26,43 +43,55 @@ public class TurnManager : MonoBehaviour
 
     private int activePlayer = 0;
     private int round = 1;
+    private int actionPoints = 0;
 
-    private enum TurnState {MOVING_TO_DIE, ROLLING_DIE, MOVING_TO_PLAYER, MOVING, APPLYING_TILE_EFFECT, TURN_ENDED,};
+    private enum TurnState {MOVING_CAM_TO_DIE, ROLLING_DIE, MOVING_CAM_TO_PLAYER, ACCEPTING_INPUT, MOVING, APPLYING_TILE_EFFECT, TURN_ENDED,};
     private TurnState currentState;
 
     // all of the following variables are only used by the tile effect code
     // TODO: refactor the tile effect code
     // TODO: the "gaining/losing credits animations" (+ sounds when added) must be reusable (buying things, after minigames, etc.) 
     private enum TileEffect {GAINING_CREDITS, LOSING_CREDITS, NONE};
-    private int animationStep = 0;
     private TileEffect currentTileEffect = TileEffect.NONE;
-    private double animationClock = 0.0;
 
 
     // Start is called before the first frame update
     void Start() {
-        players.ForEach((p) => {p.SetInputEnabled(false);});
-        interactions.setActivePlayer(playerData[activePlayer]);
+
+        // fill/create the item lookup table
+        itemDataBase = new Dictionary<ItemD.Type, ItemD>();
+
+        foreach (ItemD item in allItems) {
+            itemDataBase[item.type] = item;
+        }        
+
         moveToDie();
+
+         // TODO: DEBUG ONLY, REMOVE THIS WHEN THE SHOP IS IMPLEMENTED
+        playerBelongings[0].addItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentState == TurnState.MOVING_TO_DIE && camera.movementCompleted()) {
+
+        if (currentState == TurnState.MOVING_CAM_TO_DIE && camera.movementCompleted()) {
             rollDie();
         }
         else if (currentState == TurnState.ROLLING_DIE && DieScript.isDone() && DieScript2.isDone())
         {
-            playerData[activePlayer].setActionPoints(DieScript.rollResult + DieScript2.rollResult);
-            currentState = TurnState.MOVING_TO_PLAYER;
+            actionPoints = DieScript.rollResult + DieScript2.rollResult;
+            currentState = TurnState.MOVING_CAM_TO_PLAYER;
             camera.moveToPlayer(activePlayer);
         }
-        else if (currentState == TurnState.MOVING_TO_PLAYER && camera.movementCompleted()) {
+        else if (currentState == TurnState.MOVING_CAM_TO_PLAYER && camera.movementCompleted()) {
             startNewTurn();
         }
-        else if (currentState == TurnState.MOVING && playerData[activePlayer].actionPointsLeft() <= 0 && playerData[activePlayer].isIdle()) {
+        else if (currentState == TurnState.ACCEPTING_INPUT && actionPoints <= 0) {
             applyTileEffect();
+        }
+        else if (currentState == TurnState.MOVING && players[activePlayer].animationDone()) {
+            finishMovement();
         }
         else if (currentState == TurnState.APPLYING_TILE_EFFECT) {
             animateTileEffect();
@@ -71,72 +100,57 @@ public class TurnManager : MonoBehaviour
             finishTurn();
         }
         
+        foreach (PlayerAction action in interactions.actions) {        
+            if (currentState == TurnState.ACCEPTING_INPUT && actionPoints > 0) {
+                action.updateStatus(actionIsActive(action), canAfford(action));
+            }
+            else {
+                action.updateStatus(false, false);
+            }
+        }
+
         updateHUD();
     }
 
-    private void animateTileEffect() {
-        animationClock += Time.deltaTime;
+    /// returns whether the given action is "in principle" currently available for the player,
+    /// i.e. whether the action could be used in this state independently of the action's costs (AP + credits)
+    private bool actionIsActive(PlayerAction action) {
+        switch (action.type) {
+            case PlayerAction.Type.END_TURN:
+                return true;
+            case PlayerAction.Type.BUY_GOLDEN_BRICK:
+                return playerData[activePlayer].currentTile().hasGoldenBrick();
+            case PlayerAction.Type.ITEM_CREDIT_THIEF:
+                return playerBelongings[activePlayer].hasItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
+        }
+        return false;
+    }
 
+    /// returns whether the player can afford the given action (i.e. whether they have enough AP and credits)
+    private bool canAfford(PlayerAction action) {
+        return action.requiredAP <= actionPoints && action.requiredCredits <= playerBelongings[activePlayer].creditAmount();
+    }
+
+    private void finishMovement() {
+        if (actionPoints <= 0) {
+            // turn is over!
+            applyTileEffect();
+            return;
+        }
+
+        currentState = TurnState.ACCEPTING_INPUT;
+    }
+
+    private void animateTileEffect() {
         switch (currentTileEffect) {
-            // use animationStep to prevent that the same action is executed multiple times by different updates
             case TileEffect.GAINING_CREDITS:
-                if (animationClock > 1.0 && animationStep == 3) {  // 1 second
-                    hud.setCreditBobble(activePlayer, false);
+                if (playerBelongings[activePlayer].animationsAreDone()) {
                     currentState = TurnState.TURN_ENDED;
-                    playerData[activePlayer].setIdle(true);
-                    animationStep++;
-                } 
-                else if (animationClock > 0.6 && animationStep == 2) {
-                    hud.setCreditBobble(activePlayer, true);
-                    playerData[activePlayer].addCreditAmount(1);
-                    animationStep++;
-                } 
-                else if (animationClock > 0.4 && animationStep == 1) {
-                    hud.setCreditBobble(activePlayer, false);
-                    animationStep++;
-                }
-                else if (animationClock > 0.0 && animationStep == 0) {
-                    hud.setCreditBobble(activePlayer, true);
-                    playerData[activePlayer].addCreditAmount(1);
-                    animationStep++;
                 }
                 break;
             case TileEffect.LOSING_CREDITS:
-                // TODO same code as in the previous case, but credtis are lost instead of added
-                if (animationClock > 1.0 && animationStep == 3) {  // 1 second
-                    hud.setCreditBobble(activePlayer, false);
+                if (playerBelongings[activePlayer].animationsAreDone()) {
                     currentState = TurnState.TURN_ENDED;
-                    playerData[activePlayer].setIdle(true);
-                    animationStep++;
-                } 
-                else if (animationClock > 0.6 && animationStep == 2) {
-                    if (playerData[activePlayer].creditAmount() <= 0) {
-                        // skip the remaining animation
-                        currentState = TurnState.TURN_ENDED;
-                        playerData[activePlayer].setIdle(true);
-                    }
-                    else {
-                        hud.setCreditBobble(activePlayer, true);
-                        playerData[activePlayer].addCreditAmount(-1);
-                        animationStep++;
-                    }
-                } 
-                else if (animationClock > 0.4 && animationStep == 1) {
-                    hud.setCreditBobble(activePlayer, false);
-                    animationStep++;
-                }
-                else if (animationClock > 0.0 && animationStep == 0) {
-                    if (playerData[activePlayer].creditAmount() <= 0) {
-                        // skip the animation
-                        currentState = TurnState.TURN_ENDED;
-                        playerData[activePlayer].setIdle(true);
-                        break;
-                    }
-                    else {
-                        hud.setCreditBobble(activePlayer, true);
-                        playerData[activePlayer].addCreditAmount(-1);
-                        animationStep++;
-                    }
                 }
                 break;
             default:
@@ -146,21 +160,17 @@ public class TurnManager : MonoBehaviour
     }
 
     private void applyTileEffect() {
-        // lock controls of the previous player 
-        players[activePlayer].SetInputEnabled(false);
-        playerData[activePlayer].setIdle(false);
-
         currentState = TurnState.APPLYING_TILE_EFFECT;
         currentTileEffect = TileEffect.NONE;
-        animationClock = 0.0;
-        animationStep = 0;
 
         switch(playerData[activePlayer].currentTile().type) {
             case Tile.TileType.GAIN_COINS:
                 currentTileEffect = TileEffect.GAINING_CREDITS;
+                playerBelongings[activePlayer].addCreditAmount(2);
                 break;
             case Tile.TileType.LOSE_COINS:
                 currentTileEffect = TileEffect.LOSING_CREDITS;
+                playerBelongings[activePlayer].addCreditAmount(Mathf.Max(-2, -playerBelongings[activePlayer].creditAmount()));
                 break;
             case Tile.TileType.RANDOM_EVENT:
                 Debug.Log("Standing on a purple tile");
@@ -189,14 +199,12 @@ public class TurnManager : MonoBehaviour
         } 
         else {
             moveToDie();
-            interactions.setActivePlayer(playerData[activePlayer]);
         }
     }
 
     private void moveToDie() {
         camera.moveToDice();
-        playerData[activePlayer].setIdle(false);
-        currentState = TurnState.MOVING_TO_DIE;
+        currentState = TurnState.MOVING_CAM_TO_DIE;
     }
 
     private void rollDie() {
@@ -208,37 +216,24 @@ public class TurnManager : MonoBehaviour
     private void endGame() {
         // pass some parameters to the next scene
         for (int i = 0; i < 4; i++) {
-            EndScreen.playerStats[i] = new EndScreen.PlayerStats(i, playerData[i].goldenBricks(), playerData[i].creditAmount());
+            EndScreen.playerStats[i] = new EndScreen.PlayerStats(i, playerBelongings[i].goldenBricks(), playerBelongings[i].creditAmount());
         }
 
         SceneManager.LoadScene("Groups/Group D - Boardgame/Scenes/EndScreen");
     }
 
     private void startNewTurn() {
-        // unlock controls of the previous player 
-        players[activePlayer].SetInputEnabled(true);
-        currentState = TurnState.MOVING;
-        playerData[activePlayer].setIdle(true);
+        currentState = TurnState.ACCEPTING_INPUT;
     }
 
     private void updateHUD() {
         hud.updateRound(round);
 
         if (interactions.anActionIsSelected()) { // display the costs of the selected action 
-            hud.updateActionPoints(playerData[activePlayer].actionPointsLeft(), interactions.getSelectedActionAPCost());
+            hud.updateActionPoints(actionPoints, interactions.getSelectedActionAPCost());
         } 
         else {
-            hud.updateActionPoints(playerData[activePlayer].actionPointsLeft());
-        }
-
-        for (int i = 0; i < 4; i++) {
-            if (i == activePlayer && interactions.anActionIsSelected()) { // display the costs of the selected action
-                hud.updateCredits(i, playerData[i].creditAmount(), interactions.getSelectedActionCreditCost());
-            }
-            else {
-                hud.updateCredits(i, playerData[i].creditAmount());
-            }
-            hud.updateBricks(i, playerData[i].goldenBricks());
+            hud.updateActionPoints(actionPoints);
         }
 
         // marker other active player
@@ -276,10 +271,120 @@ public class TurnManager : MonoBehaviour
         else {
             Debug.Log("Loading a 1v3 minigame.");
         }
-
         // add a random amount of credits
-        playerData.ForEach((data) => {
-            data.addCreditAmount((int) Random.Range(0f, 3.99f));
+        playerBelongings.ForEach((belongings) => {
+            belongings.addCreditAmount((int) Random.Range(0f, 3.99f));
         });
+    }
+
+    /// executes the given action
+    private void executeAction(PlayerAction action) {
+        if (action == null || !action.isUsable()) {
+            return;
+        }
+
+        switch (action.type) {
+            case PlayerAction.Type.END_TURN:
+                actionPoints = 0;
+                break;
+            case PlayerAction.Type.BUY_GOLDEN_BRICK:
+                playerBelongings[activePlayer].addGoldenBrick();
+                brickManager.relocate();
+                break;
+            case PlayerAction.Type.ITEM_CREDIT_THIEF:
+                // TODO: animate the actual effect, wait until the animation (including the bobbing of credits when losing/receiving them) is completed
+                // drone flies to the player with the most credits, 
+                // "steals" a few credits (e.g. X%), flies to the player who used the item,
+                // gives him/her the stolen credits, then flies away
+
+
+                int maxCredits = -1;
+                int target = -1;
+                for (int i = 0; i < 4; i++) {
+                    if (i == activePlayer) {
+                        continue;
+                    }
+                    if (playerBelongings[i].creditAmount() > maxCredits) {
+                        maxCredits = playerBelongings[i].creditAmount();
+                        target = i;
+                    }
+                }   
+
+                int loot = (int) (0.2 * maxCredits);
+                playerBelongings[target].addCreditAmount(-loot);
+                playerBelongings[activePlayer].addCreditAmount(loot);
+
+
+                // item is "used" -> remove it from the inventory
+                playerBelongings[activePlayer].removeItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
+                break;
+        }
+
+        actionPoints -= action.requiredAP;
+        playerBelongings[activePlayer].addCreditAmount(-action.requiredCredits); // TODO: wait until animation is complete
+    }
+
+    public void reactToMove(Directions direction, int playerNumber)
+    {
+        if (currentState != TurnState.ACCEPTING_INPUT || playerNumber != activePlayer) {
+            return;
+        }
+       
+        Tile nextTile = null;
+
+        switch (direction) {
+            case Directions.LEFT:
+                nextTile = playerData[activePlayer].currentTile().left;
+                break;
+            case Directions.RIGHT:
+                nextTile = playerData[activePlayer].currentTile().right;
+                break;
+            case Directions.UP:
+                nextTile = playerData[activePlayer].currentTile().up;
+                break;
+             case Directions.DOWN:
+                nextTile = playerData[activePlayer].currentTile().down;
+                break;
+        }
+
+        if (nextTile == null) {
+            // there is no neighboring tile in this direction
+            return;
+        }
+
+        currentState = currentState = TurnState.MOVING;
+        actionPoints--;
+
+        playerData[activePlayer].walk();
+        playerData[activePlayer].moveTo(nextTile);
+
+        players[activePlayer].MoveToTile(nextTile);
+    }
+
+    public void reactToNorth(int playerNumber)
+    {
+        if (currentState != TurnState.ACCEPTING_INPUT || playerNumber != activePlayer) {
+            return;
+        }
+       
+        interactions.nextAction();
+    }
+
+    public void reactToEast(int playerNumber)
+    {
+        if (currentState != TurnState.ACCEPTING_INPUT || playerNumber != activePlayer) {
+            return;
+        }
+       
+        executeAction(interactions.getSelectedAction());
+    }
+
+    public void reactToSouth(int playerNumber)
+    {
+        if (currentState != TurnState.ACCEPTING_INPUT || playerNumber != activePlayer) {
+            return;
+        }
+       
+        interactions.previousAction();
     }
 }
