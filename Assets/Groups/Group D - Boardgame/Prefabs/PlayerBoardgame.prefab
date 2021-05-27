@@ -196,9 +196,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Minifig: {fileID: 9093589693254265707}
   tileCenterOffset: {x: 0, y: 0, z: 0}
-  interactions: {fileID: 0}
-  turnManager: {fileID: 0}
-  playerNumber: 0
   maxForwardSpeed: 5
   maxBackwardSpeed: 4
   acceleration: 13.2
@@ -239,6 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnManager: {fileID: 0}
+  playerNumber: 0
 --- !u!114 &3402829359700022748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1163223260296292515, guid: 97ae038d837a3a74484d0cbc8733ad2d, type: 3}
+    - {fileID: 6837884902066694121, guid: 97ae038d837a3a74484d0cbc8733ad2d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 97ae038d837a3a74484d0cbc8733ad2d, type: 3}
 --- !u!1 &9093589693254265707 stripped
 GameObject:
