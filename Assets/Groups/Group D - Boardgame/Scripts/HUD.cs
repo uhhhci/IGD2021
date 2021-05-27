@@ -32,28 +32,4 @@ public class HUD : MonoBehaviour
     public void updateRound(int round) {
         roundDisplay.text = "Round: " + round.ToString();
     }
-
-    public void updateCredits(int player, int amount) {
-        creditDisplays[player].text = getCreditText(amount);
-    }
-
-    public void updateCredits(int player, int amount, int costs) {
-        creditDisplays[player].text = getCreditText(amount) + getCostsSuffix(costs);
-    }
-
-    private string getCreditText(int amount) {
-        return ": " + amount.ToString();
-    }
-
-    public void updateBricks(int player, int amount) {
-        brickDisplays[player].text = ": " + amount.ToString();
-    }
-
-    public void setBrickBobble(int player, bool value) {
-        bricks[player].setBobbing(value);
-    }
-
-    public void setCreditBobble(int player, bool value) {
-        credits[player].setBobbing(value);
-    }
 }

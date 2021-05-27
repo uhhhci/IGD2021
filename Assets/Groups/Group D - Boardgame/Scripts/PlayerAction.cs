@@ -7,6 +7,7 @@ public class PlayerAction : MonoBehaviour
     public enum Type {
         END_TURN,
         BUY_GOLDEN_BRICK,
+        ITEM_CREDIT_THIEF,
         // TODO: add more actions here
     }
 
@@ -16,6 +17,25 @@ public class PlayerAction : MonoBehaviour
 
     public void setPosition(Vector3 newPos) {
         transform.position = newPos;
+    }
+
+    private bool actionIsPresent = false;
+    private bool actionIsUsable = false;
+
+    /// sets the status of this action
+    public void updateStatus(bool present, bool usable) {
+        actionIsPresent = present;
+        actionIsUsable = usable;
+    }
+
+    /// whether this action could be used in principle in the given game state
+    public bool isPresent() {
+        return actionIsPresent;
+    }
+
+    /// whether the player can afford this action right now
+    public bool isUsable() {
+        return actionIsUsable;
     }
 
     /// call this method when this player action is available (true) or unavailble because of too few action points or credits (false)
