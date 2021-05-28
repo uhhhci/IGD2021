@@ -30,8 +30,9 @@ GameObject:
   - component: {fileID: 3279519717318485571}
   - component: {fileID: 3279519717318485568}
   - component: {fileID: -6220251526473426468}
+  - component: {fileID: 3228778136329532822}
   m_Layer: 0
-  m_Name: Player Minifig WASD
+  m_Name: Player Minifig
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,6 +80,8 @@ MonoBehaviour:
   explodeAudioClip: {fileID: 8300000, guid: b9b607b06267c4394b07c19523c455f1, type: 3}
   inputEnabled: 1
   maxJumpsInAir: 1
+  grabber: {fileID: -6220251526473426468}
+  kicker: {fileID: 3228778136329532822}
 --- !u!143 &9059058296123757962
 CharacterController:
   m_ObjectHideFlags: 0
@@ -279,6 +282,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dcc30e8144316924e9c29f1a84114bba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3228778136329532822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3344814360938523938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bac129846ec54b44b1d9a75b4f2afed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &649133815285714872

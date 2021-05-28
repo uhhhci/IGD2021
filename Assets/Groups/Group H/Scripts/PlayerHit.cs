@@ -14,21 +14,21 @@ public class PlayerHit : MonoBehaviour
     public CapsuleCollider collider;
     public GameObject minifigCharacter;
     private bool isHidden;
-    private bool collided;
+    private bool invincible;
 
 
     // Start is called before the first frame update
     void Start()
     {
         isHidden = false;
-        collided = false;
+        invincible = false;
     }
 
     void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.tag == "Vehicle" && !collided)
+        if (other.gameObject.tag == "Vehicle" && !invincible )
         {
-            collided = true;
+            invincible = true;
             StartCoroutine(EnableInvincibility(invincibleTime));
         }
     }
@@ -47,7 +47,7 @@ public class PlayerHit : MonoBehaviour
         }
         // activate collisions
         //collider.enabled = true;
-        collided = false;
+        invincible = false;
     }
 
     void ToggleVisibility()

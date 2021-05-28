@@ -98,6 +98,9 @@ public class MinifigControllerH : MonoBehaviour
     [SerializeField, Range(0, 10)]
     int maxJumpsInAir = 1;
 
+    public PlayerGrab grabber;
+    public KickPlayer kicker;
+
     public enum SpecialAnimation
     {
         AirGuitar = 0,
@@ -960,13 +963,15 @@ public class MinifigControllerH : MonoBehaviour
     private void OnEastPress()
     {
         print("OnEastPress");
-        print("TODO: Hold Player");
+        // print("TODO: Hold Player");
+        grabber.StartGrabbing();
 
     }
 
     private void OnEastRelease()
     {
         print("OnEastRelease");
+        grabber.StopGrabbing();
     }
 
     private void OnSouthPress()
@@ -1011,6 +1016,7 @@ public class MinifigControllerH : MonoBehaviour
     private void OnWestPress()
     {
         print("OnWestPress");
+        kicker.Kick();
     }
 
     private void OnWestRelease()
