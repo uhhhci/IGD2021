@@ -15,6 +15,8 @@ namespace GroupP {
 
         Collider2D collisionObject;
 
+        public float tempo;
+
         void Awake() 
         {
                 
@@ -52,7 +54,10 @@ namespace GroupP {
         // Update is called once per frame
         void Update()
         {
-            updateHitQuality();
+            if(GameManager.instance.startPlaying) {
+                transform.localPosition -= new Vector3(Time.deltaTime*tempo, 0f, 0f);
+                updateHitQuality();
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
