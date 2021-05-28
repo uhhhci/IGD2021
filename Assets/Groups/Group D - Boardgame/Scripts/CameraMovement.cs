@@ -6,11 +6,17 @@ public class CameraMovement : MonoBehaviour
 {
     public Vector3 cameraOffset;
     public float cameraSpeed = 5.0f;
+    private Vector3 startingPos; // position where a movement was started
+    private Vector3 targetPos;
+    private double flyingTime;
+    private double distance;
+
     public float deadzone = 0.1f;
 
     public Transform diceArea;
     public Transform[] players;
     public Transform goldenBrick;
+    public Transform itemThief;
 
 
     private Transform target;
@@ -25,11 +31,18 @@ public class CameraMovement : MonoBehaviour
     }
 
     public void moveToGoldenBrick() {
-         setNewTarget(goldenBrick);
+        setNewTarget(goldenBrick);
+    }
+
+    public void followItemThief() {
+        setNewTarget(itemThief);
     }
 
     private void setNewTarget(Transform newTarget) {
         target = newTarget;
+        startingPos = transform.position;
+        flyingTime = 0.0;
+        distance = Vector3.Distance(startingPos, target.position + cameraOffset);
         movementDone = false;
     }
 
@@ -49,7 +62,8 @@ public class CameraMovement : MonoBehaviour
         Vector3 targetPos = target.position + cameraOffset;
         float remainingDistance = Vector3.Distance(transform.position, targetPos);
         if (remainingDistance >= deadzone) {
-            transform.position = Vector3.Lerp (transform.position, targetPos, cameraSpeed * Time.deltaTime);
+            flyingTime += Time.deltaTime;
+            transform.position = Vector3.Lerp (startingPos, targetPos, (float) (cameraSpeed * flyingTime / distance));
             transform.LookAt(target.position);
         }
         else {

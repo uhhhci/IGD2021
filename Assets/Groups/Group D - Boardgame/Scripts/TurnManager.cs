@@ -45,15 +45,12 @@ public class TurnManager : MonoBehaviour
     private int round = 1;
     private int actionPoints = 0;
 
-    private enum TurnState {MOVING_CAM_TO_DIE, ROLLING_DIE, MOVING_CAM_TO_PLAYER, ACCEPTING_INPUT, MOVING, APPLYING_TILE_EFFECT, TURN_ENDED,};
+    private enum TurnState {MOVING_CAM_TO_DIE, ROLLING_DIE, MOVING_CAM_TO_PLAYER, ACCEPTING_INPUT, EXECUTING_ACTION, APPLYING_TILE_EFFECT, TURN_ENDED,};
     private TurnState currentState;
 
-    // all of the following variables are only used by the tile effect code
-    // TODO: refactor the tile effect code
-    // TODO: the "gaining/losing credits animations" (+ sounds when added) must be reusable (buying things, after minigames, etc.) 
-    private enum TileEffect {GAINING_CREDITS, LOSING_CREDITS, NONE};
-    private TileEffect currentTileEffect = TileEffect.NONE;
-
+    // currently executed FSM
+    // FSMs are control various animations and are executed in some turn states
+    private FSM currentActionFSM = null;
 
     // Start is called before the first frame update
     void Start() {
@@ -90,11 +87,20 @@ public class TurnManager : MonoBehaviour
         else if (currentState == TurnState.ACCEPTING_INPUT && actionPoints <= 0) {
             applyTileEffect();
         }
-        else if (currentState == TurnState.MOVING && players[activePlayer].animationDone()) {
-            finishMovement();
+        else if (currentState == TurnState.EXECUTING_ACTION && currentActionFSM.update()) {
+            currentActionFSM = null;
+            
+            if (actionPoints <= 0) {
+                // turn is over!
+                applyTileEffect();
+            }
+            else {
+                // await next input/action
+                currentState = TurnState.ACCEPTING_INPUT;
+            }
         }
-        else if (currentState == TurnState.APPLYING_TILE_EFFECT) {
-            animateTileEffect();
+        else if (currentState == TurnState.APPLYING_TILE_EFFECT && currentActionFSM.update()) {
+            currentState = TurnState.TURN_ENDED;
         }
         else if (currentState == TurnState.TURN_ENDED) {
             finishTurn();
@@ -131,7 +137,7 @@ public class TurnManager : MonoBehaviour
         return action.requiredAP <= actionPoints && action.requiredCredits <= playerBelongings[activePlayer].creditAmount();
     }
 
-    private void finishMovement() {
+    private void finishAction() {
         if (actionPoints <= 0) {
             // turn is over!
             applyTileEffect();
@@ -141,45 +147,26 @@ public class TurnManager : MonoBehaviour
         currentState = TurnState.ACCEPTING_INPUT;
     }
 
-    private void animateTileEffect() {
-        switch (currentTileEffect) {
-            case TileEffect.GAINING_CREDITS:
-                if (playerBelongings[activePlayer].animationsAreDone()) {
-                    currentState = TurnState.TURN_ENDED;
-                }
-                break;
-            case TileEffect.LOSING_CREDITS:
-                if (playerBelongings[activePlayer].animationsAreDone()) {
-                    currentState = TurnState.TURN_ENDED;
-                }
-                break;
-            default:
-                currentState = TurnState.TURN_ENDED;
-                break;
-        }
-    }
-
     private void applyTileEffect() {
         currentState = TurnState.APPLYING_TILE_EFFECT;
-        currentTileEffect = TileEffect.NONE;
-
+        
         switch(playerData[activePlayer].currentTile().type) {
             case Tile.TileType.GAIN_COINS:
-                currentTileEffect = TileEffect.GAINING_CREDITS;
-                playerBelongings[activePlayer].addCreditAmount(2);
+                currentActionFSM = new TileGainCoins(playerBelongings[activePlayer]);
                 break;
             case Tile.TileType.LOSE_COINS:
-                currentTileEffect = TileEffect.LOSING_CREDITS;
-                playerBelongings[activePlayer].addCreditAmount(Mathf.Max(-2, -playerBelongings[activePlayer].creditAmount()));
+                currentActionFSM = new TileLoseCoins(playerBelongings[activePlayer]);
                 break;
             case Tile.TileType.RANDOM_EVENT:
+                currentActionFSM = new TileRandomEvent();
                 Debug.Log("Standing on a purple tile");
                 break;
             case Tile.TileType.MASTER_HAND:
-                Debug.Log("Standing on a orange tile");
+                currentActionFSM = new TileMasterHand();
                 break;
             case Tile.TileType.START:
-                Debug.Log("Standing on the start tile");
+                // do nothing -> skip to next state
+                currentState = TurnState.TURN_ENDED;
                 break;
         }
     }
@@ -292,31 +279,12 @@ public class TurnManager : MonoBehaviour
                 brickManager.relocate();
                 break;
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
-                // TODO: animate the actual effect, wait until the animation (including the bobbing of credits when losing/receiving them) is completed
-                // drone flies to the player with the most credits, 
-                // "steals" a few credits (e.g. X%), flies to the player who used the item,
-                // gives him/her the stolen credits, then flies away
-
-
-                int maxCredits = -1;
-                int target = -1;
-                for (int i = 0; i < 4; i++) {
-                    if (i == activePlayer) {
-                        continue;
-                    }
-                    if (playerBelongings[i].creditAmount() > maxCredits) {
-                        maxCredits = playerBelongings[i].creditAmount();
-                        target = i;
-                    }
-                }   
-
-                int loot = (int) (0.2 * maxCredits);
-                playerBelongings[target].addCreditAmount(-loot);
-                playerBelongings[activePlayer].addCreditAmount(loot);
-
-
                 // item is "used" -> remove it from the inventory
                 playerBelongings[activePlayer].removeItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
+
+                currentState = TurnState.EXECUTING_ACTION;
+                currentActionFSM = new ItemCreditThief(camera, activePlayer, playerBelongings);
+                
                 break;
         }
 
@@ -352,13 +320,9 @@ public class TurnManager : MonoBehaviour
             return;
         }
 
-        currentState = currentState = TurnState.MOVING;
+        currentState = TurnState.EXECUTING_ACTION;
         actionPoints--;
-
-        playerData[activePlayer].walk();
-        playerData[activePlayer].moveTo(nextTile);
-
-        players[activePlayer].MoveToTile(nextTile);
+        currentActionFSM = new Walking(players[activePlayer], playerData[activePlayer], nextTile);
     }
 
     public void reactToNorth(int playerNumber)
