@@ -8,6 +8,7 @@ public class PlayerStats : MonoBehaviour
     public int rounds;
     public Text textRounds;
     public Text textPosition;
+    public Text textPowerup;
     public int CurrentZone;
     public Transform lastZone;
     public int position;
