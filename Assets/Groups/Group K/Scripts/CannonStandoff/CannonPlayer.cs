@@ -9,6 +9,7 @@ public class CannonPlayer : MonoBehaviour {
 	private bool shooting;
 	
 	public GameObject marker = null;
+	public Camera camera = null;
 	public GameObject bullet = null;
 	public float bulletSpeed = 15.0f;
 	
@@ -25,8 +26,14 @@ public class CannonPlayer : MonoBehaviour {
 	}
 	
 	void Update() {
-		if (marker != null) {
-			cannon.transform.LookAt(marker.transform);
+		if (marker != null && camera != null) {
+			Vector3 markerPos = camera.WorldToScreenPoint(marker.transform.position);
+			
+			markerPos.z = Mathf.Abs(camera.transform.position.x);
+			
+			Vector3 target = camera.ScreenToWorldPoint(markerPos);
+			
+			cannon.transform.LookAt(target);
 		}
 		
 		if (shooting && bullet != null) {
