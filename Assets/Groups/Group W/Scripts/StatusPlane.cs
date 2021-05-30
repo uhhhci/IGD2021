@@ -15,6 +15,7 @@ public class StatusPlane : MonoBehaviour
     // will be updated by PhaseHandler
     public float timeLeft;
     public PhaseHandler.Phase phase;
+    public PhaseHandler.Team leadingTeam;
     public int roundCount;
 
     // Start is called before the first frame update
@@ -26,23 +27,31 @@ public class StatusPlane : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {       
+
             phase = PhaseHandler.phase;
             roundCount = PhaseHandler.roundCount;
             timeLeft = PhaseHandler.timeLeft;
-            title = phase == PhaseHandler.Phase.Action ? "Action Phase" : "Decision Phase";
+            leadingTeam = PhaseHandler.leadingTeam;
+            title = $"{phase} Phase";
 
             if (phase == PhaseHandler.Phase.Action)
             {
                 description = "Fight!\n";
-
-                descriptionTextMesh.text = $"Round {roundCount}\n{title}\n{description}";    
+                descriptionTextMesh.text = $"Round {roundCount}\n{title}\n{description}\nTeam {leadingTeam} is leading!";    
             }
 
             if (phase == PhaseHandler.Phase.Decision)
             {
                 description = "Select your opponent and weapon!";
-                descriptionTextMesh.text = $"Round {roundCount}\n{title}\n{description}\n{timeLeft.ToString("F2")}";
-            }   
+                descriptionTextMesh.text = $"Round {roundCount}\n{title}\n{description}\nTime left: {timeLeft.ToString("F2")} seconds\nTeam {leadingTeam} is leading!";
+            }
+
+            if (phase == PhaseHandler.Phase.End)
+            {
+                string roundWord = roundCount == 1 ? "round" : "rounds";
+                description = "Game over.";
+                descriptionTextMesh.text = $"Game ended after {roundCount} {roundWord}.\nTeam {leadingTeam} won!";
+        }
     }
 }

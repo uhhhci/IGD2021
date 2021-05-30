@@ -11,9 +11,13 @@ public class PhaseHandler : MonoBehaviour
     public static Phase phase;
     public static int roundCount;
     public static float timeLeft;
-    public float secondsUntilActionPhase = 5f;
-    public float secondsPassed = 0f;
+    public float maxDecisionPhaseSeconds = 5f;
+    public float passedDecisionPhaseSeconds = 0f;
+    public float maxGameSeconds = 6f;
+    public float passedGameSeconds;
     public static List<PlayerProperties> players;
+    public List<float> totalTeamHp;
+    public static Team leadingTeam;
 
     public static int activePlayerIndex;
     public static int equippingPlayerIndex;
@@ -24,7 +28,8 @@ public class PhaseHandler : MonoBehaviour
     public enum Phase
     {
         Decision,
-        Action
+        Action,
+        End
     }
 
     // TODO replace RowPosition / Team Enums with simple lists, allowing for more flexibility in the future
@@ -33,7 +38,6 @@ public class PhaseHandler : MonoBehaviour
         Front,
         Back
     }
-
 
     public enum Team
     {
@@ -66,70 +70,119 @@ public class PhaseHandler : MonoBehaviour
         // set the first player active
         activePlayerIndex = 0;
         equippingPlayerIndex = 0;
+
+        foreach (Team team in System.Enum.GetValues(typeof(Team)))
+        {
+            totalTeamHp.Add(0f);
+        }
+    }
+
+    // game will end after time is passed or all players are dead
+    bool HasGameFinished()
+    {
+        List<PlayerProperties> deadPlayers = players.FindAll(somePlayer => somePlayer.currentHp <= 0);
+        return passedGameSeconds >= maxGameSeconds || deadPlayers.Count == players.Count;
+    }
+
+    void CalculateTeamHp()
+    {
+        Team[] teamValues = (Team[])System.Enum.GetValues(typeof(Team));
+        for (int i = 0; i < teamValues.Length; i++)
+        {
+            totalTeamHp[i] = 0;
+            foreach (PlayerProperties player in players)
+            {
+                if (player.team == teamValues[i])
+                {
+                    totalTeamHp[i] += player.currentHp;
+                }
+            }
+        }
+
+       // print($"totalTeamHp team left: {totalTeamHp[0]}");
+       // print($"totalTeamHp team right: {totalTeamHp[1]}");
+       GetLeadingTeam();
+    }
+
+    // returns the team which currently has the most hp
+    void GetLeadingTeam()
+    {
+        // iterates the list 2 times => not performant, replace if this becomes a bottleneck
+        int leadingTeamIndex = totalTeamHp.IndexOf(totalTeamHp.Max());
+        leadingTeam = (Team)leadingTeamIndex;
+        // print($"leading team: {leadingTeam}");
     }
 
     // Update is called once per frame
     void Update()
     {
-        // TODO 
-        // array mit phasen (interface phase)
-        // index der aktiven phase
-        // if(update aktive phase) increment index modulo
+        // TODO array with phases (interface phase), set index to active phase index, if(update active phase) increment index modulo
 
-        if (phase == Phase.Decision)
+        CalculateTeamHp();
+        if (HasGameFinished())
         {
-            secondsPassed = secondsPassed += Time.deltaTime;
-            timeLeft = secondsUntilActionPhase - secondsPassed;
-
-            if (secondsPassed >= secondsUntilActionPhase)
-            {
-                print("its action phase now");
-                phase = Phase.Action;
-            }
+            print("game is over now");
+            phase = Phase.End;
+            // TODO assign ranks
         }
 
-        if (phase == Phase.Action)
+        else
         {
-            secondsPassed = 0f;
-            isActionPhaseFinished = activePlayerIndex >= players.Count;
+            passedGameSeconds += Time.deltaTime;
 
-            if (isActionPhaseFinished)
+            if (phase == Phase.Decision)
             {
-                print("its decision phase now");
-                phase = Phase.Decision;
-                roundCount += 1;
-                activePlayerIndex = 0;
-                equippingPlayerIndex = 0;
-                arePlayerActionsOver = Enumerable.Repeat(false, players.Count).ToList();
-                havePlayersEquippedWeapons = Enumerable.Repeat(false, players.Count).ToList();
-            }
-            else
-            {
-                // equip new weapon for each player, one time for each ActionPhase
-                foreach (PlayerProperties player in players)
+                passedDecisionPhaseSeconds = passedDecisionPhaseSeconds += Time.deltaTime;
+                timeLeft = maxDecisionPhaseSeconds - passedDecisionPhaseSeconds;
+
+                if (passedDecisionPhaseSeconds >= maxDecisionPhaseSeconds)
                 {
-                    if (equippingPlayerIndex < havePlayersEquippedWeapons.Count && !havePlayersEquippedWeapons[equippingPlayerIndex])
+                    print("its action phase now");
+                    phase = Phase.Action;
+                }
+            }
+
+            if (phase == Phase.Action)
+            {
+                passedDecisionPhaseSeconds = 0f;
+                isActionPhaseFinished = activePlayerIndex >= players.Count;
+
+                if (isActionPhaseFinished)
+                {
+                    print("its decision phase now");
+                    phase = Phase.Decision;
+                    roundCount += 1;
+                    activePlayerIndex = 0;
+                    equippingPlayerIndex = 0;
+                    arePlayerActionsOver = Enumerable.Repeat(false, players.Count).ToList();
+                    havePlayersEquippedWeapons = Enumerable.Repeat(false, players.Count).ToList();
+                }
+                else
+                {
+                    // equip new weapon for each player, one time for each ActionPhase
+                    foreach (PlayerProperties player in players)
                     {
-                        ActionPhase actionPhase = player.GetComponent<ActionPhase>();
-                        actionPhase.ChangeLeftHandWeapon(player.rowPosition, player.weapon);
-                        havePlayersEquippedWeapons[equippingPlayerIndex] = true;
-                        equippingPlayerIndex++;
+                        if (equippingPlayerIndex < havePlayersEquippedWeapons.Count && !havePlayersEquippedWeapons[equippingPlayerIndex])
+                        {
+                            ActionPhase actionPhase = player.GetComponent<ActionPhase>();
+                            actionPhase.ChangeLeftHandWeapon(player.rowPosition, player.weapon);
+                            havePlayersEquippedWeapons[equippingPlayerIndex] = true;
+                            equippingPlayerIndex++;
+                        }
+
                     }
 
-                }
+                    // each player attacks sequentially
+                    // end if the last active player is finished
+                    ActionPhase activePlayerActionPhase = players[activePlayerIndex].GetComponent<ActionPhase>();
 
-                // each player attacks sequentially
-                // end if the last active player is finished
-                ActionPhase activePlayerActionPhase = players[activePlayerIndex].GetComponent<ActionPhase>();
-
-                if (!arePlayerActionsOver[activePlayerIndex])
-                {
-                    activePlayerActionPhase.DoAction();
-                    arePlayerActionsOver[activePlayerIndex] = true;
+                    if (!arePlayerActionsOver[activePlayerIndex])
+                    {
+                        activePlayerActionPhase.DoAction();
+                        arePlayerActionsOver[activePlayerIndex] = true;
+                    }
                 }
             }
         }
-
-
     }
 }
