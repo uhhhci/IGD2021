@@ -13,6 +13,8 @@ public class ActionPhase : MonoBehaviour
     public static int activePlayerIndex = 0;
     PlayerProperties player;
     private MinifigControllerGroupW playerMinifigController;
+    private WeaponDefinitions.WeaponType playerWeapon;
+    public PhaseHandler.RowPosition playerTargetRow;
     public static List<PlayerProperties> players;
     bool isActionPhase;
     public GameObject leftHandWeapon;
@@ -61,8 +63,8 @@ public class ActionPhase : MonoBehaviour
     {
         // opponent team is the team that is not the own team
         PhaseHandler.Team opponentTeam = player.team == PhaseHandler.Team.Left ? PhaseHandler.Team.Right : PhaseHandler.Team.Left;
-        List<PlayerProperties> matchingPlayers = players.FindAll(player => player.team == opponentTeam
-                                                && player.rowPosition == player.targetRow);
+        List<PlayerProperties> matchingPlayers = players.FindAll(somePlayer => somePlayer.team == opponentTeam
+                                                && somePlayer.rowPosition == player.targetRow);
 
         print($"Player { player.playerName} is targeting player from team { opponentTeam} on row { player.targetRow}.");
         if (matchingPlayers.Count == 1)
@@ -126,6 +128,7 @@ public class ActionPhase : MonoBehaviour
 
         else
         {
+            print("either the attacking player, or the target are dead.");
             return false;
         }
     }
@@ -237,27 +240,25 @@ public class ActionPhase : MonoBehaviour
     }
 
     // throws the equipped weapon from activePlayer to targetPlayer
-    IEnumerator ThrowWeapon(PlayerProperties activePlayer, PlayerProperties targetPlayer, Action onComplete)
+    IEnumerator ThrowWeapon(PlayerProperties targetPlayer, Action onComplete)
     {
         print("is back row; now throwing weapon");
-        GameObject throwableWeapon = SpawnNewWeapon(activePlayer.CurrentRowPosition, activePlayer.weapon);
+        GameObject throwableWeapon = SpawnNewWeapon(player.CurrentRowPosition, player.weapon);
 
         // should get a rigidbody to be able to throw it, if not already available
         if(throwableWeapon.GetComponent<Rigidbody>() != null)
         {
             throwableWeapon.AddComponent<Rigidbody>();
         }
-        
+
         // following code is adapted from https://gist.github.com/marcelschmidt1337/e46d166b639c06af3ba896fcb8412be4
         float throwAngle = 45.0f;
         float gravity = 9.8f;
 
-        //Vector3 target = new Vector3(targetPlayer.transform.position.x, targetPlayer.transform.position.y, targetPlayer.transform.position.z);
         Vector3 target = targetPlayer.transform.parent.transform.position;
-        // Vector3 target = new Vector3(targetPlayer.transform.position.x, targetPlayer.transform.position.y, targetPlayer.transform.position.z);
+        Vector3 start = throwableWeapon.transform.position;
 
-        print($"target: {target}, player position: {targetPlayer.transform.position}");
-        float targetDistance = Vector3.Distance(throwableWeapon.transform.position, target);
+        float targetDistance = Vector3.Distance(start, target);
 
         // Calculate the velocity needed to throw the object to the target at specified angle
         float weaponVelocity = targetDistance / (Mathf.Sin(2 * throwAngle * Mathf.Deg2Rad) / gravity);
@@ -289,7 +290,6 @@ public class ActionPhase : MonoBehaviour
     }
 
 
-
     public void DoAction()
     {
         PlayerProperties targetPlayer = GetTargetPlayer();
@@ -301,7 +301,7 @@ public class ActionPhase : MonoBehaviour
             // -> front should move and swing weapon, back should throw weapon
             if(player.CurrentRowPosition == PhaseHandler.RowPosition.Back)
             {
-                Coroutine throwWeaponCoroutine = StartCoroutine(ThrowWeapon(player, targetPlayer, onComplete: () => {
+                Coroutine throwWeaponCoroutine = StartCoroutine(ThrowWeapon(targetPlayer, onComplete: () => {
                     DealDamage(targetPlayer);
                     PhaseHandler.SetNextActivePlayer();
                 }));
