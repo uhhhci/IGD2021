@@ -168,6 +168,7 @@ public class ActionPhase : MonoBehaviour
 
     void RotateBack(PlayerProperties activePlayer, PlayerProperties targetPlayer)
     {
+       
         // TODO player hp bar should stay on top of player instead of rotating with him
         // face to the correct direction again (change rotation)
         print("now rotating back");
@@ -187,11 +188,6 @@ public class ActionPhase : MonoBehaviour
         var rotationVector = minifigCharacter.transform.rotation.eulerAngles;
         rotationVector.x = -90;
         minifigCharacter.transform.rotation = Quaternion.Euler(rotationVector);
-
-        //var rotationVector = player.transform.rotation.eulerAngles;
-        //rotationVector.x = -90;
-        //player.transform.rotation = Quaternion.Euler(rotationVector);
-
         print($"player ({player.playerName}) is dead now");
     }
 
