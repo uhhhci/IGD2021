@@ -34,24 +34,23 @@ public class StatusPlane : MonoBehaviour
             timeLeft = PhaseHandler.timeLeft;
             leadingTeam = PhaseHandler.leadingTeam;
             title = $"{phase} Phase";
+            descriptionTextMesh.text = $"Total time: {PhaseHandler.passedGameSeconds.ToString("F0")}\nRound {roundCount} - {leadingTeam} is leading.\n{title}\n{description}";
 
             if (phase == PhaseHandler.Phase.Action)
             {
                 description = "Fight!\n";
-                descriptionTextMesh.text = $"Round {roundCount}\n{title}\n{description}\nTeam {leadingTeam} is leading!";    
             }
 
             if (phase == PhaseHandler.Phase.Decision)
             {
                 description = "Select your opponent and weapon!";
-                descriptionTextMesh.text = $"Round {roundCount}\n{title}\n{description}\nTime left: {timeLeft.ToString("F2")} seconds\nTeam {leadingTeam} is leading!";
+                descriptionTextMesh.text += $"\nTime left: {timeLeft.ToString("F0")} seconds";
             }
 
             if (phase == PhaseHandler.Phase.End)
             {
                 string roundWord = roundCount == 1 ? "round" : "rounds";
-                description = "Game over.";
-                descriptionTextMesh.text = $"Game ended after {roundCount} {roundWord}.\nTeam {leadingTeam} won!";
+                descriptionTextMesh.text = $"Total time: {PhaseHandler.passedGameSeconds.ToString("F0")}\nGame ended after {roundCount} {roundWord}.\nTeam {leadingTeam} won!";
         }
     }
 }
