@@ -109,7 +109,8 @@ public class PlayerController : MonoBehaviour
     private void OnSouthPress()
     {
         print("OnSouthPress");
-        WeaponSystems[CurrentWeaponIndex].Fire();
+        string tag = transform.gameObject.tag;
+        WeaponSystems[CurrentWeaponIndex].Fire(tag);
     }
     private void OnSouthRelease()
     {

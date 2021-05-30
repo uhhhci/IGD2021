@@ -17,6 +17,9 @@ public class WeaponSystem : MonoBehaviour
 
     private AudioSource SoundEffect;
     private float FireRateCounter;
+    private float TimeCounter = 0.0f;
+    private int Level;
+    private bool LevelSet = false;
 
     private void Awake()
     {
@@ -26,23 +29,39 @@ public class WeaponSystem : MonoBehaviour
     void Update()
     {
         FireRateCounter += Time.deltaTime;
+        TimeCounter += Time.deltaTime;
+        if ((int) TimeCounter % 60 == 0 && LevelSet == false) // Set the level every 60 Seconds up
+        {
+            Level += 1;
+            LevelSet = true;
+            
+        }
+        // Debug.Log((int) TimeCounter % 2);
+        if ((int) TimeCounter % 2 == 1)
+        {
+            LevelSet = false;
+        }
     }
 
-    public void Fire()
+    public void Fire(string Tag)
     {
-        if(FireRateCounter >= FireRate)
+        if (Tag == "Player")
         {
-            FireRateCounter = 0;
+            if(FireRateCounter >= FireRate / Level)
+            {
+                FireRateCounter = 0;
             
-            foreach(var spawnPoint in ShotSpawnPoints)
-            {
-                Instantiate(Bullet, spawnPoint.transform.position, spawnPoint.rotation);
-            }
-            if (SoundEffect)
-            {
-                SoundEffect.Play();
-            }
-            else Debug.Log("No AudioSource on the WeaponSystem.");
+                foreach(var spawnPoint in ShotSpawnPoints)
+                {
+                    Instantiate(Bullet, spawnPoint.transform.position, spawnPoint.rotation);
+                }
+                if (SoundEffect)
+                {
+                    SoundEffect.Play();
+                }
+                else Debug.Log("No AudioSource on the WeaponSystem.");
         }
+        }
+        
     }
 }
