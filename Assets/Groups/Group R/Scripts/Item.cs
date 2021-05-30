@@ -7,6 +7,9 @@ public class Item : MonoBehaviour
 
     public bool isPickedUp = false;
 
+    public Vector3 posOffset;
+    public Vector3 rotOffset;
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -28,8 +31,8 @@ public class Item : MonoBehaviour
                 child = child.GetChild(subtree);
             }
             transform.SetParent(child);
-            transform.localPosition = new Vector3(0, 0, 0);
-            transform.localRotation = Quaternion.Euler(0,0,0);
+            transform.localPosition = posOffset;
+            transform.localRotation = Quaternion.Euler(rotOffset);
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
             rb.useGravity = false;
