@@ -12,6 +12,8 @@ public class MinifigControllerGroupW : MinifigController
 
     private void OnMoveDpad(InputValue value)
     {
+        // TODO might replace this with a dummy weapon spawn, since animations are somehow broken for the dpad (get interrupted immediatly)
+        // already chose a fish for this :)
         //print("prevented moving through overriding");
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
@@ -78,7 +80,8 @@ public class MinifigControllerGroupW : MinifigController
     {
         base.Update();
         phase = PhaseHandler.phase;
-        decisionPhase = GameObject.Find("LegoPaperScissors").GetComponent<DecisionPhase>();
+        decisionPhase = transform.Find("LegoPaperScissors").GetComponent<DecisionPhase>();
+        // print($"player is {transform.name}, decision phase is from {decisionPhase.transform.parent.name}");
     }
 }
 

@@ -1481,6 +1481,7 @@ MonoBehaviour:
   title: 
   timeLeft: 0
   phase: 0
+  leadingTeam: 0
   roundCount: 0
 --- !u!4 &493790545 stripped
 Transform:
@@ -5626,8 +5627,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDecisionPhaseSeconds: 5
   passedDecisionPhaseSeconds: 0
-  maxGameSeconds: 6
-  passedGameSeconds: 0
+  maxGameSeconds: 180
+  totalTeamHp: []
   isActionPhaseFinished: 0
   havePlayersEquippedWeapons: 
   arePlayerActionsOver: 

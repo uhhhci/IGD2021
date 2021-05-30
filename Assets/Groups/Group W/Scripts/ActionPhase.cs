@@ -216,20 +216,23 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
+    // overerload method to spawn a specific asset instead of the one derived from rowPosition and weaponType
+    void ChangeLeftHandWeapon(String assetPath)
+    {
+        Transform leftHandTransform = player.transform.parent.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").transform;
+        GameObject newWeapon = LoadNewWeapon(assetPath);
+        newWeapon.transform.parent = leftHandTransform;
+    }
+
     GameObject SpawnNewWeapon(PhaseHandler.RowPosition rowPosition, WeaponDefinitions.WeaponType weaponType)
     {
         // load a gameobject with the correct prefab
         Weapon[] matchingWeapons = WeaponDefinitions.GetWeapon(weaponType, rowPosition);
-        GameObject newWeapon;
 
         if (matchingWeapons.Length > 0)
         {
             string assetPath = matchingWeapons[0].asset;
-            GameObject prefab = Resources.Load<GameObject>("Prefabs/" + assetPath) as GameObject;
-            newWeapon = Instantiate(prefab, leftHandPosition, player.transform.rotation);
-            newWeapon.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-            //newWeapon.layer = 8; // layer 8 should be "player", such that players won't collide with each other
-            //prefab.layer = 8;
+            GameObject newWeapon = LoadNewWeapon(assetPath);
             return newWeapon;
         }
         else
@@ -238,6 +241,17 @@ public class ActionPhase : MonoBehaviour
             throw new InvalidOperationException();
         }
     }
+
+    // load a gameobject with the correct prefab
+    GameObject LoadNewWeapon(String assetPath)
+    {
+        GameObject newWeapon;
+        GameObject prefab = Resources.Load<GameObject>("Prefabs/" + assetPath) as GameObject;
+        newWeapon = Instantiate(prefab, leftHandPosition, player.transform.rotation);
+        newWeapon.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        return newWeapon;
+    }
+
 
     // throws the equipped weapon from activePlayer to targetPlayer
     IEnumerator ThrowWeapon(PlayerProperties targetPlayer, Action onComplete)

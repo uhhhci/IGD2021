@@ -202,6 +202,7 @@ public class MinifigController : MonoBehaviour
 
     void Awake()
     {
+        print("Awake() from MinifigController got executed");
         controller = GetComponent<CharacterController>();
         animator = Minifig.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
@@ -215,7 +216,9 @@ public class MinifigController : MonoBehaviour
 
     private void Start()
     {
+        print("Start() from MinifigController got executed");
         string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
+        print($"controlScheme: {controlScheme}");
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
     }
 

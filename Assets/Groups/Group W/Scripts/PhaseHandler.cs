@@ -13,7 +13,7 @@ public class PhaseHandler : MonoBehaviour
     public static float timeLeft;
     public float maxDecisionPhaseSeconds = 5f;
     public float passedDecisionPhaseSeconds = 0f;
-    public float maxGameSeconds = 6f;
+    public float maxGameSeconds = 180f; // 180s = 3m
     public static float passedGameSeconds;
     public static List<PlayerProperties> players;
     public List<float> totalTeamHp;
