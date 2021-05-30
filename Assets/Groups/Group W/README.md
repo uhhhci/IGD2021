@@ -1,23 +1,28 @@
 Im Folgenden finden sich TODOs und DONEs.
 
-# TODOs
-
-## Integration mit Interconnections Gruppe
-## Spielende: Zeitablauf // alle besiegt --> Punkteverteilung
+# TODOs Polina
 ## Custom Animationen
 	* Schlagen (für Nahkampfwaffe)
 	* Werfen (für Fernkampfwaffe)
 	* Sterben (langsam und qualvoll zu Boden fallen)
 
+# Umgebung
+	*  Passendere Asssets für Rundenanzeige + HP-Balken
+	*  Auswahl + Plazierung Assets für
+		* Spiel-stats (Gesamtlaufzeit des Spiels, verstrichene Zeit, Rundennummer)
+		* Infos zur aktuellen phase (Action vs. Decision vs. Spielende, wie lange ist noch Zeit für den Input in der Decision phase etc)
+	*  Schwarzen Kasten entfernen und durch schönen Himmel + Umgebung ersetzen
+
+
 ## Verschönerungen
 	* Anzeige "Weakness", "Neutral", "Resistence", wenn Charakter angegriffen wurde
-	* HP-Balken sollte sich zwar mit bewegen, wenn ein Charakter läuft, aber nicht, wenn er sich umdreht 
-		** evlt. PlayerProperties an MinifigCharakter statt PlayerMinifig XXXX anhängen
 
+# TODOs Larry
+## Integration mit Interconnections Gruppe
 ## KI Mitspieler
 ## Tutorial? Brauchen wir das?
 
-# DONEs Larissa
+# DONEs Larry
 * Scenes, Scripts Ordner in unserem Group W Ordner angelegt
 * Charaktere entsprechend der Kampfsituation plaziert
 * PlayerProperties Skript zum definieren von:
@@ -55,25 +60,30 @@ Im Folgenden finden sich TODOs und DONEs.
 	* power
 	* row
 * Schadensberechnung - Base damage der Waffe (Vorder/Hinterreihe) mal Multiplier (Stärke/Schwäche/Neutralität gegenüber Ziel)
-* Angriffsanimation
-	* Front: zu Gegner hinlaufen, angreifen (derzeit auch für Back)
+* Angriffsanimationen
+	* Back: stehenbleiben, Fernkampfwaffe nutzen (z.B. Waffe werfen)
+	* Front: zum Gegner hinlaufen
 	* Update des HP-Balkens
+	* HP-Balken bewegt sich mit, wenn ein Charakter läuft, aber nicht, wenn er sich umdreht oder stirbt
 * Beschränkung der Handlungsmöglichkeiten innerhalb Decision Phase
 	* Target ist valide, wenn 
 		* front vs. front
 		* back vs. front 
 		* back vs. back
+		* front vs. back && front.hp <= 0;
 		* && hp > 0
 
 	* Target ist invalide, wenn
 		* front vs. back
+		* front vs. back && front.hp > 0;
 		* hp <= 0
 
 	* Abspielen entsprechender Animation, wenn invalide Auswahl getroffen wird
 * Wenn Charakter tot: zu Boden fallen, liegen bleiben
-* Angriffsanimationen
-	* Back: stehenbleiben, Fernkampfwaffe nutzen (z.B. Waffe werfen)
-	* Front: zum Gegner hinlaufen
+
+* Spielende
+	* Zeitablauf || alle besiegt
+	* Bestimmung des Gewinner-Teams
 
 # DONEs Polina
 * Methode/Funktion mit folgendem Verhalten:
@@ -89,7 +99,7 @@ Im Folgenden finden sich TODOs und DONEs.
 		* Himmel / Decke
 		* Objekte (z.B. Bäume, Gebäude etc.)
 	* Beleuchtung
-	* Passendere Asssets für Rundenanzeige und HP-Balken
+	* HP-Balken Grün/Rot
 
 
 # Known Bugs

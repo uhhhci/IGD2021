@@ -63,22 +63,28 @@ public class ActionPhase : MonoBehaviour
     PlayerProperties GetTargetPlayer()
     {
         // opponent team is the team that is not the own team
-        PhaseHandler.Team opponentTeam = player.team == PhaseHandler.Team.Left ? PhaseHandler.Team.Right : PhaseHandler.Team.Left;
-        List<PlayerProperties> matchingPlayers = players.FindAll(somePlayer => somePlayer.team == opponentTeam
-                                                && somePlayer.rowPosition == player.targetRow);
+        
+        return GetTargetPlayer(player.targetRow);
+    }
 
-        print($"Player { player.playerName} is targeting player from team { opponentTeam} on row { player.targetRow}.");
+    // searches for the player of the other team by chosing the other team and the target row
+    PlayerProperties GetTargetPlayer(PhaseHandler.RowPosition row)
+    {
+        PhaseHandler.Team team = player.team == PhaseHandler.Team.Left ? PhaseHandler.Team.Right : PhaseHandler.Team.Left;
+        List<PlayerProperties> matchingPlayers = players.FindAll(somePlayer => somePlayer.team == team
+                                                && somePlayer.rowPosition == row);
+
         if (matchingPlayers.Count == 1)
         {
             print($"Matching target player is: {matchingPlayers[0].playerName}");
             return matchingPlayers[0];
         }
-        
+
         else
         {
             // more or less than one player found
             print($"found {matchingPlayers.Count} matching players, but there should be only exactly 1");
-            if(matchingPlayers.Count > 1)
+            if (matchingPlayers.Count > 1)
             {
                 print("found following players:");
                 foreach (PlayerProperties player in matchingPlayers)
@@ -115,16 +121,18 @@ public class ActionPhase : MonoBehaviour
         bool isPlayerOnBackRow = player.CurrentRowPosition == PhaseHandler.RowPosition.Back;
         bool isTargetAlive = targetPlayer.currentHp > 0;
         bool isPlayerAlive = player.currentHp > 0;
+        bool isBackRowProtected = GetTargetPlayer(PhaseHandler.RowPosition.Front).currentHp > 0;
 
         //print($"is target alive: {isTargetAlive}");
         //print($"is player alive: {isPlayerAlive}");
         //print($"both on front row (would be ok): {areBothOnFrontRow}");
-        //print($"is player on back row (would be ok): {isPlayerOnBackRow}");
+        //print($"is player on back row (would be ok): {isPlayerOnBackRow}");  
 
         if (isTargetAlive && isPlayerAlive)
         {
             // true if one of them evaluates to true
-            return areBothOnFrontRow || isPlayerOnBackRow;
+            // targetting back row from front row is okay while front is dead
+            return areBothOnFrontRow || isPlayerOnBackRow || !isBackRowProtected;
         }
 
         else
@@ -251,7 +259,6 @@ public class ActionPhase : MonoBehaviour
         newWeapon.GetComponent<Renderer>().material.color = color;
         return newWeapon;
     }
-
 
     // throws the equipped weapon from activePlayer to targetPlayer
     IEnumerator ThrowWeapon(PlayerProperties targetPlayer, Action onComplete)
