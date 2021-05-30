@@ -6,22 +6,18 @@ using UnityEngine.InputSystem;
 
 public class MinifigControllerGroupW : MinifigController
 {
-    // this is currently only experimental .. 
     PhaseHandler.Phase phase;
     DecisionPhase decisionPhase;
+    ActionPhase actionPhase;
 
     private void OnMoveDpad(InputValue value)
     {
-        // TODO might replace this with a dummy weapon spawn, since animations are somehow broken for the dpad (get interrupted immediatly)
-        // already chose a fish for this :)
-        //print("prevented moving through overriding");
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
         if (input.Equals(Vector2.up))
         {
             print("selected Paper");
-            decisionPhase.PlayActionPhaseAnimation(DecisionPhase.Decision.Weapon);
-            decisionPhase.ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Paper);
+            decisionPhase.ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Paper, actionPhase);
         }
     }
 
@@ -29,24 +25,21 @@ public class MinifigControllerGroupW : MinifigController
     private void OnEastPress()
     {
         print("selected Lego");
-        decisionPhase.PlayActionPhaseAnimation(DecisionPhase.Decision.Weapon);
-        decisionPhase.ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Lego);
+        decisionPhase.ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Lego, actionPhase);
     }
 
 
     private void OnSouthPress()
     {
-        //print("prevented jumping through overriding");
         print("selected Scissors");
-        decisionPhase.PlayActionPhaseAnimation(DecisionPhase.Decision.Weapon);
-        decisionPhase.ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Scissors);
+        decisionPhase.ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Scissors, actionPhase);
     }
 
     // e.g. R
     private void OnNorthPress()
     {
         print("selected FrontRow");
-        decisionPhase.PlayActionPhaseAnimation(DecisionPhase.Decision.Row);
+        decisionPhase.PlayActionPhaseAnimation();
         decisionPhase.ChangeTargetRow(PhaseHandler.RowPosition.Front);
     }
 
@@ -54,7 +47,7 @@ public class MinifigControllerGroupW : MinifigController
     private void OnWestPress()
     {
         print("selected BackRow");
-        decisionPhase.PlayActionPhaseAnimation(DecisionPhase.Decision.Row);
+        decisionPhase.PlayActionPhaseAnimation();
         decisionPhase.ChangeTargetRow(PhaseHandler.RowPosition.Back);
     }
 
@@ -81,6 +74,7 @@ public class MinifigControllerGroupW : MinifigController
         base.Update();
         phase = PhaseHandler.phase;
         decisionPhase = transform.Find("LegoPaperScissors").GetComponent<DecisionPhase>();
+        actionPhase = transform.Find("LegoPaperScissors").GetComponent<ActionPhase>();
         // print($"player is {transform.name}, decision phase is from {decisionPhase.transform.parent.name}");
     }
 }

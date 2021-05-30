@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ActionPhase : MonoBehaviour
 {
@@ -205,26 +206,28 @@ public class ActionPhase : MonoBehaviour
 
     public void ChangeLeftHandWeapon(PhaseHandler.RowPosition rowPosition, WeaponDefinitions.WeaponType weaponType)
     {
+        print("equipping new left hand weapon");
         Transform leftHandTransform = player.transform.parent.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").transform;
-
-        if (leftHandWeapon == null)
-        {
-            print("equipping new left hand weapon");
-            // spawns a new weapon and sets it as leftHandWeapon
-            leftHandWeapon = SpawnNewWeapon(rowPosition, weaponType);
-            leftHandWeapon.transform.parent = leftHandTransform;
-        }
+        // weapon color should stay the same as previous
+        Color color = leftHandWeapon != null ? leftHandWeapon.GetComponent<Renderer>().material.color : Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+        RemoveLeftHandWeapon();
+        // spawns a new weapon and sets it as leftHandWeapon
+        leftHandWeapon = SpawnNewWeapon(rowPosition, weaponType, color);
+        leftHandWeapon.transform.parent = leftHandTransform;
     }
 
-    // overerload method to spawn a specific asset instead of the one derived from rowPosition and weaponType
-    void ChangeLeftHandWeapon(String assetPath)
+    // overloaded method to spawn a specific asset instead of the one derived from rowPosition and weaponType
+    public void ChangeLeftHandWeapon(String assetPath)
     {
+        RemoveLeftHandWeapon();
+        print("changing left hand weapon via asset path");
         Transform leftHandTransform = player.transform.parent.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").transform;
-        GameObject newWeapon = LoadNewWeapon(assetPath);
-        newWeapon.transform.parent = leftHandTransform;
+        Color randomColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+        leftHandWeapon = LoadNewWeapon(assetPath, new Vector3(1f, 1f, 1f), randomColor);
+        leftHandWeapon.transform.parent = leftHandTransform;
     }
 
-    GameObject SpawnNewWeapon(PhaseHandler.RowPosition rowPosition, WeaponDefinitions.WeaponType weaponType)
+    GameObject SpawnNewWeapon(PhaseHandler.RowPosition rowPosition, WeaponDefinitions.WeaponType weaponType, Color color)
     {
         // load a gameobject with the correct prefab
         Weapon[] matchingWeapons = WeaponDefinitions.GetWeapon(weaponType, rowPosition);
@@ -232,7 +235,7 @@ public class ActionPhase : MonoBehaviour
         if (matchingWeapons.Length > 0)
         {
             string assetPath = matchingWeapons[0].asset;
-            GameObject newWeapon = LoadNewWeapon(assetPath);
+            GameObject newWeapon = LoadNewWeapon(assetPath, new Vector3(0.3f, 0.3f, 0.3f), color);
             return newWeapon;
         }
         else
@@ -243,12 +246,13 @@ public class ActionPhase : MonoBehaviour
     }
 
     // load a gameobject with the correct prefab
-    GameObject LoadNewWeapon(String assetPath)
+    GameObject LoadNewWeapon(String assetPath, Vector3 scale, Color color)
     {
         GameObject newWeapon;
         GameObject prefab = Resources.Load<GameObject>("Prefabs/" + assetPath) as GameObject;
         newWeapon = Instantiate(prefab, leftHandPosition, player.transform.rotation);
-        newWeapon.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        newWeapon.transform.localScale = scale;
+        newWeapon.GetComponent<Renderer>().material.color = color;
         return newWeapon;
     }
 
@@ -256,8 +260,9 @@ public class ActionPhase : MonoBehaviour
     // throws the equipped weapon from activePlayer to targetPlayer
     IEnumerator ThrowWeapon(PlayerProperties targetPlayer, Action onComplete)
     {
+        Color color = leftHandWeapon != null ? leftHandWeapon.GetComponent<Renderer>().material.color : Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         print("is back row; now throwing weapon");
-        GameObject throwableWeapon = SpawnNewWeapon(player.CurrentRowPosition, player.weapon);
+        GameObject throwableWeapon = SpawnNewWeapon(player.CurrentRowPosition, player.weapon, color);
 
         // should get a rigidbody to be able to throw it, if not already available
         if(throwableWeapon.GetComponent<Rigidbody>() != null)

@@ -13,7 +13,7 @@ public class PhaseHandler : MonoBehaviour
     public static float timeLeft;
     public float maxDecisionPhaseSeconds = 5f;
     public float passedDecisionPhaseSeconds = 0f;
-    public float maxGameSeconds = 180f; // 180s = 3m
+    public static float maxGameSeconds = 180f; // 180s = 3m
     public static float passedGameSeconds;
     public static List<PlayerProperties> players;
     public List<float> totalTeamHp;
@@ -77,11 +77,11 @@ public class PhaseHandler : MonoBehaviour
         }
     }
 
-    // game will end after time is passed or all players are dead
+    // game will end after time is passed or all players of a team are dead
     bool HasGameFinished()
     {
-        List<PlayerProperties> deadPlayers = players.FindAll(somePlayer => somePlayer.currentHp <= 0);
-        return passedGameSeconds >= maxGameSeconds || deadPlayers.Count == players.Count;
+        // could write this more generic to be able to handle more teams, but will be enough right now
+        return passedGameSeconds >= maxGameSeconds || totalTeamHp[0] == 0 || totalTeamHp[1] == 0;
     }
 
     void CalculateTeamHp()

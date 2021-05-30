@@ -28,13 +28,12 @@ public class StatusPlane : MonoBehaviour
     // Update is called once per frame
     void Update()
     {       
-
             phase = PhaseHandler.phase;
             roundCount = PhaseHandler.roundCount;
             timeLeft = PhaseHandler.timeLeft;
             leadingTeam = PhaseHandler.leadingTeam;
             title = $"{phase} Phase";
-            descriptionTextMesh.text = $"Total time: {PhaseHandler.passedGameSeconds.ToString("F0")}\nRound {roundCount} - {leadingTeam} is leading.\n{title}\n{description}";
+            descriptionTextMesh.text = $"Total time: {PhaseHandler.passedGameSeconds.ToString("F0")} / {PhaseHandler.maxGameSeconds.ToString("F0")} \nRound {roundCount}; {leadingTeam} is leading.\n{title}\n{description}";
 
             if (phase == PhaseHandler.Phase.Action)
             {

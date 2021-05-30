@@ -14,49 +14,31 @@ public class DecisionPhase : MonoBehaviour
     private MinifigControllerGroupW playerMinifigController;
     bool isDecisionPhase;
 
-    // valid decision types
-    public enum Decision
-    {
-        Weapon,
-        Row
-    }
-
     // plays an annimation according to whether its action/decision phase and which kind of decision was made
-    public void PlayActionPhaseAnimation(Decision decision)
+    public void PlayActionPhaseAnimation()
     {
         // print($"animation decision: {decision}");
         if (PhaseHandler.phase == PhaseHandler.Phase.Decision)
         {
-            if (decision == Decision.Weapon)
-            {
-                //print("Playing Anmation for Weapon ");
-                playerMinifigController.PlaySpecialAnimation(MinifigControllerGroupW.SpecialAnimation.Dance);
-            }
-            else if (decision == Decision.Row)
-            {
-                //print("Playing Anmation for Row");
-                playerMinifigController.PlaySpecialAnimation(MinifigControllerGroupW.SpecialAnimation.Wave);
-            }
-            else
-            {
-                //print($"Invalid Decision: {decision}");
-                playerMinifigController.PlaySpecialAnimation(MinifigControllerGroupW.SpecialAnimation.IdleImpatient);
-            }
+          playerMinifigController.PlaySpecialAnimation(MinifigControllerGroupW.SpecialAnimation.Wave);
+
         }
         else
         {
-            // print("Decision is currently not allowed");
+            print("Decision is currently not allowed");
             playerMinifigController.PlaySpecialAnimation(MinifigControllerGroupW.SpecialAnimation.IdleImpatient);
         }
     }
 
-    public void ChangeEquippedWeapon(WeaponDefinitions.WeaponType weapon)
+    public void ChangeEquippedWeapon(WeaponDefinitions.WeaponType weapon, ActionPhase actionPhase)
     {
-        print("ChangeEquippedWeapon triggered");
+        // print("ChangeEquippedWeapon triggered");
         if (phase == PhaseHandler.Phase.Decision)
         {
             print($"Changing Weapon to {selectedWeapon}");
             selectedWeapon = weapon;
+            // just spawn a dummy weapon, such that it serves as feedback but does not reveal the actual selection
+            actionPhase.ChangeLeftHandWeapon("Weapons/SA_Item_Fish");
         }
    
         else
