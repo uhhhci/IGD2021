@@ -79,51 +79,58 @@ public class PlayerController : MonoBehaviour
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
         Movement = input;
-        Debug.Log("Moving");
+        if (input.y > 0)
+        {
+            // (upwards) pressed
+        }
+        if (input.y < 0)
+        {
+            // (downwards) pressed
+
+        }
     }
     private void OnMenu()
     {
-        print("OnMenu");
+
     }
 
     private void OnNorthPress()
     {
-        print("OnNorthPress");
+
     }
 
     private void OnNorthRelease()
     {
-        print("OnNorthRelease");
+
     }
 
     private void OnEastPress()
     {
-        print("OnEastPress");
+
     }
 
     private void OnEastRelease()
     {
-        print("OnEastRelease");
+
     }
 
     private void OnSouthPress()
     {
-        print("OnSouthPress");
         string tag = transform.gameObject.tag;
         WeaponSystems[CurrentWeaponIndex].Fire(tag);
     }
     private void OnSouthRelease()
     {
-        print("OnSouthRelease");
+
     }
 
     private void OnWestPress()
     {
-        print("OnWestPress");
+
     }
 
     private void OnWestRelease()
     {
-        print("OnWestRelease");
+
     }
 }
