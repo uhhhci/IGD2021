@@ -14,6 +14,7 @@ public class WeaponSystem : MonoBehaviour
     public SpawnPoint[] ShotSpawnPoints;
     public GameObject Bullet;
     public float FireRate = 1f;
+    public int TimeUntilLvlUp = 60;
 
     private AudioSource SoundEffect;
     private float FireRateCounter;
@@ -30,7 +31,7 @@ public class WeaponSystem : MonoBehaviour
     {
         FireRateCounter += Time.deltaTime;
         TimeCounter += Time.deltaTime;
-        if ((int) TimeCounter % 60 == 0 && LevelSet == false) // Set the level every 60 Seconds up
+        if ((int) TimeCounter % TimeUntilLvlUp == 0 && LevelSet == false) // Set the level every 60 Seconds up
         {
             Level += 1;
             LevelSet = true;
@@ -45,23 +46,23 @@ public class WeaponSystem : MonoBehaviour
 
     public void Fire(string Tag)
     {
-        if (Tag == "Player")
+        if (Tag == "Enemy") Level = 1;
+        
+        if(FireRateCounter >= FireRate / Level)
         {
-            if(FireRateCounter >= FireRate / Level)
-            {
-                FireRateCounter = 0;
+            FireRateCounter = 0;
             
-                foreach(var spawnPoint in ShotSpawnPoints)
-                {
-                    Instantiate(Bullet, spawnPoint.transform.position, spawnPoint.rotation);
-                }
-                if (SoundEffect)
-                {
-                    SoundEffect.Play();
-                }
-                else Debug.Log("No AudioSource on the WeaponSystem.");
-        }
+            foreach(var spawnPoint in ShotSpawnPoints)
+            {
+                Instantiate(Bullet, spawnPoint.transform.position, spawnPoint.rotation);
+            }
+            if (SoundEffect)
+            {
+                SoundEffect.Play();
+            }
+            else Debug.Log("No AudioSource on the WeaponSystem.");
         }
         
+
     }
 }

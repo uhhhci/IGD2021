@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a58c6fbcfad35c74591d6c1444797832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: -5
 --- !u!114 &3543124190202249572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +143,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CanvasHPBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 3158532268655502465, guid: 4abde98499dfadf41a6c16549e637167,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3158532268655502469, guid: 4abde98499dfadf41a6c16549e637167,
         type: 3}
