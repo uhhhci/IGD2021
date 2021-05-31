@@ -16,5 +16,9 @@ public class CreditBehaviour : MonoBehaviour
         {
             rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         }
+        if(collision.gameObject.tag == "floor")
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
