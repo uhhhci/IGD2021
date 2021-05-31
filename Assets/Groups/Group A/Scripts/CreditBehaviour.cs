@@ -14,14 +14,7 @@ public class CreditBehaviour : MonoBehaviour
     {
         if(collision.gameObject.tag == "MiddlePlattform")
         {
-            rigidbody.isKinematic = true;
-        }
-
-        if(collision.gameObject.tag == "Player")
-        {
-            MinifigControllerWTH controller = collision.gameObject.GetComponent<MinifigControllerWTH>();
-            controller.AddPoints(1);
-            Destroy(this.gameObject);
+            rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
 }

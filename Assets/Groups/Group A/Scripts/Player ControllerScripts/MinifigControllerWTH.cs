@@ -723,6 +723,12 @@ public class MinifigControllerWTH : MonoBehaviour
         {
             Respawn();
         }
+        if (hit.collider.tag == "Credit")
+        {
+            GameObject credit = hit.gameObject;
+            AddPoints(1);
+            Destroy(credit);
+        }
         if (controller.isGrounded)
         {
             RaycastHit raycastHit;
