@@ -5,6 +5,9 @@ using UnityEngine;
 public class GenerateRings : MonoBehaviour
 {
 
+    public static GenerateRings instance = null;
+
+
     public GameObject wallPrefab;
     public double radius = 8.0;
     public int numberOfRings = 2;
@@ -22,6 +25,11 @@ public class GenerateRings : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+
+        if (instance == null) instance = this;
+        else if (instance != this) Destroy(gameObject);
+
+
         for(int ring = 1; ring <= numberOfRings; ring++)
         {
             GameObject currentRing = new GameObject();
