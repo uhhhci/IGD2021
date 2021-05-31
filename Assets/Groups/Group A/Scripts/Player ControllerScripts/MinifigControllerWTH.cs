@@ -198,6 +198,8 @@ public class MinifigControllerWTH : MonoBehaviour
     public int playerPoints = 0;
     Action<bool> onSpecialComplete;
 
+    private BasePowerUp inventory = null;
+
     void OnValidate()
     {
         maxForwardSpeed = Mathf.Clamp(maxForwardSpeed, 5, 30);
@@ -959,6 +961,16 @@ public class MinifigControllerWTH : MonoBehaviour
     {
         playerPoints += points;
     }
+
+    public void AddPowerUp(BasePowerUp powerUp)
+    {
+        if (inventory == null)
+        {
+            inventory = powerUp;
+            Debug.Log($"Got PowerUp with tag{ powerUp.GetType()}");
+        }
+    }
+
 
     #region Input Handling
     // Input ------------------------------------------------------------------------------------------
