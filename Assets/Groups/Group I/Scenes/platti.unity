@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.24573775, g: 0.5653007, b: 0.8632721, a: 1}
+  m_IndirectSpecularColor: {r: 0.24574013, g: 0.5653239, b: 0.86652875, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -661,6 +661,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1337ff3f0ba67b743a229bd87105578f, type: 3}
+--- !u!1 &458633502 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1490544297967454, guid: 1337ff3f0ba67b743a229bd87105578f,
+    type: 3}
+  m_PrefabInstance: {fileID: 769649808}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &458633506
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458633502}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.8978376, y: 4.8978376, z: 4.8978367}
+  m_Center: {x: 0.00000059604645, y: 2.4489188, z: 0}
 --- !u!1001 &463409816
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -842,7 +861,7 @@ PrefabInstance:
     - target: {fileID: 8612489488774388799, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8612489488774388799, guid: ef277551de3652c4dab21591da2a6201,
         type: 3}
@@ -961,6 +980,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 625e1518f7d51b741b259e863a096e42, type: 3}
+--- !u!1 &640301477 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1490544297967454, guid: 1337ff3f0ba67b743a229bd87105578f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1409061152}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &640301481
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640301477}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.8978376, y: 4.8978376, z: 4.8978367}
+  m_Center: {x: 0.00000059604645, y: 2.4489188, z: 0}
 --- !u!1 &653260035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1243,6 +1281,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1448228690}
   RespawnPointWSAD: {fileID: 1535909479}
+--- !u!1 &814361581 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1490544297967454, guid: 1337ff3f0ba67b743a229bd87105578f,
+    type: 3}
+  m_PrefabInstance: {fileID: 464640676}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &814361585
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814361581}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.8978376, y: 4.8978376, z: 4.8978367}
+  m_Center: {x: 0.00000059604645, y: 2.4489188, z: 0}
 --- !u!1 &814700098 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 627107172102532984, guid: ef277551de3652c4dab21591da2a6201,
@@ -1367,6 +1424,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 845417619}
+--- !u!1 &861353769 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1490544297967454, guid: 1337ff3f0ba67b743a229bd87105578f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1797231780}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &861353773
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861353769}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.8978376, y: 4.8978376, z: 4.8978367}
+  m_Center: {x: 0.00000059604645, y: 2.4489188, z: 0}
 --- !u!1001 &928174469
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1589,7 +1665,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: -0.128, y: 85.244, z: -4.997}
 --- !u!1001 &1096824169
 PrefabInstance:
