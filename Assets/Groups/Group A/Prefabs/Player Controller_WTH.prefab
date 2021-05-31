@@ -213,6 +213,20 @@ MonoBehaviour:
   explodeAudioClip: {fileID: 8300000, guid: b9b607b06267c4394b07c19523c455f1, type: 3}
   inputEnabled: 1
   maxJumpsInAir: 0
+  playerPoints: 0
+--- !u!114 &2141080080830424671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627107172102532984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cefe13810817f474daecc10fa72fcd7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Controller: {fileID: 0}
 --- !u!1001 &2850988932003491055
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -280,8 +294,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6837884902066694121, guid: 97ae038d837a3a74484d0cbc8733ad2d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 97ae038d837a3a74484d0cbc8733ad2d, type: 3}
+--- !u!1 &627107172102532984 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3396648646272746391, guid: 97ae038d837a3a74484d0cbc8733ad2d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2850988932003491055}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9209827467607014706 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6367911877577183709, guid: 97ae038d837a3a74484d0cbc8733ad2d,
