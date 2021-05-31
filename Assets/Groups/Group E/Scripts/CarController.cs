@@ -199,12 +199,17 @@ public class CarController : MonoBehaviour
 
     private void OnEastPress()
     {
-        print("OnEastPress");
+        //print("Powerup");
+        PlayerStats ps = gameObject.GetComponent<PlayerStats>();
+        if(ps.hasPowerup)
+        {
+            StartCoroutine(ps.power.UsePowerup(ps.gameObject));
+        }
     }
 
     private void OnEastRelease()
     {
-        print("OnEastRelease");
+        //print("OnEastRelease");
     }
 
     private void OnSouthPress()

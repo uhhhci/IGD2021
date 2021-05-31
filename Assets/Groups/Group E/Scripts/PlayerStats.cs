@@ -36,6 +36,13 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    public void UsedPowerup()
+    {
+        hasPowerup = false;
+        power = null;
+        textPowerup.text = "Powerup: ";
+    }
+
     public float GetDistance()
     {
         return (transform.position - lastZone.position).magnitude + CurrentZone * WAYPOINT_VALUE + rounds * LAP_VALUE;
