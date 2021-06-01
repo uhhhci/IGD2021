@@ -10,9 +10,12 @@ public class GameController : MonoBehaviour, IPowerUpEvents
 
     public Text EndGameText;
     public List<GameObject> Players = new List<GameObject>();
+    public float timeRemaining = 3;
 
     private bool GamePlaying;
     private List<PowerUp> ActivePowerUps;
+    private bool timerIsRunning = false;
+
     void Awake()
     {
         if (Players.Count == 0)
@@ -25,12 +28,33 @@ public class GameController : MonoBehaviour, IPowerUpEvents
 
     void Start()
     {
+        timerIsRunning = true;
         Application.targetFrameRate = 60;
-        BeginGame();
+        
+
     }
 
     void Update()
     {
+                if (timerIsRunning)
+        {
+            if(timeRemaining > 0)
+            {
+                timeRemaining -= Time.deltaTime;
+                EndGameText.text = timeRemaining.ToString();
+            }
+            else
+            {
+                {
+                    timeRemaining = 0;
+                    timerIsRunning = false;
+                    EndGameText.text = "";
+                    BeginGame();
+                }
+            }
+        }
+
+
         if (GamePlaying && (Players.Count == 0 || TimerController.instance.GetTimeLeft() <= 0.0f))
         {
             EndGame();
@@ -39,9 +63,9 @@ public class GameController : MonoBehaviour, IPowerUpEvents
 
     public void BeginGame()
     {
+
         GamePlaying = true;
         EndGameText.text = "";
-
         TimerController.instance.BeginTimer();
     }
 
@@ -50,6 +74,14 @@ public class GameController : MonoBehaviour, IPowerUpEvents
         GamePlaying = false;
         EndGameText.text = "Game Ended!";
         TimerController.instance.EndTimer();
+        if (Players.Count == 0)
+        {
+            Debug.Log("Single Player wins!");
+        }
+        else
+        {
+            Debug.Log("Teams wins!");
+        }
     }
 
     public void RemovePlayer(GameObject p)
