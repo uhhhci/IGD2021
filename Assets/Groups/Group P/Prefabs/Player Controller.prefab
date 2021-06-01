@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7244567856315620408}
   - component: {fileID: 629297074304548042}
   - component: {fileID: 889938595594470493}
+  - component: {fileID: 5685828378904880705}
   m_Layer: 9
   m_Name: Player Controller
   m_TagString: Player
@@ -205,6 +206,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e43540d8663fd0f46bbd97e64e75a934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5685828378904880705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70292193334677109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a215cc0e89dbda4abbb7330084a08a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 0
+  hitStreak: 0
+  multiplier: 0
+  specialMultiplier: 0
+  hitEffect: {fileID: 1803996288138160223, guid: 86e6f93de07e49f4d9ac67cd1f0dd448,
+    type: 3}
+  goodEffect: {fileID: 80929517799634360, guid: 752f06df970f8ef44ac0c592bde89c86,
+    type: 3}
+  perfectEffect: {fileID: 6971454887868578680, guid: e6d130e7df8d7c346811562832318263,
+    type: 3}
+  missedEffect: {fileID: 6657035873186933963, guid: 0788e4cb1a80f1845be8b378515ba0a0,
+    type: 3}
+  scoreText: {fileID: 0}
 --- !u!1001 &719356720317305593
 PrefabInstance:
   m_ObjectHideFlags: 0

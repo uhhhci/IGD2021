@@ -19,6 +19,7 @@ namespace GroupP {
         }
 
         public GameObject notePrefab;
+        public GameObject specialPrefab;
 
         public float beatsPerMinute;
         private float deltaBeatS;
@@ -41,7 +42,6 @@ namespace GroupP {
         }
         void Start()
         {
-            Debug.Log(transform.lossyScale);
             GameObject theSong = GameManager.instance.getSong();
             tempo = theSong.GetComponent<Song>().beatsPerMinute;
             songOffset = theSong.GetComponent<Song>().offset;
@@ -71,7 +71,6 @@ namespace GroupP {
                 }
                 
             }
-            Debug.Log(counter);
             
         }
 
@@ -106,14 +105,22 @@ namespace GroupP {
         }
 
         GameObject spawnNote(float position, KeyType key) {
-            GameObject obj = Instantiate(notePrefab) as GameObject;
+            GameObject obj;
+            if(UnityEngine.Random.Range(0f, 1f) < 0.05f) {
+                obj = Instantiate(specialPrefab) as GameObject;
+                obj.GetComponent<Note>().special = true;
+                obj.transform.SetParent(gameObject.transform);
+                obj.transform.localScale = specialPrefab.transform.localScale;
+            } else {
+                obj = Instantiate(notePrefab) as GameObject;
+                obj.transform.SetParent(gameObject.transform);
+                obj.GetComponent<Note>().bad = UnityEngine.Random.Range(0f, 1f) < 0.4f;
+                obj.transform.localScale = notePrefab.transform.localScale;
+            }
             obj.SetActive(true);
             
-            UnityEngine.Random.Range(0, 4);
             obj.GetComponent<Note>().key = key;
             
-            obj.transform.SetParent(gameObject.transform);
-            obj.transform.localScale = notePrefab.transform.localScale;
             obj.transform.localPosition = new Vector3(songOffset + position * 60f, 0f, 0f);
             obj.GetComponent<Note>().tempo = tempo;
 

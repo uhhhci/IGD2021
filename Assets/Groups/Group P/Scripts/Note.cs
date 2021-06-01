@@ -17,6 +17,9 @@ namespace GroupP {
 
         public float tempo;
 
+        public bool bad = false;
+        public bool special = false;
+
         void Awake() 
         {
                 
@@ -49,6 +52,12 @@ namespace GroupP {
             default:
                 break;
             }
+            if(gameObject.GetComponent<Note>().special) {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
+            }
+            else if(gameObject.GetComponent<Note>().bad) {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);
+            }
         }
 
         // Update is called once per frame
@@ -62,20 +71,15 @@ namespace GroupP {
 
         private void OnTriggerEnter2D(Collider2D other) {
             if(other.tag == "activator") {
-                Debug.Log("OnTriggerEnter");
                 collisionObject = other;
                 
                 KeyPressHandler.instance.registerNote(this);
                 collision = true;
-
-                Debug.Log(transform.position.x);
-                Debug.Log(collisionObject.transform.position.x);
             }
         }
 
         private void OnTriggerExit2D(Collider2D other) {
             if(other.tag == "activator") {
-                //Debug.Log("OnTriggerExit");
                 KeyPressHandler.instance.deregisterNote(this);
                 
                 Destroy(gameObject, 0.2f);

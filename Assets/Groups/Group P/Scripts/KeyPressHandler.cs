@@ -11,7 +11,7 @@ namespace GroupP {
         
         private class PlayerStat {
             public GameObject player;
-            public bool hasHitLastNote;
+            public List<bool> hasHitNotes;
         }
 
         List<PlayerStat> playerStats = new List<PlayerStat>();
@@ -41,22 +41,26 @@ namespace GroupP {
         public void registerPlayer(GameObject player) {
             PlayerStat playerStat = new PlayerStat();
             playerStat.player = player;
-            playerStat.hasHitLastNote = false;
+            playerStat.hasHitNotes = new List<bool>();
             playerStats.Add(playerStat);
             Debug.Log(playerStats.Count);
         }
 
         public void registerNote(Note note) {
+            foreach(var playerStat in playerStats) {
+                playerStat.hasHitNotes.Add(false);
+            }
             currentNotes.Add(note);
         }
 
         public void deregisterNote(Note note) {
+            int index = currentNotes.IndexOf(note);
             //TODO call MissedHit() for players who havent hit the note
             foreach(var playerStat in playerStats) {
-                if(!playerStat.hasHitLastNote) {
+                if(!playerStat.hasHitNotes[index] && !note.bad) {
                     playerStat.player.GetComponent<Score>().Missed();
                 }
-                playerStat.hasHitLastNote = false;
+                playerStat.hasHitNotes.RemoveAt(index);
             }
             currentNotes.Remove(note);
         }
@@ -65,18 +69,26 @@ namespace GroupP {
             
             foreach (var note in currentNotes)
             {
-
+                int index = currentNotes.IndexOf(note);
                 foreach (var playerStat in playerStats)
                 {
                     
                    if(playerStat.player.name.Equals(currentPlayer.name)) {
-                    if(!playerStat.hasHitLastNote) {
-                        playerStat.player.GetComponent<Score>().Hit(note.hitQuality);
-                        playerStat.hasHitLastNote = true;
-                    }
-                    
+                        if(!playerStat.hasHitNotes[index]) {
+                            if(keyType == note.key) {
+                                if(note.bad == true) {
+                                    playerStat.player.GetComponent<Score>().BadHit();
+                                } else if (note.special) {
+                                    playerStat.player.GetComponent<Score>().SpecialHit(note.hitQuality);
+                                }
+                                else {
+                                    playerStat.player.GetComponent<Score>().Hit(note.hitQuality);
+                                }
+
+                                playerStat.hasHitNotes[index] = true;
+                            }
+                        }
                    }
-                   
                 }
             }
         }

@@ -10,7 +10,10 @@ namespace GroupP
         public int score;
         public int hitStreak;
         public int multiplier;
+        public int specialMultiplier;
         int[] multiplierThresholds;
+
+        public GameObject hitEffect, goodEffect, perfectEffect, missedEffect;
 
         public Text scoreText;
 
@@ -19,6 +22,7 @@ namespace GroupP
         {
             score = 0;
             multiplier = 1;
+            specialMultiplier = 0;
             hitStreak = 0;
 
             multiplierThresholds = new int[] { 3, 6, 9 };
@@ -39,30 +43,50 @@ namespace GroupP
             {
                 multiplier++;
             }
-            score += multiplier * (int)points;
+            
+            score += multiplier * (int)points + specialMultiplier * (int)points;
         }
 
         public void NormalHit()
         {
+            Instantiate(hitEffect);
             Hit(HitQuality.NORMAL);
         }
 
         public void GoodHit()
         {
+            Instantiate(goodEffect);
             Hit(HitQuality.GOOD);
         }
 
         public void PerfectHit()
         {
+            Instantiate(perfectEffect);
             Hit(HitQuality.PERFECT);
         }
 
         public void Missed()
         {
+            Instantiate(missedEffect);
             Debug.Log("Missed");
             score -= 0; // Do we want Minus-Points?
             multiplier = 1;
             hitStreak = 0;
+        }
+
+        public void BadHit() {
+            Debug.Log("Bad Hit");
+            multiplier = 1;
+            hitStreak = 0;
+            score -= 10;
+        }
+
+        public void SpecialHit(HitQuality points) {
+            Debug.Log("Special Hit");
+            if (specialMultiplier <= multiplierThresholds.Length) {
+                specialMultiplier++;
+            }
+            Hit(points);
         }
     }
 }
