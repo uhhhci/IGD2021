@@ -8,6 +8,7 @@ public class PlayerStats : MonoBehaviour
     public int rounds;
     public Text textRounds;
     public Text textPosition;
+    public Text textPowerup;
     public int CurrentZone;
     public Transform lastZone;
     public int position;
@@ -33,6 +34,13 @@ public class PlayerStats : MonoBehaviour
         {
             textRounds.text = "You finished!";
         }
+    }
+
+    public void UsedPowerup()
+    {
+        hasPowerup = false;
+        power = null;
+        textPowerup.text = "Powerup: ";
     }
 
     public float GetDistance()
