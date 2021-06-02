@@ -973,7 +973,7 @@ public class MinifigControllerWTH : MonoBehaviour
 
     public void AddForce(Vector3 force)
     {
-        moveDelta += force;
+        moveDelta = force;
     }
 
     #region Input Handling
