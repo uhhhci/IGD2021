@@ -971,6 +971,10 @@ public class MinifigControllerWTH : MonoBehaviour
         }
     }
 
+    public void AddForce(Vector3 force)
+    {
+        moveDelta += force;
+    }
 
     #region Input Handling
     // Input ------------------------------------------------------------------------------------------
@@ -1006,6 +1010,11 @@ public class MinifigControllerWTH : MonoBehaviour
     private void OnEastPress()
     {
         print("OnEastPress");
+        if(inventory != null)
+        {
+            inventory.SpawnPowerUp(transform.position);
+            inventory = null;
+        }
     }
 
     private void OnEastRelease()
