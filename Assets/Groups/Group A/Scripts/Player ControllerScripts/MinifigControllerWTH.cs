@@ -297,18 +297,18 @@ public class MinifigControllerWTH : MonoBehaviour
             moveDelta = new Vector3(directSpeed.x , moveDelta.y, directSpeed.z);
 
             // Apply external Force 
-            if(externalForce.y > 0f)
+            if(Mathf.Abs(externalForce.x) > 0f || Mathf.Abs(externalForce.z) > 0f)
             {
                 Debug.Log("Jump");
             }
-            externalForce *= 0.9f;
+            externalForce *= 0.93f;
 
-            if (externalForce.x < 0.005) externalForce.x = 0;
-            if (externalForce.y < 0.005) externalForce.y = 0;
-            if (externalForce.z < 0.005) externalForce.z = 0;
+            if (Mathf.Abs( externalForce.x) < 0.005f) externalForce.x = 0f;
+            if (externalForce.y < 0.005f) externalForce.y = 0f;
+            if (Mathf.Abs(externalForce.z) < 0.005f) externalForce.z = 0f;
 
-            moveDelta.x += externalForce.x * Time.deltaTime;
-            moveDelta.z += externalForce.z * Time.deltaTime;
+            moveDelta.x += externalForce.x;
+            moveDelta.z += externalForce.z;
             if(externalForce.y > 0 ) moveDelta.y = Mathf.Max(moveDelta.y, externalForce.y);
 
 
