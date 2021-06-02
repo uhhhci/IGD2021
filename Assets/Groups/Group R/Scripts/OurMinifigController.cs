@@ -916,6 +916,13 @@ public class OurMinifigController : MonoBehaviour
     }
 
     #endregion
+
+
+void OnCollisionEnter(Collision collision)
+    {
+        GameObject gameObj = collision.gameObject;
+        if(gameObj.tag=="Player" ){
+            print("collided other player");
+        }
+    }
 }
-
-
