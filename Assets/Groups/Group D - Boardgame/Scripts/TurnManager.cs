@@ -218,9 +218,11 @@ public class TurnManager : MonoBehaviour
 
         if (interactions.anActionIsSelected()) { // display the costs of the selected action 
             hud.updateActionPoints(actionPoints, interactions.getSelectedActionAPCost());
+            playerBelongings[activePlayer].setDisplayedCreditCosts(interactions.getSelectedActionCreditCost());
         } 
         else {
             hud.updateActionPoints(actionPoints);
+            playerBelongings[activePlayer].setDisplayedCreditCosts(0);
         }
 
         // marker other active player
