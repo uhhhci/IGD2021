@@ -4,53 +4,62 @@ using UnityEngine;
 
 public class RingMoverLeft1 : MonoBehaviour
 {
-    public float rotation_speed, t, startRot, coolDown, coolDownDur, turningDur;
-    public bool arrowAct;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        coolDownDur = 5f;
-        turningDur = 5f;
-        arrowAct = true;
-        rotation_speed = 1f;
-        startRot = -5f;
-        coolDown = 0f;
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Time.time >= coolDown + coolDownDur)
-        {
-            arrowAct = true;
-            coolDown = 0f;
-            gameObject.active = arrowAct;
-        }
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        startRot = Time.time;
-
-        if (Time.time <= (startRot+turningDur))
+        if (other.tag == "Player")
         {
-            GenerateRings.instance.RotateRing(1, rotation_speed);
+            RingMoverManager.instance.bl_enter = Time.time; 
+            Debug.Log("Mover: first touch");
         }
-        else
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+
+        if (other.tag == "Player")
         {
-            arrowAct = false;
-            gameObject.active = arrowAct;
+            if (RingMoverManager.instance.bl_active)
+            {
+                if (Time.time <= RingMoverManager.instance.bl_enter + RingMoverManager.instance.dur)
+                {
+                    GenerateRings.instance.RotateRing(1, RingMoverManager.instance.speed);
+                    Debug.Log("Mover: turn the table");
+                }
+
+                else
+                {
+                    RingMoverManager.instance.bl_exit = Time.time; 
+                    RingMoverManager.instance.bl_active = false; 
+                    this.gameObject.SetActive(false); 
+                    Debug.Log("Mover: standest zu lang drauf");
+                }
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-
-        arrowAct = false;
-        coolDown = Time.time;
-        
-        gameObject.active = arrowAct;
-
+        if (other.tag == "Player")
+        {
+            RingMoverManager.instance.bl_exit = Time.time;
+            RingMoverManager.instance.bl_active = false;
+            Debug.Log("Mover: Knopf verlassen");
+        }
 
     }
 
