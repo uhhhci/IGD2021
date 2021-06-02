@@ -4,42 +4,65 @@ using UnityEngine;
 
 public class RingMoverLeft : MonoBehaviour
 {
-    public float rotation_speed, t, s;
+
     // Start is called before the first frame update
     void Start()
     {
-        rotation_speed = 1f;
-        s = -5f;
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (s <= (Time.time - 5f)) t = Time.time;
+        if (other.tag == "Player")
+        {
+            RingMoverManager.instance.tl_enter = Time.time;
+            Debug.Log("Mover: first touch");
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+
+        if (other.tag == "Player")
+        {
+            if (RingMoverManager.instance.tl_active)
+            {
+                if (Time.time <= RingMoverManager.instance.tl_enter + RingMoverManager.instance.dur)
+                {
+                    GenerateRings.instance.RotateRing(2, RingMoverManager.instance.speed);
+                    Debug.Log("Mover: turn the table");
+                }
+
+                else
+                {
+                    RingMoverManager.instance.tl_exit = Time.time;
+                    RingMoverManager.instance.tl_active = false;
+                    this.gameObject.SetActive(false);
+                    Debug.Log("Mover: standest zu lang drauf");
+                }
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        s = Time.time;
-        t = 0f;
-    }
-
-    void OnTriggerStay(Collider other)
-    {
         if (other.tag == "Player")
         {
-            float r = Time.time;
-            if (r <= (t + 5f) && r >= (s + 5f))
-            {
-                GenerateRings.instance.RotateRing(1, rotation_speed);
-            }
-            Debug.Log(other);
+            RingMoverManager.instance.tl_exit = Time.time;
+            RingMoverManager.instance.tl_active = false;
+            Debug.Log("Mover: Knopf verlassen");
         }
 
     }
+
+
+
+
 }
