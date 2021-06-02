@@ -278,6 +278,8 @@ public class TurnManager : MonoBehaviour
                 break;
             case PlayerAction.Type.BUY_GOLDEN_BRICK:
                 playerBelongings[activePlayer].addGoldenBrick();
+                //TODO: add sound effect here
+                players[activePlayer].PlayPickupSound();
                 brickManager.relocate();
                 break;
             case PlayerAction.Type.ITEM_CREDIT_THIEF:

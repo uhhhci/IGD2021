@@ -94,6 +94,7 @@ public class BoardgameController : MonoBehaviour
     public AudioClip doubleJumpAudioClip;
     public AudioClip landAudioClip;
     public AudioClip explodeAudioClip;
+    public AudioClip receiveItemAudioClip;
 
     [Header("Controls")]
     [SerializeField]
@@ -570,6 +571,11 @@ public class BoardgameController : MonoBehaviour
     {
         inputEnabled = enabled;
         inputEnabledCached = enabled; // also overwrite the cached value
+    }
+
+    public void PlayPickupSound()
+    {
+        audioSource.PlayOneShot(receiveItemAudioClip);
     }
 
     public void PlaySpecialAnimation(SpecialAnimation animation, AudioClip specialAudioClip = null, Action<bool> onSpecialComplete = null)
