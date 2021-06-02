@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class TrampolineBehaviour : MonoBehaviour
 {
-    public float bounciness = 10f;
+    public float bounciness = 15f;
+    public float secsToDespawn = 15f;
+    private void Start()
+    {
+        Invoke("Despawn", secsToDespawn);
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -14,5 +19,9 @@ public class TrampolineBehaviour : MonoBehaviour
             controller.AddForce(bounce);
         }
 
+    }
+    private void Despawn()
+    {
+        Destroy(this.gameObject);
     }
 }
