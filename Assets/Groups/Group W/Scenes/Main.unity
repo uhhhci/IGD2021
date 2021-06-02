@@ -1857,7 +1857,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3e979b3745b4a024bbbd5806d425fa75, type: 2}
+  - {fileID: 2100000, guid: d35fe53477db54adf82b21d3c55efaa8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2838,7 +2838,7 @@ Terrain:
   m_GameObject: {fileID: 965686131}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: 8ac945c2e570f4931a7af89b8309e119, type: 2}
+  m_TerrainData: {fileID: 0}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
@@ -4312,7 +4312,7 @@ TerrainCollider:
   m_GameObject: {fileID: 1265719356}
   m_Material: {fileID: 0}
   m_Enabled: 1
-  m_TerrainData: {fileID: 15600000, guid: dd681423981bb48219f10bd26bf86d4c, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 3661dd7f7273c4d99b10c7c3de46fc2c, type: 2}
   m_EnableTreeColliders: 1
 --- !u!218 &1265719358
 Terrain:
@@ -4323,7 +4323,7 @@ Terrain:
   m_GameObject: {fileID: 1265719356}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: dd681423981bb48219f10bd26bf86d4c, type: 2}
+  m_TerrainData: {fileID: 0}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
@@ -4717,7 +4717,7 @@ TerrainCollider:
   m_GameObject: {fileID: 1434375934}
   m_Material: {fileID: 0}
   m_Enabled: 1
-  m_TerrainData: {fileID: 15600000, guid: 21943c91b839f40ee85dc1defcbf58cc, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: f269fcc35cd8442f1bcd534d1d40361e, type: 2}
   m_EnableTreeColliders: 1
 --- !u!218 &1434375936
 Terrain:
@@ -4728,7 +4728,7 @@ Terrain:
   m_GameObject: {fileID: 1434375934}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: 21943c91b839f40ee85dc1defcbf58cc, type: 2}
+  m_TerrainData: {fileID: 0}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
@@ -5627,7 +5627,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDecisionPhaseSeconds: 5
   passedDecisionPhaseSeconds: 0
-  maxGameSeconds: 180
   totalTeamHp: []
   isActionPhaseFinished: 0
   havePlayersEquippedWeapons: 
@@ -5739,7 +5738,7 @@ Terrain:
   m_GameObject: {fileID: 1632879510}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: 60ddef634933446699cb513950cd0e23, type: 2}
+  m_TerrainData: {fileID: 0}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
