@@ -51,15 +51,15 @@ public class DieScript2 : MonoBehaviour
 
 			if(counter == 20)
 			{
-				rb.AddForce (0,1000,0);
+				rb.AddForce (0,800,0);
 			}
 			
-			if(counter > 20 && counter < 100 )
+			if(counter > 20 && counter < 85 )
 			{
 				rb.AddTorque (dirX, dirY, dirZ);
 				rb.AddForce (Random.Range (-11, 10),0,Random.Range (-11, 10));
 			}
-			if (counter == 100)
+			if (counter == 85)
 			{
 				DieSideChecker.done = false;
 			}
