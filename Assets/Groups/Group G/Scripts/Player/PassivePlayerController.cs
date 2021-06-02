@@ -20,7 +20,11 @@ public class PassivePlayerController : MonoBehaviour
     public int HazardCount = 3;
     public float WaveRate = 5.0f;
     public Text WaveCooldownText;
-
+    public int TimeUntilLvlUp = 60;
+    
+    private float TimeCounter = 0.0f;
+    private bool LevelSet = false;
+    private int Level;
     private Vector2 Movement;
     private float NextWave;
     private float NextSlow;
@@ -97,6 +101,19 @@ public class PassivePlayerController : MonoBehaviour
         {
             WaveCooldownText.text = "Spawn Wave: READY";
         }
+        
+        TimeCounter += Time.deltaTime;
+        if ((int) TimeCounter % TimeUntilLvlUp == 0 && LevelSet == false) // Set the level every 60 Seconds up
+        {
+            Level += 1;
+            LevelSet = true;
+            Debug.Log("Level Up!");
+            
+        }
+        if ((int) TimeCounter % 2 == 1)
+        {
+            LevelSet = false;
+        }
     }
 
     //for physics
@@ -140,7 +157,7 @@ public class PassivePlayerController : MonoBehaviour
                     controller.SetSpeedBoostOn(SlowMultiplier);
                     StartCoroutine(WaitUntilExpires(controller));
                 }
-                NextSlow = Time.time + SlowRate;
+                NextSlow = Time.time + SlowRate - Level;
             }
 
         }
@@ -194,7 +211,7 @@ public class PassivePlayerController : MonoBehaviour
     {
         if (Time.time > NextWave)
         {
-            NextWave = Time.time + WaveRate;
+            NextWave = Time.time + WaveRate - Level;
             StartCoroutine(SpawnWave());
         }
     }
