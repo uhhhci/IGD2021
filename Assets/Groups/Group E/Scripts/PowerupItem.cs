@@ -21,6 +21,7 @@ public class PowerupItem : MonoBehaviour
         if (!(ps.hasPowerup))
         {
             // Variable assignment doesn't work
+            Debug.Log(powerup.Name);
             ps.power = powerup;
             Debug.Log(ps.power);
             ps.hasPowerup = true;
@@ -34,7 +35,5 @@ public class PowerupItem : MonoBehaviour
 
         GetComponent<Collider>().enabled = true;
         GetComponent<MeshRenderer>().enabled = true;
-        
-        powerup.UsePowerup(player);
     }
 }

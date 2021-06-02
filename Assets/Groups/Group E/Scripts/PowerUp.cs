@@ -5,5 +5,5 @@ using UnityEngine;
 public abstract class PowerUp : MonoBehaviour
 {
     public abstract string Name { get; }
-    public abstract void UsePowerup(Collider player);
+    public abstract IEnumerator UsePowerup(GameObject player);
 }

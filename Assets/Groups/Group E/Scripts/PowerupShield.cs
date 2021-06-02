@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class PowerupShield : PowerUp
 {
     public override string Name { get { return "Shield"; } }
-    public override void UsePowerup(Collider player)
+    public override IEnumerator UsePowerup(GameObject player)
     {
         Debug.Log("Name: " + Name);
 
         PlayerStats ps = player.GetComponent<PlayerStats>();
-        ps.hasPowerup = false;
-        ps.power = null;
+        ps.UsedPowerup();
+
+        yield return new WaitForSeconds(5);
     }
 
 }
