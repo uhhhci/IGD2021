@@ -9,7 +9,7 @@ public class Player_G : MonoBehaviour
     public HealthBar HealthBar;
     public GameObject Explosion;
     
-    private GameController GameController;
+    private GameController_G GameController;
     private HealthSystem HealthSystem;
     private bool IsInvulnerable;
     void Start()
@@ -17,7 +17,7 @@ public class Player_G : MonoBehaviour
         GameObject gameControllerObject = GameObject.FindWithTag("GameController");
         if (gameControllerObject != null)
         {
-            GameController = gameControllerObject.GetComponent<GameController>();
+            GameController = gameControllerObject.GetComponent<GameController_G>();
         }
         if (GameController == null)
         {

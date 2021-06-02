@@ -25,7 +25,7 @@ public class PassivePlayerController : MonoBehaviour
     private float NextWave;
     private float NextSlow;
     private int CurrentWeaponIndex = 0;
-    private GameController GameController;
+    private GameController_G GameController;
     AudioSource AudioSource;
 
     void Start()
@@ -33,7 +33,7 @@ public class PassivePlayerController : MonoBehaviour
         GameObject gameControllerObject = GameObject.FindWithTag("GameController");
         if (gameControllerObject != null)
         {
-            GameController = gameControllerObject.GetComponent<GameController>();
+            GameController = gameControllerObject.GetComponent<GameController_G>();
         }
         if (GameController == null)
         {
@@ -43,14 +43,7 @@ public class PassivePlayerController : MonoBehaviour
         string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
 
-        GameObject weapon = Instantiate(WeaponSystems[CurrentWeaponIndex].Bullet, WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.position, WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.rotation);
-        weapon.name = "CurrentWeapon";
-        weapon.transform.parent = gameObject.transform;
-        weapon.transform.position = WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.position;
-        weapon.GetComponent<Rigidbody>().isKinematic = true;
-        weapon.GetComponent<Collider>().enabled = false;
-        weapon.GetComponent<Mover>().enabled = false;
-        weapon.transform.Find("CanvasHPBar").gameObject.SetActive(false);
+        UpdateWeaponVisualization();
     }
     public void UpdateWeaponByIndex(int index)
     {
@@ -61,7 +54,7 @@ public class PassivePlayerController : MonoBehaviour
     public void UpdateWeaponVisualization()
     {
         
-        if(gameObject.transform.Find("CurrentWeapon").gameObject != null)
+        if(gameObject.transform.Find("CurrentWeapon") != null)
         {
             GameObject.Destroy(gameObject.transform.Find("CurrentWeapon").gameObject);
         }
@@ -202,11 +195,11 @@ public class PassivePlayerController : MonoBehaviour
         if (Time.time > NextWave)
         {
             NextWave = Time.time + WaveRate;
-            SpawnWave();
+            StartCoroutine(SpawnWave());
         }
     }
 
-    private void SpawnWave()
+    IEnumerator SpawnWave()
     {
         for (int i = 0; i < HazardCount; i++)
         {
@@ -214,6 +207,7 @@ public class PassivePlayerController : MonoBehaviour
             Vector3 spawnPosition = new Vector3(Random.Range(-WaveSpawnValues.x, WaveSpawnValues.x), WaveSpawnValues.y, WaveSpawnValues.z);
             Quaternion spawnRotation = Quaternion.identity;
             Instantiate(waveHazard, spawnPosition, spawnRotation);
+            yield return new WaitForSeconds(0.5f);
         }
     }
     private void OnWestRelease()

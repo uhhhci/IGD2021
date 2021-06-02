@@ -12,14 +12,14 @@ public class Enemy_G : MonoBehaviour
     [Range(0.0f, 1.0f)]
     public float DropChance;
 
-    private GameController GameController;
+    private GameController_G GameController;
     private HealthSystem HealthSystem;
     void Start()
     {
         GameObject gameControllerObject = GameObject.FindWithTag("GameController");
         if (gameControllerObject != null)
         {
-            GameController = gameControllerObject.GetComponent<GameController>();
+            GameController = gameControllerObject.GetComponent<GameController_G>();
         }
         if (GameController == null)
         {
