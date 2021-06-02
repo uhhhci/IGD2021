@@ -34,6 +34,7 @@ public class CarController : MonoBehaviour
     public Vector3 centerOfMass;
     public Vector3 wheelRotationOffset;
     public float downForce = 10.0f;
+    public List<GameObject> slowGrounds;
 
     public void DisableControl()
     {
@@ -43,6 +44,7 @@ public class CarController : MonoBehaviour
     void FixedUpdate()
     {
         CheckDrivingDirection(rb);
+        ChangeGroundDependentSpeed();
         Move();
         Turn();
         ApplyDownForce();
@@ -58,6 +60,41 @@ public class CarController : MonoBehaviour
     void Update()
     {
         AnimateWheels();
+    }
+
+    private void ChangeGroundDependentSpeed()
+    {
+
+        RaycastHit raycastHit;
+        Vector3 raycastStart = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+        if (Physics.Raycast(raycastStart, Vector3.down, out raycastHit, 40.0f))
+        {
+            if(slowGrounds.Contains(raycastHit.collider.gameObject))
+            {
+                SetWheelsStiffnessTo(0.4f);
+            } else
+            {
+                SetWheelsStiffnessTo(2.0f);
+            }
+        }
+    }
+
+    private void SetWheelsStiffnessTo(float stiffness)
+    {
+        foreach (Wheel wheel in wheels)
+        {
+            SetWheelStiffnessTo(wheel, stiffness);
+        }
+    }
+
+    private void SetWheelStiffnessTo(Wheel wheel, float stiffness)
+    {
+        WheelFrictionCurve forwardFriction = wheel.collider.forwardFriction;
+        forwardFriction.stiffness = stiffness;
+        wheel.collider.forwardFriction = forwardFriction;
+        WheelFrictionCurve sidewaysFriction = wheel.collider.sidewaysFriction;
+        sidewaysFriction.stiffness = stiffness;
+        wheel.collider.sidewaysFriction = sidewaysFriction;
     }
 
     private void Move()
@@ -77,14 +114,14 @@ public class CarController : MonoBehaviour
                 else if (movement.y < 0 && !backwards)
                 {
                     wheel.collider.motorTorque = 0;
-                    wheel.collider.brakeTorque = -movement.y * maxAcceleration * 1000000 * Time.deltaTime;
-                    // driving backwards --> brake
+                    ApplyBrakeTorque(wheel, -movement.y);
+                // driving backwards --> brake
                 }
                 else if (movement.y > 0 && backwards)
                 {
                     wheel.collider.motorTorque = 0;
-                    wheel.collider.brakeTorque = movement.y * maxAcceleration * 1000000 * Time.deltaTime;
-                    // driving backwards --> accelerate
+                    ApplyBrakeTorque(wheel, movement.y);
+                // driving backwards --> accelerate
                 }
                 else if (movement.y < 0 && backwards)
                 {
@@ -134,6 +171,11 @@ public class CarController : MonoBehaviour
         {
             wheel.collider.motorTorque = 0;
         }
+    }
+
+    private void ApplyBrakeTorque(Wheel wheel, float direction)
+    {
+        wheel.collider.brakeTorque = direction * maxAcceleration * 1000000  * Time.deltaTime;
     }
 
     private void Turn()
