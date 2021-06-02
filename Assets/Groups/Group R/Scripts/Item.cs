@@ -15,6 +15,8 @@ public class Item : MonoBehaviour
     {
         if(!isPickedUp){
             transform.Rotate(new Vector3(0f,2.0f,0f) , Space.World);
+            if(transform.position.y < -10)
+                Destroy(this.gameObject);
         }
     }
 
