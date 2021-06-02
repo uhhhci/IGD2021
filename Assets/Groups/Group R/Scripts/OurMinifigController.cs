@@ -208,6 +208,7 @@ public class OurMinifigController : MonoBehaviour
     int cancelSpecialHash = Animator.StringToHash("Cancel Special");
     int specialIdHash = Animator.StringToHash("Special Id");
     int punchHash = Animator.StringToHash("Punch");
+    int swordHash = Animator.StringToHash("Sword");
 
     Action<bool> onSpecialComplete;
 
@@ -879,7 +880,10 @@ public class OurMinifigController : MonoBehaviour
 
     private void OnSouthPress()
     {
-        animator.SetTrigger(punchHash);
+        if (!hasItem)
+            animator.SetTrigger(punchHash);
+        else
+            animator.SetTrigger(swordHash);
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
         {
