@@ -75,6 +75,7 @@ public class ItemCreditThief : FSM
                     state = State.MOVE_TO_PLAYER;
                     cam.followItemThief();
                     thief.moveToPlayer(player);
+                    thief.playStealAudio(); //audioclip for stealing
                 }
                 break;
             case State.MOVE_TO_PLAYER:

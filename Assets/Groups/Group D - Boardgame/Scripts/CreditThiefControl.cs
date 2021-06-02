@@ -16,6 +16,8 @@ public class CreditThiefControl : MonoBehaviour
     private Vector3 targetPos;
     private double flyingTime;
     private double distance;
+    public AudioClip stealAudioClip;
+    AudioSource audioSource;
 
     private void setNewTarget(Vector3 newTarget) {
         targetPos = newTarget;
@@ -42,6 +44,7 @@ public class CreditThiefControl : MonoBehaviour
     {
         loiterPoint = transform.position;
         targetPos = loiterPoint;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -56,5 +59,10 @@ public class CreditThiefControl : MonoBehaviour
         else {
             movementDone = true;
         }
+    }
+
+    public void playStealAudio()
+    {
+        audioSource.PlayOneShot(stealAudioClip);
     }
 }
