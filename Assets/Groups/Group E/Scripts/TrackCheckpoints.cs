@@ -38,7 +38,7 @@ public class TrackCheckpoints : MonoBehaviour
 
         if (triggerZones.IndexOf(triggerZone) == nextCheckpointSingleIndex)
         {
-            //Debug.Log("---------------Correct------------------------");
+            Debug.Log("---------------Correct------------------------");
             nextCheckpointSingleIndexList[carTransformList.IndexOf(carTransform)] = (nextCheckpointSingleIndex + 1) % triggerZones.Count;
             if(nextCheckpointSingleIndex == (triggerZones.Count - 1))
             {
@@ -46,7 +46,7 @@ public class TrackCheckpoints : MonoBehaviour
             }
         } else
         {
-            //Debug.Log("Wrong");
+            Debug.Log("Wrong");
         }
         
     }
