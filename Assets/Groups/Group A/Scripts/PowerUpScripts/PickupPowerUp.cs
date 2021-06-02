@@ -18,17 +18,21 @@ public class PickupPowerUp : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            MinifigControllerWTH controller = collision.gameObject.GetComponent<MinifigControllerWTH>();
-            controller.AddPowerUp(powerUp);
-            Destroy(this.gameObject);
-        }
         if (collision.gameObject.tag == "floor")
         {
             Destroy(this.gameObject);
         }
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            MinifigControllerWTH controller = other.gameObject.GetComponent<MinifigControllerWTH>();
+            controller.AddPowerUp(powerUp);
+            Destroy(this.gameObject);
+        }
     }
 
     private void Despawn()
