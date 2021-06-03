@@ -13,7 +13,7 @@ public class DieScript2 : MonoBehaviour
     float dirY;
     float dirZ;
 	public static int rollResult = -1;
-	private static bool done = false;
+	private static bool done = true;
 
     // Start is called before the first frame update
     void Start()

@@ -13,7 +13,7 @@ public class DieScript : MonoBehaviour
     float dirY;
     float dirZ;
 	public static int rollResult = -1;
-	private static bool done = false;
+	private static bool done = true;
     public AudioClip dieRollAudioClip;
     AudioSource audioSource;
 
