@@ -1,7 +1,7 @@
 Im Folgenden finden sich TODOs und DONEs.
 
 ### TODOs
-* TODOs Polina
+* __TODOs Polina__
 	* Custom Animationen
 		* Schlagen (für Nahkampfwaffe)
 		* Werfen (für Fernkampfwaffe)
@@ -18,14 +18,14 @@ Im Folgenden finden sich TODOs und DONEs.
 		* Anzeige "Weakness", "Neutral", "Resistence", wenn Charakter angegriffen wurde
 			* in passendem Schriftstil, unsere default weiße Plan mit schwarzem Arial Text ist dafür nicht so nice
 
-* TODOs Larry
+* __TODOs Larry__
 	* Integration mit Interconnections Gruppe
 	* KI Mitspieler
 	* Tutorial? Brauchen wir das?
 
 
 ### DONEs
-* DONEs Larry
+* __DONEs Larry__
 	* Scenes, Scripts Ordner in unserem Group W Ordner angelegt
 	* Charaktere entsprechend der Kampfsituation plaziert
 	* PlayerProperties Skript zum definieren von:
@@ -89,7 +89,7 @@ Im Folgenden finden sich TODOs und DONEs.
 		* Zeitablauf || alle besiegt
 		* Bestimmung des Gewinner-Teams
 
-* DONEs Polina
+* __DONEs Polina__
 	* Methode/Funktion mit folgendem Verhalten:
 		* eine Reihe (Front/Back) und einen Waffentyp (Lego/Paper/Scissors) als Parameter entgegen nehmen
 			*  für entsprechende Enums, siehe PlayerProperties.cs
