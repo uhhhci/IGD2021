@@ -1,5 +1,6 @@
 Im Folgenden finden sich TODOs und DONEs.
 
+### TODOs
 * TODOs Polina
 	* Custom Animationen
 		* Schlagen (für Nahkampfwaffe)
@@ -22,6 +23,8 @@ Im Folgenden finden sich TODOs und DONEs.
 	* KI Mitspieler
 	* Tutorial? Brauchen wir das?
 
+
+### DONEs
 * DONEs Larry
 	* Scenes, Scripts Ordner in unserem Group W Ordner angelegt
 	* Charaktere entsprechend der Kampfsituation plaziert
