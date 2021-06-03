@@ -59,8 +59,8 @@ namespace GroupP {
                     noteSystem.setHasStarted();
                     songs[songIndex].GetComponent<AudioSource>().Play();
                     //DANCE
-                    InvokeRepeating("DanceEvent", (8 + animOffset) * sekPerBeat, 8 * sekPerBeat);
-                    InvokeRepeating("BeatEvent", animOffset * sekPerBeat, sekPerBeat);
+                    //InvokeRepeating("DanceEvent", (8 + animOffset) * sekPerBeat, 8 * sekPerBeat);
+                    //InvokeRepeating("BeatEvent", animOffset * sekPerBeat, sekPerBeat);
                 }
             }
         }

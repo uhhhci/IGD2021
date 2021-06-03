@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.24573775, g: 0.5653007, b: 0.8632721, a: 1}
+  m_IndirectSpecularColor: {r: 0.24574013, g: 0.5653239, b: 0.86652875, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -121,6 +121,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &3607962 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7874927454953149830, guid: 356ec582802257d42acd4723ce219f58,
+    type: 3}
+  m_PrefabInstance: {fileID: 1885855559}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &122059430 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7008591068879990717, guid: f0e98c9dd41d64448aeac39623e2d60e,
@@ -1029,6 +1035,30 @@ PrefabInstance:
       propertyPath: m_DefaultControlScheme
       value: KeyboardNum
       objectReference: {fileID: 0}
+    - target: {fileID: 3861844193743096559, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'arm_L'\n\tTransform 'toe_R'\n\tTransform
+        'head'\n\tTransform 'foot_L'\n\tTransform 'foot_R'\n\tTransform 'spine05'\n\tTransform
+        'legUp_L'\n\tTransform 'armUp_L'\n\tTransform 'spine03'\n\tTransform 'shoulder_R'\n\tand
+        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Turn_90_Left'\n\tFrom
+        animation clip 'Turn_90_Right'\n\tFrom animation clip 'Spin'\n\tFrom animation
+        clip 'AirGuitar'\n\tFrom animation clip 'Sneezing'\n\tFrom animation clip
+        'Laughing'\n\tFrom animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation
+        clip 'Jump_GoingUp'\n\tFrom animation clip 'Jump_GoingDown'\n\tand more ..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033722056826824801, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033722056826824801, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: scoreText
@@ -1500,7 +1530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9cd44963de5a641b2ec25418fe1cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minifig: {fileID: 2103506331}
+  minifig: {fileID: 1684518804}
 --- !u!1 &993469317
 GameObject:
   m_ObjectHideFlags: 0
@@ -2096,13 +2126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9cd44963de5a641b2ec25418fe1cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minifig: {fileID: 1669362688}
---- !u!1 &1252026589 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2799262951057101166, guid: 356ec582802257d42acd4723ce219f58,
-    type: 3}
-  m_PrefabInstance: {fileID: 1885855559}
-  m_PrefabAsset: {fileID: 0}
+  minifig: {fileID: 1308991883}
 --- !u!1 &1254834988 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 70292193334677109, guid: 356ec582802257d42acd4723ce219f58,
@@ -2121,7 +2145,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9cd44963de5a641b2ec25418fe1cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minifig: {fileID: 1662179016}
+  minifig: {fileID: 1781492546}
+--- !u!1 &1308991883 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7874927454953149830, guid: 356ec582802257d42acd4723ce219f58,
+    type: 3}
+  m_PrefabInstance: {fileID: 596966394}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1336694159
 GameObject:
   m_ObjectHideFlags: 0
@@ -2362,7 +2392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9cd44963de5a641b2ec25418fe1cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minifig: {fileID: 1252026589}
+  minifig: {fileID: 3607962}
 --- !u!1 &1468532440
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,18 +2550,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1662179016 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2799262951057101166, guid: 356ec582802257d42acd4723ce219f58,
-    type: 3}
-  m_PrefabInstance: {fileID: 1922058747}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1669362688 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2799262951057101166, guid: 356ec582802257d42acd4723ce219f58,
-    type: 3}
-  m_PrefabInstance: {fileID: 596966394}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1680268266
 GameObject:
   m_ObjectHideFlags: 0
@@ -2610,6 +2628,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680268266}
   m_CullTransparentMesh: 0
+--- !u!1 &1684518804 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7874927454953149830, guid: 356ec582802257d42acd4723ce219f58,
+    type: 3}
+  m_PrefabInstance: {fileID: 2095327202}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1687258581
 GameObject:
   m_ObjectHideFlags: 0
@@ -2818,6 +2842,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702764907}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1781492546 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7874927454953149830, guid: 356ec582802257d42acd4723ce219f58,
+    type: 3}
+  m_PrefabInstance: {fileID: 1922058747}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1885855559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2834,6 +2864,20 @@ PrefabInstance:
         type: 3}
       propertyPath: m_DefaultControlScheme
       value: "KeyboardPL\xD6\xC4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3861844193743096559, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'arm_L'\n\tTransform 'toe_R'\n\tTransform
+        'head'\n\tTransform 'foot_L'\n\tTransform 'foot_R'\n\tTransform 'spine05'\n\tTransform
+        'legUp_L'\n\tTransform 'armUp_L'\n\tTransform 'spine03'\n\tTransform 'shoulder_R'\n\tand
+        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Turn_90_Left'\n\tFrom
+        animation clip 'Turn_90_Right'\n\tFrom animation clip 'Spin'\n\tFrom animation
+        clip 'AirGuitar'\n\tFrom animation clip 'Sneezing'\n\tFrom animation clip
+        'Laughing'\n\tFrom animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation
+        clip 'Jump_GoingUp'\n\tFrom animation clip 'Jump_GoingDown'\n\tand more ..."
       objectReference: {fileID: 0}
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -2925,6 +2969,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -944628639613478452, guid: c96c58add250c114aba3a72a62914e58,
         type: 3}
+    - target: {fileID: 3861844193743096559, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'arm_L'\n\tTransform 'toe_R'\n\tTransform
+        'head'\n\tTransform 'foot_L'\n\tTransform 'foot_R'\n\tTransform 'spine05'\n\tTransform
+        'legUp_L'\n\tTransform 'armUp_L'\n\tTransform 'spine03'\n\tTransform 'shoulder_R'\n\tand
+        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Turn_90_Left'\n\tFrom
+        animation clip 'Turn_90_Right'\n\tFrom animation clip 'Spin'\n\tFrom animation
+        clip 'AirGuitar'\n\tFrom animation clip 'Sneezing'\n\tFrom animation clip
+        'Laughing'\n\tFrom animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation
+        clip 'Jump_GoingUp'\n\tFrom animation clip 'Jump_GoingDown'\n\tand more ..."
+      objectReference: {fileID: 0}
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: scoreText
@@ -2944,7 +3002,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Minifig
       value: 
-      objectReference: {fileID: 1662179016}
+      objectReference: {fileID: 0}
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: m_RootOrder
@@ -3088,6 +3146,20 @@ PrefabInstance:
       propertyPath: m_DefaultControlScheme
       value: KeyboardZGHJ
       objectReference: {fileID: 0}
+    - target: {fileID: 3861844193743096559, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'arm_L'\n\tTransform 'toe_R'\n\tTransform
+        'head'\n\tTransform 'foot_L'\n\tTransform 'foot_R'\n\tTransform 'spine05'\n\tTransform
+        'legUp_L'\n\tTransform 'armUp_L'\n\tTransform 'spine03'\n\tTransform 'shoulder_R'\n\tand
+        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Turn_90_Left'\n\tFrom
+        animation clip 'Turn_90_Right'\n\tFrom animation clip 'Spin'\n\tFrom animation
+        clip 'AirGuitar'\n\tFrom animation clip 'Sneezing'\n\tFrom animation clip
+        'Laughing'\n\tFrom animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation
+        clip 'Jump_GoingUp'\n\tFrom animation clip 'Jump_GoingDown'\n\tand more ..."
+      objectReference: {fileID: 0}
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: scoreText
@@ -3160,12 +3232,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 356ec582802257d42acd4723ce219f58, type: 3}
---- !u!1 &2103506331 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2799262951057101166, guid: 356ec582802257d42acd4723ce219f58,
-    type: 3}
-  m_PrefabInstance: {fileID: 2095327202}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2138677391
 GameObject:
   m_ObjectHideFlags: 0
