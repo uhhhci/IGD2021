@@ -9,6 +9,7 @@ public class ItemD : MonoBehaviour
 
     public enum Type {
         CREDIT_THIEF,
+        TRAP,
     }
     
     // Start is called before the first frame update

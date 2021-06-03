@@ -66,6 +66,7 @@ public class TurnManager : MonoBehaviour
 
          // TODO: DEBUG ONLY, REMOVE THIS WHEN THE SHOP IS IMPLEMENTED
         playerBelongings[0].addItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
+        playerBelongings[0].addItem(itemDataBase[ItemD.Type.TRAP]);
     }
 
     // Update is called once per frame
@@ -128,6 +129,8 @@ public class TurnManager : MonoBehaviour
                 return playerData[activePlayer].currentTile().hasGoldenBrick();
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
                 return playerBelongings[activePlayer].hasItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
+            case PlayerAction.Type.SET_TRAP:
+                return playerBelongings[activePlayer].hasItem(itemDataBase[ItemD.Type.TRAP]);
         }
         return false;
     }
@@ -278,17 +281,20 @@ public class TurnManager : MonoBehaviour
                 break;
             case PlayerAction.Type.BUY_GOLDEN_BRICK:
                 playerBelongings[activePlayer].addGoldenBrick();
-                //TODO: add sound effect here
                 players[activePlayer].PlayPickupSound();
                 brickManager.relocate();
                 break;
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
                 // item is "used" -> remove it from the inventory
                 playerBelongings[activePlayer].removeItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
-
                 currentState = TurnState.EXECUTING_ACTION;
                 currentActionFSM = new ItemCreditThief(camera, activePlayer, playerBelongings);
-                
+                break;
+            case PlayerAction.Type.SET_TRAP:
+                //TODO: trap visuals
+                playerData[activePlayer].currentTile().setTrap(true,activePlayer);
+                //TODO: add soundeffect
+                playerBelongings[activePlayer].removeItem(itemDataBase[ItemD.Type.TRAP]);
                 break;
         }
 
