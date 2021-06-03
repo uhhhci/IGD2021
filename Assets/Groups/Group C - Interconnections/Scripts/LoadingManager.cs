@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class LoadingManager : MonoBehaviour
 {
@@ -17,8 +19,9 @@ public class LoadingManager : MonoBehaviour
 
     //this method is just for testing, it must be removed at the end.
     void Start()
-    {   
-        LoadMiniGame(MiniGameType.singleVsTeam);
+    {
+        //Debug.Log("Launching Loading Manager");
+        //LoadMiniGame(MiniGameType.singleVsTeam);
     }
 
     private void Awake () {
@@ -30,6 +33,7 @@ public class LoadingManager : MonoBehaviour
         }
     }
 
+    //Random picker Prefab should be added to the scene in order to use this
     public void LoadMiniGame (MiniGameType miniGameType) {
         randomPickerType = GameObject.Find("RandomPickerType");
 
@@ -84,17 +88,23 @@ public class LoadingManager : MonoBehaviour
         return elements;
     }
 
+    //Navigate from a Minigame into the main board game
+    //This is intended to be used only from the MiniGameFinished method
     public void LoadMainBoardGame() {
-        //Load main board if we are not in it
-    }
-    
-    private void DisplayLoadingScreen() {
+        //Display Loading Screen
 
+
+        //Load main board if we are not in it
+        SceneManager.LoadSceneAsync(GameList.MAIN_BOARD_SCENE);
+    }
+
+    //Loading Screen in between the board and minigame
+    private void DisplayLoadingScreen() {
+        //TODO
     }
 
     private void HideLoadingScreen() {
-        //MyGame game = new MyGame("My Awesome Game", "SceneName", MiniGameType.freeForAll);
-        //game.sceneName = "WERR";
+        //TODO
     }
 
     //Display UI that shows roulette to select from a random game
@@ -221,6 +231,8 @@ public class LoadingManager : MonoBehaviour
         this.hidePicker();
         SceneManager.LoadSceneAsync(this.nextScene);
     }
+
+    //Set flag if coming from minigame?
 
 }
 
