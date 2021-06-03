@@ -36,7 +36,6 @@ Im Folgenden finden sich TODOs und DONEs.
  * Timeranzeige (inkl. Beschreibung, in welcher Phase wir uns befinden, und was zu tun ist)
   * x Sek. bis Entscheidungsphase vorbei.
   * Wenn abgelaufen: Übergang zu Action Phase
-  * Hier gibt es einen Boolean der entscheidet, ob die Kampfphase vorbei ist; sollte vorbei sein, wenn alle Kampfanimationen vorbei sind und demnach über eine andere Komponente gesetzt werden, wenn wir soweit sind. Bis dahin: erstmal gleicher Zeitablauf wie in der Entscheidungsphase
   * Auswahl der Waffe / des Ziels über entsprechende Tasten. Standard-Tastenbelegung wurde ausgetauscht.
 	* Tastenbelegung (anhand Beispiel des WASD-Charakters)
 	* Q = Lego
@@ -46,9 +45,11 @@ Im Folgenden finden sich TODOs und DONEs.
 	* F = Back row
 * Feedback für "Waffe ausgewählt" und "Ziel ausgewählt" (lokaler Gegner soll Auswahl nicht sehen können!)
 	* Feedback über triggern einer entsprechenden Animation des Charakters.
+		* Bug bei 'dpad oben', alle Animationen wurden sofort abgebrochen --> ersetzt durch spawnen einer dummy Waffe (Fisch), bei jeder Auswahl bekommt dieser eine neue Random Farbe, damit mehrmalige Auswahlen voneinander unterscheidbar sind
+		* Farbe wird für Action Phase beibehalten :)
 	* Verfügbare Animationen finden sich in Assets/Packages/LEGO/Scripts/Lego Minifig/MinifigController.cs, enum SpecialAnimation.
 	* Wenn in Decision Phase:
-		* Waffe ausgewählt: Dance
+		* -Waffe ausgewählt: Dance-
 		* Ziel ausgewählt: Wave
 	* Wenn in Action Phase:
 		* Waffe/Ziel ausgwählt: IdleImpatient
@@ -101,6 +102,3 @@ Im Folgenden finden sich TODOs und DONEs.
 	* Beleuchtung
 	* HP-Balken Grün/Rot
 
-
-# Known Bugs
-* Animation auf Dpad open wird nicht abgespielt, Event wird aber korrekt abgegriffen und Methode ausgeführt. Fehlersuche ausstehend.
