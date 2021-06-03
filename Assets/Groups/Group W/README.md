@@ -1,10 +1,10 @@
 Im Folgenden finden sich TODOs und DONEs.
 
-# TODOs Polina
-## Custom Animationen
-	* Schlagen (für Nahkampfwaffe)
-	* Werfen (für Fernkampfwaffe)
-	* Sterben (langsam und qualvoll zu Boden fallen)
+* TODOs Polina
+	* Custom Animationen
+		* Schlagen (für Nahkampfwaffe)
+		* Werfen (für Fernkampfwaffe)
+		* Sterben (langsam und qualvoll zu Boden fallen)
 
 # Umgebung
 	*  Passendere Asssets für Rundenanzeige + HP-Balken
@@ -49,7 +49,7 @@ Im Folgenden finden sich TODOs und DONEs.
 		* Farbe wird für Action Phase beibehalten :)
 	* Verfügbare Animationen finden sich in Assets/Packages/LEGO/Scripts/Lego Minifig/MinifigController.cs, enum SpecialAnimation.
 	* Wenn in Decision Phase:
-		* -Waffe ausgewählt: Dance-
+		* ~~Waffe ausgewählt: Dance~~
 		* Ziel ausgewählt: Wave
 	* Wenn in Action Phase:
 		* Waffe/Ziel ausgwählt: IdleImpatient
