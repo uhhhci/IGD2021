@@ -121,6 +121,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &122059430 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7008591068879990717, guid: f0e98c9dd41d64448aeac39623e2d60e,
+    type: 3}
+  m_PrefabInstance: {fileID: 175543286}
+  m_PrefabAsset: {fileID: 0}
 --- !u!82 &142400762 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 4093352975238319271, guid: 5f25b7ad55ebaed4da11c03d8a5cf3ec,
@@ -375,7 +381,7 @@ PrefabInstance:
     - target: {fileID: 7008591068879990717, guid: f0e98c9dd41d64448aeac39623e2d60e,
         type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: CanvasP
       objectReference: {fileID: 0}
     - target: {fileID: 7008591068879990718, guid: f0e98c9dd41d64448aeac39623e2d60e,
         type: 3}
@@ -532,7 +538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &216949540
 Transform:
   m_ObjectHideFlags: 0
@@ -609,6 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412475bff405c4640a021cf028ebcfb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifetime: 1
 --- !u!1 &253824008
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,7 +778,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &256587217
 Transform:
   m_ObjectHideFlags: 0
@@ -848,6 +855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412475bff405c4640a021cf028ebcfb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifetime: 1
 --- !u!114 &319489496 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7008591069346181100, guid: f0e98c9dd41d64448aeac39623e2d60e,
@@ -1021,6 +1029,26 @@ PrefabInstance:
       propertyPath: m_DefaultControlScheme
       value: KeyboardNum
       objectReference: {fileID: 0}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: scoreText
+      value: 
+      objectReference: {fileID: 1040601509}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: effectPosition.x
+      value: -252
+      objectReference: {fileID: 0}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: effectPosition.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 122059430}
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: m_RootOrder
@@ -1186,7 +1214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &763077057
 Transform:
   m_ObjectHideFlags: 0
@@ -1263,6 +1291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412475bff405c4640a021cf028ebcfb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifetime: 1
 --- !u!1 &785537919
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,23 +1501,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minifig: {fileID: 2103506331}
---- !u!114 &958157680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 958157678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a215cc0e89dbda4abbb7330084a08a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  score: 0
-  hitStreak: 0
-  multiplier: 0
-  specialMultiplier: 0
-  scoreText: {fileID: 1336694161}
 --- !u!1 &993469317
 GameObject:
   m_ObjectHideFlags: 0
@@ -1615,7 +1627,7 @@ MonoBehaviour:
   music: {fileID: 0}
   beatsPerMinute: 120
   totalNumberOfBeats: 250
-  offset: 0
+  offset: 30
 --- !u!82 &1034653281
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1895,7 +1907,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1193370915
 Transform:
   m_ObjectHideFlags: 0
@@ -1972,6 +1984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412475bff405c4640a021cf028ebcfb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifetime: 1
 --- !u!1 &1205897380
 GameObject:
   m_ObjectHideFlags: 0
@@ -2084,23 +2097,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minifig: {fileID: 1669362688}
---- !u!114 &1247596737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1247596735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a215cc0e89dbda4abbb7330084a08a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  score: 0
-  hitStreak: 0
-  multiplier: 0
-  specialMultiplier: 0
-  scoreText: {fileID: 1040601509}
 --- !u!1 &1252026589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2799262951057101166, guid: 356ec582802257d42acd4723ce219f58,
@@ -2126,23 +2122,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minifig: {fileID: 1662179016}
---- !u!114 &1254834995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1254834988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a215cc0e89dbda4abbb7330084a08a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  score: 0
-  hitStreak: 0
-  multiplier: 0
-  specialMultiplier: 0
-  scoreText: {fileID: 1680268268}
 --- !u!1 &1336694159
 GameObject:
   m_ObjectHideFlags: 0
@@ -2384,23 +2363,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minifig: {fileID: 1252026589}
---- !u!114 &1420768633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1420768631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a215cc0e89dbda4abbb7330084a08a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  score: 0
-  hitStreak: 0
-  multiplier: 0
-  specialMultiplier: 0
-  scoreText: {fileID: 148549382}
 --- !u!1 &1468532440
 GameObject:
   m_ObjectHideFlags: 0
@@ -2873,6 +2835,21 @@ PrefabInstance:
       propertyPath: m_DefaultControlScheme
       value: "KeyboardPL\xD6\xC4"
       objectReference: {fileID: 0}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: scoreText
+      value: 
+      objectReference: {fileID: 148549382}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: effectPosition.x
+      value: 284
+      objectReference: {fileID: 0}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: effectPosition.y
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: m_RootOrder
@@ -2948,6 +2925,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -944628639613478452, guid: c96c58add250c114aba3a72a62914e58,
         type: 3}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: scoreText
+      value: 
+      objectReference: {fileID: 1680268268}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: effectPosition.x
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: effectPosition.y
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 6293084827422964718, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: Minifig
@@ -3095,6 +3087,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_DefaultControlScheme
       value: KeyboardZGHJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: scoreText
+      value: 
+      objectReference: {fileID: 1336694161}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: effectPosition.x
+      value: -74
+      objectReference: {fileID: 0}
+    - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
+        type: 3}
+      propertyPath: effectPosition.y
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}

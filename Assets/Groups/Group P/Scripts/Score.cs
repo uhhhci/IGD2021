@@ -15,6 +15,9 @@ namespace GroupP
 
         public GameObject hitEffect, goodEffect, perfectEffect, missedEffect;
 
+        public Vector3 effectPosition = new Vector3(0f, 0f, 0f);
+        public GameObject canvas;
+
         public Text scoreText;
 
         // Start is called before the first frame update
@@ -37,7 +40,17 @@ namespace GroupP
 
         public void Hit(HitQuality points)
         {
-            Debug.Log(points);
+            switch(points) {
+                case HitQuality.NORMAL:
+                    spawnEffect(hitEffect);
+                    break;
+                case HitQuality.GOOD:
+                    spawnEffect(goodEffect);
+                    break;
+                case HitQuality.PERFECT:
+                    spawnEffect(perfectEffect);
+                    break;
+            }
             hitStreak++;
             if (multiplier <= multiplierThresholds.Length && hitStreak >= multiplierThresholds[multiplier - 1])
             {
@@ -47,29 +60,9 @@ namespace GroupP
             score += multiplier * (int)points + specialMultiplier * (int)points;
         }
 
-        public void NormalHit()
-        {
-            Instantiate(hitEffect);
-            Hit(HitQuality.NORMAL);
-        }
-
-        public void GoodHit()
-        {
-            Instantiate(goodEffect);
-            Hit(HitQuality.GOOD);
-        }
-
-        public void PerfectHit()
-        {
-            Instantiate(perfectEffect);
-            Hit(HitQuality.PERFECT);
-        }
-
         public void Missed()
         {
-            Instantiate(missedEffect);
-            Debug.Log("Missed");
-            score -= 0; // Do we want Minus-Points?
+            spawnEffect(missedEffect);
             multiplier = 1;
             hitStreak = 0;
         }
@@ -87,6 +80,16 @@ namespace GroupP
                 specialMultiplier++;
             }
             Hit(points);
+        }
+
+        public void spawnEffect(GameObject effectPrefab) {
+            Debug.Log("spawned");
+            GameObject effect = Instantiate(effectPrefab);
+            
+            effect.transform.SetParent(GameObject.Find("CanvasP").transform, false);
+            effect.transform.localPosition = effectPosition;
+            effect.transform.localScale = effectPrefab.transform.localScale;
+            effect.SetActive(true);
         }
     }
 }
