@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PowerupItem : MonoBehaviour
 {
-    PowerUp[] powerupsArr = { (new PowerupShield()), (new PowerupSpeed())};
+    PowerUp[] powerupsArr = { new PowerupShield(), new PowerupSpeed()};
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

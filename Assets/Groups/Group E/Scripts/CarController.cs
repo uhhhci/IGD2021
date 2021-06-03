@@ -221,6 +221,7 @@ public class CarController : MonoBehaviour
 
     private void OnMoveDpad(InputValue value)
     {
+        Debug.Log("onmovedpad: " + movement);
         movement = value.Get<Vector2>();
     }
 
