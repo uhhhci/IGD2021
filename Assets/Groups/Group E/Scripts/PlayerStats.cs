@@ -12,15 +12,15 @@ public class PlayerStats : MonoBehaviour
     public int CurrentZone;
     public Transform lastZone;
     public int position;
-    private static int WAYPOINT_VALUE = 100;
-    private static int LAP_VALUE = 10000;
+    private static int WAYPOINT_VALUE = 1000;
+    private static int LAP_VALUE = 1000000;
     public PowerUp power;
     public bool hasPowerup;
 
     // Start is called before the first frame update
     void Start()
     {
-        rounds = 1;
+        rounds = 0;
         hasPowerup = false;
     }
 
@@ -45,14 +45,16 @@ public class PlayerStats : MonoBehaviour
 
     public float GetDistance()
     {
-        return (transform.position - lastZone.position).magnitude + CurrentZone * WAYPOINT_VALUE + rounds * LAP_VALUE;
+        //Debug.Log((transform.position + lastZone.position).magnitude);
+        return (transform.position + lastZone.position).magnitude + CurrentZone * WAYPOINT_VALUE + rounds * LAP_VALUE;
     }
 
     public int GetKartPosition(List<Transform> carTransformList)
     {
         float distance = GetDistance();
         int position = 1;
-        foreach(Transform car in carTransformList)
+        //Debug.Log("Distance Cart: " + distance);
+        foreach (Transform car in carTransformList)
         {
             PlayerStats thePlayer = car.GetComponent<PlayerStats>();
             if (thePlayer.GetDistance() > distance)

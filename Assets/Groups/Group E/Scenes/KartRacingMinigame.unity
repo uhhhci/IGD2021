@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1625,9 +1625,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carTransformList:
   - {fileID: 1877634676624025695}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1529752062}
+  - {fileID: 1341724003}
+  - {fileID: 688596254}
   gameManager: {fileID: 2041326669}
 --- !u!1001 &186389286
 PrefabInstance:
@@ -2043,6 +2043,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08c7891c47dc61d4e88326bb76067b74, type: 3}
+--- !u!4 &688596254 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7566994460132671710, guid: 08c7891c47dc61d4e88326bb76067b74,
+    type: 3}
+  m_PrefabInstance: {fileID: 19291641}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &716235060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2473,6 +2479,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1335841372}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1341724003 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7566994460132671710, guid: 08c7891c47dc61d4e88326bb76067b74,
+    type: 3}
+  m_PrefabInstance: {fileID: 672089432}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1367369394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2785,6 +2797,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1529752062 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7566994460132671710, guid: 08c7891c47dc61d4e88326bb76067b74,
+    type: 3}
+  m_PrefabInstance: {fileID: 186389286}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1541890109
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3241,9 +3259,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carTransformList:
   - {fileID: 1877634676624025695}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1529752062}
+  - {fileID: 1341724003}
+  - {fileID: 688596254}
   carPositionList: []
 --- !u!4 &2041326670
 Transform:
@@ -3466,6 +3484,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 983677013}
     m_Modifications:
+    - target: {fileID: 848255063048802562, guid: dfcb568e493547745a3da0182101b3f4,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 848255063048802564, guid: dfcb568e493547745a3da0182101b3f4,
         type: 3}
       propertyPath: m_LocalPosition.x
