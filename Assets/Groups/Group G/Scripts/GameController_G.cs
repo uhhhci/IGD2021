@@ -86,15 +86,10 @@ public class GameController_G : MiniGame, IPowerUpEvents
     {
         TimerController.instance.BeginTimer();
         GamePlaying = true;
-        SetPlayerControllersActive(true);   
-        
-        //TODO:
-        //Nochmal anpassen nachdem die Interconnection Grp gepushed hat
-        for (int i=0; i<AllPlayers.Count; i++) {
-            //InputManager.Instance.AssignPlayerInput(GetAllPlayerInputs()[i], (i).ToString());
-        }
-        //LoadingManager.Instance.LoadMiniGame(getMiniGameType());
-        
+        SetPlayerControllersActive(true);
+
+        InputManager.Instance.AssignPlayerInput(GetAllPlayerInputs());
+        //LoadingManager.Instance.LoadMiniGame(getMiniGameType()); 
     }
 
     public void EndGame()

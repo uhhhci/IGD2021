@@ -20,9 +20,9 @@ public class PassivePlayerController : MonoBehaviour
     public int HazardCount = 3;
     public float WaveRate = 5.0f;
     public Text WaveCooldownText;
-    public int TimeUntilLvlUp = 60;
+    public int TimeUntilLvlUp = 30;
     
-    private float TimeCounter = 0.0f;
+    private float TimeCounter = 1.0f;
     private bool LevelSet = false;
     private int Level;
     private Vector2 Movement;
@@ -51,7 +51,8 @@ public class PassivePlayerController : MonoBehaviour
     }
     public void UpdateWeaponByIndex(int index)
     {
-        CurrentWeaponIndex = Mathf.Clamp(index, 0, WeaponSystems.Length - 1);
+        CurrentWeaponIndex = Mathf.RoundToInt(Mathf.Repeat((float)index, (float)(WeaponSystems.Length)));
+        Debug.Log(CurrentWeaponIndex);
         UpdateWeaponVisualization();
     }
 
@@ -103,7 +104,7 @@ public class PassivePlayerController : MonoBehaviour
         }
         
         TimeCounter += Time.deltaTime;
-        if ((int) TimeCounter % TimeUntilLvlUp == 0 && LevelSet == false) // Set the level every 60 Seconds up
+        if ((int) TimeCounter % TimeUntilLvlUp == 0 && LevelSet == false) 
         {
             Level += 1;
             LevelSet = true;
