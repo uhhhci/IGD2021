@@ -60,10 +60,16 @@ public class GenerateRings : MonoBehaviour
         return new Vector3(x, yLevel + Random.Range(-offsetHeight, offsetHeight), y);
     }
 
-    public Vector3 getSpawnLocation()
+    public Vector3 getSpawnLocation(int? sector = null, int noOfSectors = 4, bool randomRing = false)
     {
-        GameObject ring = Rings[Rings.Count - 1];
-        Transform block = ring.transform.GetChild(Random.Range(0, ring.transform.childCount));
+        int ringNo = randomRing ? Random.Range(0, Rings.Count) : Rings.Count - 1;
+        GameObject ring = Rings[ringNo];
+
+        int minIndex = ring.transform.childCount / noOfSectors * (sector ?? 0);
+        int maxIndex = sector == null ? ring.transform.childCount : (ring.transform.childCount / noOfSectors) * ((sector ?? 0) + 1) ;
+        int blockNo = Random.Range(minIndex, maxIndex);
+
+        Transform block = ring.transform.GetChild(blockNo);
         Vector3 spawnLocation = block.position;
         spawnLocation.y += block.lossyScale.y / 2;
         return spawnLocation;

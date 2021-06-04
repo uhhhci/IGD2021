@@ -8,6 +8,7 @@ public class MinifigControllerWTH : MonoBehaviour
 {
     public GameObject Minifig;
     public GameObject RespawnPointsSource;
+    public int characterId;
     // Constants.
     const float stickyTime = 0.05f;
     const float stickyForce = 9.6f;
@@ -965,7 +966,7 @@ public class MinifigControllerWTH : MonoBehaviour
     void Respawn()
     {
         GenerateRings rings = RespawnPointsSource.GetComponent<GenerateRings>();
-        Vector3 spwanLocation = rings.getSpawnLocation();
+        Vector3 spwanLocation = rings.getSpawnLocation(characterId);
         controller.transform.position = spwanLocation;
     }
 
