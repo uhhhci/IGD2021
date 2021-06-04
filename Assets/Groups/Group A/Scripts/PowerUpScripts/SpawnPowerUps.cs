@@ -37,7 +37,7 @@ public class SpawnPowerUps : MonoBehaviour
         if(pickablePowerUps.Count >= 1)
         {
             GenerateRings rings = RespawnPointsSource.GetComponent<GenerateRings>();
-            Vector3 spawnLocation = rings.getSpawnLocation();
+            Vector3 spawnLocation = rings.getSpawnLocation(randomRing: true);
             spawnLocation.y += 2;
             GameObject pickablePowerUp = pickablePowerUps[Random.Range(0, pickablePowerUps.Count)];
             Instantiate(pickablePowerUp, spawnLocation, Quaternion.Euler(0, 0, 0));
