@@ -32,6 +32,15 @@ public class PlayerHit : MonoBehaviour
             StartCoroutine(EnableInvincibility(invincibleTime));
         }
     }
+        void takeDamage()
+    {
+        if(!invincible)
+        {
+        invincible = true;
+        StartCoroutine(EnableInvincibility(invincibleTime));
+        Debug.Log("Damage Taken");
+        }
+    }
 
     IEnumerator EnableInvincibility(float time)
     {
