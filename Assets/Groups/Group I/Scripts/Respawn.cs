@@ -11,7 +11,7 @@ public class Respawn : MonoBehaviour
         [SerializeField] private Transform RespawnPointWSAD;
         void OnTriggerEnter(Collider other)
         {
-            
+             print("Respawn");
              Player.transform.position = RespawnPointWSAD.transform.position;
             
         }
