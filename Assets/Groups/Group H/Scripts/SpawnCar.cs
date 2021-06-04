@@ -6,7 +6,7 @@ public class SpawnCar : MonoBehaviour
 {
     public List<GameObject> cars;
     public int waitingSeconds = 2;
-    public static int bombCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
