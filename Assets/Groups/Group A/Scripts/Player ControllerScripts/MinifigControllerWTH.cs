@@ -84,6 +84,7 @@ public class MinifigControllerWTH : MonoBehaviour
     public float jumpSpeed = 20f;
     public float gravity = 40f;
     public float pushSpeed = 20f;
+    public float drag = 0.93f;
     private Vector2 _movement = new Vector2();
 
     [Header("Audio")]
@@ -181,6 +182,7 @@ public class MinifigControllerWTH : MonoBehaviour
 
     float externalRotation;
     Vector3 externalMotion;
+    Vector3 externalForce;
 
     Transform groundedTransform;
     Vector3 groundedLocalPosition;
@@ -293,9 +295,18 @@ public class MinifigControllerWTH : MonoBehaviour
             }
 
             // Calculate move delta.
-            moveDelta = new Vector3(directSpeed.x, moveDelta.y, directSpeed.z);
+            moveDelta = new Vector3(directSpeed.x , moveDelta.y, directSpeed.z);
 
-
+            // Apply external Force 
+            if(Mathf.Abs(externalForce.x) > 0f || Mathf.Abs(externalForce.z) > 0f)
+            {
+                externalForce.x *= drag;
+                externalForce.z *= drag;
+                if (Mathf.Abs( externalForce.x) < 0.005f) externalForce.x = 0f;
+                if (Mathf.Abs(externalForce.z) < 0.005f) externalForce.z = 0f;
+                moveDelta.z += externalForce.z;
+                moveDelta.x += externalForce.x;
+            }
 
             // Check if player is grounded.
             if (!airborne)
@@ -713,13 +724,14 @@ public class MinifigControllerWTH : MonoBehaviour
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.collider is CharacterController hitCharacter)
+        if (hit.collider.tag == "Player")
         {
-            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z) * Time.deltaTime * pushSpeed;
-            // This is instantanious and therefore not nice
-            hitCharacter.Move(pushDir);
+            Vector3 pushDir = hit.transform.position - transform.position;
+            pushDir *= pushSpeed;
+            pushDir.y = 10.5f;
             // This should allow us to interact with this script directly and define an appropriate behaviour that way
-            MinifigControllerWTH hitCharacterController = hitCharacter.GetComponentInParent<MinifigControllerWTH>();
+            MinifigControllerWTH hitCharacterController = hit.collider.GetComponentInParent<MinifigControllerWTH>();
+            hitCharacterController.AddForce(pushDir);
         }
         if (hit.collider.tag == "floor") 
         {
@@ -973,7 +985,8 @@ public class MinifigControllerWTH : MonoBehaviour
 
     public void AddForce(Vector3 force)
     {
-        moveDelta = force;
+        externalForce = force;
+        moveDelta.y = force.y;
     }
 
     #region Input Handling
