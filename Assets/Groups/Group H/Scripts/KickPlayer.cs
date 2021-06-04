@@ -1,49 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class KickPlayer : MonoBehaviour
 {
-    Vector3 yOffset = new Vector3(0, 0.25f, 0);
-    Vector3 viewingAngle = new Vector3(0.1f, 0, 0);
     public float kickDistance = 1f;
-    public float kickForce = 1000f;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public float kickForce;
 
     public void Kick()
     {
+        Collider collider = GetComponent<Collider>();
         RaycastHit hit;
-        GameObject kickedPlayer;
 
-        if (Physics.Raycast(transform.position + yOffset, transform.forward + viewingAngle, out hit, kickDistance) 
-            || Physics.Raycast(transform.position + yOffset, transform.forward + viewingAngle, out hit, kickDistance))
+        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, kickDistance);
+        if (hitDetected && hit.transform.gameObject.tag == "Player")
         {
-            if (hit.transform.gameObject.tag == "Player")
-            {
-                kickedPlayer = hit.collider.gameObject;
-                Debug.Log("Hit Player");
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-
-                float distance = Vector3.Distance(kickedPlayer.transform.position, transform.position);
-                Vector3 kickDirection = kickedPlayer.transform.position - transform.position;
-                kickDirection = kickDirection / distance; // normalize direction
-                print(kickDirection);
-                Rigidbody rb = kickedPlayer.GetComponent<Rigidbody>();
-                print(rb);
-                rb.AddForce(kickForce * kickDirection);
-
-            }
+            hit.collider.GetComponent<KickPlayer>().GetKicked(-hit.normal.normalized * kickForce);
         }
+    }
+
+    public void GetKicked(Vector3 direction)
+    {
+        CharacterController charController = GetComponent<CharacterController>();
+        charController.enabled = false;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        Debug.Log(rb);
+        Debug.Log(direction);
+        rb.AddForce(direction);
+        charController.enabled = true;
     }
 }

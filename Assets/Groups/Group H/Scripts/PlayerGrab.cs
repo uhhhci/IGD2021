@@ -64,8 +64,11 @@ public class PlayerGrab : MonoBehaviour
     {
         tryGrabbing = false;
         grabbing = false;
-        grabbedPlayer.transform.parent = null;
-        grabbedPlayer = null;
+        if (grabbedPlayer != null)
+        {
+            grabbedPlayer.transform.parent = null;
+            grabbedPlayer = null;
+        }
         //Debug.Log("Stop Grabbing");
     }
 }

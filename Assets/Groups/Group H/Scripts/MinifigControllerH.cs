@@ -91,6 +91,7 @@ public class MinifigControllerH : MonoBehaviour
     public AudioClip doubleJumpAudioClip;
     public AudioClip landAudioClip;
     public AudioClip explodeAudioClip;
+    public AudioClip kickAudioClip;
 
     [Header("Controls")]
     [SerializeField]
@@ -1016,6 +1017,9 @@ public class MinifigControllerH : MonoBehaviour
     private void OnWestPress()
     {
         print("OnWestPress");
+        animator.SetBool(playSpecialHash, true);
+        animator.SetInteger(specialIdHash, (int)SpecialAnimation.KickRightFoot);
+        audioSource.PlayOneShot(kickAudioClip);
         kicker.Kick();
     }
 
