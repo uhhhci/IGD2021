@@ -84,6 +84,7 @@ public class MinifigControllerWTH : MonoBehaviour
     public float jumpSpeed = 20f;
     public float gravity = 40f;
     public float pushSpeed = 20f;
+    public float drag = 0.93f;
     private Vector2 _movement = new Vector2();
 
     [Header("Audio")]
@@ -299,21 +300,13 @@ public class MinifigControllerWTH : MonoBehaviour
             // Apply external Force 
             if(Mathf.Abs(externalForce.x) > 0f || Mathf.Abs(externalForce.z) > 0f)
             {
-                Debug.Log("Jump");
+                externalForce.x *= drag;
+                externalForce.z *= drag;
+                if (Mathf.Abs( externalForce.x) < 0.005f) externalForce.x = 0f;
+                if (Mathf.Abs(externalForce.z) < 0.005f) externalForce.z = 0f;
+                moveDelta.z += externalForce.z;
+                moveDelta.x += externalForce.x;
             }
-            externalForce *= 0.93f;
-
-            if (Mathf.Abs( externalForce.x) < 0.005f) externalForce.x = 0f;
-            if (externalForce.y < 0.005f) externalForce.y = 0f;
-            if (Mathf.Abs(externalForce.z) < 0.005f) externalForce.z = 0f;
-
-            moveDelta.x += externalForce.x;
-            moveDelta.z += externalForce.z;
-            if(externalForce.y > 0 ) moveDelta.y = Mathf.Max(moveDelta.y, externalForce.y);
-
-
-
-
 
             // Check if player is grounded.
             if (!airborne)
@@ -735,7 +728,7 @@ public class MinifigControllerWTH : MonoBehaviour
         {
             Vector3 pushDir = hit.transform.position - transform.position;
             pushDir *= pushSpeed;
-            pushDir.y = 5f;
+            pushDir.y = 10.5f;
             // This should allow us to interact with this script directly and define an appropriate behaviour that way
             MinifigControllerWTH hitCharacterController = hit.collider.GetComponentInParent<MinifigControllerWTH>();
             hitCharacterController.AddForce(pushDir);
@@ -993,6 +986,7 @@ public class MinifigControllerWTH : MonoBehaviour
     public void AddForce(Vector3 force)
     {
         externalForce = force;
+        moveDelta.y = force.y;
     }
 
     #region Input Handling
