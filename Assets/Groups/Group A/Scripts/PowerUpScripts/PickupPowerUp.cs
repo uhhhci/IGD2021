@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class PickupPowerUp : MonoBehaviour
 {
-    public BasePowerUp powerUp { get; set; }
+    public BasePowerUp powerUp;
+    public string Identifier;
     public float secsToDespawn = 15f;
     private void Awake()
     {
-        powerUp = new TrampolinePowerUp();
+        switch (Identifier)
+        {
+            case "Bridge":
+                powerUp = new BridgePowerUp();
+                break;
+            case "Trampoline":
+                powerUp = new TrampolinePowerUp();
+                break;
+        }
+        
     }
 
     private void Start()

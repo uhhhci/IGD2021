@@ -69,7 +69,7 @@ public class GenerateRings : MonoBehaviour
         int maxIndex = sector == null ? ring.transform.childCount : (ring.transform.childCount / noOfSectors) * ((sector ?? 0) + 1) ;
         int blockNo = Random.Range(minIndex, maxIndex);
 
-        Transform block = ring.transform.GetChild(blockNo);
+       Transform block = ring.transform.GetChild(blockNo);
         Vector3 spawnLocation = block.position;
         spawnLocation.y += block.lossyScale.y / 2;
         return spawnLocation;
