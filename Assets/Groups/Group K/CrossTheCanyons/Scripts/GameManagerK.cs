@@ -32,7 +32,7 @@ public class GameManagerK : MonoBehaviour
         if (!gameOverChecker.IsRightPlayerDead())
             minifigure2.MoveTo(rightGoal, moveDelay: 2.0f, speedMultiplier: 0.2f,
                 onComplete: () => {minifigure2.PlaySpecialAnimation(MinifigControllerModified.SpecialAnimation.Dance, 
-                    onSpecialComplete:x => {StartNextLevel(leftPlayer: false);});});
+                    onSpecialComplete: x => {StartNextLevel(leftPlayer: false);});});
     }
 
     private void StartNextLevel(bool leftPlayer)
