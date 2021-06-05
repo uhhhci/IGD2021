@@ -24,15 +24,9 @@ public class DanceManager : MonoBehaviour
 
     void DanceEvent()
     {
-        int ran = Random.Range(0, 3);
-        if (ran == 0)
-        {
-            GameEventSystem.current.Miss();
-        }
-        else
-        {
-            GameEventSystem.current.Hit();
-        }
+        
+        GameEventSystem.current.Hit();
+        
     }
 
     void BeatEvent()

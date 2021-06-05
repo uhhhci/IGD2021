@@ -18,7 +18,7 @@ namespace GroupP
         int currentMove;
         int[] basicMovesHashes;
 
-        int hashmiss = Animator.StringToHash("Miss");
+        int hashstart = Animator.StringToHash("Start");
 
         int wait;
 
@@ -30,7 +30,7 @@ namespace GroupP
             currentMove = 0;
             GameEventSystem.current.onHit += DanceMove;
             GameEventSystem.current.onBeat += BasicMove;
-            GameEventSystem.current.onMiss += Miss;
+            GameEventSystem.current.onStartDance += StartDance;
 
             wait = 0;
         }
@@ -58,11 +58,9 @@ namespace GroupP
             }
         }
 
-        void Miss()
+        void StartDance()
         {
-            //Debug.Log("Miss");
-            animator.SetTrigger(hashmiss);
-            wait += 3;
+            animator.SetTrigger(hashstart);
         }
 
         private void OnDestroy()
