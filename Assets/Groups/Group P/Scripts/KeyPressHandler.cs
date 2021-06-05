@@ -65,10 +65,33 @@ namespace GroupP {
             currentNotes.Remove(note);
         }
 
+        /**
+        * Check all notes in note list for the given keytype.
+        * If there is a matching note send the hitquaality to the player.
+        * If there is no matching note---but the notelist is not empty---
+        * then all notes in the list should be marked as being hit.
+        * This is necessary to avoid key spamming by players.
+        */
         public void keyPressed(GameObject currentPlayer, KeyType keyType) {
             PlayerStat currentPlayerStat = playerStats.Find(delegate (PlayerStat test){
                 return test.player == currentPlayer;
             });
+
+            bool nokey = true;
+            foreach( var note in currentNotes) {
+                // if none of the notes match the keypress, the player should not be able to retry on the
+                // current notes
+                if(note.key == keyType && !note.bad) { 
+                    nokey = false;
+                    break; 
+                }
+            }
+            if(nokey) {
+                foreach(var note in currentNotes) {
+                    int index = currentNotes.IndexOf(note);
+                    currentPlayerStat.hasHitNotes[index] = true;
+                }
+            }
 
             foreach (var note in currentNotes) {
                 int index = currentNotes.IndexOf(note);
@@ -84,16 +107,10 @@ namespace GroupP {
                         }
 
                         currentPlayerStat.hasHitNotes[index] = true;
-                        return;
                     }
                 }
             }
-            foreach( var note in currentNotes) {
-                // if none of the notes match the keypress, the player should not be able to retry on the
-                // current notes
-                int index = currentNotes.IndexOf(note);
-                currentPlayerStat.hasHitNotes[index] = true;
-            }
+            
         }
     }
 }
