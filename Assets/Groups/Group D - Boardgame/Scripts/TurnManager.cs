@@ -293,6 +293,8 @@ public class TurnManager : MonoBehaviour
             case PlayerAction.Type.SET_TRAP:
                 //TODO: trap visuals
                 playerData[activePlayer].currentTile().setTrap(true,activePlayer);
+                currentState = TurnState.EXECUTING_ACTION;
+                currentActionFSM = new SetTrap(activePlayer);
                 //TODO: trap soundeffect
                 playerBelongings[activePlayer].removeItem(itemDataBase[ItemD.Type.TRAP]);
                 break;
