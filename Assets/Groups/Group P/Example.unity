@@ -622,6 +622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 1
+  scaling: 0.1
 --- !u!1 &253824008
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,7 +785,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &256587217
 Transform:
   m_ObjectHideFlags: 0
@@ -862,6 +863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 1
+  scaling: 0.1
 --- !u!114 &319489496 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7008591069346181100, guid: f0e98c9dd41d64448aeac39623e2d60e,
@@ -1043,11 +1045,12 @@ PrefabInstance:
         by Humanoid clips.\n\tTransform 'arm_L'\n\tTransform 'toe_R'\n\tTransform
         'head'\n\tTransform 'foot_L'\n\tTransform 'foot_R'\n\tTransform 'spine05'\n\tTransform
         'legUp_L'\n\tTransform 'armUp_L'\n\tTransform 'spine03'\n\tTransform 'shoulder_R'\n\tand
-        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Turn_90_Left'\n\tFrom
-        animation clip 'Turn_90_Right'\n\tFrom animation clip 'Spin'\n\tFrom animation
-        clip 'AirGuitar'\n\tFrom animation clip 'Sneezing'\n\tFrom animation clip
-        'Laughing'\n\tFrom animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation
-        clip 'Jump_GoingUp'\n\tFrom animation clip 'Jump_GoingDown'\n\tand more ..."
+        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Sneezing'\n\tFrom
+        animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation clip 'Jump_GoingUp'\n\tFrom
+        animation clip 'Jump_GoingDown'\n\tFrom animation clip 'Jump_Midair'\n\tFrom
+        animation clip 'Jump_LandingBounce'\n\tFrom animation clip 'WalkBackwards'\n\tFrom
+        animation clip 'WalkBackwards'\n\tFrom animation clip 'Idle_Light'\n\tand
+        more ..."
       objectReference: {fileID: 0}
     - target: {fileID: 4033722056826824801, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -1072,7 +1075,7 @@ PrefabInstance:
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: effectPosition.y
-      value: 50
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -1322,6 +1325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 1
+  scaling: 0.1
 --- !u!1 &785537919
 GameObject:
   m_ObjectHideFlags: 0
@@ -2028,6 +2032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 1
+  scaling: 0.1
 --- !u!1 &1205897380
 GameObject:
   m_ObjectHideFlags: 0
@@ -2886,11 +2891,12 @@ PrefabInstance:
         by Humanoid clips.\n\tTransform 'arm_L'\n\tTransform 'toe_R'\n\tTransform
         'head'\n\tTransform 'foot_L'\n\tTransform 'foot_R'\n\tTransform 'spine05'\n\tTransform
         'legUp_L'\n\tTransform 'armUp_L'\n\tTransform 'spine03'\n\tTransform 'shoulder_R'\n\tand
-        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Turn_90_Left'\n\tFrom
-        animation clip 'Turn_90_Right'\n\tFrom animation clip 'Spin'\n\tFrom animation
-        clip 'AirGuitar'\n\tFrom animation clip 'Sneezing'\n\tFrom animation clip
-        'Laughing'\n\tFrom animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation
-        clip 'Jump_GoingUp'\n\tFrom animation clip 'Jump_GoingDown'\n\tand more ..."
+        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Sneezing'\n\tFrom
+        animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation clip 'Jump_GoingUp'\n\tFrom
+        animation clip 'Jump_GoingDown'\n\tFrom animation clip 'Jump_Midair'\n\tFrom
+        animation clip 'Jump_LandingBounce'\n\tFrom animation clip 'WalkBackwards'\n\tFrom
+        animation clip 'WalkBackwards'\n\tFrom animation clip 'Idle_Light'\n\tand
+        more ..."
       objectReference: {fileID: 0}
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -2905,7 +2911,7 @@ PrefabInstance:
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: effectPosition.y
-      value: 50
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -3033,11 +3039,12 @@ PrefabInstance:
         by Humanoid clips.\n\tTransform 'arm_L'\n\tTransform 'toe_R'\n\tTransform
         'head'\n\tTransform 'foot_L'\n\tTransform 'foot_R'\n\tTransform 'spine05'\n\tTransform
         'legUp_L'\n\tTransform 'armUp_L'\n\tTransform 'spine03'\n\tTransform 'shoulder_R'\n\tand
-        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Turn_90_Left'\n\tFrom
-        animation clip 'Turn_90_Right'\n\tFrom animation clip 'Spin'\n\tFrom animation
-        clip 'AirGuitar'\n\tFrom animation clip 'Sneezing'\n\tFrom animation clip
-        'Laughing'\n\tFrom animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation
-        clip 'Jump_GoingUp'\n\tFrom animation clip 'Jump_GoingDown'\n\tand more ..."
+        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Sneezing'\n\tFrom
+        animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation clip 'Jump_GoingUp'\n\tFrom
+        animation clip 'Jump_GoingDown'\n\tFrom animation clip 'Jump_Midair'\n\tFrom
+        animation clip 'Jump_LandingBounce'\n\tFrom animation clip 'WalkBackwards'\n\tFrom
+        animation clip 'WalkBackwards'\n\tFrom animation clip 'Idle_Light'\n\tand
+        more ..."
       objectReference: {fileID: 0}
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -3052,7 +3059,7 @@ PrefabInstance:
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: effectPosition.y
-      value: 50
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6293084827422964718, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -3210,11 +3217,12 @@ PrefabInstance:
         by Humanoid clips.\n\tTransform 'arm_L'\n\tTransform 'toe_R'\n\tTransform
         'head'\n\tTransform 'foot_L'\n\tTransform 'foot_R'\n\tTransform 'spine05'\n\tTransform
         'legUp_L'\n\tTransform 'armUp_L'\n\tTransform 'spine03'\n\tTransform 'shoulder_R'\n\tand
-        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Turn_90_Left'\n\tFrom
-        animation clip 'Turn_90_Right'\n\tFrom animation clip 'Spin'\n\tFrom animation
-        clip 'AirGuitar'\n\tFrom animation clip 'Sneezing'\n\tFrom animation clip
-        'Laughing'\n\tFrom animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation
-        clip 'Jump_GoingUp'\n\tFrom animation clip 'Jump_GoingDown'\n\tand more ..."
+        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Sneezing'\n\tFrom
+        animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation clip 'Jump_GoingUp'\n\tFrom
+        animation clip 'Jump_GoingDown'\n\tFrom animation clip 'Jump_Midair'\n\tFrom
+        animation clip 'Jump_LandingBounce'\n\tFrom animation clip 'WalkBackwards'\n\tFrom
+        animation clip 'WalkBackwards'\n\tFrom animation clip 'Idle_Light'\n\tand
+        more ..."
       objectReference: {fileID: 0}
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -3229,7 +3237,7 @@ PrefabInstance:
     - target: {fileID: 5685828378904880705, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: effectPosition.y
-      value: 50
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -3560,7 +3568,7 @@ PrefabInstance:
     - target: {fileID: 5804614690480016050, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
         type: 3}
       propertyPath: songIndex
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5804614690480016050, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
         type: 3}

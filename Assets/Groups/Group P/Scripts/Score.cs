@@ -68,14 +68,13 @@ namespace GroupP
         }
 
         public void BadHit() {
-            Debug.Log("Bad Hit");
+            gameObject.GetComponent<Controller>().badHit();
             multiplier = 1;
             hitStreak = 0;
             score -= 10;
         }
 
         public void SpecialHit(HitQuality points) {
-            Debug.Log("Special Hit");
             if (specialMultiplier <= multiplierThresholds.Length) {
                 specialMultiplier++;
             }
@@ -83,7 +82,6 @@ namespace GroupP
         }
 
         public void spawnEffect(GameObject effectPrefab) {
-            Debug.Log("spawned");
             GameObject effect = Instantiate(effectPrefab);
             
             effect.transform.SetParent(GameObject.Find("CanvasP").transform, false);

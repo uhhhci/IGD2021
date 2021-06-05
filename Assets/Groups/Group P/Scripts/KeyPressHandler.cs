@@ -66,30 +66,33 @@ namespace GroupP {
         }
 
         public void keyPressed(GameObject currentPlayer, KeyType keyType) {
-            
-            foreach (var note in currentNotes)
-            {
-                int index = currentNotes.IndexOf(note);
-                foreach (var playerStat in playerStats)
-                {
-                    
-                   if(playerStat.player.name.Equals(currentPlayer.name)) {
-                        if(!playerStat.hasHitNotes[index]) {
-                            if(keyType == note.key) {
-                                if(note.bad == true) {
-                                    playerStat.player.GetComponent<Score>().BadHit();
-                                } else if (note.special) {
-                                    playerStat.player.GetComponent<Score>().SpecialHit(note.hitQuality);
-                                }
-                                else {
-                                    playerStat.player.GetComponent<Score>().Hit(note.hitQuality);
-                                }
+            PlayerStat currentPlayerStat = playerStats.Find(delegate (PlayerStat test){
+                return test.player == currentPlayer;
+            });
 
-                                playerStat.hasHitNotes[index] = true;
-                            }
+            foreach (var note in currentNotes) {
+                int index = currentNotes.IndexOf(note);
+                if(!currentPlayerStat.hasHitNotes[index]) {
+                    if(keyType == note.key) {
+                        if(note.bad == true) {
+                            currentPlayerStat.player.GetComponent<Score>().BadHit();
+                        } else if (note.special) {
+                            currentPlayerStat.player.GetComponent<Score>().SpecialHit(note.hitQuality);
                         }
-                   }
+                        else {
+                            currentPlayerStat.player.GetComponent<Score>().Hit(note.hitQuality);
+                        }
+
+                        currentPlayerStat.hasHitNotes[index] = true;
+                        return;
+                    }
                 }
+            }
+            foreach( var note in currentNotes) {
+                // if none of the notes match the keypress, the player should not be able to retry on the
+                // current notes
+                int index = currentNotes.IndexOf(note);
+                currentPlayerStat.hasHitNotes[index] = true;
             }
         }
     }

@@ -90,10 +90,6 @@ namespace GroupP {
             }
 
             if(!songs[songIndex].GetComponent<AudioSource>().isPlaying && startPlaying) {
-                int player1Score = player1.GetComponent<Score>().score;
-                int player2Score = player2.GetComponent<Score>().score;
-                int player3Score = player3.GetComponent<Score>().score;
-                int player4Score = player4.GetComponent<Score>().score;
 
                 var scores = new List<(int, int)>();
                 scores.Add((1, player1.GetComponent<Score>().score));
@@ -107,12 +103,26 @@ namespace GroupP {
                 });
 
                 // TODO check double places
-                int[] first = { scores[3].Item1 };
-                int[] second = { scores[2].Item1 };
-                int[] third = {  scores[1].Item1 };
-                int[] fourth = { scores[0].Item1 };                
+                List<List<int>> places = new List<List<int>>(4);
+                for(int i=0;i<4;++i) {
+                    places[i] = new List<int>();
+                }
+                places[0].Add(scores[3].Item1);
+                
+                int lastPlace = 0;
+                for(int i=2;i >= 0; --i) {
+                    if(scores[i].Item1 < scores[i+1].Item1) {
+                        lastPlace++;
+                    }
+                    places[lastPlace].Add(i);
+                }
 
-                MiniGameFinished(firstPlace: first, secondPlace: second, thirdPlace: third, fourthPlace: fourth);
+                MiniGameFinished(
+                    firstPlace: places[0].ToArray(), 
+                    secondPlace: places[1].ToArray(),
+                    thirdPlace: places[2].ToArray(),
+                    fourthPlace: places[3].ToArray()
+                );
             }
         }
 

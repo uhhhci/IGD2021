@@ -7,6 +7,13 @@ namespace GroupP {
     public class Controller : MonoBehaviour
     {
 
+        public float waitTimeAfterBadHit = 4.0f;
+
+        private float remainingWaitTime = 0f;
+
+        public void badHit() {
+            remainingWaitTime = waitTimeAfterBadHit;
+        }
         
         // Start is called before the first frame update
         void Start()
@@ -18,7 +25,9 @@ namespace GroupP {
         // Update is called once per frame
         void Update()
         {
-            
+            if(remainingWaitTime > 0) {
+                remainingWaitTime -= Time.deltaTime;
+            }
         }
 
         private void OnEastPress()
@@ -32,21 +41,25 @@ namespace GroupP {
 
 
         private void  OnUpPress() {
-            KeyPressHandler.instance.keyPressed(gameObject, KeyType.UP);
+            sendKeyPressToKeyPressHandler(KeyType.UP);
         }
 
         private void OnDownPress() {
-            KeyPressHandler.instance.keyPressed(gameObject, KeyType.DOWN);
+            sendKeyPressToKeyPressHandler(KeyType.DOWN);
         }
 
         private void OnLeftPress() {
-            KeyPressHandler.instance.keyPressed(gameObject, KeyType.LEFT);
+            sendKeyPressToKeyPressHandler(KeyType.LEFT);
         }
 
         private void OnRightPress()  {
-            KeyPressHandler.instance.keyPressed(gameObject, KeyType.RIGHT);
+            sendKeyPressToKeyPressHandler(KeyType.RIGHT);
         }
 
+        private void sendKeyPressToKeyPressHandler(KeyType type) {
+            if(remainingWaitTime > 0f) { return; }
+            KeyPressHandler.instance.keyPressed(gameObject, type);
+        }
 
         //TODO handle keypresses -> send to keypresshandler
     }

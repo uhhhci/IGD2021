@@ -20,6 +20,8 @@ namespace GroupP {
         public bool bad = false;
         public bool special = false;
 
+        private bool triedSwapToBad = false;
+
         void Awake() 
         {
                 
@@ -67,6 +69,16 @@ namespace GroupP {
                 transform.localPosition -= new Vector3(Time.deltaTime*tempo, 0f, 0f);
                 updateHitQuality();
             }
+            if(transform.localPosition.x > 55 && transform.localPosition.x < 65 && !special && !bad && !triedSwapToBad) {
+                if(UnityEngine.Random.Range(0f,1f) < 0.2) { 
+                    return;
+                }
+                if(UnityEngine.Random.Range(0f, 1f) < 0.1f) {
+                    bad = true;
+                    gameObject.GetComponent<SpriteRenderer>().color  = new Color(0f, 0f, 0f);
+                }
+                triedSwapToBad = true;
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
@@ -82,7 +94,7 @@ namespace GroupP {
             if(other.tag == "activator") {
                 KeyPressHandler.instance.deregisterNote(this);
                 
-                Destroy(gameObject, 0.2f);
+                Destroy(gameObject, 0.05f);
             }
         }
 

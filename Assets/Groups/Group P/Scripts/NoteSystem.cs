@@ -114,7 +114,7 @@ namespace GroupP {
             } else {
                 obj = Instantiate(notePrefab) as GameObject;
                 obj.transform.SetParent(gameObject.transform);
-                obj.GetComponent<Note>().bad = UnityEngine.Random.Range(0f, 1f) < 0.4f;
+                obj.GetComponent<Note>().bad = UnityEngine.Random.Range(0f, 1f) < 0.05f;
                 obj.transform.localScale = notePrefab.transform.localScale;
             }
             obj.SetActive(true);
