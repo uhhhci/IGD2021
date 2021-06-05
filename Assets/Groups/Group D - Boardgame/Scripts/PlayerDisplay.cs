@@ -9,6 +9,7 @@ public class PlayerDisplay : MonoBehaviour
     public Text brickDisplay;           // text display for the golden brick amount
     public TurnAnimationCredit credit;  // credit in the HUD
     public TurnAnimationBrick brick;    // golden brick in the HUD
+    public StudBar trueParyBar;         // the bar used to display true party progress
 
     public List<Transform> inventorySlots; // 3 inventory slots
 
@@ -40,7 +41,7 @@ public class PlayerDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -56,6 +57,18 @@ public class PlayerDisplay : MonoBehaviour
 
         creditDisplay.text = creditText;
         brickDisplay.text = ": " + bricks.ToString();
+    }
+
+    // call this method to indicate that the "true party person" state has been achieved
+    // use the parameter to indicate whether it has been achieved by this player or not
+    public void setIsTruePartyPerson(bool isItThisPlayer) {
+        trueParyBar.setStateTaken(isItThisPlayer);
+    }
+
+    /// updates the true party meter of this player
+    /// pass a value between 0 and 1, 0 is an empty meter, 1 a full one
+    public void updateTruePartyMeter(float newRatio) {
+        trueParyBar.setFillRatio(newRatio);
     }
 
     // adds the given item to this player's inventory

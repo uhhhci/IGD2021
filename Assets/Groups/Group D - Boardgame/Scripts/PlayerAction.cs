@@ -8,6 +8,7 @@ public class PlayerAction : MonoBehaviour
         END_TURN,
         BUY_GOLDEN_BRICK,
         ITEM_CREDIT_THIEF,
+        BUY_AP,
         // TODO: add more actions here
     }
 

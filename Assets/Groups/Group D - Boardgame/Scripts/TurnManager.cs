@@ -28,6 +28,11 @@ public class TurnManager : MonoBehaviour
     // stores the credits, golden bricks, and items of each player
     public List<PlayerDisplay> playerBelongings = new List<PlayerDisplay>(4);
     
+    // number of credits required to become the "true party person"
+    public int truePartyThreshold = 10;
+
+    public TrueParty truePartySprite;
+
     public GoldenBrickManager brickManager;
 
     public Transform playerMarkerTransform;
@@ -41,6 +46,7 @@ public class TurnManager : MonoBehaviour
     public float playerMarkerBobbleSpeed = 2.0f;
     public float playerMarkerBobbleAmplitude = 0.5f;
 
+    private int truePartyPerson = -1;
     private int activePlayer = 0;
     private int round = 1;
     private int actionPoints = 0;
@@ -78,6 +84,7 @@ public class TurnManager : MonoBehaviour
         else if (currentState == TurnState.ROLLING_DIE && DieScript.isDone() && DieScript2.isDone())
         {
             actionPoints = DieScript.rollResult + DieScript2.rollResult;
+
             currentState = TurnState.MOVING_CAM_TO_PLAYER;
             camera.moveToPlayer(activePlayer);
         }
@@ -87,20 +94,25 @@ public class TurnManager : MonoBehaviour
         else if (currentState == TurnState.ACCEPTING_INPUT && actionPoints <= 0) {
             applyTileEffect();
         }
-        else if (currentState == TurnState.EXECUTING_ACTION && currentActionFSM.update()) {
+        else if (currentState == TurnState.EXECUTING_ACTION && (currentActionFSM == null || currentActionFSM.update()) && playerBelongings[activePlayer].animationsAreDone()) {
             currentActionFSM = null;
             
-            if (actionPoints <= 0) {
-                // turn is over!
-                applyTileEffect();
-            }
-            else {
-                // await next input/action
-                currentState = TurnState.ACCEPTING_INPUT;
+            if (!updateTruePartyState()) {    
+                if (actionPoints <= 0) {
+                    // turn is over!
+                    applyTileEffect();
+                }
+                else {
+                    // await next input/action
+                    currentState = TurnState.ACCEPTING_INPUT;
+                }
             }
         }
         else if (currentState == TurnState.APPLYING_TILE_EFFECT && currentActionFSM.update()) {
-            currentState = TurnState.TURN_ENDED;
+            if (!updateTruePartyState()) {    
+                currentState = TurnState.TURN_ENDED;
+                currentActionFSM = null;
+            }
         }
         else if (currentState == TurnState.TURN_ENDED) {
             finishTurn();
@@ -118,6 +130,28 @@ public class TurnManager : MonoBehaviour
         updateHUD();
     }
 
+    // call this method whenever an FSM ended which might modify the credit amounts of players
+    // returns true when state transition must be delayed because a player has become the true party person 
+    // (an animation is played in this case)
+    private bool updateTruePartyState() {
+        if (truePartyPerson == -1) {
+            // there is no true party person yet
+            for (int i = 0; i < 4; i++) {
+                if (playerBelongings[i].creditAmount() >= truePartyThreshold) {
+                    truePartyPerson = i;
+
+                    for (int j = 0; j < 4; j++) {
+                        playerBelongings[j].setIsTruePartyPerson(j == truePartyPerson);
+                    }
+
+                    currentActionFSM = new BecomingTruePartyPerson();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     /// returns whether the given action is "in principle" currently available for the player,
     /// i.e. whether the action could be used in this state independently of the action's costs (AP + credits)
     private bool actionIsActive(PlayerAction action) {
@@ -128,6 +162,8 @@ public class TurnManager : MonoBehaviour
                 return playerData[activePlayer].currentTile().hasGoldenBrick();
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
                 return playerBelongings[activePlayer].hasItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
+            case PlayerAction.Type.BUY_AP:
+                return truePartyPerson == activePlayer;
         }
         return false;
     }
@@ -225,6 +261,13 @@ public class TurnManager : MonoBehaviour
             playerBelongings[activePlayer].setDisplayedCreditCosts(0);
         }
 
+        for (int i = 0; i < 4; i++) {
+            if (truePartyPerson == -1) {
+                // no truePartyPerson yet
+                playerBelongings[i].updateTruePartyMeter(((float) playerBelongings[i].creditAmount()) / truePartyThreshold);
+            }
+        }
+
         // marker other active player
         float offset = Mathf.Sin(Time.timeSinceLevelLoad * playerMarkerBobbleSpeed);
         offset *= playerMarkerBobbleAmplitude;
@@ -264,6 +307,11 @@ public class TurnManager : MonoBehaviour
         playerBelongings.ForEach((belongings) => {
             belongings.addCreditAmount((int) Random.Range(0f, 3.99f));
         });
+
+        // TODO: does not work yet
+        // proposed solution: add a minigame state, when the minigame + scorescreen are over, check whether there is a true party person
+        // then do animations etc (before starting the next turn)
+        updateTruePartyState();
     }
 
     /// executes the given action
@@ -281,6 +329,7 @@ public class TurnManager : MonoBehaviour
                 //TODO: add sound effect here
                 players[activePlayer].PlayPickupSound();
                 brickManager.relocate();
+                currentActionFSM = null;
                 break;
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
                 // item is "used" -> remove it from the inventory
@@ -290,10 +339,14 @@ public class TurnManager : MonoBehaviour
                 currentActionFSM = new ItemCreditThief(camera, activePlayer, playerBelongings);
                 
                 break;
+            case PlayerAction.Type.BUY_AP:
+                currentState = TurnState.EXECUTING_ACTION;
+                currentActionFSM = null;
+                break;
         }
 
         actionPoints -= action.requiredAP;
-        playerBelongings[activePlayer].addCreditAmount(-action.requiredCredits); // TODO: wait until animation is complete
+        playerBelongings[activePlayer].addCreditAmount(-action.requiredCredits);
     }
 
     public void reactToMove(Directions direction, int playerNumber)
