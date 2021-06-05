@@ -2,6 +2,7 @@
 
 public class GameManagerK : MonoBehaviour
 {
+    public CrossTheCanyons crossTheCanyons;
     public MinifigControllerModified minifigure1;
     public MinifigControllerModified minifigure2;
     public LevelManager levelManager;
@@ -71,8 +72,10 @@ public class GameManagerK : MonoBehaviour
         rightBridgeMovement.SetBridgeBody(rightBridge);
     }
 
-    public void GameOver()
+    public void GameOver(int leftPlayerFinalLevel, int rightPlayerFinalLevel)
     {
         Debug.Log("Game Over for both teams!");
+        crossTheCanyons.GameOver(leftPlayerFinalLevel, rightPlayerFinalLevel);
     }
+
 }

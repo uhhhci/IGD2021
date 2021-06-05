@@ -29,7 +29,7 @@ public class GameOverChecker : MonoBehaviour
 
         if (minifigure1_isDead && minifigure2_isDead)
         {
-            gameManager.GameOver();
+            gameManager.GameOver(levelManager.LeftPlayerFinalLevel, levelManager.RightPlayerFinalLevel);
         }
     }
 

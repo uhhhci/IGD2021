@@ -1,7 +1,7 @@
 ﻿using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class Player2Movement : MonoBehaviour
+public class VerticalBridgeMovement : MonoBehaviour
 {
     private float verticalMovement = 0.0f;
     private float counterclockwiseRotation = 0.0f;
@@ -23,7 +23,7 @@ public class Player2Movement : MonoBehaviour
            counterclockwiseRotation = 0.0f; 
     }
 
-    public float GetBridge1VerticalMovement()
+    public float GetBridgeVerticalMovement()
     {
         return verticalMovement;
     }
