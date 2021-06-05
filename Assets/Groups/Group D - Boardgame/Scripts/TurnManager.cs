@@ -67,6 +67,9 @@ public class TurnManager : MonoBehaviour
          // TODO: DEBUG ONLY, REMOVE THIS WHEN THE SHOP IS IMPLEMENTED
         playerBelongings[0].addItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
         playerBelongings[0].addItem(itemDataBase[ItemD.Type.TRAP]);
+        Debug.Log("added trap to inventory");
+        Debug.Log("items: "+allItems[1]+" "+playerBelongings[0].hasItem(allItems[1]));
+        Debug.Log("items: "+allItems[0]+" "+playerBelongings[0].hasItem(allItems[0]));
     }
 
     // Update is called once per frame
@@ -130,6 +133,7 @@ public class TurnManager : MonoBehaviour
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
                 return playerBelongings[activePlayer].hasItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
             case PlayerAction.Type.SET_TRAP:
+                Debug.Log("setting trap is possible.");//TODO: remove trap log
                 return playerBelongings[activePlayer].hasItem(itemDataBase[ItemD.Type.TRAP]);
         }
         return false;
@@ -293,7 +297,7 @@ public class TurnManager : MonoBehaviour
             case PlayerAction.Type.SET_TRAP:
                 //TODO: trap visuals
                 playerData[activePlayer].currentTile().setTrap(true,activePlayer);
-                //TODO: add soundeffect
+                //TODO: trap soundeffect
                 playerBelongings[activePlayer].removeItem(itemDataBase[ItemD.Type.TRAP]);
                 break;
         }
