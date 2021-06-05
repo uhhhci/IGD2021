@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class TrapControl : MonoBehaviour
 {
-    public Vector3 offset = new Vector3(0f, 10f, 0f);    // hovering offset from players 
+    private Vector3 offset = new Vector3(0f, 0.51f, 0f);    // hovering offset from players 
     public Transform[] players;                     // transforms of all four players, in order
     public PlayerData[] playerDatas;
     public float deadzone = 0.1f;                   // distance to target position where a movement is considered to be completed
-    public float speed = 20.0f;                      // how many units the thief can move per second
+    private float speed = 25.0f;                      // how many units the trap can move per second
 
     private Vector3 loiterPoint; // point where the item thief will loiter when it is not used
     private bool movementDone;   // whether all animations are done
@@ -16,7 +16,7 @@ public class TrapControl : MonoBehaviour
     private Vector3 targetPos;
     private double flyingTime;
     private double distance;
-    public AudioClip stealAudioClip;
+    public AudioClip dropAudioClip;
     AudioSource audioSource;
 
 
@@ -52,7 +52,7 @@ public class TrapControl : MonoBehaviour
     
     public void playStealAudio()
     {
-        audioSource.PlayOneShot(stealAudioClip);
+        audioSource.PlayOneShot(dropAudioClip);
     }
 
     // Start is called before the first frame update
@@ -77,5 +77,10 @@ public class TrapControl : MonoBehaviour
         {
             movementDone = true;
         }
+    }
+
+    public void playDropAudio()
+    {
+        audioSource.PlayOneShot(dropAudioClip);
     }
 }

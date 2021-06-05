@@ -50,6 +50,7 @@ public class SetTrap : FSM
                 if (trap.movementCompleted())
                 {
                     state = State.DONE;
+                    trap.playDropAudio();
                 }
                 break;
             case State.DONE:
