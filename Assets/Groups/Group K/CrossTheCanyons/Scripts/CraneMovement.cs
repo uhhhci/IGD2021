@@ -5,12 +5,15 @@ using UnityEngine;
 public class CraneMovement : MonoBehaviour
 {
     public GameManagerK gameManager;
+    public CountdownTimer timer;
     private GameObject currentBridge;
     private Vector3 craneTargetPosition;
     private Vector3 craneStartPosition;
+    private Quaternion craneStartRotation;
+    private Quaternion craneTargetRotation;
     private Vector3 bridgeTargetPosition;
     private Vector3 bridgeStartPosition;
-    private float movementDistance = 2.0f;
+    private float movementDistance = 2.5f;
     private float progress = 0.0f;
     private bool targetReached = true;
 
@@ -24,6 +27,7 @@ public class CraneMovement : MonoBehaviour
         if (!targetReached)
         {
             transform.position = Vector3.Lerp(craneStartPosition, craneTargetPosition, progress);
+            transform.rotation = Quaternion.Slerp(craneStartRotation, craneTargetRotation, progress);
             if (progress >= 1.0f)
             {
                 targetReached = true;           
@@ -40,7 +44,7 @@ public class CraneMovement : MonoBehaviour
                 gameManager.BridgeInPosition();
             }
         }
-
+        gameObject.transform.Find("TimeDisplay").rotation = Quaternion.Euler(0, -90, 0);
         progress += (Time.deltaTime * 0.5f);
     }
 
@@ -52,6 +56,7 @@ public class CraneMovement : MonoBehaviour
 
     public void MoveIntoScene(bool leftCrane, GameObject bridge)
     {
+        timer.ResetTimer();
         currentBridge = bridge;
         int direction = leftCrane? 1 : -1;
 
@@ -64,6 +69,8 @@ public class CraneMovement : MonoBehaviour
         craneTargetPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z + direction * movementDistance);
 
         craneStartPosition = transform.position;
+        craneStartRotation = transform.rotation;
+        craneTargetRotation = transform.rotation;
         bridgeStartPosition = currentBridge.transform.position;
         ResetMarkers();
     }
@@ -76,6 +83,8 @@ public class CraneMovement : MonoBehaviour
         int direction = leftCrane? -1 : 1;
         craneTargetPosition = new Vector3(transform.position.x, transform.position.y, craneTargetPosition.z + direction * movementDistance);
         craneStartPosition = transform.position;
+        craneStartRotation = transform.rotation;
+        craneTargetRotation = Quaternion.identity;
         ResetMarkers();
     }
 
