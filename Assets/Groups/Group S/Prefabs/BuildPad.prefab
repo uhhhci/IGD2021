@@ -32,6 +32,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8708128741719242138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7373832918761713315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbbb103aa35e5794882872c0affe7af4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1705038856476272804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42,6 +54,10 @@ PrefabInstance:
     - target: {fileID: 1654536422366046, guid: e3ab0b0c66c14454b893cffcb67dcc33, type: 3}
       propertyPath: m_Name
       value: SM_Veh_Retro_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1654536422366046, guid: e3ab0b0c66c14454b893cffcb67dcc33, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4018785773290096, guid: e3ab0b0c66c14454b893cffcb67dcc33, type: 3}
       propertyPath: m_RootOrder
@@ -194,6 +210,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9a4f67b7f329ca4abf5de824f66db82, type: 3}
+--- !u!1 &7373832918761713315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1868077915973288, guid: e9a4f67b7f329ca4abf5de824f66db82,
+    type: 3}
+  m_PrefabInstance: {fileID: 7373446993257400331}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7368660480096884711 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4788729921527788, guid: e9a4f67b7f329ca4abf5de824f66db82,
