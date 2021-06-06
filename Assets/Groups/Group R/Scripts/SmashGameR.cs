@@ -1,16 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR.Haptics;
+using UnityEngine.UI;
 
 /**
  * This class handles the initialization of our Lego Smash game
  */
 public class SmashGameR : MiniGame
 {
-    public GameObject player1;
-    public GameObject player2;
-    public GameObject player3;
-    public GameObject player4;
+    public OurMinifigController player1;
+    public OurMinifigController player2;
+    public OurMinifigController player3;
+    public OurMinifigController player4;
+    private OurMinifigController[] players;
+    public int gameDuration;
+
+    public Countdown countdown;
+
+    private float startTime;
+    private float timeLeft;
+    private Boolean endCountdownCalled = false;
 
     public override string getDisplayName()
     {
@@ -28,6 +39,8 @@ public class SmashGameR : MiniGame
 
     private void Start()
     {
+        players = new OurMinifigController[] {player1, player2, player3, player4};
+        
         //Create list of player inputs from the players in the scene
         var playerInputs = new List<PlayerInput> { player1.GetComponent<PlayerInput>(), player2.GetComponent<PlayerInput>(), 
             player3.GetComponent<PlayerInput>(), player4.GetComponent<PlayerInput>() };
@@ -35,12 +48,41 @@ public class SmashGameR : MiniGame
         //This assigns the player input in the order they were given in the array
         InputManager.Instance.AssignPlayerInput(playerInputs);
 
+        startTime = Time.time + gameDuration + 3;
+        countdown.StartCountDown(true);
+
     }
 
     void Update()
     {
+        timeLeft = startTime - Time.time;
+        if (timeLeft > gameDuration)
+        {
+            foreach (OurMinifigController p in players)
+                p.SetInputEnabled(false);
+        }
+        else if (timeLeft > 0)
+        {
+            foreach (OurMinifigController p in players)
+                p.SetInputEnabled(true);
+        }
+        else
+        {
+            foreach (OurMinifigController p in players)
+                p.SetInputEnabled(false);
+        }
+
+        if (3 > timeLeft && timeLeft > 0 && !endCountdownCalled)
+        {
+            endCountdownCalled = true;
+            countdown.StartCountDown(false);
+        }
+
+
+
         //If your game has already ended you can call the MiniGameFinished method
         bool myGameEndingCondition = false;
+
         if (myGameEndingCondition == true)
         {
             //Create array of positions with player ids, this also works in case there are multiple players in one position

@@ -880,6 +880,10 @@ public class OurMinifigController : MonoBehaviour
 
     private void OnSouthPress()
     {
+        if (!inputEnabled)
+        {
+            return;
+        }
         if (!hasItem)
             animator.SetTrigger(punchHash);
         else
