@@ -19,7 +19,6 @@ Im Folgenden finden sich TODOs und DONEs.
 			* in passendem Schriftstil, unsere default weiße Plan mit schwarzem Arial Text ist dafür nicht so nice
 
 * __TODOs Larry__
-	* Integration mit Interconnections Gruppe
 	* KI Mitspieler
 	* Tutorial? Brauchen wir das?
 
@@ -88,6 +87,8 @@ Im Folgenden finden sich TODOs und DONEs.
 	* Spielende
 		* Zeitablauf || alle besiegt
 		* Bestimmung des Gewinner-Teams
+
+	* Integration mit Interconnections Gruppe
 
 * __DONEs Polina__
 	* Methode/Funktion mit folgendem Verhalten:

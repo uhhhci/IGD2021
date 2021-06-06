@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -110,7 +109,6 @@ public class PhaseHandler : MonoBehaviour
         // iterates the list 2 times => not performant, replace if this becomes a bottleneck
         int leadingTeamIndex = totalTeamHp.IndexOf(totalTeamHp.Max());
         leadingTeam = (Team)leadingTeamIndex;
-        // print($"leading team: {leadingTeam}");
     }
 
     // Update is called once per frame
