@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class Respawn : MonoBehaviour
 {
+    [SerializeField] private MinifigController Player;
+    [SerializeField] private Transform RespawnPointWSAD;
     
-        
-
-        [SerializeField] private Transform Player;
-        [SerializeField] private Transform RespawnPointWSAD;
-        void OnTriggerEnter(Collider other)
-        {
-             print("Respawn");
-             Player.transform.position = RespawnPointWSAD.transform.position;
-            
-        }
-
-    
+    void OnTriggerEnter(Collider other)
+    {
+        print("Respawn");
+        Player.TeleportTo(RespawnPointWSAD.transform.position);
+;    }
 }

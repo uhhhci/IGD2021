@@ -21403,7 +21403,7 @@ GameObject:
   - component: {fileID: 773640325}
   m_Layer: 0
   m_Name: RespawnTrigger
-  m_TagString: Respawn
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21430,7 +21430,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773640320}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 3.5908737, z: 1.0011384}
@@ -21494,7 +21494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d85020e8eb865489fe80d38250e41f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1548320973}
+  Player: {fileID: 1548320969}
   RespawnPointWSAD: {fileID: 1535909479}
 --- !u!1001 &773847796
 PrefabInstance:
@@ -43992,6 +43992,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1349583894}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1548320969 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8870054838240989447, guid: ef277551de3652c4dab21591da2a6201,
+    type: 3}
+  m_PrefabInstance: {fileID: 1349583894}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548320968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe8a354e3eb1334da445797db0b8607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1548320973 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8612489488774388799, guid: ef277551de3652c4dab21591da2a6201,
