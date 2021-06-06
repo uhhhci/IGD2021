@@ -73,6 +73,7 @@ public class OurMinifigController : MonoBehaviour
     public bool died = false;
     public bool noticedDeath = false;
     public int place = 1;
+    public bool gameOver = false;
     /// <summary>
     /// 3D Vector representing the force knocking the player back from getting hit
     /// </summary>
@@ -508,7 +509,7 @@ public class OurMinifigController : MonoBehaviour
         // Apply _knockback to transform
         Vector3 position = transform.position + _knockback;
         // Keep X-position of minifig at 0.
-        if(!died){
+        if(!died || gameOver){
             position.x = 0;
         }else{
             position.x = endZone.x;

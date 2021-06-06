@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR.Haptics;
@@ -18,12 +19,18 @@ public class SmashGameR : MiniGame
     private OurMinifigController[] players;
     public int gameDuration;
 
+    public Vector3 firstPos;
+    public Vector3 secondPos;
+    public Vector3 thirdPos;
+    public Vector3 fourthPos;
+
     public Countdown countdown;
 
     private float startTime;
     private float timeLeft;
     private int place = 4;
     private bool endCountdownCalled = false;
+    private bool startedEndAnimation = false;
 
     public override string getDisplayName()
     {
@@ -100,32 +107,54 @@ public class SmashGameR : MiniGame
             
         }
 
-        Debug.Log(timeLeft);
-
-        if (timeLeft < -2)
+        if (timeLeft < -1)//w && !startedEndAnimation)
         {
+            startedEndAnimation = true;
             foreach (OurMinifigController p in players)
             {
                 switch (p.place)
                 {
                     case 1:
-                        p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.Dance);
-                        break;
-                    case 2:
+                        // The following distinction is needed if more than one player is first.
+                        if (p == player1)
+                        {
+                            firstPos.z = 0f;
+                        }
+                        else if (p == player2)
+                        {
+                            firstPos.z = 0.9f;
+                        }
+                        else if (p == player3)
+                        {
+                            firstPos.z = 1.8f;
+                        }
+                        else
+                        {
+                            firstPos.z = 2.7f;
+                        }
+                        p.transform.position = firstPos;
                         p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.Flexing);
                         break;
+                    case 2:
+                        p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.HatSwap);
+                        p.transform.position = secondPos;
+                        break;
                     case 3:
-                        p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.Wave);
+                        p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.HatSwap2);
+                        p.transform.position = thirdPos;
                         break;
                     case 4:
-                        p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.IdleHeavy);
+                        p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.LookingAround);
+                        p.transform.position = fourthPos;
                         break;
                 }
+                p.transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
+                p.gameOver = true;
             }
         }
 
 
-        if (timeLeft < -10)
+        if (timeLeft < -6)
         {
             //Create array of positions with player ids, this also works in case there are multiple players in one position
             int[] first = { 0 };
