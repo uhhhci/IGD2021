@@ -16,7 +16,7 @@ public class Timer : MonoBehaviour
             timeRemaining -= Time.deltaTime;
             float minutes = Mathf.FloorToInt(timeRemaining / 60);
             float seconds = Mathf.FloorToInt(timeRemaining % 60);
-            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds); ;
+            timerText.text = string.Format("{0:0}:{1:00}", minutes, seconds); ;
         }
     }
 }
