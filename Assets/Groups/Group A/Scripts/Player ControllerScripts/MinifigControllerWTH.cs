@@ -86,8 +86,8 @@ public class MinifigControllerWTH : MonoBehaviour
     public float gravity = 40f;
     public float pushSpeed = 20f;
     public float drag = 0.93f;
+    public float pointLossRate = 0.75f;
     private Vector2 _movement = new Vector2();
-
     [Header("Audio")]
 
     public List<AudioClip> stepAudioClips = new List<AudioClip>();
@@ -202,7 +202,7 @@ public class MinifigControllerWTH : MonoBehaviour
     Action<bool> onSpecialComplete;
 
     private BasePowerUp inventory = null;
-
+    private bool isDead = false;
     void OnValidate()
     {
         maxForwardSpeed = Mathf.Clamp(maxForwardSpeed, 5, 30);
@@ -966,8 +966,9 @@ public class MinifigControllerWTH : MonoBehaviour
     void Respawn()
     {
         GenerateRings rings = RespawnPointsSource.GetComponent<GenerateRings>();
-        Vector3 spwanLocation = rings.getSpawnLocation(characterId);
-        controller.transform.position = spwanLocation;
+        Vector3 spawnLocation = rings.getSpawnLocation(characterId);
+        playerPoints = Mathf.FloorToInt(playerPoints * pointLossRate);
+        controller.transform.position = spawnLocation;
     }
 
     public void AddPoints(int points)
