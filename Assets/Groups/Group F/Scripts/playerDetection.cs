@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class playerDetection : MonoBehaviour
 {
@@ -16,8 +14,7 @@ public class playerDetection : MonoBehaviour
     private PlatformState state = PlatformState.Virgin;
 
 
-    void OnCollisionStay(Collision col)
-    {
+    void OnCollisionStay(Collision col) {
         if (!col.collider.CompareTag("Player")) return;
 
         var myDelta = Time.deltaTime * decaySpeed;
@@ -30,7 +27,12 @@ public class playerDetection : MonoBehaviour
         CalculateNewState();
         SetStateDependentColor();
         SetStateDependentPhysics();
+    }
 
+    private void Update() {
+        if (rb.IsSleeping()) {
+            rb.WakeUp();
+        }
     }
 
     void CalculateNewState()
@@ -51,7 +53,7 @@ public class playerDetection : MonoBehaviour
                 this.GetComponent<MeshRenderer>().material.color = newColor;
                 break;
             case PlatformState.Dead:
-                // make platform unvisible
+                // make platform invisible
                 Debug.Log("DEAD");
                 this.GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
                 break;
