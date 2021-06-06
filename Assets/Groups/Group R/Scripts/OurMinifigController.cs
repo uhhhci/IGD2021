@@ -71,6 +71,8 @@ public class OurMinifigController : MonoBehaviour
 
     //Our Custom Variables
     public bool died = false;
+    public bool noticedDeath = false;
+    public int place = 1;
     /// <summary>
     /// 3D Vector representing the force knocking the player back from getting hit
     /// </summary>

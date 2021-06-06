@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR.Haptics;
@@ -21,7 +22,9 @@ public class SmashGameR : MiniGame
 
     private float startTime;
     private float timeLeft;
-    private Boolean endCountdownCalled = false;
+    private int place = 4;
+    private bool endCountdownCalled = false;
+    private bool myGameEndingCondition = false;
 
     public override string getDisplayName()
     {
@@ -78,10 +81,25 @@ public class SmashGameR : MiniGame
             countdown.StartCountDown(false);
         }
 
+        //Check if players died to determine place
+        foreach (OurMinifigController p in players)
+        {
+            if (!p.died && !p.noticedDeath)
+            {
+                p.noticedDeath = true;
+                p.place = place;
+                place -= 1;
+            }
+        }
+
+        //End the game if only 1 player is left or the time is up
+        if (place <= 1 || timeLeft < -3)
+        {
+            myGameEndingCondition = true;
+        }
 
 
-        //If your game has already ended you can call the MiniGameFinished method
-        bool myGameEndingCondition = false;
+        
 
         if (myGameEndingCondition == true)
         {
@@ -90,6 +108,27 @@ public class SmashGameR : MiniGame
             int[] second = { 1 };
             int[] third = { 2 };
             int[] fourth = { 3 };
+
+            int id = player1.GetInstanceID();
+
+            foreach (OurMinifigController p in players)
+            {
+                switch (p.place)
+                {
+                    case 1:
+                        first.Append(p.GetInstanceID());
+                        break;
+                    case 2:
+                        second.Append(p.GetInstanceID());
+                        break;
+                    case 3:
+                        third.Append(p.GetInstanceID());
+                        break;
+                    case 4:
+                        fourth.Append(p.GetInstanceID());
+                        break;
+                }
+            }
 
             //Note this is still work in progress, but ideally you will use it like this
             MiniGameFinished(firstPlace: first, secondPlace: second, thirdPlace: third, fourthPlace: fourth);
