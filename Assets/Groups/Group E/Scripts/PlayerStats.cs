@@ -16,12 +16,14 @@ public class PlayerStats : MonoBehaviour
     private static int LAP_VALUE = 1000000;
     public PowerUp power;
     public bool hasPowerup;
+    public bool hasGoldenBrick;
 
     // Start is called before the first frame update
     void Start()
     {
         rounds = 0;
         hasPowerup = false;
+        hasGoldenBrick = false;
     }
 
     public void CountRound()
@@ -41,6 +43,7 @@ public class PlayerStats : MonoBehaviour
         hasPowerup = false;
         power = null;
         textPowerup.text = "Powerup: ";
+        hasGoldenBrick = false;
     }
 
     public float GetDistance()
