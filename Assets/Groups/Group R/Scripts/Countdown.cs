@@ -33,17 +33,20 @@ public class Countdown : MonoBehaviour
         }
     }
 
-    public void StartCountDown(bool isStart)
+    public void StartCountDown(int type)
     {
         timeAtStart = Time.time + 4.999f;
-        if (isStart){
+        if (type == 1){
             txt_after_cntdwn = "Smash!";
+        }
+        else if (type == 2)
+        {
+            txt_after_cntdwn = "The End!";
         }
         else
         {
             txt_after_cntdwn = "The End!";
+            timeAtStart = Time.time + 1.999f;
         }
-            
-
     }
 }

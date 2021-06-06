@@ -24,7 +24,6 @@ public class SmashGameR : MiniGame
     private float timeLeft;
     private int place = 4;
     private bool endCountdownCalled = false;
-    private bool myGameEndingCondition = false;
 
     public override string getDisplayName()
     {
@@ -52,7 +51,7 @@ public class SmashGameR : MiniGame
         InputManager.Instance.AssignPlayerInput(playerInputs);
 
         startTime = Time.time + gameDuration + 3;
-        countdown.StartCountDown(true);
+        countdown.StartCountDown(1);
 
     }
 
@@ -78,13 +77,13 @@ public class SmashGameR : MiniGame
         if (3 > timeLeft && timeLeft > 0 && !endCountdownCalled)
         {
             endCountdownCalled = true;
-            countdown.StartCountDown(false);
+            countdown.StartCountDown(2);
         }
 
         //Check if players died to determine place
         foreach (OurMinifigController p in players)
         {
-            if (!p.died && !p.noticedDeath)
+            if (p.died && !p.noticedDeath && place>=1)
             {
                 p.noticedDeath = true;
                 p.place = place;
@@ -92,16 +91,41 @@ public class SmashGameR : MiniGame
             }
         }
 
-        //End the game if only 1 player is left or the time is up
-        if (place <= 1 || timeLeft < -3)
+        //Time is up if only 1 player is left
+        if (place == 1)
         {
-            myGameEndingCondition = true;
+            startTime = Time.time; //-> timeLeft = 0
+            place -= 1;
+            countdown.StartCountDown(0);
+            
+        }
+
+        Debug.Log(timeLeft);
+
+        if (timeLeft < -2)
+        {
+            foreach (OurMinifigController p in players)
+            {
+                switch (p.place)
+                {
+                    case 1:
+                        p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.Dance);
+                        break;
+                    case 2:
+                        p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.Flexing);
+                        break;
+                    case 3:
+                        p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.Wave);
+                        break;
+                    case 4:
+                        p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.IdleHeavy);
+                        break;
+                }
+            }
         }
 
 
-        
-
-        if (myGameEndingCondition == true)
+        if (timeLeft < -10)
         {
             //Create array of positions with player ids, this also works in case there are multiple players in one position
             int[] first = { 0 };
