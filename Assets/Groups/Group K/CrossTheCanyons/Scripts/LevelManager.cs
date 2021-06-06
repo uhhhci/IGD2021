@@ -8,9 +8,12 @@ public class LevelManager : MonoBehaviour
     public GameObject bridge;
     public GameObject goal;
     public GameObject barrier;
+    public GameObject ground;
+    public CraneMovement leftCrane;
+    public CraneMovement rightCrane;
     private const float minCenterDistance = 1.5f;
     private const float maxCenterDistance = 3.5f;
-    private const float distanceBridgeToPlatformCenter = 2.0f;
+    private const float distanceBridgeToPlatformCenter = 3.0f;
     private int currentLevel = 1;
     public int LeftPlayerFinalLevel {get; set;}
     public int RightPlayerFinalLevel {get; set;}
@@ -20,13 +23,15 @@ public class LevelManager : MonoBehaviour
         public Vector3 platformCenter;
         public Vector3 goal;
         public float bridgeLength;
+        public float distanceBetweenPlatforms;
         public GameObject leftBridge;
         public GameObject rightBridge;   
-        public Level(Vector3 platformCenter, Vector3 goal, float bridgeLength)
+        public Level(Vector3 platformCenter, Vector3 goal, float bridgeLength, float distanceBetweenPlatforms)
         {
             this.platformCenter = platformCenter;
             this.goal = goal;
             this.bridgeLength = bridgeLength;
+            this.distanceBetweenPlatforms = distanceBetweenPlatforms;
         }
     }
     
@@ -47,7 +52,7 @@ public class LevelManager : MonoBehaviour
         {
             barriers.Add(Instantiate(barrier, new Vector3(0,0,0), Quaternion.identity));
         }
-        levels.Add(new Level(new Vector3(2,1,0), new Vector3(2,2.01f,0), 0)); //add first platform to make levels.Count and currentLevel match in upcoming method calls
+        levels.Add(new Level(new Vector3(2,0,0), new Vector3(2,2.01f,0), 0, 0)); //add first platform to make levels.Count and currentLevel match in upcoming method calls
         for (int i = 0; i < 20; i++)
             CreateNextLevel(levels[i].platformCenter, levels[i].goal, levels.Count);
 
@@ -58,21 +63,30 @@ public class LevelManager : MonoBehaviour
     {
         Vector3 leftRightOffset = new Vector3(0, 0, platform.transform.localScale.z/2);
         UpdateBarriers(lvl, leftRightOffset);
+        
         float bridgeWidth = 0.4f;
         float spawnOffset = platform.transform.localScale.x/2 - levels[lvl].bridgeLength/2;
-        Vector3 newBridgePosition = levels[lvl-1].platformCenter + new Vector3(spawnOffset, distanceBridgeToPlatformCenter, -platform.transform.localScale.z/2 + bridgeWidth/2);
+        Vector3 newBridgePosition = levels[lvl-1].platformCenter 
+                + new Vector3(spawnOffset, distanceBridgeToPlatformCenter, -platform.transform.localScale.z/2 + bridgeWidth/2);
+        Vector3 bridgeOffset = new Vector3(0, 0, 0.5f);
+
         if (!leftPlayerDead)
         {
             Instantiate(goal, levels[lvl].goal - leftRightOffset, Quaternion.identity);
-            levels[lvl].leftBridge = Instantiate(bridge, newBridgePosition - leftRightOffset, Quaternion.identity);
-            levels[lvl].leftBridge.gameObject.transform.localScale = new Vector3(levels[lvl].bridgeLength, 0.01f, bridgeWidth);
+            levels[lvl].leftBridge = Instantiate(bridge, newBridgePosition - leftRightOffset + bridgeOffset, Quaternion.identity);
+            levels[lvl].leftBridge.gameObject.transform.localScale = new Vector3(levels[lvl].bridgeLength, bridge.transform.localScale.y, bridgeWidth);
+            leftCrane.MoveIntoScene(true, levels[lvl].leftBridge);
         }
         if (!rightPlayerDead)
         {
             Instantiate(goal, levels[lvl].goal + leftRightOffset, Quaternion.identity);
-            levels[lvl].rightBridge = Instantiate(bridge, newBridgePosition + leftRightOffset*3 - new Vector3(0,0,bridgeWidth), Quaternion.identity);
+            levels[lvl].rightBridge = Instantiate(bridge, newBridgePosition + leftRightOffset*3 - new Vector3(0,0,bridgeWidth) - bridgeOffset, Quaternion.identity);
             levels[lvl].rightBridge.gameObject.transform.localScale = new Vector3(levels[lvl].bridgeLength, 0.01f, bridgeWidth);
+            rightCrane.MoveIntoScene(false, levels[lvl].rightBridge);
         }
+
+        ground.transform.position = new Vector3(ground.transform.position.x - levels[lvl].distanceBetweenPlatforms,
+                ground.transform.position.y, ground.transform.position.z);
 
         //if necessary create placeholders to prevent nullpointer errors
         if (!levels[lvl].leftBridge)
@@ -85,6 +99,7 @@ public class LevelManager : MonoBehaviour
             levels[lvl].rightBridge = new GameObject();
             levels[lvl].rightBridge.AddComponent<Rigidbody>();
         }
+
         return (levels[lvl].leftBridge.GetComponent<Rigidbody>(), levels[lvl].rightBridge.GetComponent<Rigidbody>());
     }
 
@@ -129,6 +144,11 @@ public class LevelManager : MonoBehaviour
         barriers[7].transform.position = new Vector3(oldPlatformCenter.x + platformDepth/2, oldPlatformCenter.y + distanceBridgeToPlatformCenter, oldPlatformCenter.z)
                                              + leftRightOffset;
         barriers[7].transform.localScale = new Vector3(0, 2, platformWidth);
+
+        foreach (GameObject barrier in barriers)
+        {
+            barrier.SetActive(false);
+        }
     }
 
     private void CreateNextLevel(Vector3 oldPlatformCenter, Vector3 oldGoal, int level)
@@ -145,7 +165,7 @@ public class LevelManager : MonoBehaviour
         float additionalBridgeLength = 10/(level+10) + 0.1f;
         float bridgeLength = Mathf.Sqrt(Mathf.Pow(xDistanceBetweenGoals, 2) + Mathf.Pow(zDistanceBetweenGoals, 2)) + additionalBridgeLength;
 
-        levels.Add(new Level(newPlatformCenter, newGoal, bridgeLength));
+        levels.Add(new Level(newPlatformCenter, newGoal, bridgeLength, nextCenterDistance - platform.transform.localScale.x));
     }
 
     public (Vector3 leftGoal, Vector3 rightGoal) GetCurrentGoals()
@@ -162,5 +182,13 @@ public class LevelManager : MonoBehaviour
     public int GetCurrentLevel()
     {
         return currentLevel;
+    }
+
+    public void ActivateBarriers()
+    {
+        foreach (GameObject barrier in barriers)
+        {
+            barrier.SetActive(true);
+        }
     }
 }

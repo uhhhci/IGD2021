@@ -8,12 +8,7 @@ public class CountdownTimer : MonoBehaviour
     private float timeRemaining;
     private bool timerIsRunning = false;
 
-    public void ResetTimer()
-    {
-        Start();
-    }
-
-    void Start() 
+    public void StartTimer() 
     {
         timeRemaining = InitialTime;
         timerIsRunning = true;
@@ -31,7 +26,7 @@ public class CountdownTimer : MonoBehaviour
             {
                 timerIsRunning = false;
                 timeRemaining = 0.0f;
-                FindObjectOfType<GameManagerK>().ReleaseBridgeSegments();
+                StartCoroutine(FindObjectOfType<GameManagerK>().ReleaseBridgeSegments());
             }
             DisplayRemainingTime(timeRemaining);
         }

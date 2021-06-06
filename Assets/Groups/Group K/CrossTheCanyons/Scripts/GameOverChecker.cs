@@ -13,17 +13,19 @@ public class GameOverChecker : MonoBehaviour
     public LevelManager levelManager;
     void Update()
     {
-        if (!minifigure1_isDead && minifigure1.transform.position.y < 0.5f)
+        if (!minifigure1_isDead && minifigure1.transform.position.y < -1.0f)
         {
             minifigure1.GetComponent<MinifigControllerModified>().ClearMoves();
             minifigure1_isDead = true;
+            minifigure1.SetActive(false);
             LeftPlayerDead();
         }
 
-        if (!minifigure2_isDead && minifigure2.transform.position.y < 0.5f)
+        if (!minifigure2_isDead && minifigure2.transform.position.y < -1.0f)
         {
             minifigure2.GetComponent<MinifigControllerModified>().ClearMoves();
             minifigure2_isDead = true;
+            minifigure2.SetActive(false);
             RightPlayerDead();
         }
 
