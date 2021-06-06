@@ -11,5 +11,5 @@ public class Respawn : MonoBehaviour
     {
         print("Respawn");
         Player.TeleportTo(RespawnPointWSAD.transform.position);
-;    }
+    }
 }
