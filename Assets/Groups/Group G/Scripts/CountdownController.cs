@@ -15,7 +15,7 @@ public class CountdownController : MonoBehaviour
             GameController = this.GetComponent<GameController_G>();
         } else return;
 
-        GameController.SetPlayerControllersActive(false);
+        //GameController.SetPlayerControllersActive(false);
         StartCoroutine(CountdownToStart());
     }
 

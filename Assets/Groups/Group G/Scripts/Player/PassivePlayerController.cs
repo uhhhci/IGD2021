@@ -52,7 +52,7 @@ public class PassivePlayerController : MonoBehaviour
     public void UpdateWeaponByIndex(int index)
     {
         CurrentWeaponIndex = Mathf.RoundToInt(Mathf.Repeat((float)index, (float)(WeaponSystems.Length)));
-        Debug.Log(CurrentWeaponIndex);
+        //Debug.Log(CurrentWeaponIndex);
         UpdateWeaponVisualization();
     }
 
