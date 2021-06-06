@@ -17,14 +17,17 @@ public class SmashGameR : MiniGame
     public OurMinifigController player3;
     public OurMinifigController player4;
     private OurMinifigController[] players;
-    public int gameDuration;
-
+    public Text one;
+    public Text two;
+    public Text three;
+    public Text four;
     public Vector3 firstPos;
     public Vector3 secondPos;
     public Vector3 thirdPos;
     public Vector3 fourthPos;
 
     public Countdown countdown;
+    public int gameDuration;
 
     private float startTime;
     private float timeLeft;
@@ -115,6 +118,7 @@ public class SmashGameR : MiniGame
                 switch (p.place)
                 {
                     case 1:
+                        one.text = "1";
                         // The following distinction is needed if more than one player is first.
                         if (p == player1)
                         {
@@ -136,14 +140,17 @@ public class SmashGameR : MiniGame
                         p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.Flexing);
                         break;
                     case 2:
+                        two.text = "2";
                         p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.HatSwap);
                         p.transform.position = secondPos;
                         break;
                     case 3:
+                        three.text = "3";
                         p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.HatSwap2);
                         p.transform.position = thirdPos;
                         break;
                     case 4:
+                        four.text = "4";
                         p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.LookingAround);
                         p.transform.position = fourthPos;
                         break;
