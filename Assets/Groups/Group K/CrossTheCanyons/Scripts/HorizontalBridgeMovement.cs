@@ -1,7 +1,7 @@
 ﻿using UnityEngine.InputSystem;
 using UnityEngine;
 
-public class Player1Movement : MonoBehaviour
+public class HorizontalBridgeMovement : MonoBehaviour
 {
     private float horizontalMovement = 0.0f;
     private float clockwiseRotation = 0.0f;
@@ -23,7 +23,7 @@ public class Player1Movement : MonoBehaviour
            clockwiseRotation = 0.0f; 
     }
 
-    public float GetBridge1HorizontalMovement()
+    public float GetBridgeHorizontalMovement()
     {
         return horizontalMovement;
     }
