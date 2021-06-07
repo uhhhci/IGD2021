@@ -10,9 +10,22 @@ public class GameManagerJ : MonoBehaviour
     public int deathCount2 = 0;
     public Text team1DeathCount;
     public Text team2DeathCount;
+    public GameObject arm;
+    private float counter = 0;
+
     void Start()
     {
-        
+        StartCoroutine(MotorChange(arm, counter));
+    }
+
+    IEnumerator MotorChange(GameObject arm, float counter)
+    {
+        while (true)
+        {
+            arm.GetComponent<HingeJoint>().motor = new JointMotor() { targetVelocity = 100 + counter, force = 100000 };
+            counter += 5;
+            yield return new WaitForSeconds(3);
+        }
     }
 
     public void UpdateDeath(bool isTeam1)
@@ -26,10 +39,9 @@ public class GameManagerJ : MonoBehaviour
         {
             deathCount2++;
             team2DeathCount.text = "Deaths: " + deathCount2;
-        }
-        
-           
+        }       
     }
+
     // Update is called once per frame
     void Update()
     {

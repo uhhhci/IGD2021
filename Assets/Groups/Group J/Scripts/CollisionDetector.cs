@@ -15,6 +15,7 @@ public class CollisionDetector : MonoBehaviour
     private GameManagerJ gameplayManager;
     public bool isTeam1 = false;
     public bool isTeam2 = false;
+    public bool dead = false;
 
     void Awake()
     {
@@ -30,10 +31,19 @@ public class CollisionDetector : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == ("Obstacle"))
+        if (collision.gameObject.tag == ("Obstacle"))
         {
             StartCoroutine(ActivateInvincibility());
             gameplayManager.UpdateDeath(isTeam1);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == ("Lava"))
+        {
+            dead = true;
+            this.gameObject.SetActive(false);
         }
     }
 

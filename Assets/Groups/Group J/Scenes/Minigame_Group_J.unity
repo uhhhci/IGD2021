@@ -205,6 +205,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd21741674a7dba49aa25def3eca81f9, type: 3}
+--- !u!1 &22989156 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3384051847428870620, guid: fd21741674a7dba49aa25def3eca81f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 22989155}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &36228545
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,6 +970,7 @@ MonoBehaviour:
   deltaTime: 0.15
   isTeam1: 0
   isTeam2: 1
+  dead: 0
 --- !u!136 &325991071
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1652,6 +1659,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 47ea3b24da91f8746911aacf2a3f4bda, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d1895c1adcdb5f4ca40a77e0c2049aa, type: 3}
+--- !u!4 &541740552 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8d1895c1adcdb5f4ca40a77e0c2049aa,
+    type: 3}
+  m_PrefabInstance: {fileID: 541740551}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &550227953
 GameObject:
   m_ObjectHideFlags: 0
@@ -3324,6 +3337,7 @@ MonoBehaviour:
   deltaTime: 0.15
   isTeam1: 1
   isTeam2: 0
+  dead: 0
 --- !u!136 &942817882
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5409,6 +5423,7 @@ MonoBehaviour:
   deltaTime: 0.15
   isTeam1: 1
   isTeam2: 0
+  dead: 0
 --- !u!136 &1183222287
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6442,6 +6457,7 @@ MonoBehaviour:
   deltaTime: 0.15
   isTeam1: 0
   isTeam2: 1
+  dead: 0
 --- !u!136 &1344651179
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7215,8 +7231,8 @@ GameObject:
   - component: {fileID: 1728047506}
   - component: {fileID: 1728047505}
   m_Layer: 0
-  m_Name: Plane (1)
-  m_TagString: Untagged
+  m_Name: Lava
+  m_TagString: Lava
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7229,10 +7245,10 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728047504}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1728047506
@@ -7291,7 +7307,7 @@ Transform:
   m_GameObject: {fileID: 1728047504}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.11, y: -0.43, z: -1.62}
-  m_LocalScale: {x: 9.36, y: 1, z: 8.79}
+  m_LocalScale: {x: 9.36, y: 0.1, z: 8.79}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 20
@@ -7639,9 +7655,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2031601575}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1f01427047f30848a4269c739a53eac, type: 3}
+  m_Script: {fileID: 11500000, guid: 82c753fa6a68b924c87c9b4494002ddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeRemaining: 90
+  timerIsRunning: 0
+  timeText: {fileID: 2031601578}
+  cylinderSlices: {fileID: 541740552}
+  allChildren: []
+  maxTimeUntilPlateDestruction: 10
+  timerStartPlateDestruction: 60
+  randomDestructionTimer: 1
+  arm: {fileID: 22989156}
 --- !u!114 &2031601578
 MonoBehaviour:
   m_ObjectHideFlags: 0
