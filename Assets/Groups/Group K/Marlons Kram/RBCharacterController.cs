@@ -12,8 +12,10 @@ public class RBCharacterController : MonoBehaviour
     [SerializeField] private float _hitForce = 20.0f;
     [SerializeField] private int _mashLimit = 10;
     [SerializeField] private float GRAVITY = 1.0f;
-    [SerializeField] float _kickRange = 0.5f;
-    [SerializeField] float _distToGround = 0.01f;
+    [SerializeField] private float _kickRange = 0.5f;
+    [SerializeField] private float _distToGround = 0.01f;
+    [SerializeField] private float _stepHeight = 0.3f;
+    [SerializeField] private float _smoothStep = 0.15f;
 
     [Range(0, 500)] public float maxRotateSpeed = 150f;
     public GameObject Minifig;
@@ -30,12 +32,14 @@ public class RBCharacterController : MonoBehaviour
     private Animator animator;
     private AudioSource audioSource;
     private Collider m_Collider;
+    private BoxCollider _colly;
     private RaycastHit m_Hit;
     private Vector2 _moveDirection;
 
     bool isJumping;
     bool isGrounded;
     bool isStunned;
+    bool climbed;
     int mashCounter;
     bool wasGrounded;
     float airborneTime;
@@ -122,6 +126,7 @@ public class RBCharacterController : MonoBehaviour
         animator = Minifig.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         m_Collider = GetComponent<Collider>();
+        _colly = transform.GetComponent<BoxCollider>();
     }
 
     private void Start()
@@ -132,7 +137,7 @@ public class RBCharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(mashCounter <= 0)
+        if(isStunned && mashCounter <= 0)
         {
             Debug.Log("Unstun");
             isStunned = false;
@@ -231,6 +236,7 @@ public class RBCharacterController : MonoBehaviour
             _rb.velocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.z);
         }
 
+        climbed = false;
         wasGrounded = isGrounded;
         speed = _rb.velocity.magnitude;
         transform.Rotate(0, (rotateSpeed + externalRotation) * Time.deltaTime, 0);
@@ -274,18 +280,71 @@ public class RBCharacterController : MonoBehaviour
 
     public void GetStunned()
     {
-        Debug.Log("Stunned");
-        isStunned = true;
-        inputEnabled = false;
-        mashCounter = _mashLimit;
-        PlaySpecialAnimation(SpecialAnimation.Crawl);
+        if(GroundCheck())
+        {
+            Debug.Log("Stunned");
+            isStunned = true;
+            inputEnabled = false;
+            mashCounter = _mashLimit;
+            PlaySpecialAnimation(SpecialAnimation.Crawl);
+        }
     }
 
-    public bool GroundCheck()
+    private void OnCollisionEnter(Collision collision)
     {
-        BoxCollider colly = transform.GetComponent<BoxCollider>();
-        Vector3 size = colly.size;
-        Vector3 center = new Vector3(colly.center.x, colly.center.y - size.y / 2.1f, colly.center.z);
+        if (collision.collider.CompareTag("K_Ground"))
+        {
+            Vector3 lowerCoord = new Vector3(_colly.bounds.center.x, _colly.bounds.min.y + 0.01f, _colly.bounds.center.z);
+            Vector3 higherCoord = new Vector3(_colly.bounds.center.x, _colly.bounds.min.y + _stepHeight, _colly.bounds.center.z);
+            ContactPoint[] cs = new ContactPoint[collision.contactCount];
+            collision.GetContacts(cs);
+            foreach (ContactPoint c in cs)
+            {
+                Vector3 norm = new Vector3(c.normal.x, 0, c.normal.z);
+                Helper_StepRaycast(lowerCoord, higherCoord, -norm, 0.1f);
+            }
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.CompareTag("K_Ground"))
+        {
+            Vector3 lowerCoord = new Vector3(_colly.bounds.center.x, _colly.bounds.min.y + 0.01f, _colly.bounds.center.z);
+            Vector3 higherCoord = new Vector3(_colly.bounds.center.x, _colly.bounds.min.y + _stepHeight, _colly.bounds.center.z);
+            ContactPoint[] cs = new ContactPoint[collision.contactCount];
+            collision.GetContacts(cs);
+            foreach (ContactPoint c in cs)
+            {
+                Vector3 norm = new Vector3(c.normal.x, 0, c.normal.z);
+                Helper_StepRaycast(lowerCoord, higherCoord, -norm, 0.1f);
+            }
+        }
+    }
+
+    private void Helper_StepRaycast(Vector3 lCoord, Vector3 hCoord, Vector3 dir, float dist)
+    {
+        if(!climbed)
+        {
+            RaycastHit lowerHit;
+            if (Physics.Raycast(lCoord, dir, out lowerHit, _colly.bounds.extents.x + dist))
+            {
+                RaycastHit upperHit;
+                if (!Physics.Raycast(hCoord, dir, out upperHit, _colly.bounds.extents.x + dist))
+                {
+                    _rb.position -= new Vector3(0f, -_smoothStep, 0f);
+                    climbed = true;
+                }
+            }
+        }
+        //Debug.DrawRay(hCoord, dir.normalized * (_colly.bounds.extents.x + dist), Color.red);
+        //Debug.DrawRay(lCoord, dir.normalized * (_colly.bounds.extents.x + dist), Color.blue);
+    }
+
+    private bool GroundCheck()
+    {
+        Vector3 size = _colly.size;
+        Vector3 center = new Vector3(_colly.center.x, _colly.center.y - size.y / 2.1f, _colly.center.z);
 
         Vector3 vertex1 = new Vector3(center.x + size.x / 2, center.y, center.z + size.z / 2);
         Vector3 vertex2 = new Vector3(center.x - size.x / 2, center.y, center.z - size.z / 2);
@@ -345,7 +404,7 @@ public class RBCharacterController : MonoBehaviour
 
     private void OnEastPress()
     {
-        if(isGrounded)
+        if(isGrounded && !isStunned)
         {
             PlaySpecialAnimation(SpecialAnimation.KickRightFoot, explodeAudioClip);
 

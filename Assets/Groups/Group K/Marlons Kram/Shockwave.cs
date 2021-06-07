@@ -9,12 +9,14 @@ public class Shockwave : MonoBehaviour
     [SerializeField] private Transform _sphere;
 
     private List<string> _alreadyHit;
+    private List<string> _currHits;
     private float _currRadius;
 
     // Start is called before the first frame update
     void Start()
     {
         _alreadyHit = new List<string>();
+        _currHits = new List<string>();
         _currRadius = 1;
     }
 
@@ -27,25 +29,22 @@ public class Shockwave : MonoBehaviour
 
         if(_currRadius <= _radius)
         {
-            List<string> currHits = new List<string>();
+            _currHits.Clear();
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, _currRadius);
             foreach (Collider hitCollider in hitColliders)
             {
                 if(hitCollider.CompareTag("Player"))
                 {
-                    currHits.Add(hitCollider.name);
+                    _currHits.Add(hitCollider.name);
 
-                    if(!_alreadyHit.Contains(hitCollider.name))
+                    if (!_alreadyHit.Contains(hitCollider.name))
                     {
                         RBCharacterController controller = hitCollider.GetComponent<RBCharacterController>();
-                        if(controller.GroundCheck())
-                        {
-                            controller.GetStunned();
-                        }
+                        controller.GetStunned();
                     }
                 }
             }
-            _alreadyHit = currHits;
+            _alreadyHit = new List<string>(_currHits);
         }
         else
         {
