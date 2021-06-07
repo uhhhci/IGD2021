@@ -1,31 +1,42 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class CharacterSelection : MonoBehaviour
 {
-    [SerializeField] private Button previousButton;
-    [SerializeField] private Button nextButton;
-    private int currentCharacter;
+	public GameObject[] characters;
+	public int selectedCharacter = 0; //index: stores information of which character we have actually selected
+    public string characterName;
+    public GameObject inputField;
 
-    private void Awake()
+    public void StoreName()
     {
-        SelectCharacter(0);
+        characterName = inputField.GetComponent<Text>().text;
+       
     }
 
-    private void SelectCharacter(int _index)
-    {
-        previousButton.interactable = (_index != 0);
-        nextButton.interactable = (_index != transform.childCount-1);
+	public void NextCharacter()
+	{
+		characters[selectedCharacter].SetActive(false);
+		selectedCharacter = (selectedCharacter + 1) % characters.Length;
+		characters[selectedCharacter].SetActive(true);
+	}
 
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            transform.GetChild(i).gameObject.SetActive(i == _index);
-        }
-    }
+	public void PreviousCharacter()
+	{
+		characters[selectedCharacter].SetActive(false);
+		selectedCharacter--;
+		if (selectedCharacter < 0)
+		{
+			selectedCharacter += characters.Length;
+		}
+		characters[selectedCharacter].SetActive(true);
+	}
 
-    public void ChangeCharacter(int _change)
-    {
-        currentCharacter += _change;
-        SelectCharacter(currentCharacter);
-    }
+	public void StartGame()
+	{
+		PlayerPrefs.SetInt(characterName, selectedCharacter);
+		SceneManager.LoadScene(1, LoadSceneMode.Single);
+	}
 }
