@@ -60,7 +60,5 @@ namespace GroupP {
             if(remainingWaitTime > 0f) { return; }
             KeyPressHandler.instance.keyPressed(gameObject, type);
         }
-
-        //TODO handle keypresses -> send to keypresshandler
     }
 }

@@ -73,7 +73,7 @@ namespace GroupP {
                 if(UnityEngine.Random.Range(0f,1f) < 0.2) { 
                     return;
                 }
-                if(UnityEngine.Random.Range(0f, 1f) < 0.1f) {
+                if(UnityEngine.Random.Range(0f, 1f) < 0.08f) {
                     bad = true;
                     gameObject.GetComponent<SpriteRenderer>().color  = new Color(0f, 0f, 0f);
                 }
