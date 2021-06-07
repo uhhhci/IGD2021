@@ -8,16 +8,21 @@ public class playerDetection : MonoBehaviour {
     public MeshRenderer mr;
     public float decaySpeed = 0.2f;
 
+    public AudioSource dyingSound;
+    public AudioSource deathSound;
+
     private float decay = 0.0f; // [0.0, 1.0]
 
     private PlatformState state = PlatformState.Virgin;
-
-
+    
     void OnCollisionStay(Collision col) {
         if (!col.collider.CompareTag("Player")) return;
         if (state == PlatformState.Dead) return;
 
-        state = PlatformState.Dying;
+        if (state != PlatformState.Dying) {
+            state = PlatformState.Dying;
+            dyingSound.Play(0);
+        }
     }
 
     private void Update() {
@@ -41,8 +46,11 @@ public class playerDetection : MonoBehaviour {
     }
 
     void CalculateNewState() {
-        if (state == PlatformState.Dying && decay >= 1.0)
+        if (state == PlatformState.Dying && decay >= 1.0) {
             state = PlatformState.Dead;
+            dyingSound.Stop();
+            deathSound.Play(0);
+        }
     }
 
     void SetStateDependentColor() {

@@ -14,17 +14,21 @@ public class GriddyGame : MiniGame {
     public GameObject pEnliS;
 
     public int length1;
-
     public int length2;
 
+    public int xoffset;
+    public int zoffset;
+
     public int height;
+
+    public int gridoffset;
 
     public float decaySpeed = 0.2f;
 
 
     private float death_depth;
 
-    private List<List<List<GameObject>>> _platforms;
+    private List<GameObject> _platforms = new List<GameObject>();
     private Queue<GameObject> dead_players = new Queue<GameObject>();
     private List<GameObject> players = new List<GameObject>();
 
@@ -43,22 +47,20 @@ public class GriddyGame : MiniGame {
     private void Start() {
         death_depth = -4 * height - 10;
 
-        _platforms = Enumerable.Range(0, height).Select(h => {
-            return Enumerable.Range(-length1 / 2, length1).Select(l1 => {
-                return Enumerable.Range(-length2 / 2, length2).Select(l2 => {
-                    var platform = Instantiate(pEnliS, position: new Vector3(l1, -4 * h, l2), rotation: transform.rotation);
-                    //platform.AddComponent<playerDetection>();
+        for (int x=0;x<length1;x++) {
+            for (int z=0;z<length2;z++) {
+                for (int curh=0;curh<height;curh++) {
+                    var platform = Instantiate(pEnliS, position: new Vector3(x * xoffset - gridoffset, -4 * curh, z * zoffset - gridoffset), rotation: transform.rotation);
+                    _platforms.Add(platform);
+
                     var playerDetection = platform.GetComponent<playerDetection>();
                     playerDetection.bc = platform.GetComponent<BoxCollider>();
                     playerDetection.mr = platform.GetComponent<MeshRenderer>();
                     playerDetection.rb = platform.GetComponent<Rigidbody>();
                     playerDetection.decaySpeed = decaySpeed;
-                    return platform;
-                }).ToList();
-            }).ToList();
-        }).ToList();
-
-
+                }
+            }
+        }
 
 
         //Create list of player inputs from the players in the scene
@@ -75,35 +77,41 @@ public class GriddyGame : MiniGame {
 
     }
 
-    private void BlackDeath() =>
+    private List<GameObject> BlackDeath() {
         players
-            .Where(p => p.transform.position.y < death_depth)
             .Where(p => !dead_players.Contains(p))
+            .Where(p => p.transform.position.y < death_depth)
             .ToList()
             .ForEach(dead_players.Enqueue);
+        
+        return dead_players.ToList();
+    }
+
 
     private int GameObject2Int(GameObject obj) => players.IndexOf(obj) + 1;
 
-    void Update() {
+    private void EndGame()
+    {
+        //Create array of positions with player ids, this also works in case there are multiple players in one position
+        int[] first = { GameObject2Int(dead_players.Dequeue()) };
+        int[] second = { GameObject2Int(dead_players.Dequeue()) };
+        int[] third = { GameObject2Int(dead_players.Dequeue()) };
+        int[] fourth = { GameObject2Int(dead_players.Dequeue()) };
+        Debug.Log($"{first.First()} > {second.First()} > {third.First()} > {fourth.First()}");
 
+        //Note this is still work in progress, but ideally you will use it like this
+        MiniGameFinished(
+            firstPlace: first, 
+            secondPlace: second, 
+            thirdPlace: third, 
+            fourthPlace: fourth
+        );
+    }
+    void Update() {
         BlackDeath();
 
-        if (dead_players.Count() == 4) {
-            //Create array of positions with player ids, this also works in case there are multiple players in one position
-            int[] first = { GameObject2Int(dead_players.Dequeue()) };
-            int[] second = { GameObject2Int(dead_players.Dequeue()) };
-            int[] third = { GameObject2Int(dead_players.Dequeue()) };
-            int[] fourth = { GameObject2Int(dead_players.Dequeue()) };
-            Debug.Log($"{first.First()} > {second.First()} > {third.First()} > {fourth.First()}");
-
-            //Note this is still work in progress, but ideally you will use it like this
-            MiniGameFinished(
-                firstPlace: first, 
-                secondPlace: second, 
-                thirdPlace: third, 
-                fourthPlace: fourth
-            );
+        if (dead_players.Count() >= 4) {
+            EndGame();
         }
-
     }
 }
