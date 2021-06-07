@@ -25,6 +25,9 @@ namespace GroupP
         public Text scoreText;
         public Text multiplierText;
 
+        public ParticleSystem particles;
+
+
         // Start is called before the first frame update
         void Start()
         {
@@ -94,6 +97,7 @@ namespace GroupP
                 specialMultiplier++;
             }
             Hit(points);
+
         }
 
         public GameObject spawnEffect(GameObject effectPrefab) {
