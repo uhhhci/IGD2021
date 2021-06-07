@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef7b12d0f4f97840b0b62453e79c1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waitTimeAfterBadHit: 4
 --- !u!82 &7244567856315620408
 AudioSource:
   m_ObjectHideFlags: 0
@@ -265,7 +266,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: dbcf1455cfd364985a42a8c860746a89, type: 2}
+      objectReference: {fileID: 2100000, guid: abef90a9ad1314d1795e230aacecaa2f, type: 2}
     - target: {fileID: -6057140222963153312, guid: e6acdbda7832db947a2d627f6d199b95,
         type: 3}
       propertyPath: m_Controller
@@ -360,17 +361,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 522b2e4350e6f4f819e0488f45ba3177, type: 2}
+      objectReference: {fileID: 2100000, guid: 64943d4850f454cd0a2d1323606659cf, type: 2}
     - target: {fileID: -3474448322050734097, guid: e6acdbda7832db947a2d627f6d199b95,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 522b2e4350e6f4f819e0488f45ba3177, type: 2}
+      objectReference: {fileID: 2100000, guid: 64943d4850f454cd0a2d1323606659cf, type: 2}
     - target: {fileID: -3219502681096276424, guid: e6acdbda7832db947a2d627f6d199b95,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: dbcf1455cfd364985a42a8c860746a89, type: 2}
+      objectReference: {fileID: 2100000, guid: abef90a9ad1314d1795e230aacecaa2f, type: 2}
     - target: {fileID: -2610470881873210626, guid: e6acdbda7832db947a2d627f6d199b95,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

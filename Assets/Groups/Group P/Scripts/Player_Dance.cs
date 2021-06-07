@@ -7,55 +7,27 @@ namespace GroupP
     public class Player_Dance : MonoBehaviour
     {
         Animator animator;
+        MinifigFaceAnimationController faceAnim;
         public GameObject minifig;
-        int hashmove0 = Animator.StringToHash("Spin");
-        int hashmove1 = Animator.StringToHash("Air Guitar");
-        int[] danceMovesHashes;
 
-        int hashbeat0 = Animator.StringToHash("Jump");
-        int hashbeat1 = Animator.StringToHash("Turn Left");
-        int hashbeat2 = Animator.StringToHash("Turn Right");
-        int currentMove;
-        int[] basicMovesHashes;
+        public Texture2D badFace;
+        public Texture2D specialFace;
 
         int hashstart = Animator.StringToHash("Start");
 
-        int wait;
+        bool stumbling;
 
         private void Start()
         {
             animator = minifig.GetComponent<Animator>();
-            basicMovesHashes = new int[] { hashbeat1, hashbeat2 };
-            danceMovesHashes = new int[] { hashmove0, hashmove1 };
-            currentMove = 0;
-            GameEventSystem.current.onHit += DanceMove;
-            GameEventSystem.current.onBeat += BasicMove;
             GameEventSystem.current.onStartDance += StartDance;
 
-            wait = 0;
-        }
+            faceAnim = minifig.GetComponent<MinifigFaceAnimationController>();
+            
+            faceAnim.AddAnimation(MinifigFaceAnimationController.FaceAnimation.Frustrated, new Texture2D[] { badFace});
+            faceAnim.AddAnimation(MinifigFaceAnimationController.FaceAnimation.Cool, new Texture2D[] { specialFace });
 
-        void DanceMove()
-        {
-            //Debug.Log("Dance");
-            int hash = Random.Range(0, danceMovesHashes.Length);
-            animator.SetTrigger(danceMovesHashes[hash]);
-            wait += 3;
-        }
-
-        void BasicMove()
-        {
-            if (wait > 0)
-            {
-                wait--;
-            }
-            else
-            {
-                //Debug.Log("Move");
-                //int hash = Random.Range(0, basicMovesHashes.Length);
-                animator.SetTrigger(basicMovesHashes[currentMove]);
-                currentMove ^= 1;
-            }
+            stumbling = false;
         }
 
         void StartDance()
@@ -65,7 +37,68 @@ namespace GroupP
 
         private void OnDestroy()
         {
-            GameEventSystem.current.onHit -= DanceMove;
+            GameEventSystem.current.onStartDance -= StartDance;
+        }
+
+        public void BadKey()
+        {
+            //HardStumble();
+            SoftStumble();
+            BadFaceAnimation();
+        }
+
+        private void SoftStumble()
+        {
+            animator.Play("Stumble", 1, 0.1f);
+        }
+
+        private void HardStumble()
+        {
+            if (!stumbling)
+            {
+                stumbling = true;
+                animator.Play("Stumble", 2, 0.1f);
+                Invoke("ResetLayerWeight", animator.GetCurrentAnimatorStateInfo(2).length * 0.9f);
+                animator.SetLayerWeight(2, 1f);
+                BadFaceAnimation();
+            }
+        }
+
+        public void SpecialKey()
+        {
+            Invoke("ResetLayerWeight", 1f);
+            animator.SetLayerWeight(4, 1f);
+            SpecialFaceAnimation();
+
+        }
+
+        private void ResetLayerWeight()
+        {
+            animator.SetLayerWeight(2, 0f);
+            animator.SetLayerWeight(4, 0f);
+            stumbling = false;
+        }
+
+        private void BadFaceAnimation()
+        {
+            faceAnim.PlayAnimation(MinifigFaceAnimationController.FaceAnimation.Frustrated, 0.5f);
+        }
+
+        private void SpecialFaceAnimation()
+        {
+            faceAnim.PlayAnimation(MinifigFaceAnimationController.FaceAnimation.Cool, 0.5f);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SpecialKey();
+            }
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                BadKey();
+            }
         }
     }
 }

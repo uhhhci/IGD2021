@@ -99,8 +99,10 @@ namespace GroupP {
                     if(keyType == note.key) {
                         if(note.bad == true) {
                             currentPlayerStat.player.GetComponent<Score>().BadHit();
+                            currentPlayerStat.player.GetComponent<Player_Dance>().BadKey();
                         } else if (note.special) {
                             currentPlayerStat.player.GetComponent<Score>().SpecialHit(note.hitQuality);
+                            currentPlayerStat.player.GetComponent<Player_Dance>().SpecialKey();
                         }
                         else {
                             currentPlayerStat.player.GetComponent<Score>().Hit(note.hitQuality);

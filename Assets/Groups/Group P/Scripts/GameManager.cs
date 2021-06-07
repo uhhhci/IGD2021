@@ -21,13 +21,7 @@ namespace GroupP {
 
         public NoteSystem noteSystem;     //<-- Tutorial: BeatScroller theBS (theBS === noteSystem)
 
-        // ----------------- DANCE---------------
         float beatsPerMinute;
-        float sekPerBeat;
-        float animOffset;
-        // For the onBeat-Animation: time to accent of animation / length of animation
-        //float accentpoint;
-        // ---------------------------------------
 
         public override string getDisplayName() {
         return "Rhythm Game";
@@ -70,8 +64,6 @@ namespace GroupP {
             _instance = this;
             // DANCE
             beatsPerMinute = songs[songIndex].GetComponent<Song>().beatsPerMinute;
-            sekPerBeat = 60f / beatsPerMinute;
-            animOffset = 0.7f;
         }
 
         // Update is called once per frame
@@ -85,8 +77,6 @@ namespace GroupP {
                     songs[songIndex].GetComponent<AudioSource>().Play();
                     //DANCE
                     GameEventSystem.current.StartDance();
-                    //InvokeRepeating("DanceEvent", (8 + animOffset) * sekPerBeat, 8 * sekPerBeat);
-                    //InvokeRepeating("BeatEvent", animOffset * sekPerBeat, sekPerBeat);
                 }
             }
 
