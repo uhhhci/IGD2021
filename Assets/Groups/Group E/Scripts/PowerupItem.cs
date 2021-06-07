@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerupItem : MonoBehaviour
 {
-    PowerUp[] powerupsArr = { new PowerupShield(), new PowerupSpeed()};
+    public GameManager_E gameManager;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -14,6 +16,9 @@ public class PowerupItem : MonoBehaviour
 
     public IEnumerator Pickup(Collider player)
     {
+        PowerUp[] powerupsArr = { new PowerupShield(), new PowerupSpeed(), new PowerupReverseSteer(gameManager) };
+        //PowerUp[] powerupsArr = { new PowerupReverseSteer(gameManager) };
+
         int rnd = Random.Range(0, powerupsArr.Length);
         PowerUp powerup = powerupsArr[rnd];
 
