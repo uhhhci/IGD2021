@@ -5,13 +5,11 @@ using UnityEngine;
 public class KickPlayer : MonoBehaviour
 {
     public float kickDistance = 1f;
-    public float kickForce;
-
-    public float knockbackSpeed= 0.01f;
+    public float knockbackSpeed = 0.01f;
     public float knockbackDuration = 0.1f;
+
     public void Kick()
     {
-        Collider collider = GetComponent<Collider>();
         RaycastHit hit;
 
         bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, kickDistance);
@@ -26,6 +24,7 @@ public class KickPlayer : MonoBehaviour
     {
         StartCoroutine(Knockback(direction));
     }
+
     IEnumerator Knockback(Vector3 direction)
     {
         CharacterController controller = GetComponent<CharacterController>();
