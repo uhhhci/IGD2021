@@ -1,74 +1,68 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerGrab : MonoBehaviour
 {
+
+    public float grabDistance = 1f;
+
     private GameObject grabbedPlayer;
-    private bool tryGrabbing;
     private bool grabbing;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        tryGrabbing = false;
         grabbing = false;
     }
 
     void FixedUpdate()
     {
-        if(grabbing)
+        if (grabbing)
         {
             Grab();
         }
     }
 
-    void Grab()
+    public void Grab()
     {
         RaycastHit hit;
-        GameObject grabbedPlayer;
 
-        if (Physics.Raycast(transform.position + new Vector3(0,0.25f,0), transform.forward, out hit, 1f)) // TODO greater area for the ray(s) to meet other players
+        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, grabDistance);
+        if (!grabbing && hitDetected && hit.transform.gameObject.tag == "Player")
         {
-            if (hit.transform.gameObject.tag == "Player")
-            { 
-                grabbedPlayer = hit.collider.gameObject;
-                // TODO: grab Player
-                //grabbedPlayer.transform.parent = transform;
-                //grabbedPlayer.transform.position = transform.position - transform.forward; //might need changing as it's untested.
-                Debug.Log("Hit Player");
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            grabbedPlayer = hit.collider.gameObject;
+            grabbedPlayer.GetComponent<PlayerGrab>().GetGrabbedBy(transform);
 
-                grabbing = true;
-            }
-            else
-            {
-                grabbing = false;
-            }
+            grabbing = true;
         }
-        // else if (pickedUpObject != null)
-        // { //if player is not holding E but was picking up an object last frame
-        // pickedUpObject.transform.parent = null; //drop the object
-        // pickedUpObject = null;  //and nullify the object pointer
-
-        // }
-    }
-
-    public void StartGrabbing()
-    {
-        tryGrabbing = true;
-        //Debug.Log("Start Grabbing");
-        Grab();
+        else if (!grabbing)
+        {
+            StopGrabbing();
+        }
     }
 
     public void StopGrabbing()
     {
-        tryGrabbing = false;
         grabbing = false;
         if (grabbedPlayer != null)
         {
-            grabbedPlayer.transform.parent = null;
+            grabbedPlayer.GetComponent<PlayerGrab>().StopGettingGrabbed();
             grabbedPlayer = null;
         }
-        //Debug.Log("Stop Grabbing");
+    }
+
+    public void GetGrabbedBy(Transform otherPlayer)
+    {
+        MinifigControllerH minifigController = GetComponent<MinifigControllerH>();
+        minifigController.Follow(otherPlayer);
+    }
+
+    public void StopGettingGrabbed()
+    {
+        MinifigControllerH minifigController = GetComponent<MinifigControllerH>();
+        minifigController.StopFollowing();
+        //minifigController.SetInputEnabled(true);
     }
 }

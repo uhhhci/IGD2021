@@ -844,7 +844,12 @@ public class MinifigControllerH : MonoBehaviour
         // Disable input if not idle.
         if (state != State.Idle)
         {
+            Debug.Log(state);
             inputEnabled = false;
+        }
+        else
+        {
+            inputEnabled = true;
         }
 
         switch (state)
@@ -964,8 +969,7 @@ public class MinifigControllerH : MonoBehaviour
     private void OnEastPress()
     {
         print("OnEastPress");
-        // print("TODO: Hold Player");
-        grabber.StartGrabbing();
+        grabber.Grab();
 
     }
 
