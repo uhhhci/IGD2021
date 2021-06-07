@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class KickPlayer : MonoBehaviour
 {
     public float kickDistance = 1f;
     public float kickForce;
 
+    public float knockbackSpeed= 0.01f;
+    public float knockbackDuration = 0.1f;
     public void Kick()
     {
         Collider collider = GetComponent<Collider>();
@@ -13,18 +17,23 @@ public class KickPlayer : MonoBehaviour
         bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, kickDistance);
         if (hitDetected && hit.transform.gameObject.tag == "Player")
         {
-            hit.collider.GetComponent<KickPlayer>().GetKicked(-hit.normal.normalized * kickForce);
+            Vector3 direction = hit.transform.gameObject.transform.position - transform.position;
+            hit.collider.GetComponent<KickPlayer>().GetKicked(direction);
         }
     }
 
     public void GetKicked(Vector3 direction)
     {
-        CharacterController charController = GetComponent<CharacterController>();
-        charController.enabled = false;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        Debug.Log(rb);
-        Debug.Log(direction);
-        rb.AddForce(direction);
-        charController.enabled = true;
+        StartCoroutine(Knockback(direction));
+    }
+    IEnumerator Knockback(Vector3 direction)
+    {
+        CharacterController controller = GetComponent<CharacterController>();
+        float startTime = Time.time;
+        while(Time.time < (startTime + knockbackDuration))
+        {
+            controller.SimpleMove(direction*knockbackSpeed);
+            yield return null;
+        }
     }
 }
