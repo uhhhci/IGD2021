@@ -77,16 +77,17 @@ namespace GroupP {
                 return test.player == currentPlayer;
             });
 
-            bool nokey = true;
+            if(currentNotes.Count == 0) { return; }
+
+            bool foundMatchingNote = false;
             foreach( var note in currentNotes) {
-                // if none of the notes match the keypress, the player should not be able to retry on the
-                // current notes
-                if(note.key == keyType && !note.bad) { 
-                    nokey = false;
-                    break; 
+                if(note.key == keyType) {
+                    foundMatchingNote = true;
+                    break;
                 }
             }
-            if(nokey) {
+
+            if(!foundMatchingNote) {
                 foreach(var note in currentNotes) {
                     int index = currentNotes.IndexOf(note);
                     currentPlayerStat.hasHitNotes[index] = true;
@@ -97,7 +98,7 @@ namespace GroupP {
                 int index = currentNotes.IndexOf(note);
                 if(!currentPlayerStat.hasHitNotes[index]) {
                     if(keyType == note.key) {
-                        if(note.bad == true) {
+                        if(note.bad) {
                             currentPlayerStat.player.GetComponent<Score>().BadHit();
                         } else if (note.special) {
                             currentPlayerStat.player.GetComponent<Score>().SpecialHit(note.hitQuality);

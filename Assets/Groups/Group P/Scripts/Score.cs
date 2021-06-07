@@ -68,8 +68,10 @@ namespace GroupP
         }
 
         public void BadHit() {
+            Debug.Log(gameObject.transform.name);
             gameObject.GetComponent<Controller>().badHit();
             multiplier = 1;
+            specialMultiplier = 0;
             hitStreak = 0;
             score -= 10;
         }
