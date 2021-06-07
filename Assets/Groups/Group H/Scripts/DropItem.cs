@@ -10,9 +10,9 @@ public class DropItem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(SpawnCar.bombCount);
-        if (SpawnCar.bombCount<1){
-                StartCoroutine(bombSpawn());
+        if (SpawnCar.spawnItem<1){
+            SpawnCar.spawnItem = 1;
+            StartCoroutine(bombSpawn());
         }
 
     }

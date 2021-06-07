@@ -8,8 +8,7 @@ public class Behaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SpawnCar.bombCount +=1;
-        Invoke("destroyBomb",2);
+        Invoke("destroyBomb",1);
     }
 
     // Update is called once per frame
@@ -33,7 +32,6 @@ public class Behaviour : MonoBehaviour
             
         }
         Instantiate(explosion,transform.position,transform.rotation);
-        SpawnCar.bombCount -= 1;
         Destroy(gameObject);
     }
 }

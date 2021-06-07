@@ -6,11 +6,13 @@ public class SpawnCar : MonoBehaviour
 {
     public List<GameObject> cars;
     public int waitingSeconds = 2;
-    public static int bombCount = 0;
+    public static int spawnItem = 1;
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(carSpawn());
+        StartCoroutine(itemSpawns());
+        
     }
 
     IEnumerator carSpawn()
@@ -35,6 +37,14 @@ public class SpawnCar : MonoBehaviour
             GameObject newCar = Instantiate(cars[carnumber],new Vector3(xPos,0,zPos),target);
             Destroy(newCar,3);  
             yield return new WaitForSeconds(waitingSeconds);
+        }
+    }
+    IEnumerator itemSpawns()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(10);
+            spawnItem = 0;
         }
     }
 }
