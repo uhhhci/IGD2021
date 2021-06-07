@@ -7,12 +7,26 @@ public class playercollision : MonoBehaviour
     
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "ItemCollect")
+        GameObject obj = col.gameObject;
+
+        if (obj.tag == "ItemCollect")
         {
-            print("colcol");
-            Destroy(col.gameObject);
+            PickUp(obj);
+            // todo xyz
         }
 
+        if (obj.tag == "SomethingElse")
+        {
+            PickUp(obj);
+            // todo xyz
+        }
+
+    }
+
+    private void PickUp(GameObject obj)
+    {
+        Debug.Log("Picked up: " + obj.tag);
+        Destroy(obj);
     }
 
 }
