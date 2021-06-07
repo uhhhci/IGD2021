@@ -13,12 +13,17 @@ namespace GroupP
         public int specialMultiplier;
         int[] multiplierThresholds;
 
-        public GameObject hitEffect, goodEffect, perfectEffect, missedEffect;
+        public GameObject goodEffect, perfectEffect, missedEffect;
+        private GameObject lastMissedEffect;
+
+        public AudioSource badSound;
+        public AudioSource specialSound;
 
         public Vector3 effectPosition = new Vector3(0f, 0f, 0f);
         public GameObject canvas;
 
         public Text scoreText;
+        public Text multiplierText;
 
         // Start is called before the first frame update
         void Start()
@@ -29,20 +34,24 @@ namespace GroupP
             hitStreak = 0;
 
             multiplierThresholds = new int[] { 3, 6, 9 };
-            //InvokeRepeating("NormalHit", 1, 1); ----- (for testing)
+            multiplierText = scoreText.transform.GetChild(0).gameObject.GetComponent<Text>();
         }
 
         // Update is called once per frame
         void Update()
         {
             scoreText.text = score.ToString();
+            multiplierText.text = "x" + multiplier.ToString();
+            if(specialMultiplier > 0)
+            {
+                multiplierText.text += "+" + specialMultiplier.ToString();
+            }
         }
 
         public void Hit(HitQuality points)
         {
             switch(points) {
                 case HitQuality.NORMAL:
-                    spawnEffect(hitEffect);
                     break;
                 case HitQuality.GOOD:
                     spawnEffect(goodEffect);
@@ -62,13 +71,16 @@ namespace GroupP
 
         public void Missed()
         {
-            spawnEffect(missedEffect);
+            if(lastMissedEffect == null)
+            {
+                lastMissedEffect = spawnEffect(missedEffect);
+            }
             multiplier = 1;
             hitStreak = 0;
         }
 
         public void BadHit() {
-            Debug.Log(gameObject.transform.name);
+            badSound.Play();
             gameObject.GetComponent<Controller>().badHit();
             multiplier = 1;
             specialMultiplier = 0;
@@ -77,19 +89,22 @@ namespace GroupP
         }
 
         public void SpecialHit(HitQuality points) {
+            specialSound.Play();
             if (specialMultiplier <= multiplierThresholds.Length) {
                 specialMultiplier++;
             }
             Hit(points);
         }
 
-        public void spawnEffect(GameObject effectPrefab) {
+        public GameObject spawnEffect(GameObject effectPrefab) {
             GameObject effect = Instantiate(effectPrefab);
             
             effect.transform.SetParent(GameObject.Find("CanvasP").transform, false);
             effect.transform.localPosition = effectPosition;
             effect.transform.localScale = effectPrefab.transform.localScale;
             effect.SetActive(true);
+
+            return effect;
         }
     }
 }

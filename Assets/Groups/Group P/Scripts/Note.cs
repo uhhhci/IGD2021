@@ -69,7 +69,7 @@ namespace GroupP {
                 transform.localPosition -= new Vector3(Time.deltaTime*tempo, 0f, 0f);
                 updateHitQuality();
             }
-            if(transform.localPosition.x > 55 && transform.localPosition.x < 65 && !special && !bad && !triedSwapToBad) {
+            if(transform.localPosition.x > 100 && transform.localPosition.x < 180 && !special && !bad && !triedSwapToBad) {
                 if(UnityEngine.Random.Range(0f,1f) < 0.2) { 
                     return;
                 }

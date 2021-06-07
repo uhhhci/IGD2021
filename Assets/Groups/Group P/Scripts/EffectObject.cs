@@ -7,7 +7,7 @@ public class EffectObject : MonoBehaviour
     // Start is called before the first frame update
 
     //public Vector2 spawnPosition;
-    public float lifetime = 0.5f;
+    private float lifetime = 0.5f;
     public float scaling = 1.01f;
     void Start()
     {

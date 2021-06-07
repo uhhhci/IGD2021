@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5992792563859125981}
   - component: {fileID: 1123605089896490132}
   - component: {fileID: 7244567856315620408}
+  - component: {fileID: 1220372579062864418}
   - component: {fileID: 629297074304548042}
   - component: {fileID: 889938595594470493}
   - component: {fileID: 5685828378904880705}
@@ -78,7 +79,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: fa48be10d21504b7a88460b3312e6e08, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -125,6 +126,102 @@ AudioSource:
     - serializedVersion: 3
       time: 0
       value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &1220372579062864418
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70292193334677109}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 0a3853532f2d1443a925f2a9fa0cc83e, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -223,17 +320,18 @@ MonoBehaviour:
   hitStreak: 0
   multiplier: 0
   specialMultiplier: 0
-  hitEffect: {fileID: 1803996288138160223, guid: 86e6f93de07e49f4d9ac67cd1f0dd448,
-    type: 3}
   goodEffect: {fileID: 80929517799634360, guid: 752f06df970f8ef44ac0c592bde89c86,
     type: 3}
   perfectEffect: {fileID: 6971454887868578680, guid: e6d130e7df8d7c346811562832318263,
     type: 3}
   missedEffect: {fileID: 6657035873186933963, guid: 0788e4cb1a80f1845be8b378515ba0a0,
     type: 3}
+  badSound: {fileID: 1220372579062864418}
+  specialSound: {fileID: 7244567856315620408}
   effectPosition: {x: 0, y: 0, z: 0}
   canvas: {fileID: 0}
   scoreText: {fileID: 0}
+  multiplierText: {fileID: 0}
 --- !u!114 &1480263128487673361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,11 +378,11 @@ PrefabInstance:
         by Humanoid clips.\n\tTransform 'arm_L'\n\tTransform 'toe_R'\n\tTransform
         'head'\n\tTransform 'foot_L'\n\tTransform 'foot_R'\n\tTransform 'spine05'\n\tTransform
         'legUp_L'\n\tTransform 'armUp_L'\n\tTransform 'spine03'\n\tTransform 'shoulder_R'\n\tand
-        more ...\n\tFrom animation clip 'Jump'\n\tFrom animation clip 'Sneezing'\n\tFrom
-        animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation clip 'Jump_GoingUp'\n\tFrom
-        animation clip 'Jump_GoingDown'\n\tFrom animation clip 'Jump_Midair'\n\tFrom
-        animation clip 'Jump_LandingBounce'\n\tFrom animation clip 'WalkBackwards'\n\tFrom
-        animation clip 'WalkBackwards'\n\tFrom animation clip 'Idle_Light'\n\tand
+        more ...\n\tFrom animation clip 'Jump_NoLanding_No_Y_Axis'\n\tFrom animation
+        clip 'Jump_GoingUp'\n\tFrom animation clip 'Jump_GoingDown'\n\tFrom animation
+        clip 'Jump_Midair'\n\tFrom animation clip 'Jump_LandingBounce'\n\tFrom animation
+        clip 'WalkBackwards'\n\tFrom animation clip 'WalkBackwards'\n\tFrom animation
+        clip 'Idle_Light'\n\tFrom animation clip 'Walk'\n\tFrom animation clip 'Run'\n\tand
         more ..."
       objectReference: {fileID: 0}
     - target: {fileID: -5431238885289542003, guid: e6acdbda7832db947a2d627f6d199b95,
