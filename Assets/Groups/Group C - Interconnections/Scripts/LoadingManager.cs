@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class LoadingManager : MonoBehaviour
 {
@@ -29,6 +31,7 @@ public class LoadingManager : MonoBehaviour
         }
     }
 
+    //Random picker Prefab should be added to the scene in order to use this
     public void LoadMiniGame (MiniGameType miniGameType) {
 
         int gameType = 0;
@@ -82,17 +85,23 @@ public class LoadingManager : MonoBehaviour
         return elements;
     }
 
+    //Navigate from a Minigame into the main board game
+    //This is intended to be used only from the MiniGameFinished method
     public void LoadMainBoardGame() {
-        //Load main board if we are not in it
-    }
-    
-    private void DisplayLoadingScreen() {
+        //Display Loading Screen
 
+
+        //Load main board if we are not in it
+        SceneManager.LoadSceneAsync(GameList.MAIN_BOARD_SCENE);
+    }
+
+    //Loading Screen in between the board and minigame
+    private void DisplayLoadingScreen() {
+        //TODO
     }
 
     private void HideLoadingScreen() {
-        //MyGame game = new MyGame("My Awesome Game", "SceneName", MiniGameType.freeForAll);
-        //game.sceneName = "WERR";
+        //TODO
     }
 
     //Display UI that shows roulette to select from a random game
@@ -211,6 +220,8 @@ public class LoadingManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         SceneManager.LoadSceneAsync(this.nextScene);
     }
+
+    //Set flag if coming from minigame?
 
 }
 
