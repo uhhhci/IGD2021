@@ -9,12 +9,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 412143984, guid: ec2301c4a43cf1847938118d1ea1440f, type: 3}
       propertyPath: speed
-      value: -3
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885208017, guid: ec2301c4a43cf1847938118d1ea1440f, type: 3}
+      propertyPath: healthBarOffset
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1602019724020085795, guid: ec2301c4a43cf1847938118d1ea1440f,
         type: 3}
       propertyPath: m_Name
-      value: Hazard2
+      value: 1x1_Hazard
       objectReference: {fileID: 0}
     - target: {fileID: 1602019724020085816, guid: ec2301c4a43cf1847938118d1ea1440f,
         type: 3}
@@ -90,7 +94,7 @@ PrefabInstance:
     - target: {fileID: 1602019724020085823, guid: ec2301c4a43cf1847938118d1ea1440f,
         type: 3}
       propertyPath: tumble
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3158532269211947559, guid: ec2301c4a43cf1847938118d1ea1440f,
         type: 3}

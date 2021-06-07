@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4656878949886663458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3158532269179048244}
@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 305e736255fd0e84492f4455936d7620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tumble: 3
+  tumble: 1
 --- !u!114 &4656878949886663468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Explosion: {fileID: 191186, guid: 43bd8aead64a7a34f8c39213da13889c, type: 3}
-  HitPoints: 100
+  HitPoints: 200
   HealthBar: {fileID: 5956603367903817202}
   DropPowerUps:
   - {fileID: 3986802567812190152, guid: 1fc933ac1a7d6cd488d80679b92541f0, type: 3}
@@ -123,7 +123,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4656878949886663458}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 11.83, y: 3, z: 4.53}
@@ -139,6 +139,10 @@ PrefabInstance:
       propertyPath: ResetReference
       value: 
       objectReference: {fileID: 4656878949886663458}
+    - target: {fileID: 1366330227, guid: 4abde98499dfadf41a6c16549e637167, type: 3}
+      propertyPath: healthBarOffsetY
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3158532268655502465, guid: 4abde98499dfadf41a6c16549e637167,
         type: 3}
       propertyPath: m_Name

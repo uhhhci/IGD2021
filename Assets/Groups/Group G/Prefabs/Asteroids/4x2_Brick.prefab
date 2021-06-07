@@ -26,6 +26,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ResetReference: {fileID: 7107171120353065564}
   healthBarOffset: 4
+  healthBarOffsetY: 8
 --- !u!1 &1934679317897013343
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 305e736255fd0e84492f4455936d7620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tumble: 2
+  tumble: 3
 --- !u!114 &7107939255561112115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Explosion: {fileID: 191186, guid: 43bd8aead64a7a34f8c39213da13889c, type: 3}
-  HitPoints: 100
+  HitPoints: 60
   HealthBar: {fileID: 8754794717985651758}
   DropPowerUps:
   - {fileID: 3986802567812190152, guid: 1fc933ac1a7d6cd488d80679b92541f0, type: 3}
@@ -190,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a58c6fbcfad35c74591d6c1444797832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -2
+  speed: -5
 --- !u!65 &7107939255561112113
 BoxCollider:
   m_ObjectHideFlags: 0

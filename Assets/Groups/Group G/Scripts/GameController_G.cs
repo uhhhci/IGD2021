@@ -96,6 +96,7 @@ public class GameController_G : MiniGame, IPowerUpEvents
     {
         GamePlaying = false;
         TimerController.instance.EndTimer();
+        SetPlayerControllersActive(false);
 
         int[] playerIDs = { 0, 1, 2 };
         int[] passivePlayerId = { 3 };
