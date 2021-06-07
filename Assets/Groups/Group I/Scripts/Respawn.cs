@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Respawn : MonoBehaviour
 {
-    [SerializeField] private MinifigController Player;
     [SerializeField] private Transform RespawnPointWSAD;
     
     void OnTriggerEnter(Collider other)
     {
         print("Respawn");
-        Player.TeleportTo(RespawnPointWSAD.transform.position);
+        MinifigController otherController = (MinifigController)other.gameObject.GetComponent("MinifigController");
+        otherController.TeleportTo(RespawnPointWSAD.transform.position);
     }
 }
