@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System;
 
 public class TurnManager : MonoBehaviour
 {
@@ -95,6 +96,15 @@ public class TurnManager : MonoBehaviour
                 // turn is over!
                 applyTileEffect();
             }
+            else if (playerData[activePlayer].currentTile().hasTrap()&&!(playerData[activePlayer].currentTile().getTrapOwner().Equals(activePlayer)))
+            {
+                int creditsToRemove = Math.Min(5,playerBelongings[activePlayer].creditAmount());
+                playerBelongings[activePlayer].addCreditAmount(-creditsToRemove);
+                actionPoints = Math.Max(actionPoints-3,0);
+                playerData[activePlayer].currentTile().setTrap(false);
+                currentState = TurnState.EXECUTING_ACTION;
+                currentActionFSM = new RemoveTrap(activePlayer);
+            }
             else {
                 // await next input/action
                 currentState = TurnState.ACCEPTING_INPUT;
@@ -128,9 +138,9 @@ public class TurnManager : MonoBehaviour
             case PlayerAction.Type.BUY_GOLDEN_BRICK:
                 return playerData[activePlayer].currentTile().hasGoldenBrick();
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
-                return playerBelongings[activePlayer].hasItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
+                return (playerBelongings[activePlayer].hasItem(itemDataBase[ItemD.Type.CREDIT_THIEF]))&&(!(playerData[activePlayer].currentTile().type.Equals(Tile.TileType.START)));
             case PlayerAction.Type.SET_TRAP:
-                return playerBelongings[activePlayer].hasItem(itemDataBase[ItemD.Type.TRAP]);
+                return (playerBelongings[activePlayer].hasItem(itemDataBase[ItemD.Type.TRAP]))&&(!(playerData[activePlayer].currentTile().type.Equals(Tile.TileType.START)));
         }
         return false;
     }
@@ -265,7 +275,7 @@ public class TurnManager : MonoBehaviour
         }
         // add a random amount of credits
         playerBelongings.ForEach((belongings) => {
-            belongings.addCreditAmount((int) Random.Range(0f, 3.99f));
+            belongings.addCreditAmount((int) UnityEngine.Random.Range(0f, 3.99f));
         });
     }
 
@@ -291,11 +301,9 @@ public class TurnManager : MonoBehaviour
                 currentActionFSM = new ItemCreditThief(camera, activePlayer, playerBelongings);
                 break;
             case PlayerAction.Type.SET_TRAP:
-                //TODO: trap visuals
                 playerData[activePlayer].currentTile().setTrap(true,activePlayer);
                 currentState = TurnState.EXECUTING_ACTION;
                 currentActionFSM = new SetTrap(activePlayer);
-                //TODO: trap soundeffect
                 playerBelongings[activePlayer].removeItem(itemDataBase[ItemD.Type.TRAP]);
                 break;
         }

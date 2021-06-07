@@ -17,6 +17,7 @@ public class TrapControl : MonoBehaviour
     private double flyingTime;
     private double distance;
     public AudioClip dropAudioClip;
+    public AudioClip triggerAudioClip;
     AudioSource audioSource;
 
 
@@ -82,5 +83,10 @@ public class TrapControl : MonoBehaviour
     public void playDropAudio()
     {
         audioSource.PlayOneShot(dropAudioClip);
+    }
+    
+    public void playTriggerAudio()
+    {
+        audioSource.PlayOneShot(triggerAudioClip);
     }
 }
