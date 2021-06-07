@@ -6,6 +6,8 @@ public class WallBlock : MonoBehaviour {
 	
 	private bool scored;
 	
+	public float timeToLiveAfterScore = 3.0f;
+	
 	void Start() {
 		;
 	}
@@ -28,6 +30,10 @@ public class WallBlock : MonoBehaviour {
 				Debug.Log("Point for team");
 			} else {
 				scored = false;
+			}
+			
+			if (scored) {
+				Destroy(gameObject, timeToLiveAfterScore);
 			}
 		}
 	}
