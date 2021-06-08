@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHit : MonoBehaviour
 {
@@ -16,11 +17,15 @@ public class PlayerHit : MonoBehaviour
     private bool isHidden;
     private bool invincible;
 
+    public Health healthPlaceholder;
+
     // Start is called before the first frame update
     void Start()
     {
         isHidden = false;
         invincible = false;
+
+        healthPlaceholder = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
     }
 
     void OnCollisionEnter(Collision other)
@@ -29,6 +34,7 @@ public class PlayerHit : MonoBehaviour
         {
             invincible = true;
             StartCoroutine(EnableInvincibility(invincibleTime));
+            healthPlaceholder.reduceHealth();
         }
     }
 
@@ -36,9 +42,9 @@ public class PlayerHit : MonoBehaviour
     {
         if(!invincible)
         {
-        invincible = true;
-        StartCoroutine(EnableInvincibility(invincibleTime));
-        Debug.Log("Damage Taken");
+            invincible = true;
+            StartCoroutine(EnableInvincibility(invincibleTime));
+            Debug.Log("Damage Taken");
         }
     }
 

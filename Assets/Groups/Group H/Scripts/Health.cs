@@ -18,9 +18,14 @@ public class Health : MonoBehaviour
         
     }
 
-    void reduceHealth()
+    public void reduceHealth()
     {
         health--;
+
+        if (health <= 0)
+        {
+            //Ending
+        }
     }
 
     // Update is called once per frame
@@ -51,11 +56,6 @@ public class Health : MonoBehaviour
             {//Hide hearts
                 hearts[i].enabled = false;
             }
-        }
-
-        if (health <= 0)
-        {
-            //Leite Ende ein
-        }
+        }   
     }
 }
