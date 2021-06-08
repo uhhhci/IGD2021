@@ -30,10 +30,10 @@ public class TestingGame : MiniGame
     private void Start()
     {
         //Create list of player inputs from the players in the scene
-        var playerInputs = new List<PlayerInput> { myPlayer.GetComponent<PlayerInput>(), secondPlayer.GetComponent<PlayerInput>() };
+        //var playerInputs = new List<PlayerInput> { myPlayer.GetComponent<PlayerInput>(), secondPlayer.GetComponent<PlayerInput>() };
 
         //This assigns the player input in the order they were given in the array
-        InputManager.Instance.AssignPlayerInput(playerInputs);
+        //InputManager.Instance.AssignPlayerInput(playerInputs);
         
     }
 
