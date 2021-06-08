@@ -12,13 +12,12 @@ public class Behaviour : MonoBehaviour
     }
 
     // Update is called once per frame
-     void update()
+    void update()
     {
         
     }
     void destroyBomb()
     {
-
         Collider[] collidersToHit = Physics.OverlapSphere(transform.position, 3f);
         foreach(Collider nearbyPlayer in collidersToHit)
         {

@@ -16,7 +16,6 @@ public class PlayerHit : MonoBehaviour
     private bool isHidden;
     private bool invincible;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +31,8 @@ public class PlayerHit : MonoBehaviour
             StartCoroutine(EnableInvincibility(invincibleTime));
         }
     }
-        void takeDamage()
+
+    void takeDamage()
     {
         if(!invincible)
         {

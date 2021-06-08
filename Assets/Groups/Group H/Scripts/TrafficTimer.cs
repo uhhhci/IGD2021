@@ -32,6 +32,10 @@ public class TrafficTimer : MonoBehaviour
             currentTime = 0;
         }
 
-        
+        if (currentTime <= 0)
+        {
+            //Leite Ende ein
+        }
+
     }
 }
