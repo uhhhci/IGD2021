@@ -194,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Minifig: {fileID: 0}
   RespawnPointsSource: {fileID: 0}
+  characterId: 0
   maxForwardSpeed: 5
   maxBackwardSpeed: 4
   acceleration: 20
@@ -203,6 +204,7 @@ MonoBehaviour:
   gravity: 20
   pushSpeed: 20
   drag: 0.95
+  pointLossRate: 0.75
   stepAudioClips:
   - {fileID: 8300000, guid: 39948ec2175e749819ecd850a1d0e5af, type: 3}
   - {fileID: 8300000, guid: 97adc7a6316eb42039437d84c81b25c9, type: 3}
@@ -240,6 +242,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Minifig Character
       objectReference: {fileID: 0}
+    - target: {fileID: 4467856664629852824, guid: 97ae038d837a3a74484d0cbc8733ad2d,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3c34f2672d4daa444b6be6b933f2dbb7, type: 2}
     - target: {fileID: 6367911877577183709, guid: 97ae038d837a3a74484d0cbc8733ad2d,
         type: 3}
       propertyPath: m_LocalPosition.x
