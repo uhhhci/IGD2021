@@ -20,10 +20,6 @@ public class TurnManager : MonoBehaviour
     // their associated data
     public List<PlayerData> playerData = new List<PlayerData>(4);
 
-    public List<ItemD> allItems;
-
-    // mapping from item enum values to the respective item object
-    private Dictionary<ItemD.Type, ItemD> itemDataBase;
 
     // stores the credits, golden bricks, and items of each player
     public List<PlayerDisplay> playerBelongings = new List<PlayerDisplay>(4);
@@ -36,6 +32,9 @@ public class TurnManager : MonoBehaviour
     public GoldenBrickManager brickManager;
 
     public Transform playerMarkerTransform;
+
+    public ItemShop itemShop;
+    public ItemDatabase itemDB;
 
     public CameraMovement camera;
 
@@ -51,7 +50,7 @@ public class TurnManager : MonoBehaviour
     private int round = 1;
     private int actionPoints = 0;
 
-    private enum TurnState {MOVING_CAM_TO_DIE, ROLLING_DIE, MOVING_CAM_TO_PLAYER, ACCEPTING_INPUT, EXECUTING_ACTION, APPLYING_TILE_EFFECT, TURN_ENDED,};
+    private enum TurnState {MOVING_CAM_TO_DIE, ROLLING_DIE, MOVING_CAM_TO_PLAYER, ACCEPTING_INPUT, EXECUTING_ACTION, SHOWING_SHOP, APPLYING_TILE_EFFECT, TURN_ENDED,};
     private TurnState currentState;
 
     // currently executed FSM
@@ -60,18 +59,7 @@ public class TurnManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start() {
-
-        // fill/create the item lookup table
-        itemDataBase = new Dictionary<ItemD.Type, ItemD>();
-
-        foreach (ItemD item in allItems) {
-            itemDataBase[item.type] = item;
-        }        
-
         moveToDie();
-
-         // TODO: DEBUG ONLY, REMOVE THIS WHEN THE SHOP IS IMPLEMENTED
-        playerBelongings[0].addItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
     }
 
     // Update is called once per frame
@@ -161,9 +149,11 @@ public class TurnManager : MonoBehaviour
             case PlayerAction.Type.BUY_GOLDEN_BRICK:
                 return playerData[activePlayer].currentTile().hasGoldenBrick();
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
-                return playerBelongings[activePlayer].hasItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
+                return playerBelongings[activePlayer].hasItem(ItemD.Type.CREDIT_THIEF);
             case PlayerAction.Type.BUY_AP:
                 return truePartyPerson == activePlayer;
+            case PlayerAction.Type.SHOP:
+                return playerData[activePlayer].currentTile().hasItemShop();
         }
         return false;
     }
@@ -199,6 +189,7 @@ public class TurnManager : MonoBehaviour
                 break;
             case Tile.TileType.MASTER_HAND:
                 currentActionFSM = new TileMasterHand();
+                Debug.Log("Standing on an orange tile");
                 break;
             case Tile.TileType.START:
                 // do nothing -> skip to next state
@@ -256,6 +247,11 @@ public class TurnManager : MonoBehaviour
             hud.updateActionPoints(actionPoints, interactions.getSelectedActionAPCost());
             playerBelongings[activePlayer].setDisplayedCreditCosts(interactions.getSelectedActionCreditCost());
         } 
+        else if (currentState == TurnState.SHOWING_SHOP) {
+            hud.updateActionPoints(actionPoints);
+            int price = itemDB.getItem(itemShop.getSelectedItem()).getPrice();
+            playerBelongings[activePlayer].setDisplayedCreditCosts(price);
+        }
         else {
             hud.updateActionPoints(actionPoints);
             playerBelongings[activePlayer].setDisplayedCreditCosts(0);
@@ -333,7 +329,7 @@ public class TurnManager : MonoBehaviour
                 break;
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
                 // item is "used" -> remove it from the inventory
-                playerBelongings[activePlayer].removeItem(itemDataBase[ItemD.Type.CREDIT_THIEF]);
+                playerBelongings[activePlayer].removeItem(ItemD.Type.CREDIT_THIEF);
 
                 currentState = TurnState.EXECUTING_ACTION;
                 currentActionFSM = new ItemCreditThief(camera, activePlayer, playerBelongings);
@@ -343,18 +339,43 @@ public class TurnManager : MonoBehaviour
                 currentState = TurnState.EXECUTING_ACTION;
                 currentActionFSM = null;
                 break;
+            case PlayerAction.Type.SHOP:
+                currentState = TurnState.SHOWING_SHOP;
+                currentActionFSM = null;
+                itemShop.open();
+                break;
+
         }
 
         actionPoints -= action.requiredAP;
         playerBelongings[activePlayer].addCreditAmount(-action.requiredCredits);
     }
 
+    private void buyItem() {
+        ItemD.Type item = itemShop.getSelectedItem();
+        int price = itemDB.getItem(item).getPrice();
+
+        if (playerBelongings[activePlayer].creditAmount() >= price && playerBelongings[activePlayer].hasSpaceForAnItem()) {
+            // buy the item
+            playerBelongings[activePlayer].addCreditAmount(-price);
+            playerBelongings[activePlayer].addItem(item);
+
+            // dirty hack/shortcut: just switch to the EXECUTING_ACTON state, the credit animation is savely finished there
+            currentActionFSM = null;
+            currentState = TurnState.EXECUTING_ACTION;
+
+            itemShop.close();           
+        }
+        // else: cannot buy item
+        // TODO: add feedback?!
+    }
+
     public void reactToMove(Directions direction, int playerNumber)
     {
-        if (currentState != TurnState.ACCEPTING_INPUT || playerNumber != activePlayer) {
+        if (playerNumber != activePlayer || currentState != TurnState.ACCEPTING_INPUT) {
             return;
         }
-       
+
         Tile nextTile = null;
 
         switch (direction) {
@@ -384,28 +405,54 @@ public class TurnManager : MonoBehaviour
 
     public void reactToNorth(int playerNumber)
     {
-        if (currentState != TurnState.ACCEPTING_INPUT || playerNumber != activePlayer) {
+        if (playerNumber != activePlayer) {
             return;
         }
        
-        interactions.nextAction();
+        if (currentState == TurnState.SHOWING_SHOP) {
+            itemShop.onLeft();
+        }
+        else if (currentState == TurnState.ACCEPTING_INPUT) {
+            interactions.nextAction();
+        }
     }
 
     public void reactToEast(int playerNumber)
     {
-        if (currentState != TurnState.ACCEPTING_INPUT || playerNumber != activePlayer) {
+        if (playerNumber != activePlayer) {
             return;
         }
        
-        executeAction(interactions.getSelectedAction());
+        if (currentState == TurnState.SHOWING_SHOP) {
+            buyItem();
+        }
+        else if (currentState == TurnState.ACCEPTING_INPUT) {
+            executeAction(interactions.getSelectedAction());
+        }
     }
+
+    public void reactToWest(int playerNumber) {
+        if (playerNumber != activePlayer && currentState != TurnState.SHOWING_SHOP) {
+            return;
+        }
+
+        itemShop.close();
+        // dirty hack/shortcut: just switch to the EXECUTING_ACTON state, the credit animation is savely finished there
+        currentActionFSM = null;
+        currentState = TurnState.EXECUTING_ACTION;
+    } 
 
     public void reactToSouth(int playerNumber)
     {
-        if (currentState != TurnState.ACCEPTING_INPUT || playerNumber != activePlayer) {
+        if (playerNumber != activePlayer) {
             return;
         }
        
-        interactions.previousAction();
+        if (currentState == TurnState.SHOWING_SHOP) {
+            itemShop.onRight();
+        }
+        else if (currentState == TurnState.ACCEPTING_INPUT) {
+            interactions.previousAction();
+        }
     }
 }
