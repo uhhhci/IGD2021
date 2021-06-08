@@ -34,7 +34,8 @@ public class CarController : MonoBehaviour
     public Vector3 centerOfMass;
     public Vector3 wheelRotationOffset;
     public float downForce = 10.0f;
-    public List<GameObject> slowGrounds;
+    public List<GameObject> fastGrounds;
+    public Boolean steeringReversed = false;
 
     public void DisableControl()
     {
@@ -69,12 +70,12 @@ public class CarController : MonoBehaviour
         Vector3 raycastStart = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
         if (Physics.Raycast(raycastStart, Vector3.down, out raycastHit, 40.0f))
         {
-            if(slowGrounds.Contains(raycastHit.collider.gameObject))
-            {
-                SetWheelsStiffnessTo(0.4f);
-            } else
+            if(fastGrounds.Contains(raycastHit.collider.gameObject))
             {
                 SetWheelsStiffnessTo(2.0f);
+            } else
+            {
+                SetWheelsStiffnessTo(0.4f);
             }
         }
     }
@@ -187,6 +188,10 @@ public class CarController : MonoBehaviour
                 if (wheel.axle == Axle.Front)
                 {
                     float steerAngle = movement.x * turnSensitivity * maxSteerAngle;
+                    if(steeringReversed)
+                    {
+                        steerAngle = -steerAngle;
+                    }
                     wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, steerAngle, 0.5f);
                 }
             }
