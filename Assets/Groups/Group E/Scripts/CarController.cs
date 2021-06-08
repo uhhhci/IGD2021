@@ -26,10 +26,10 @@ public class CarController : MonoBehaviour
     private bool handbrake = false;
     private bool controlEnabled = true;
 
-    public float maxAcceleration = 20.0f;
-    public float turnSensitivity = 1.0f;
-    public float maxSteerAngle = 45.0f;
-    public float maxVelocity = 30.0f;
+    public float maxAcceleration = 5.0f;
+    public float turnSensitivity = 0.9f;
+    public float maxSteerAngle = 40.0f;
+    public float maxVelocity = 10.0f;
     public List<Wheel> wheels;
     public Vector3 centerOfMass;
     public Vector3 wheelRotationOffset;
@@ -72,27 +72,41 @@ public class CarController : MonoBehaviour
         {
             if(fastGrounds.Contains(raycastHit.collider.gameObject))
             {
-                SetWheelsStiffnessTo(2.0f);
+                SetWheelsSidewaysStiffnessTo(0.9f);
+                SetWheelsForwardStiffnessTo(3f);
             } else
             {
-                SetWheelsStiffnessTo(0.4f);
+                SetWheelsSidewaysStiffnessTo(0.4f);
+                SetWheelsForwardStiffnessTo(0.4f);
             }
         }
     }
 
-    private void SetWheelsStiffnessTo(float stiffness)
+    private void SetWheelsForwardStiffnessTo(float stiffness)
     {
         foreach (Wheel wheel in wheels)
         {
-            SetWheelStiffnessTo(wheel, stiffness);
+            SetWheelForwardStiffnessTo(wheel, stiffness);
         }
     }
 
-    private void SetWheelStiffnessTo(Wheel wheel, float stiffness)
+    private void SetWheelsSidewaysStiffnessTo(float stiffness)
+    {
+        foreach (Wheel wheel in wheels)
+        {
+            setWheelSidewaysStiffnessTo(wheel, stiffness);
+        }
+    }
+
+    private void SetWheelForwardStiffnessTo(Wheel wheel, float stiffness)
     {
         WheelFrictionCurve forwardFriction = wheel.collider.forwardFriction;
         forwardFriction.stiffness = stiffness;
         wheel.collider.forwardFriction = forwardFriction;
+    }
+
+    private void setWheelSidewaysStiffnessTo(Wheel wheel, float stiffness)
+    {
         WheelFrictionCurve sidewaysFriction = wheel.collider.sidewaysFriction;
         sidewaysFriction.stiffness = stiffness;
         wheel.collider.sidewaysFriction = sidewaysFriction;
@@ -115,7 +129,7 @@ public class CarController : MonoBehaviour
                 else if (movement.y < 0 && !backwards)
                 {
                     wheel.collider.motorTorque = 0;
-                    ApplyBrakeTorque(wheel, -movement.y);
+                    ApplyBrakeTorque(wheel, -(movement.y * 0.001f));
                 // driving backwards --> brake
                 }
                 else if (movement.y > 0 && backwards)
@@ -219,7 +233,11 @@ public class CarController : MonoBehaviour
         }
     }
 
-    private void OnMove(InputValue value)
+    private Boolean HasGroundContact() { 
+        return Physics.Raycast(transform.position, -Vector3.up, 0.2f);
+    }
+
+private void OnMove(InputValue value)
     {
         movement = value.Get<Vector2>();
     }
