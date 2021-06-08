@@ -65,7 +65,6 @@ public class playerDetection : MonoBehaviour {
                 break;
             case PlatformState.Dead:
                 // make platform invisible
-                Debug.Log("DEAD");
                 this.GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
                 break;
         }

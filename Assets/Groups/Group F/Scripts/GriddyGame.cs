@@ -17,6 +17,7 @@ public class GriddyGame : MiniGame {
     public int length2;
 
     public int xoffset;
+    public int yoffset;
     public int zoffset;
 
     public int height;
@@ -47,10 +48,12 @@ public class GriddyGame : MiniGame {
     private void Start() {
         death_depth = -4 * height - 10;
 
+        Debug.Log($"death_depth = {death_depth}");
+
         for (int x=0;x<length1;x++) {
             for (int z=0;z<length2;z++) {
                 for (int curh=0;curh<height;curh++) {
-                    var platform = Instantiate(pEnliS, position: new Vector3(x * xoffset - gridoffset, -4 * curh, z * zoffset - gridoffset), rotation: transform.rotation);
+                    var platform = Instantiate(pEnliS, position: new Vector3(x * xoffset - gridoffset, -1 * yoffset * curh, z * zoffset - gridoffset), rotation: transform.rotation);
                     _platforms.Add(platform);
 
                     var playerDetection = platform.GetComponent<playerDetection>();
