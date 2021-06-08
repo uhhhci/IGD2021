@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using System.Collections;
 
 public enum Axle
 {
@@ -36,18 +37,33 @@ public class CarController : MonoBehaviour
     public float downForce = 10.0f;
     public List<GameObject> fastGrounds;
     public Boolean steeringReversed = false;
+    private Boolean stopped = false;
 
     public void DisableControl()
     {
         controlEnabled = false;
     }
 
+    public void StopCar()
+    {
+        stopped = true;
+        foreach(Wheel wheel in wheels)
+        {
+            wheel.collider.brakeTorque = Mathf.Infinity;
+            wheel.collider.steerAngle = 0.0f;
+        }
+        StartCoroutine(RestartCar(0.5f));
+    }
+
     void FixedUpdate()
     {
-        CheckDrivingDirection(rb);
-        ChangeGroundDependentSpeed();
-        Move();
-        Turn();
+        if(!stopped)
+        {
+            CheckDrivingDirection(rb);
+            ChangeGroundDependentSpeed();
+            Move();
+            Turn();
+        }
         ApplyDownForce();
     }
 
@@ -61,6 +77,18 @@ public class CarController : MonoBehaviour
     void Update()
     {
         AnimateWheels();
+    }
+
+    IEnumerator RestartCar(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        foreach (Wheel wheel in wheels)
+        {
+            wheel.collider.brakeTorque = 0.0f;
+            wheel.collider.motorTorque = 0.0f;
+        }
+        stopped = false;
     }
 
     private void ChangeGroundDependentSpeed()
