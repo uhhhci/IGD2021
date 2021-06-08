@@ -27,7 +27,7 @@ public class PowerupItem : MonoBehaviour
         {
             ps.power = powerup;
             ps.hasPowerup = true;
-            ps.textPowerup.text = "Powerup: " + powerup.Name;
+            ps.textPowerup.text = "Powerup: \n" + powerup.Name;
         }
 
         GetComponent<Collider>().enabled = false;
