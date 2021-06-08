@@ -7,13 +7,15 @@ public class SpawnPowerUps : MonoBehaviour
     public static SpawnPowerUps instance = null;
 
     public List<GameObject> spawnablePowerUps = new List<GameObject>();
-
+    
+    public GameObject pickableEquipment;
     public List<GameObject> pickablePowerUps = new List<GameObject>();
 
     public GameObject RespawnPointsSource;
 
     public float spawningStartTime = 0f;
     public float spawningRateSecs = 5f;
+    public float equipSpawningRateSecs = 15f;
 
     private void Awake()
     {
@@ -24,6 +26,7 @@ public class SpawnPowerUps : MonoBehaviour
     private void Start()
     {
         InvokeRepeating("spawnPickup", spawningStartTime, spawningRateSecs);
+        InvokeRepeating("spawnEquipment", spawningStartTime, equipSpawningRateSecs);
     }
 
     public void SpawnPowerUp(string powerUpIdentifier, Vector3 position, Quaternion rotation)
@@ -44,13 +47,19 @@ public class SpawnPowerUps : MonoBehaviour
         }
     }
 
-    public void SpawnPlayerEquipment(string powerUpIdentifier, MinifigControllerWTH player)
+    private void spawnEquipment()
+    {
+        Vector3 spawnLocation = new Vector3(0, 5, 0);
+        Instantiate(pickableEquipment, spawnLocation, Quaternion.Euler(0, 0, 0));
+    }
+
+    public GameObject SpawnPlayerEquipment(string powerUpIdentifier, MinifigControllerWTH player)
     {
         string path = @"Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_R/armUp_R/arm_R/wristTwist_R/wrist_R/hand_R/BatSnap";
         //Transform batLock = player.transform.Find(path);
         GameObject powerUpPrefab = spawnablePowerUps.Find(prefab => prefab.name == powerUpIdentifier);
         GameObject bat = Instantiate(powerUpPrefab);
         bat.transform.SetParent(player.transform.Find(path), false);
-        Debug.Log(player.transform.Find(path));
+        return bat;
     }
 }

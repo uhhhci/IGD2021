@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.24573775, g: 0.5653007, b: 0.8632721, a: 1}
+  m_IndirectSpecularColor: {r: 0.24574013, g: 0.5653239, b: 0.86652875, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6467,12 +6467,15 @@ MonoBehaviour:
   - {fileID: 2781988343909195905, guid: 3342f6774e3e3bf4ca0733c2c26e93e8, type: 3}
   - {fileID: 3619565196749597524, guid: 72fbfc10ed47e8f4e8b473a653b2f32d, type: 3}
   - {fileID: 884740378149307916, guid: 356062ece5d99964f879cfde00058201, type: 3}
+  pickableEquipment: {fileID: 1936377904151443343, guid: f463b9149810bc64c9be7c1de5c2acd8,
+    type: 3}
   pickablePowerUps:
   - {fileID: 6502183059651785615, guid: a3e5795ac052a5c4081664876642c6ee, type: 3}
   - {fileID: 6576706715087354607, guid: daf503b9626d6164aad2167fa85e9671, type: 3}
   RespawnPointsSource: {fileID: 968045323}
   spawningStartTime: 0
   spawningRateSecs: 5
+  equipSpawningRateSecs: 15
 --- !u!4 &1293227845
 Transform:
   m_ObjectHideFlags: 0

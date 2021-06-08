@@ -17,6 +17,9 @@ public class PickupPowerUp : MonoBehaviour
             case "Trampoline":
                 powerUp = new TrampolinePowerUp();
                 break;
+            case "BaseballBat":
+                powerUp = new BatPowerUp();
+                break;
         }
         
     }

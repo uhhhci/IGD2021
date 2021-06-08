@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bat : MonoBehaviour
+public class BatPowerUp : BasePowerUp
 {
-    // Start is called before the first frame update
-    void Start()
+    public BatPowerUp()
     {
-        
+        this.Identifier = "BaseballBat";
     }
-
-    // Update is called once per frame
-    void Update()
+    public override void SpawnPowerUp(Vector3 playerPosition)
     {
-        
+        Vector3 position = playerPosition;
+        SpawnPowerUps.instance.SpawnPowerUp(Identifier, position, Quaternion.Euler(0, 0, 0));
     }
 }

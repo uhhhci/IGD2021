@@ -167,6 +167,7 @@ public class MinifigControllerWTH : MonoBehaviour
     Vector3 directSpeed;
     bool exploded;
     bool stepped;
+    private GameObject equipment;
 
     List<MoveTarget> moves = new List<MoveTarget>();
     MoveTarget currentMove;
@@ -971,6 +972,11 @@ public class MinifigControllerWTH : MonoBehaviour
         Vector3 spawnLocation = rings.getSpawnLocation(characterId);
         playerPoints = Mathf.FloorToInt(playerPoints * pointLossRate);
         controller.transform.position = spawnLocation;
+        if (equipment != null)
+        {
+            Destroy(equipment);
+            equipment = null;
+        }
     }
 
     public void AddPoints(int points)
@@ -1027,15 +1033,21 @@ public class MinifigControllerWTH : MonoBehaviour
     private void OnEastPress()
     {
         print("OnEastPress");
-        /**if(inventory != null)
+        if(equipment != null)
         {
-            inventory.SpawnPowerUp(transform.position);
+            animator.SetTrigger(punchHash);
+        }
+        else if(inventory != null)
+        {
+            if(inventory is BatPowerUp)
+            {
+                equipment = SpawnPowerUps.instance.SpawnPlayerEquipment("BaseballBat", this);
+            } else
+            {
+                inventory.SpawnPowerUp(transform.position);
+            }
             inventory = null;
-        }**/
-        SpawnPowerUps.instance.SpawnPlayerEquipment("BaseballBat", this);
-        //animator.SetFloat(speedHash, 5f);
-        animator.SetTrigger(punchHash);
-        //animator.SetFloat(speedHash, 0f);
+        }
     }
 
     private void OnEastRelease()
