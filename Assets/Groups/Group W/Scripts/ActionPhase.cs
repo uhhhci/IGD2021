@@ -20,6 +20,8 @@ public class ActionPhase : MonoBehaviour
     bool isActionPhase;
     public GameObject leftHandWeapon;
     public Vector3 leftHandPosition;
+    public bool effective = false;
+    public bool ineffective = false;
 
     // calculates the damage dealt by currentPlayer to targetPlayer
     // takes the base damage and its multiplier (derived from the weapon types) into account
@@ -45,11 +47,13 @@ public class ActionPhase : MonoBehaviour
         WeaponType equippedWeaponTypeInfo = Array.FindAll<WeaponType>(weaponTypes.weaponTypes, weaponType => weaponType.type == equippedWeaponType.ToString())[0];
         if (targetWeaponType.ToString() == equippedWeaponTypeInfo.strength)
         {
+            effective = true;
             return 2f;
         }
 
         else if (targetWeaponType.ToString() == equippedWeaponTypeInfo.weakness)
         {
+            ineffective = true;
             return 0.5f;
         }
 
