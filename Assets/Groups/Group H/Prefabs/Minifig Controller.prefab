@@ -31,6 +31,7 @@ GameObject:
   - component: {fileID: 3279519717318485568}
   - component: {fileID: -6220251526473426468}
   - component: {fileID: 3228778136329532822}
+  - component: {fileID: 6776377133075310417}
   m_Layer: 0
   m_Name: Minifig Controller
   m_TagString: Player
@@ -277,6 +278,7 @@ MonoBehaviour:
   explodeAudioClip: {fileID: 8300000, guid: b9b607b06267c4394b07c19523c455f1, type: 3}
   collider: {fileID: 3279519717318485571}
   minifigCharacter: {fileID: 2747616020551863343}
+  health: {fileID: 6776377133075310417}
 --- !u!114 &-6220251526473426468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +291,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc30e8144316924e9c29f1a84114bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grabDistance: 1
+  grabTime: 1
 --- !u!114 &3228778136329532822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,9 +306,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kickDistance: 1
-  kickForce: 50
   knockbackSpeed: 15
   knockbackDuration: 0.25
+--- !u!114 &6776377133075310417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3344814360938523938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef54c44203aaf54e913d62719ded229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 3
+  numberOfHearts: 3
+  hearts: []
+  fullHeart: {fileID: 0}
+  emptyHeart: {fileID: 0}
 --- !u!1001 &649133815285714872
 PrefabInstance:
   m_ObjectHideFlags: 0
