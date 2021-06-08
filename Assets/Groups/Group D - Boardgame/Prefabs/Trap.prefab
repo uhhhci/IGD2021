@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4347860188233351207}
   - component: {fileID: 4347860188233351224}
   m_Layer: 0
-  m_Name: Trap 1
+  m_Name: Trap
   m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,16 +30,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4347860188233351206}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.54, y: 17.53, z: 9.88}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 4.54, y: -1, z: 9.88}
+  m_LocalScale: {x: 30, y: 30, z: 30}
   m_Children:
   - {fileID: 4347860188233093150}
   - {fileID: 4347860188233139008}
   - {fileID: 6878277284810514135}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
 --- !u!33 &4347860188230307560
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -249,7 +249,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   deadzone: 0.1
-  stealAudioClip: {fileID: 0}
+  dropAudioClip: {fileID: 0}
+  triggerAudioClip: {fileID: 0}
 --- !u!1 &4347860188233365008
 GameObject:
   m_ObjectHideFlags: 0
