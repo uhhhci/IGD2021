@@ -230,7 +230,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 8, y: -13.999999}
+  m_AnchoredPosition: {x: 0.2, y: -7.5}
   m_SizeDelta: {x: 48.73741, y: 47.161255}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &58673291
@@ -259,8 +259,8 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 0
-    m_AlignByGeometry: 0
+    m_Alignment: 4
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -287,8 +287,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTime: 0
-  startingTime: 99
+  startingTime: 15
   countdownText: {fileID: 58673291}
+  gameManager: {fileID: 2067183730}
 --- !u!1001 &77060690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1013,6 +1014,21 @@ PrefabInstance:
       propertyPath: hearts.Array.data[2]
       value: 
       objectReference: {fileID: 804965464}
+    - target: {fileID: 6776377133075310417, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: ownID
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6776377133075310417, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: testhallohallo
+      value: 
+      objectReference: {fileID: 2067183730}
+    - target: {fileID: 6776377133075310417, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 2067183730}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6, type: 3}
 --- !u!1 &653260035
@@ -2214,6 +2230,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369226797}
   m_CullTransparentMesh: 0
+--- !u!1 &1434843920
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1434843921}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1434843921
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434843920}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 268.73547, y: 228.34766, z: 116.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1468532440
 GameObject:
   m_ObjectHideFlags: 0
@@ -2456,6 +2502,16 @@ PrefabInstance:
       propertyPath: hearts.Array.data[2]
       value: 
       objectReference: {fileID: 153958097}
+    - target: {fileID: 6776377133075310417, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: ownID
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6776377133075310417, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 2067183730}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6, type: 3}
 --- !u!1 &1556044391
@@ -3390,6 +3446,16 @@ PrefabInstance:
       propertyPath: hearts.Array.data[2]
       value: 
       objectReference: {fileID: 990932866}
+    - target: {fileID: 6776377133075310417, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: ownID
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6776377133075310417, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 2067183730}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6, type: 3}
 --- !u!1 &1977868141
@@ -3726,6 +3792,16 @@ PrefabInstance:
       propertyPath: hearts.Array.data[2]
       value: 
       objectReference: {fileID: 1926867295}
+    - target: {fileID: 6776377133075310417, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: ownID
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6776377133075310417, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 2067183730}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6, type: 3}
 --- !u!1001 &5142261036073280229

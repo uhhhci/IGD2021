@@ -7,15 +7,17 @@ public class Health : MonoBehaviour
 {
     public int health = 3;
     public int numberOfHearts = 3;
-
     public Image[] hearts;
     public Sprite fullHeart;
     public Sprite emptyHeart;
 
-    // Start is called before the first frame update
+    public int ownID;
+
+    public TrafficTrouble gameManager;
+
     void Start()
     {
-        
+        gameManager.SubmitHealth(ownID, health);
     }
 
     public void reduceHealth()
@@ -23,11 +25,7 @@ public class Health : MonoBehaviour
         if (health > 0)
         {
             health--;
-        }
-
-        if (health == 0)
-        {
-            //Include method to end the game when the players health is zero or take the player out of the game to let the remaining players play
+            gameManager.SubmitHealth(ownID, health);
         }
     }
 

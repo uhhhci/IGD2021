@@ -9,6 +9,8 @@ public class TrafficTimer : MonoBehaviour
     public float startingTime = 45f;
     public Text countdownText;
 
+    public TrafficTrouble gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +33,8 @@ public class TrafficTimer : MonoBehaviour
         if (currentTime <= 0)
         {
             //Include method to end the game when timer hits 0
+            gameManager.TimeIsOver();
+            Destroy(gameObject);
         }
     }
 }

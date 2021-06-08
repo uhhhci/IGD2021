@@ -41,7 +41,6 @@ public class PlayerHit : MonoBehaviour
             invincible = true;
             StartCoroutine(EnableInvincibility(invincibleTime));
             health.reduceHealth();
-            Debug.Log("Damage Taken");
         }
     }
 
