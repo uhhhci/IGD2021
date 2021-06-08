@@ -23,15 +23,14 @@ public class TrafficTimer : MonoBehaviour
             currentTime -= 1 * Time.deltaTime;
             countdownText.text = currentTime.ToString("0");
 
-            if (currentTime <= 4)
+            if (currentTime <= 10)
             {
                 countdownText.color = Color.red;
             }
-
-            if (currentTime <= 0)
-            {
-                //Include method to end the game when timer hits 0
-            }
+        }
+        if (currentTime <= 0)
+        {
+            //Include method to end the game when timer hits 0
         }
     }
 }
