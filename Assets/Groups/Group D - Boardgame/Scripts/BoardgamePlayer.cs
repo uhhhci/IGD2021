@@ -73,10 +73,10 @@ public class BoardgamePlayer : MonoBehaviour
     //     print("OnSouthRelease");
     // }
 
-    // private void OnWestPress()
-    // {
-    //     print("OnWestPress");
-    // }
+    private void OnWestPress()
+    {
+        turnManager.reactToWest(playerNumber);
+    }
 
     // private void OnWestRelease()
     // {

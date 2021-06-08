@@ -19,9 +19,14 @@ public class Tile : MonoBehaviour
     public Tile down;
 
     private bool goldenBrickPresent;
+    public bool itemShopPresent;
 
     public Vector3 getPosition() {
         return this.transform.position;
+    }
+
+    public bool hasItemShop() {
+        return itemShopPresent;
     }
 
     public bool hasGoldenBrick() {

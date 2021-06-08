@@ -13,13 +13,15 @@ public class PlayerDisplay : MonoBehaviour
 
     public List<Transform> inventorySlots; // 3 inventory slots
 
+    public ItemDatabase itemDB; // the item data base
+
     private int currentCreditCost = 0; // currently displayed credit costs
 
     // number of credits/bricks which the player has currently
     private int credits = 0;
     private int bricks = 0;
 
-    private List<ItemD> items = new List<ItemD>(3);
+    private List<ItemD.Type> items = new List<ItemD.Type>(3);
     private List<Object> itemObjects = new List<Object>(3);
 
     // used to add/remove credits/bricks in an animation, controlled by a FSM
@@ -73,23 +75,28 @@ public class PlayerDisplay : MonoBehaviour
 
     // adds the given item to this player's inventory
     // does nothing, when the inventory is full
-    public void addItem(ItemD item) {
+    public void addItem(ItemD.Type itemType) {
+        ItemD item = itemDB.getItem(itemType);
         if (items.Count < 3) {
             itemObjects.Add(Instantiate(item.inventoryPrefab, inventorySlots[items.Count]));
-            items.Add(item);
+            items.Add(itemType);
         }
     }
 
     // whether the player's inventory contains the given item
-    public bool hasItem(ItemD item) {
-        return items.Contains(item);
+    public bool hasItem(ItemD.Type itemType) {
+        return items.Contains(itemType);
+    }
+
+    public bool hasSpaceForAnItem() {
+        return items.Count < 3;
     }
 
     // removes the given item from this player's inventory
     // does nothing, when the inventory does not contain the item
-    public void removeItem(ItemD item) {
-        if (hasItem(item)) {
-            int index = items.IndexOf(item);
+    public void removeItem(ItemD.Type itemType) {
+        if (hasItem(itemType)) {
+            int index = items.IndexOf(itemType);
             items.RemoveAt(index);
             Destroy(itemObjects[index]);
             itemObjects.RemoveAt(index);
