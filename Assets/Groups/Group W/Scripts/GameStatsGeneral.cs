@@ -18,7 +18,7 @@ public class GameStatsGeneral : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        descriptionTextMesh = GameObject.GetComponent<TextMesh>();
+        descriptionTextMesh = gameObject.GetComponent<TextMesh>();
     }
 
     // Update is called once per frame
