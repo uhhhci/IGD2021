@@ -58,6 +58,9 @@ MonoBehaviour:
   jumpSpeed: 6.6
   gravity: 20
   died: 0
+  noticedDeath: 0
+  place: 1
+  gameOver: 0
   damage: 0
   strength: 10
   hitRange: 1
@@ -248,7 +251,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &2885056653073922830
+--- !u!114 &5985171932868807429
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,7 +260,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2885056653073922829}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77b08d6749055db429cd3d5505b7efc8, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e789714f05612049a099f7e1795b74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 0}
