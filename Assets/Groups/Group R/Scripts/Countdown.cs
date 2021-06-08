@@ -37,15 +37,18 @@ public class Countdown : MonoBehaviour
     {
         timeAtStart = Time.time + 4.999f;
         if (type == 1){
+            //Start of game
             txt_after_cntdwn = "Smash!";
         }
         else if (type == 2)
         {
-            txt_after_cntdwn = "The End!";
+            //Maximum game time has been reacheds
+            txt_after_cntdwn = "Time's Up!";
         }
         else
         {
-            txt_after_cntdwn = "The End!";
+            //All player died
+            txt_after_cntdwn = "Game Over!";
             timeAtStart = Time.time + 1.999f;
         }
     }
