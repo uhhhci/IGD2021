@@ -197,6 +197,7 @@ public class MinifigControllerWTH : MonoBehaviour
     int playSpecialHash = Animator.StringToHash("Play Special");
     int cancelSpecialHash = Animator.StringToHash("Cancel Special");
     int specialIdHash = Animator.StringToHash("Special Id");
+    int spinHash = Animator.StringToHash("Spin");
 
     public int playerPoints = 0;
     Action<bool> onSpecialComplete;
@@ -1025,11 +1026,15 @@ public class MinifigControllerWTH : MonoBehaviour
     private void OnEastPress()
     {
         print("OnEastPress");
-        if(inventory != null)
+        /**if(inventory != null)
         {
             inventory.SpawnPowerUp(transform.position);
             inventory = null;
-        }
+        }**/
+        SpawnPowerUps.instance.SpawnPlayerEquipment("BaseballBat", this);
+        //animator.SetFloat(speedHash, 5f);
+        PlaySpecialAnimation(SpecialAnimation.RightHandReactive);
+        //animator.SetFloat(speedHash, 0f);
     }
 
     private void OnEastRelease()

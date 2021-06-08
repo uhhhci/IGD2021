@@ -539,6 +539,36 @@ Transform:
   m_Father: {fileID: 2969103989153699441}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &710373485431026633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 608378257066632724}
+  m_Layer: 9
+  m_Name: BatSnap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &608378257066632724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710373485431026633}
+  m_LocalRotation: {x: -0.38005167, y: -0.51774603, z: 0.100296944, w: 0.759895}
+  m_LocalPosition: {x: -0.18624116, y: 0.15985972, z: -0.0067255795}
+  m_LocalScale: {x: 1, y: 0.99992394, z: 1.0000722}
+  m_Children: []
+  m_Father: {fileID: 7592012837947693036}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: -28.277, y: -78.538, z: 38.313004}
 --- !u!1 &731990078660418745
 GameObject:
   m_ObjectHideFlags: 0
@@ -3513,6 +3543,7 @@ Transform:
   - {fileID: 4131756861300085002}
   - {fileID: 6710944116068078215}
   - {fileID: 2482859813851832886}
+  - {fileID: 608378257066632724}
   m_Father: {fileID: 2220656643598904458}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
