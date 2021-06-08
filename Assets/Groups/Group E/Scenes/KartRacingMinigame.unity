@@ -11880,6 +11880,11 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 1.3
       objectReference: {fileID: 0}
+    - target: {fileID: 5086430652124678788, guid: 08c7891c47dc61d4e88326bb76067b74,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7566994459412580024, guid: 08c7891c47dc61d4e88326bb76067b74,
         type: 3}
       propertyPath: m_WheelDampingRate
@@ -11905,6 +11910,21 @@ PrefabInstance:
       propertyPath: fastGrounds.Array.data[0]
       value: 
       objectReference: {fileID: 1007677559}
+    - target: {fileID: 7566994460132671681, guid: 08c7891c47dc61d4e88326bb76067b74,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7566994460132671681, guid: 08c7891c47dc61d4e88326bb76067b74,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7566994460132671681, guid: 08c7891c47dc61d4e88326bb76067b74,
+        type: 3}
+      propertyPath: m_Mass
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7566994460132671682, guid: 08c7891c47dc61d4e88326bb76067b74,
         type: 3}
       propertyPath: m_Name

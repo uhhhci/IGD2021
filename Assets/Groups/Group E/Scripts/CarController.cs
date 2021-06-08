@@ -61,6 +61,7 @@ public class CarController : MonoBehaviour
         {
             CheckDrivingDirection(rb);
             ChangeGroundDependentSpeed();
+            // CheckGroundContact();
             Move();
             Turn();
         }
@@ -107,6 +108,17 @@ public class CarController : MonoBehaviour
                 SetWheelsSidewaysStiffnessTo(0.4f);
                 SetWheelsForwardStiffnessTo(0.4f);
             }
+        }
+    }
+
+    private void CheckGroundContact()
+    {
+        if (HasGroundContact())
+        {
+            rb.freezeRotation = false;
+        } else
+        {
+            rb.freezeRotation = true;
         }
     }
 
@@ -261,8 +273,9 @@ public class CarController : MonoBehaviour
         }
     }
 
-    private Boolean HasGroundContact() { 
-        return Physics.Raycast(transform.position, -Vector3.up, 0.2f);
+    private Boolean HasGroundContact() {
+        Vector3 raycastStart = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+        return Physics.Raycast(raycastStart, -Vector3.up, 1f);
     }
 
 private void OnMove(InputValue value)
