@@ -29,8 +29,9 @@ public class GriddyGame : MiniGame {
 
     private float death_depth;
 
+    private bool gameEnded = false;
     private List<GameObject> _platforms = new List<GameObject>();
-    private Queue<GameObject> dead_players = new Queue<GameObject>();
+    private List<GameObject> dead_players = new List<GameObject>();
     private List<GameObject> players = new List<GameObject>();
 
 
@@ -85,7 +86,7 @@ public class GriddyGame : MiniGame {
             .Where(p => !dead_players.Contains(p))
             .Where(p => p.transform.position.y < death_depth)
             .ToList()
-            .ForEach(dead_players.Enqueue);
+            .ForEach(dead_players.Add);
         
         return dead_players.ToList();
     }
@@ -95,11 +96,17 @@ public class GriddyGame : MiniGame {
 
     private void EndGame()
     {
+        if (gameEnded) {
+            return;
+        }
+        Debug.Log("GAME END");
+        gameEnded = true;
+
         //Create array of positions with player ids, this also works in case there are multiple players in one position
-        int[] first = { GameObject2Int(dead_players.Dequeue()) };
-        int[] second = { GameObject2Int(dead_players.Dequeue()) };
-        int[] third = { GameObject2Int(dead_players.Dequeue()) };
-        int[] fourth = { GameObject2Int(dead_players.Dequeue()) };
+        int[] first = { GameObject2Int(dead_players[3]) };
+        int[] second = { GameObject2Int(dead_players[2]) };
+        int[] third = { GameObject2Int(dead_players[1]) };
+        int[] fourth = { GameObject2Int(dead_players[0]) };
         Debug.Log($"{first.First()} > {second.First()} > {third.First()} > {fourth.First()}");
 
         //Note this is still work in progress, but ideally you will use it like this
