@@ -33,7 +33,7 @@ public class StatusPlane : MonoBehaviour
             timeLeft = PhaseHandler.timeLeft;
             leadingTeam = PhaseHandler.leadingTeam;
             title = $"{phase} Phase";
-            descriptionTextMesh.text = $"Total time: {PhaseHandler.passedGameSeconds.ToString("F0")} / {PhaseHandler.maxGameSeconds.ToString("F0")} \nRound {roundCount}; {leadingTeam} is leading.\n{title}\n{description}";
+            descriptionTextMesh.text = $"Round {roundCount}; {leadingTeam} is leading.\n{title}\n{description}";
 
             if (phase == PhaseHandler.Phase.Action)
             {
