@@ -74,10 +74,11 @@ public class OurMinifigController : MonoBehaviour
     public bool noticedDeath = false;
     public int place = 1;
     public bool gameOver = false;
+    public bool isHitting = false;
     /// <summary>
     /// 3D Vector representing the force knocking the player back from getting hit
     /// </summary>
-    private Vector3 _knockback = Vector3.zero;
+    public Vector3 _knockback = Vector3.zero;
 
     /// <summary>
     /// How much damage the player has already taken from opponents
@@ -887,27 +888,30 @@ public class OurMinifigController : MonoBehaviour
         {
             return;
         }
-        if (!hasItem)
+        if (!hasItem){
             animator.SetTrigger(punchHash);
-        else
-            animator.SetTrigger(swordHash);
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
-        {
-            if(hit.collider.tag == "Player"){
-                OurMinifigController hit_player = hit.collider.gameObject.GetComponent<OurMinifigController>();
-                hit_player.damage += strength;
-                Vector3 hit_direction = hit_player.transform.position - transform.position;
-                hit_direction.x = 0f; // do not change x position
-                hit_direction.y += 1f; // make the hit player fly slightly upwards
-                if (hit_direction.z > 0)
-                    hit_direction.z = 1f;
-                else
-                    hit_direction.z = -1f;
-                hit_direction.Normalize();
-                float dmg_scale = (hit_player.damage + 10) * 0.01f;
-                hit_player._knockback += hit_direction * dmg_scale;
+            
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
+            {
+                if(hit.collider.tag == "Player"){
+                    OurMinifigController hit_player = hit.collider.gameObject.GetComponent<OurMinifigController>();
+                    hit_player.damage += strength;
+                    Vector3 hit_direction = hit_player.transform.position - transform.position;
+                    hit_direction.x = 0f; // do not change x position
+                    hit_direction.y += 1f; // make the hit player fly slightly upwards
+                    if (hit_direction.z > 0)
+                        hit_direction.z = 1f;
+                    else
+                        hit_direction.z = -1f;
+                    hit_direction.Normalize();
+                    float dmg_scale = (hit_player.damage + 10) * 0.01f;
+                    hit_player._knockback += hit_direction * dmg_scale;
+                }
             }
+        }
+        else{
+            animator.SetTrigger(swordHash);
         }
     }
 

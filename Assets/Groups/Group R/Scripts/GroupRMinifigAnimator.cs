@@ -6,8 +6,15 @@ public class GroupRMinifigAnimator : MonoBehaviour
 {
     public OurMinifigController Controller;
 
-    public void printSomething()
+    public void enableSword()
     {
         Debug.Log("Moin");
+        Controller.isHitting = true;
+    }
+
+        public void disableSword()
+    {
+        Debug.Log("Haide");
+        Controller.isHitting = false;
     }
 }
