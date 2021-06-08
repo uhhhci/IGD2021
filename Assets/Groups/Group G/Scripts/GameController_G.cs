@@ -89,7 +89,7 @@ public class GameController_G : MiniGame, IPowerUpEvents
         SetPlayerControllersActive(true);
 
         InputManager.Instance.AssignPlayerInput(GetAllPlayerInputs());
-        //LoadingManager.Instance.LoadMiniGame(getMiniGameType()); 
+        LoadingManager.Instance.LoadMiniGame(getMiniGameType()); 
     }
 
     public void EndGame()
