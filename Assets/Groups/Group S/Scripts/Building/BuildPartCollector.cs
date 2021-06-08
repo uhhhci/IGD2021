@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Groups.Group_S.Driving.VehicleStats;
 using UnityEngine;
 
-namespace Groups.Group_S
+namespace Groups.Group_S.Building
 {
     public class BuildPartCollector : MonoBehaviour
     {
@@ -13,7 +13,12 @@ namespace Groups.Group_S
 
         private void Start()
         {
-            FindObjectOfType<GameManager>().addBuildingFinishedListener(this);
+            FindObjectOfType<PartKartMiniGame>().OnBuildingFinished += OnBuildingFinished;
+        }
+
+        private void OnDestroy()
+        {
+            FindObjectOfType<PartKartMiniGame>().OnBuildingFinished -= OnBuildingFinished;
         }
 
         private void OnCollisionEnter(Collision other)
@@ -36,7 +41,7 @@ namespace Groups.Group_S
             }
         }
 
-        public void BuildingFinished()
+        private void OnBuildingFinished()
         {
             foreach (var kartPart in _collected)
             {

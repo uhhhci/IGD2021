@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Groups.Group_S.Building;
@@ -15,6 +16,7 @@ namespace Groups.Group_S
         [Header("Player controlled Objects")] public List<MinifigControllerGroupS> playerMinifigs;
         public List<Drivable> playerCars;
 
+        public event Action OnBuildingFinished;
         private bool _buildingFinished;
 
         #region MiniGame Overrides
@@ -44,6 +46,7 @@ namespace Groups.Group_S
         private void Start()
         {
             _buildingFinished = false;
+            
             DeactivateCars();
             ActivateMinifigs();
         }
@@ -85,6 +88,7 @@ namespace Groups.Group_S
                 car.gameObject.SetActive(false);
             }
         }
+        
         public void FinishBuilding()
         {
             if (!_buildingFinished)
@@ -94,6 +98,7 @@ namespace Groups.Group_S
                 cameraAnimator.enabled = true;
                 Invoke(nameof(OnLoadRacingViewFinished), 3f);
                 DeactivateMinifigs();
+                OnBuildingFinished?.Invoke();
             }
         }
 
