@@ -212,6 +212,7 @@ public class OurMinifigController : MonoBehaviour
     int specialIdHash = Animator.StringToHash("Special Id");
     int punchHash = Animator.StringToHash("Punch");
     int swordHash = Animator.StringToHash("Sword");
+    int throwHash = Animator.StringToHash("Throw");
 
     Action<bool> onSpecialComplete;
 
@@ -890,7 +891,7 @@ public class OurMinifigController : MonoBehaviour
         if (!hasItem)
             animator.SetTrigger(punchHash);
         else
-            animator.SetTrigger(swordHash);
+            animator.SetTrigger(throwHash);
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
         {
