@@ -20,11 +20,14 @@ public class Health : MonoBehaviour
 
     public void reduceHealth()
     {
-        health--;
-
-        if (health <= 0)
+        if (health > 0)
         {
-            //Ending
+            health--;
+        }
+
+        if (health == 0)
+        {
+            //Include method to end the game when the players health is zero or take the player out of the game to let the remaining players play
         }
     }
 

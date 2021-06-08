@@ -18,24 +18,20 @@ public class TrafficTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentTime -= 1 * Time.deltaTime;
-        //print(currentTime);
-        countdownText.text = currentTime.ToString("0");
-
-        if (currentTime <= 4)
+        if (currentTime > 0)
         {
-            countdownText.color = Color.red;
-        }
+            currentTime -= 1 * Time.deltaTime;
+            countdownText.text = currentTime.ToString("0");
 
-        if (currentTime <= 0)
-        {
-            currentTime = 0;
-        }
+            if (currentTime <= 4)
+            {
+                countdownText.color = Color.red;
+            }
 
-        if (currentTime <= 0)
-        {
-            //Leite Ende ein
+            if (currentTime <= 0)
+            {
+                //Include method to end the game when timer hits 0
+            }
         }
-
     }
 }
