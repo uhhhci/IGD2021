@@ -8,12 +8,14 @@ public class playercollision : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         GameObject obj = col.gameObject;
+        float hoverForce = 12;
+        
 
         if (obj.tag == "ItemCollect")
         {
             PickUp(obj);
-            // todo xyz
-        }
+            this.GetComponent<Rigidbody>().AddForce(Vector3.up * hoverForce, ForceMode.Acceleration);
+         }
 
         if (obj.tag == "SomethingElse")
         {
