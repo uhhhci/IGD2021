@@ -6,6 +6,7 @@ public class PlayerGrab : MonoBehaviour
 {
 
     public float grabDistance = 1f;
+    public float grabTime = 1f;
 
     private GameObject grabbedPlayer;
     private bool grabbing;
@@ -36,11 +37,19 @@ public class PlayerGrab : MonoBehaviour
             grabbedPlayer.GetComponent<PlayerGrab>().GetGrabbedBy(transform);
 
             grabbing = true;
+
+            StartCoroutine("GrabbingTimer");
         }
         else if (!grabbing)
         {
             StopGrabbing();
         }
+    }
+
+    private IEnumerator GrabbingTimer()
+    {
+        yield return new WaitForSeconds(grabTime);
+        StopGrabbing();
     }
 
     public void StopGrabbing()
