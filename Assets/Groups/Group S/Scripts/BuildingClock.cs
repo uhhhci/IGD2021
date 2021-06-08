@@ -11,11 +11,11 @@ namespace Groups.Group_S
         private Text timerDisplay;
 
         private double _currentTime = 0;
-        private GameManager _gameManager;
+        private PartKartMiniGame _gameManager;
 
         private void Start()
         {
-            _gameManager = FindObjectOfType<GameManager>();
+            _gameManager = FindObjectOfType<PartKartMiniGame>();
             timerDisplay = GetComponent<Text>();
         }
 
