@@ -136,23 +136,23 @@ public class SmashGameR : MiniGame
                         {
                             firstPos.z = 2.7f;
                         }
-                        p.transform.position = firstPos;
+                        p.TeleportTo(firstPos);
                         p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.Flexing);
                         break;
                     case 2:
                         two.text = "2";
                         p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.HatSwap);
-                        p.transform.position = secondPos;
+                        p.TeleportTo(secondPos);
                         break;
                     case 3:
                         three.text = "3";
                         p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.HatSwap2);
-                        p.transform.position = thirdPos;
+                        p.TeleportTo(thirdPos);
                         break;
                     case 4:
                         four.text = "4";
                         p.PlaySpecialAnimation(OurMinifigController.SpecialAnimation.LookingAround);
-                        p.transform.position = fourthPos;
+                        p.TeleportTo(fourthPos);
                         break;
                 }
                 p.transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
@@ -164,12 +164,10 @@ public class SmashGameR : MiniGame
         if (timeLeft < -6)
         {
             //Create array of positions with player ids, this also works in case there are multiple players in one position
-            int[] first = { 0 };
-            int[] second = { 1 };
-            int[] third = { 2 };
-            int[] fourth = { 3 };
-
-            int id = player1.GetInstanceID();
+            int[] first = {};
+            int[] second = {};
+            int[] third = {};
+            int[] fourth = {};
 
             foreach (OurMinifigController p in players)
             {
