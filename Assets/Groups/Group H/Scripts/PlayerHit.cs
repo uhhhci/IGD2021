@@ -17,15 +17,13 @@ public class PlayerHit : MonoBehaviour
     private bool isHidden;
     private bool invincible;
 
-    public Health healthPlaceholder;
+    public Health healthReducedByCar; //Calling reduceHealth function from Health script
 
     // Start is called before the first frame update
     void Start()
     {
         isHidden = false;
         invincible = false;
-
-        healthPlaceholder = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
     }
 
     void OnCollisionEnter(Collision other)
@@ -34,7 +32,7 @@ public class PlayerHit : MonoBehaviour
         {
             invincible = true;
             StartCoroutine(EnableInvincibility(invincibleTime));
-            healthPlaceholder.reduceHealth();
+            healthReducedByCar.reduceHealth(); //Take damage from car
         }
     }
 
