@@ -14,12 +14,15 @@ namespace Groups.Group_S
         public List<GameObject> carsToEnable;
         public List<GameObject> characterToDisable;
 
+        private List<BuildPartCollector> _buildingFinishedListener = new List<BuildPartCollector>();
+
         private bool buildingFinished = false;
 
         public void FinishBuilding()
         {
             if (!buildingFinished)
             {
+                notifyBuildingFinishedListener();
                 buildingFinished = true;
                 buildingFinishedUI.SetActive(true);
                 cameraAnimator.enabled = true;
@@ -35,6 +38,19 @@ namespace Groups.Group_S
                 character.SetActive(false);
             foreach (var car in carsToEnable)
                 car.SetActive(true);
+        }
+
+        public void addBuildingFinishedListener(BuildPartCollector listener)
+        {
+            _buildingFinishedListener.Add(listener);
+        }
+
+        private void notifyBuildingFinishedListener()
+        {
+            foreach (var listener in _buildingFinishedListener)
+            {
+                listener.BuildingFinished();
+            }
         }
     }
 }

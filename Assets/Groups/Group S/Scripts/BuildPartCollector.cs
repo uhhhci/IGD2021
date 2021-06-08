@@ -1,24 +1,49 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Groups.Group_S.Driving.VehicleStats;
 using UnityEngine;
 
 namespace Groups.Group_S
 {
     public class BuildPartCollector : MonoBehaviour
     {
-        private HashSet<GameObject> _collected = new HashSet<GameObject>();
-        
+        public GameObject car;
+
+        private HashSet<VehicleStatProvider> _collected = new HashSet<VehicleStatProvider>();
+
+        private void Start()
+        {
+            FindObjectOfType<GameManager>().addBuildingFinishedListener(this);
+        }
+
         private void OnCollisionEnter(Collision other)
         {
-            //if (!other.gameObject.CompareTag("PartKart")) return;
-            _collected.Add(other.gameObject);
-            Debug.Log("ENTER: " + _collected.Count);
+            VehicleStatProvider collidingVehicleStatProvider;
+            if (other.gameObject.TryGetComponent(out collidingVehicleStatProvider))
+            {
+                _collected.Add(collidingVehicleStatProvider);
+                Debug.Log("ENTER: " + _collected.Count);
+            };
         }
 
         private void OnCollisionExit(Collision other)
         {
-            //if (!other.gameObject.CompareTag("PartKart")) return;
-            _collected.Remove(other.gameObject);
-            Debug.Log("EXIT: " + _collected.Count);
+            VehicleStatProvider collidingVehicleStatProvider;
+            if (other.gameObject.TryGetComponent(out collidingVehicleStatProvider))
+            {
+                _collected.Remove(collidingVehicleStatProvider);
+                Debug.Log("EXIT: " + _collected.Count);
+            }
+        }
+
+        public void BuildingFinished()
+        {
+            foreach (var kartPart in _collected)
+            {
+                Debug.Log("Add KartPart to Car");
+                VehicleStatProvider vehicleStatProvider = car.AddComponent<VehicleStatProvider>();
+                vehicleStatProvider.vehicleStats = kartPart.vehicleStats;
+            }
         }
     }
 }
