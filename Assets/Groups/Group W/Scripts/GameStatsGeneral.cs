@@ -18,7 +18,7 @@ public class GameStatsGeneral : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        descriptionTextMesh = gameObject.GetComponent<TextMesh>();
+        descriptionTextMesh = GameObject.Find("DescriptionTextGeneral").GetComponent<TextMesh>();
     }
 
     // Update is called once per frame
@@ -29,7 +29,8 @@ public class GameStatsGeneral : MonoBehaviour
             timeLeft = PhaseHandler.timeLeft;
             leadingTeam = PhaseHandler.leadingTeam;
             title = $"{phase} Phase";
-            descriptionTextMesh.text = $"Total time: {PhaseHandler.passedGameSeconds.ToString("F0")} / {PhaseHandler.maxGameSeconds.ToString("F0")} \nRound {roundCount}; {leadingTeam} is leading.\n{title}\n{description}";
+            descriptionTextMesh.text = $"Total time: {PhaseHandler.passedGameSeconds.ToString("F0")} / {PhaseHandler.maxGameSeconds.ToString("F0")} \nRound {roundCount};\n{leadingTeam} is leading.\n{description}";
+
 
             if (phase == PhaseHandler.Phase.End)
             {
