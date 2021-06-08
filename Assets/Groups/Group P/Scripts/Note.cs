@@ -34,22 +34,22 @@ namespace GroupP {
             case KeyType.UP:      //up arrow
                 transform.localEulerAngles = new Vector3(0f, 0f, -90f);
                 transform.localPosition += new Vector3(0f, 45f , 0f);
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 1f);
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0.53f);
                 break;
             case KeyType.DOWN:      //down arrow
                 transform.localEulerAngles = new Vector3(0f, 0f, 90f);
                 transform.localPosition += new Vector3(0f, -75 , 0f);
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f);
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(0.54f, 0f, 0f);
                 break;
             case KeyType.LEFT:     //left arrow
                 transform.localEulerAngles = new Vector3(0f, 0f, 0f);
                 transform.localPosition += new Vector3(0f, 5f , 0f);
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f);
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(0f, 0.58f, 0f);
                 break;
             case KeyType.RIGHT:        //right arrow
                 transform.localPosition += new Vector3(0f, -35f , 0f);
                 transform.localEulerAngles = new Vector3(0f, 0f, 180f);
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 0.624f, 0f);
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(0.79f, 0.67f, 0.1f);
                 break;
             default:
                 break;

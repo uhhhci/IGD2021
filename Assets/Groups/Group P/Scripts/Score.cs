@@ -57,10 +57,11 @@ namespace GroupP
                 case HitQuality.NORMAL:
                     break;
                 case HitQuality.GOOD:
-                    spawnEffect(goodEffect);
+                    spawnEffect(goodEffect, new Color(0.8f, 0.8f, 0.15f));
                     break;
                 case HitQuality.PERFECT:
-                    spawnEffect(perfectEffect);
+                    particles.Play();
+                    spawnEffect(perfectEffect, new Color(1f,1f, 0.2f));
                     break;
             }
             hitStreak++;
@@ -76,7 +77,7 @@ namespace GroupP
         {
             if(lastMissedEffect == null)
             {
-                lastMissedEffect = spawnEffect(missedEffect);
+                lastMissedEffect = spawnEffect(missedEffect, new Color(1f,1f,1f));
             }
             multiplier = 1;
             hitStreak = 0;
@@ -100,12 +101,15 @@ namespace GroupP
 
         }
 
-        public GameObject spawnEffect(GameObject effectPrefab) {
+        public GameObject spawnEffect(GameObject effectPrefab, Color color) {
             GameObject effect = Instantiate(effectPrefab);
             
             effect.transform.SetParent(GameObject.Find("CanvasP").transform, false);
-            effect.transform.localPosition = effectPosition;
+            effect.transform.localPosition = scoreText.transform.localPosition;
             effect.transform.localScale = effectPrefab.transform.localScale;
+
+            effect.GetComponent<SpriteRenderer>().color = color;
+
             effect.SetActive(true);
 
             return effect;

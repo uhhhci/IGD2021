@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   notePrefab: {fileID: 1518025212880471728, guid: 1c7bac77b7cb3ef4bab941a39d16bfea,
     type: 3}
+  specialPrefab: {fileID: 0}
   beatsPerMinute: 120
 --- !u!114 &4422379269184843713
 MonoBehaviour:
@@ -62,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notePrefab: {fileID: 0}
+  specialPrefab: {fileID: 0}
   beatsPerMinute: 0
 --- !u!1001 &1089574885689411143
 PrefabInstance:
@@ -249,16 +251,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 4227368479243514684, guid: 1c7bac77b7cb3ef4bab941a39d16bfea,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4227368479243514684, guid: 1c7bac77b7cb3ef4bab941a39d16bfea,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7719583615171973746, guid: 1c7bac77b7cb3ef4bab941a39d16bfea,
         type: 3}

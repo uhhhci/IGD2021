@@ -66,8 +66,8 @@ namespace GroupP
 
         public void SpecialKey()
         {
-            Invoke("ResetLayerWeight", 1f);
-            animator.SetLayerWeight(4, 1f);
+            //Invoke("ResetLayerWeight", 1f);
+            //animator.SetLayerWeight(4, 1f);
             SpecialFaceAnimation();
 
         }
