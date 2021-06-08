@@ -75,6 +75,7 @@ public class OurMinifigController : MonoBehaviour
     public int place = 1;
     public bool gameOver = false;
     public bool isHitting = false;
+    public string itemType = "";
     /// <summary>
     /// 3D Vector representing the force knocking the player back from getting hit
     /// </summary>
@@ -891,8 +892,10 @@ public class OurMinifigController : MonoBehaviour
         }
         if (!hasItem)
             animator.SetTrigger(punchHash);
-        else
+        else if (itemType == "batarang")
             animator.SetTrigger(throwHash);
+        else if (itemType == "sword")
+            animator.SetTrigger(swordHash);
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
         {

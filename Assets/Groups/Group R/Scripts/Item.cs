@@ -5,6 +5,7 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
 
+    public string type;
     public bool isPickedUp = false;
 
     private GameObject player;
@@ -30,6 +31,7 @@ public class Item : MonoBehaviour
         if(!isPickedUp && gameObj.tag=="Player" && !gameObj.GetComponent<OurMinifigController>().hasItem){
             isPickedUp = true;
             gameObj.GetComponent<OurMinifigController>().hasItem = true;
+            gameObj.GetComponent<OurMinifigController>().itemType = type;
             player = gameObj;
             var tree = new List<int>(){0,1,0,1,0,0,0,0,0,0,2,0,0,1,0,0,2};
             Transform child = gameObj.transform;
