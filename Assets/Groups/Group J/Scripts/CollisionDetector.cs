@@ -19,7 +19,7 @@ public class CollisionDetector : MonoBehaviour
 
     void Awake()
     {
-        gameplayManager = GameObject.FindObjectOfType<GameManagerJ>();
+       gameplayManager = GameObject.FindObjectOfType<GameManagerJ>();
     }
     public void Start()
     {
@@ -42,7 +42,19 @@ public class CollisionDetector : MonoBehaviour
     {
         if (other.gameObject.tag == ("Lava"))
         {
+            Debug.Log("Player Died");
             dead = true;
+            if (isTeam1) 
+                gameplayManager.team1LavaDeath++;
+            else
+                gameplayManager.team2LavaDeath++;
+
+            if (gameplayManager.team1LavaDeath == 2)
+                gameplayManager.gameFinished = true;
+            
+            if (gameplayManager.team2LavaDeath == 2)   
+                gameplayManager.gameFinished = true;
+
             this.gameObject.SetActive(false);
         }
     }
