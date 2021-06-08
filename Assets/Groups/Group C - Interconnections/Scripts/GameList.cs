@@ -5,14 +5,17 @@ public static class GameList
 {
     public static List<string> GAMES = new List<string> {"Free for All","One vs Three","Two vs Two"};
 
-    /** 
-    EXAMPLE: 
+    public static string MAIN_BOARD_GAME = "Boardgame";
+
+    
+    //EXAMPLE:
+    /*
     public static List<MiniGame> FREE_FOR_ALL_LIST = new List<MiniGame>{
         new TestingGame(),
         new TestingGame(),
         new TestingGame()
-    };
-    **/
+    }; */
+    
 
     public static List<MiniGame> FREE_FOR_ALL_LIST = new List<MiniGame>{
     };

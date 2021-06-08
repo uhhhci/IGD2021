@@ -16,6 +16,9 @@ abstract public class MiniGame : MonoBehaviour
 
     public abstract MiniGameType getMiniGameType();
 
+    //Prefab that shows Game Over and the scores form the players at the end
+    public GameObject _finishGamePrefab;
+
     public void initializePlayers() {
         //Set up keys from the InputManager to every player
         //TODO
@@ -32,11 +35,14 @@ abstract public class MiniGame : MonoBehaviour
     }
 
     public IEnumerator MiniGameFinishedTransition(int[] firstPlace, int[] secondPlace, int[] thirdPlace, int[] fourthPlace){
+
+        var finishGameBanner = Instantiate(_finishGamePrefab);
+
         GameObject gameoverbanner = GameObject.Find("GameOverBanner");
         GameObject gamescores = GameObject.Find("GameScores");
 
         gamescores.SetActive(false);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         gameoverbanner.SetActive(false);
         gamescores.SetActive(true);
         
@@ -110,7 +116,7 @@ abstract public class MiniGame : MonoBehaviour
                 name4.text = PlayerPrefs.GetString("PLAYER"+secondPlace[1].ToString()+"_NAME");
             } else{
                 second_place.text = "1st";
-                third_place.text = "1sdt";
+                third_place.text = "1st";
                 fourth_place.text = "2nd";
 
                 name1.text = PlayerPrefs.GetString("PLAYER"+firstPlace[0].ToString()+"_NAME");
@@ -132,6 +138,8 @@ abstract public class MiniGame : MonoBehaviour
         PlayerPrefs.SetInt("PLAYER2_PLACE", ranking_player2);
         PlayerPrefs.SetInt("PLAYER3_PLACE", ranking_player3);
         PlayerPrefs.SetInt("PLAYER4_PLACE", ranking_player4);
+
+        yield return new WaitForSeconds(5f);
 
         //Back to the MainBoard Game
         LoadingManager.Instance.LoadMainBoardGame();

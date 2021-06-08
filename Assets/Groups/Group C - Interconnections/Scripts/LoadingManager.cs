@@ -16,11 +16,13 @@ public class LoadingManager : MonoBehaviour
 
     private string nextScene;
 
+    public GameObject _randomPicker;
+
     //this method is just for testing, it must be removed at the end.
-    /**void Start()
+    void Start()
     {   
-        LoadMiniGame(MiniGameType.singleVsTeam);
-    }**/
+        
+    }
 
     private void Awake () {
         if(!Instance) {
@@ -92,7 +94,7 @@ public class LoadingManager : MonoBehaviour
 
 
         //Load main board if we are not in it
-        //SceneManager.LoadSceneAsync(GameList.MAIN_BOARD_SCENE);
+        SceneManager.LoadSceneAsync(GameList.MAIN_BOARD_GAME);
     }
 
     //Loading Screen in between the board and minigame
@@ -106,6 +108,9 @@ public class LoadingManager : MonoBehaviour
 
     //Display UI that shows roulette to select from a random game
     private void showPicker(int gameType, List<MiniGame> games, int selectedGame) {
+        var randomPicker = Instantiate(_randomPicker);
+        //randomPicker.SetActive(true);
+
         freeForAll = GameObject.Find("FreeForAll").GetComponent<Text>();
         singleVsTeam = GameObject.Find("SingleVsTeam").GetComponent<Text>();
         teamVsTeam = GameObject.Find("TeamVsTeam").GetComponent<Text>();
