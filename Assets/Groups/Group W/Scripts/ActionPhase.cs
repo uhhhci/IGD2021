@@ -264,6 +264,29 @@ public class ActionPhase : MonoBehaviour
         return newWeapon;
     }
 
+    // load a effect-gameobject with the correct prefab
+    GameObject LoadNewEffect(Vector3 scale, Color color, PlayerProperties targetPlayer)
+    {
+        GameObject newEffect;
+        GameObject prefabEffective = Resources.Load<GameObject>("Effects/Epic Toon FX/Prefabs/Combat/Text/KaPow.prefab") as GameObject;
+        GameObject prefabIneffective = Resources.Load<GameObject>("Effects/Epic Toon FX/Prefabs/Combat/Text/Crack.prefab") as GameObject;
+        GameObject prefabNormal = Resources.Load<GameObject>("Effects/Epic Toon FX/Prefabs/Combat/Text/Pow.prefab") as GameObject;
+
+        if (effective == true){
+            newEffect = Instantiate(prefabEffective, targetPlayer.transform.position + Vector3.up, player.transform.rotation);
+        }
+        else if (ineffective == true){
+            newEffect = Instantiate(prefabIneffective, targetPlayer.transform.position + Vector3.up, player.transform.rotation);
+        } 
+        else {
+            newEffect = Instantiate(prefabNormal, targetPlayer.transform.position + Vector3.up, player.transform.rotation);
+        }
+
+        newEffect.transform.localScale = scale;
+        newEffect.GetComponent<Renderer>().material.color = color;
+        return newEffect;
+    }
+
     // throws the equipped weapon from activePlayer to targetPlayer
     IEnumerator ThrowWeapon(PlayerProperties targetPlayer, Action onComplete)
     {
