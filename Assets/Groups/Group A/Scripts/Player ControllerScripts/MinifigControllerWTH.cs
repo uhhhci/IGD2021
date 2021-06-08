@@ -975,7 +975,7 @@ public class MinifigControllerWTH : MonoBehaviour
         if (equipment != null)
         {
             Destroy(equipment);
-            equipment = null;
+           // equipment = null;
         }
     }
 

@@ -5,12 +5,14 @@ using UnityEngine;
 public class BatBehavior : MonoBehaviour
 {
     public float batPower, homerunHeight;
+    public float secsToDespawn = 15f;
     //public GameObject position;
     // Start is called before the first frame update
     void Start()
     {
         batPower = 100f;
         homerunHeight = 15f;
+        Invoke("Despawn", secsToDespawn);
         //position = new GameObject();
     }
 
@@ -38,4 +40,10 @@ public class BatBehavior : MonoBehaviour
             }
         }
     }
+
+    private void Despawn()
+    {
+        Destroy(this.gameObject);
+    }
 }
+
