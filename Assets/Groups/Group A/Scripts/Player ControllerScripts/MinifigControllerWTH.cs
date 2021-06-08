@@ -115,7 +115,7 @@ public class MinifigControllerWTH : MonoBehaviour
         HatSwap = 8,
         HatSwap2 = 9,
         Idle_Light = 10,
-        // Unused 11
+        Punch = 11,
         IdleHeavy = 12,
         IdleImpatient = 13,
         Jump = 14,
@@ -197,7 +197,7 @@ public class MinifigControllerWTH : MonoBehaviour
     int playSpecialHash = Animator.StringToHash("Play Special");
     int cancelSpecialHash = Animator.StringToHash("Cancel Special");
     int specialIdHash = Animator.StringToHash("Special Id");
-    int spinHash = Animator.StringToHash("Spin");
+    int punchHash = Animator.StringToHash("Punch");
 
     public int playerPoints = 0;
     Action<bool> onSpecialComplete;
@@ -217,6 +217,7 @@ public class MinifigControllerWTH : MonoBehaviour
 
         // Initialise animation.
         animator.SetBool(groundedHash, true);
+        //animator.SetBool(spinHash, true);
 
         // Make sure the Character Controller is grounded if starting on the ground.
         controller.Move(Vector3.down * 0.01f);
@@ -1033,7 +1034,7 @@ public class MinifigControllerWTH : MonoBehaviour
         }**/
         SpawnPowerUps.instance.SpawnPlayerEquipment("BaseballBat", this);
         //animator.SetFloat(speedHash, 5f);
-        PlaySpecialAnimation(SpecialAnimation.RightHandReactive);
+        animator.SetTrigger(punchHash);
         //animator.SetFloat(speedHash, 0f);
     }
 
