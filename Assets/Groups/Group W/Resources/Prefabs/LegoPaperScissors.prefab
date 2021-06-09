@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2733201653543628927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3166236963388395597}
+  - component: {fileID: 2747883756274410813}
+  - component: {fileID: 9066117413682413190}
+  - component: {fileID: 6725647322078359391}
+  m_Layer: 0
+  m_Name: LegoPaperScissors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3166236963388395597
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2733201653543628927}
+  m_LocalRotation: {x: -0, y: -0.7071057, z: 0, w: 0.7071079}
+  m_LocalPosition: {x: 0.17747094, y: 1.8974164, z: 0.26369396}
+  m_LocalScale: {x: 3.030303, y: 3.030303, z: 3.030303}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2747883756274410813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2733201653543628927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c4c176b0870af14a94f7416885dddea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 0
+  currentHp: 0
+  weapon: 0
+  rowPosition: 0
+  targetRow: 0
+  team: 0
+  isActive: 0
+  leftHandPosition: {x: 0, y: 0, z: 0}
+  startPosition: {x: 0, y: 0, z: 0}
+  healthStatus: {fileID: 0}
+--- !u!114 &9066117413682413190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2733201653543628927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6b690ef4a50c894f8005c93d927a5ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  phase: 0
+  weaponTypesJsonFile: {fileID: 4900000, guid: b66a08582476d4044ba0d714395ad258, type: 3}
+  weaponTypes:
+    weaponTypes: []
+  leftHandWeapon: {fileID: 0}
+  leftHandPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &6725647322078359391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2733201653543628927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a09b96a395183a847aea952a40ae5622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  phase: 0
+  selectedWeapon: 0
+  selectedTargetRow: 0
+  leftHandPosition: {x: 0, y: 0, z: 0}
+  leftHandWeapon: {fileID: 0}
