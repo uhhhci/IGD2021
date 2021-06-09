@@ -17,6 +17,8 @@ public class Tile : MonoBehaviour
     public Tile right;
     public Tile up;
     public Tile down;
+    bool trapPresent;
+    int trapOwner;
 
     private bool goldenBrickPresent;
     public bool itemShopPresent;
@@ -35,5 +37,20 @@ public class Tile : MonoBehaviour
 
     public void setHasGoldenBrick(bool newValue) {
         goldenBrickPresent = newValue;
+    }
+
+    public bool hasTrap(){
+        return trapPresent;
+    }
+
+    public void setTrap(bool newValue, int player=-1)
+    {
+        trapPresent = newValue;
+        trapOwner = player;
+    }
+
+    public int getTrapOwner()
+    {
+        return trapOwner;
     }
 }

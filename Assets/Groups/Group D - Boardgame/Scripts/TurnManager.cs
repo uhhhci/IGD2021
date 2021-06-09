@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System;
 
 public class TurnManager : MonoBehaviour
 {
@@ -84,17 +85,29 @@ public class TurnManager : MonoBehaviour
         }
         else if (currentState == TurnState.EXECUTING_ACTION && (currentActionFSM == null || currentActionFSM.update()) && playerBelongings[activePlayer].animationsAreDone()) {
             currentActionFSM = null;
-            
-            if (!updateTruePartyState()) {    
-                if (actionPoints <= 0) {
+            if (!updateTruePartyState())
+            {
+                if (playerData[activePlayer].currentTile().hasTrap()&&!(playerData[activePlayer].currentTile().getTrapOwner().Equals(activePlayer)))
+                {
+                    int creditsToRemove = Math.Min(5,playerBelongings[activePlayer].creditAmount());
+                    playerBelongings[activePlayer].addCreditAmount(-creditsToRemove);
+                    actionPoints = Math.Max(actionPoints-3,0);
+                    playerData[activePlayer].currentTile().setTrap(false);
+                    currentState = TurnState.EXECUTING_ACTION;
+                    currentActionFSM = new RemoveTrap(activePlayer);
+                }
+                else if (actionPoints <= 0) 
+                {
                     // turn is over!
                     applyTileEffect();
                 }
-                else {
+                else
+                {
                     // await next input/action
                     currentState = TurnState.ACCEPTING_INPUT;
                 }
             }
+            
         }
         else if (currentState == TurnState.APPLYING_TILE_EFFECT && currentActionFSM.update()) {
             if (!updateTruePartyState()) {    
@@ -154,6 +167,8 @@ public class TurnManager : MonoBehaviour
                 return truePartyPerson == activePlayer;
             case PlayerAction.Type.SHOP:
                 return playerData[activePlayer].currentTile().hasItemShop();
+            case PlayerAction.Type.SET_TRAP:
+                return (playerBelongings[activePlayer].hasItem(ItemD.Type.TRAP))&&(!(playerData[activePlayer].currentTile().type.Equals(Tile.TileType.START)));
         }
         return false;
     }
@@ -301,7 +316,7 @@ public class TurnManager : MonoBehaviour
         }
         // add a random amount of credits
         playerBelongings.ForEach((belongings) => {
-            belongings.addCreditAmount((int) Random.Range(0f, 3.99f));
+            belongings.addCreditAmount((int) UnityEngine.Random.Range(0f, 3.99f));
         });
 
         // TODO: does not work yet
@@ -322,7 +337,6 @@ public class TurnManager : MonoBehaviour
                 break;
             case PlayerAction.Type.BUY_GOLDEN_BRICK:
                 playerBelongings[activePlayer].addGoldenBrick();
-                //TODO: add sound effect here
                 players[activePlayer].PlayPickupSound();
                 brickManager.relocate();
                 currentActionFSM = null;
@@ -330,10 +344,14 @@ public class TurnManager : MonoBehaviour
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
                 // item is "used" -> remove it from the inventory
                 playerBelongings[activePlayer].removeItem(ItemD.Type.CREDIT_THIEF);
-
                 currentState = TurnState.EXECUTING_ACTION;
                 currentActionFSM = new ItemCreditThief(camera, activePlayer, playerBelongings);
-                
+                break;
+            case PlayerAction.Type.SET_TRAP:
+                playerData[activePlayer].currentTile().setTrap(true,activePlayer);
+                currentState = TurnState.EXECUTING_ACTION;
+                currentActionFSM = new SetTrap(activePlayer);
+                playerBelongings[activePlayer].removeItem(ItemD.Type.TRAP);
                 break;
             case PlayerAction.Type.BUY_AP:
                 currentState = TurnState.EXECUTING_ACTION;

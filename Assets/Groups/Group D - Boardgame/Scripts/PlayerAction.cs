@@ -10,6 +10,7 @@ public class PlayerAction : MonoBehaviour
         ITEM_CREDIT_THIEF,
         BUY_AP,
         SHOP,
+        SET_TRAP,
         // TODO: add more actions here
     }
 
