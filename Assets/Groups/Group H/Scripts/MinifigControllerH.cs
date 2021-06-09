@@ -230,6 +230,15 @@ public class MinifigControllerH : MonoBehaviour
             return;
         }
 
+        // possible fix for clipping and falling through the floor
+        if ( gameObject.transform.position.y < 0)
+        {
+            float x = gameObject.transform.position.x;
+            float y = 0.01f;
+            float z = gameObject.transform.position.z;
+            TeleportTo(new Vector3(x, y, z));
+        }
+
         // Handle input.
         if (inputEnabled)
         {
