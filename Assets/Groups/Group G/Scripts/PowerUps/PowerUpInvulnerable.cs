@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpInvulnerable : PowerUp
+public class PowerUpInvulnerable : PowerUp_G
 {
     public float Duration = 5f;
     public GameObject InvulnParticles;

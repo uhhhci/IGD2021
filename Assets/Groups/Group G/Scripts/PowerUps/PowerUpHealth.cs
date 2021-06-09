@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpHealth : PowerUp
+public class PowerUpHealth : PowerUp_G
 {
     public int HealAmount = 25;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpWeapon : PowerUp
+public class PowerUpWeapon : PowerUp_G
 {
     protected override void PowerUpPayload()
     {
