@@ -10,9 +10,12 @@ public class RBCharacterController : MonoBehaviour
     [SerializeField] private float _moveForce = 10.0f;
     [SerializeField] private float _jumpForce = 10.0f;
     [SerializeField] private float _hitForce = 20.0f;
+    [SerializeField] private int _mashLimit = 10;
     [SerializeField] private float GRAVITY = 1.0f;
-    [SerializeField] float _kickRange = 0.5f;
-    [SerializeField] float _distToGround = 0.01f;
+    [SerializeField] private float _kickRange = 0.5f;
+    [SerializeField] private float _distToGround = 0.01f;
+    [SerializeField] private float _stepHeight = 0.3f;
+    [SerializeField] private float _smoothStep = 0.15f;
 
     [Range(0, 500)] public float maxRotateSpeed = 150f;
     public GameObject Minifig;
@@ -29,11 +32,15 @@ public class RBCharacterController : MonoBehaviour
     private Animator animator;
     private AudioSource audioSource;
     private Collider m_Collider;
+    private BoxCollider _colly;
     private RaycastHit m_Hit;
     private Vector2 _moveDirection;
 
     bool isJumping;
     bool isGrounded;
+    bool isStunned;
+    bool climbed;
+    int mashCounter;
     bool wasGrounded;
     float airborneTime;
     float speed;
@@ -119,6 +126,7 @@ public class RBCharacterController : MonoBehaviour
         animator = Minifig.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         m_Collider = GetComponent<Collider>();
+        _colly = transform.GetComponent<BoxCollider>();
     }
 
     private void Start()
@@ -129,6 +137,14 @@ public class RBCharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(isStunned && mashCounter <= 0)
+        {
+            Debug.Log("Unstun");
+            isStunned = false;
+            inputEnabled = true;
+            stopSpecial = true;
+        }
+
         if(inputEnabled)
         {
             if(isJumping)
@@ -220,13 +236,13 @@ public class RBCharacterController : MonoBehaviour
             _rb.velocity = new Vector3(_rb.velocity.x, 0, _rb.velocity.z);
         }
 
+        climbed = false;
         wasGrounded = isGrounded;
         speed = _rb.velocity.magnitude;
-        stopSpecial = false;
         transform.Rotate(0, (rotateSpeed + externalRotation) * Time.deltaTime, 0);
 
         // Stop special if requested.
-        cancelSpecial |= stopSpecial;
+        cancelSpecial = stopSpecial;
         stopSpecial = false;
 
         // Update animation - delay airborne animation slightly to avoid flailing arms when falling a short distance.
@@ -262,9 +278,94 @@ public class RBCharacterController : MonoBehaviour
         _rb.AddForce(direction * _hitForce, ForceMode.Impulse);
     }
 
+    public void GetStunned()
+    {
+        if(GroundCheck())
+        {
+            Debug.Log("Stunned");
+            isStunned = true;
+            inputEnabled = false;
+            mashCounter = _mashLimit;
+            PlaySpecialAnimation(SpecialAnimation.Crawl);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("K_Ground"))
+        {
+            Vector3 lowerCoord = new Vector3(_colly.bounds.center.x, _colly.bounds.min.y + 0.01f, _colly.bounds.center.z);
+            Vector3 higherCoord = new Vector3(_colly.bounds.center.x, _colly.bounds.min.y + _stepHeight, _colly.bounds.center.z);
+            ContactPoint[] cs = new ContactPoint[collision.contactCount];
+            collision.GetContacts(cs);
+            foreach (ContactPoint c in cs)
+            {
+                Vector3 norm = new Vector3(c.normal.x, 0, c.normal.z);
+                Helper_StepRaycast(lowerCoord, higherCoord, -norm, 0.1f);
+            }
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.CompareTag("K_Ground"))
+        {
+            Vector3 lowerCoord = new Vector3(_colly.bounds.center.x, _colly.bounds.min.y + 0.01f, _colly.bounds.center.z);
+            Vector3 higherCoord = new Vector3(_colly.bounds.center.x, _colly.bounds.min.y + _stepHeight, _colly.bounds.center.z);
+            ContactPoint[] cs = new ContactPoint[collision.contactCount];
+            collision.GetContacts(cs);
+            foreach (ContactPoint c in cs)
+            {
+                Vector3 norm = new Vector3(c.normal.x, 0, c.normal.z);
+                Helper_StepRaycast(lowerCoord, higherCoord, -norm, 0.1f);
+            }
+        }
+    }
+
+    private void Helper_StepRaycast(Vector3 lCoord, Vector3 hCoord, Vector3 dir, float dist)
+    {
+        if(!climbed)
+        {
+            RaycastHit lowerHit;
+            if (Physics.Raycast(lCoord, dir, out lowerHit, _colly.bounds.extents.x + dist))
+            {
+                RaycastHit upperHit;
+                if (!Physics.Raycast(hCoord, dir, out upperHit, _colly.bounds.extents.x + dist))
+                {
+                    _rb.position -= new Vector3(0f, -_smoothStep, 0f);
+                    climbed = true;
+                }
+            }
+        }
+        //Debug.DrawRay(hCoord, dir.normalized * (_colly.bounds.extents.x + dist), Color.red);
+        //Debug.DrawRay(lCoord, dir.normalized * (_colly.bounds.extents.x + dist), Color.blue);
+    }
+
     private bool GroundCheck()
     {
-        return Physics.Raycast(transform.position, -Vector3.up, _distToGround);
+        Vector3 size = _colly.size;
+        Vector3 center = new Vector3(_colly.center.x, _colly.center.y - size.y / 2.1f, _colly.center.z);
+
+        Vector3 vertex1 = new Vector3(center.x + size.x / 2, center.y, center.z + size.z / 2);
+        Vector3 vertex2 = new Vector3(center.x - size.x / 2, center.y, center.z - size.z / 2);
+        Vector3 vertex3 = new Vector3(center.x + size.x / 2, center.y, center.z - size.z / 2);
+        Vector3 vertex4 = new Vector3(center.x - size.x / 2, center.y, center.z + size.z / 2);
+        Vector3 vertex5 = new Vector3(center.x + size.x / 2, center.y, center.z);
+        Vector3 vertex6 = new Vector3(center.x - size.x / 2, center.y, center.z);
+        Vector3 vertex7 = new Vector3(center.x, center.y, center.z - size.z / 2);
+        Vector3 vertex8 = new Vector3(center.x, center.y, center.z + size.z / 2);
+
+        bool centerGround = Physics.Raycast(transform.TransformPoint(center), -transform.up, _distToGround);
+        bool c1Ground = Physics.Raycast(transform.TransformPoint(vertex1), -transform.up, _distToGround);
+        bool c2Ground = Physics.Raycast(transform.TransformPoint(vertex2), -transform.up, _distToGround);
+        bool c3Ground = Physics.Raycast(transform.TransformPoint(vertex3), -transform.up, _distToGround);
+        bool c4Ground = Physics.Raycast(transform.TransformPoint(vertex4), -transform.up, _distToGround);
+        bool c5Ground = Physics.Raycast(transform.TransformPoint(vertex5), -transform.up, _distToGround);
+        bool c6Ground = Physics.Raycast(transform.TransformPoint(vertex6), -transform.up, _distToGround);
+        bool c7Ground = Physics.Raycast(transform.TransformPoint(vertex7), -transform.up, _distToGround);
+        bool c8Ground = Physics.Raycast(transform.TransformPoint(vertex8), -transform.up, _distToGround);
+
+        return (centerGround || c1Ground || c2Ground || c3Ground || c4Ground || c5Ground || c6Ground || c7Ground || c8Ground);
     }
 
     #region Input Handling
@@ -290,7 +391,10 @@ public class RBCharacterController : MonoBehaviour
 
     private void OnNorthPress()
     {
-
+        if (isStunned)
+        {
+            mashCounter--;
+        }
     }
 
     private void OnNorthRelease()
@@ -300,7 +404,7 @@ public class RBCharacterController : MonoBehaviour
 
     private void OnEastPress()
     {
-        if(isGrounded)
+        if(isGrounded && !isStunned)
         {
             PlaySpecialAnimation(SpecialAnimation.KickRightFoot, explodeAudioClip);
 
@@ -315,13 +419,15 @@ public class RBCharacterController : MonoBehaviour
 
     private void OnSouthPress()
     {
-        // Check if player is jumping.
-        if (isGrounded)
+        if(!isStunned)
         {
-            isJumping = true;
-            PlaySpecialAnimation(SpecialAnimation.Flip_No_Y_Axis, jumpAudioClip);
+            // Check if player is jumping.
+            if (isGrounded)
+            {
+                isJumping = true;
+                PlaySpecialAnimation(SpecialAnimation.Flip_No_Y_Axis, jumpAudioClip);
+            }
         }
-
     }
 
     private void OnSouthRelease()

@@ -20,9 +20,47 @@ public class GameManager_E : MonoBehaviour
             Debug.Log("Finished");
         }
     }
+
+    public Transform GetPlayerByPosition(int position)
+    {
+        // Snapshot of car transform list
+        List<Transform> carList = new List<Transform>(carTransformList);
+
+        foreach (Transform car in carList)
+        {
+            PlayerStats thePlayer = car.GetComponent<PlayerStats>();
+
+            if(thePlayer.GetKartPosition(carList) == position)
+            {
+                return car;
+            }
+        }
+        
+        // Should not be reachable;
+        throw new System.Exception("Position Error: The position " + position + " does not exist.");
+    }
+
+    public int GetPositionByPlayer(Transform carTransform)
+    {
+        // Snapshot of car transform list
+        List<Transform> carList = new List<Transform>(carTransformList);
+
+        PlayerStats thePlayer = carTransform.GetComponent<PlayerStats>();
+        try
+        {
+            return thePlayer.GetKartPosition(carList);
+        }
+        catch (System.Exception)
+        {
+            throw new System.Exception("Position Error: Could not find position of player: " + carTransform.ToString());
+        }
+
+    }
+
     private void Start()
     {
         totalWinners = 0;
+
     }
 
     private void Update()
@@ -30,8 +68,9 @@ public class GameManager_E : MonoBehaviour
         foreach (Transform car in carTransformList)
         {
             PlayerStats thePlayer = car.GetComponent<PlayerStats>();
-            //Debug.Log(thePlayer.GetKartPosition(carTransformList));
             thePlayer.GetKartPosition(carTransformList);
+            
+            // some error
             //carPositionList[thePlayer.GetKartPosition(carTransformList)] = car;
         }
     }

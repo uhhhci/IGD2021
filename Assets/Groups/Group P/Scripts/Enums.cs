@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GroupP {
         public enum KeyType { 
-            UP, DOWN, LEFT, RIGHT, SPECIAL,kong 
+            UP, DOWN, LEFT, RIGHT, SPECIAL, kong, BAD
         }
 
         public enum HitQuality {

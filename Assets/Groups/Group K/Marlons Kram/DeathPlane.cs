@@ -11,4 +11,5 @@ public class DeathPlane : MonoBehaviour
             collision.collider.GetComponent<RBCharacterController>().Explode();
         }
     }
+
 }
