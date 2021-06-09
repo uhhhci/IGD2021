@@ -82,6 +82,8 @@ public class DecisionPhase : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // TODO if player.isAiPlayer, select random attackable target + weapon
+        // TODO .. also maybe prevent selecting non-attackable target for real players too
         phase = PhaseHandler.phase;
         isDecisionPhase = phase == PhaseHandler.Phase.Decision;
 

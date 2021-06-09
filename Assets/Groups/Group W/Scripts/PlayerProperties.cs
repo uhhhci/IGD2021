@@ -39,6 +39,13 @@ public class PlayerProperties : MonoBehaviour
     {
         maxHp = rowPosition == PhaseHandler.RowPosition.Front ? 100 : 50;
     }
+   
+    public bool IsAiPlayer()
+    {
+        string inputScheme = transform.parent.GetComponent<PlayerInput>().defaultControlScheme;
+        // TODO get ai/bot string from interconnections group
+        return inputScheme == "ai";
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +54,7 @@ public class PlayerProperties : MonoBehaviour
         SetMaxHp();
         startPosition = transform.position;
         decisionPhase = gameObject.GetComponent<DecisionPhase>();
+        IsAiPlayer();
     }
 
     // Update is called once per frame
