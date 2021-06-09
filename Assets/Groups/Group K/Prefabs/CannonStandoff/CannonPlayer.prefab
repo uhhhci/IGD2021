@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 1291235548712080688}
   - component: {fileID: 1451991450756849922}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ Transform:
   m_GameObject: {fileID: 3326057783424620099}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.70814, y: 0.72127, z: 0.71752}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children: []
   m_Father: {fileID: 2078571269945733443}
   m_RootOrder: 1
@@ -171,6 +171,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   marker: {fileID: 0}
+  camera: {fileID: 0}
+  bullet: {fileID: 0}
+  bulletSpeed: 15
 --- !u!114 &6499570434984413687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,13 +231,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8811573437595782022}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.357}
-  m_LocalScale: {x: 0.35954088, y: 0.25302956, z: 1.1389203}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.00000002019505, z: 0.357}
+  m_LocalScale: {x: 0.5, y: 0.35, z: 0.5}
   m_Children: []
   m_Father: {fileID: 2078571269945733443}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &655272462881501770
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -242,7 +245,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8811573437595782022}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &7828314218027127645
 MeshRenderer:
   m_ObjectHideFlags: 0

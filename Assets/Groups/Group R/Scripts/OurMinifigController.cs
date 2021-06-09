@@ -71,10 +71,15 @@ public class OurMinifigController : MonoBehaviour
 
     //Our Custom Variables
     public bool died = false;
+    public bool noticedDeath = false;
+    public int place = 1;
+    public bool gameOver = false;
+    public bool isHitting = false;
+    public string itemType = "";
     /// <summary>
     /// 3D Vector representing the force knocking the player back from getting hit
     /// </summary>
-    private Vector3 _knockback = Vector3.zero;
+    public Vector3 _knockback = Vector3.zero;
 
     /// <summary>
     /// How much damage the player has already taken from opponents
@@ -94,6 +99,11 @@ public class OurMinifigController : MonoBehaviour
     /// Position of second platform where players will be teleported when dead
     /// </summary>
     public Vector3 endZone = new Vector3(-24,7,0);
+
+    /// <summary>
+    /// Whether this player has picked up an item in his hand
+    /// </summary>
+    public bool hasItem = false;
 
 
     [Header("Audio")]
@@ -202,6 +212,9 @@ public class OurMinifigController : MonoBehaviour
     int playSpecialHash = Animator.StringToHash("Play Special");
     int cancelSpecialHash = Animator.StringToHash("Cancel Special");
     int specialIdHash = Animator.StringToHash("Special Id");
+    int punchHash = Animator.StringToHash("Punch");
+    int swordHash = Animator.StringToHash("Sword");
+    int throwHash = Animator.StringToHash("Throw");
 
     Action<bool> onSpecialComplete;
 
@@ -499,7 +512,7 @@ public class OurMinifigController : MonoBehaviour
         // Apply _knockback to transform
         Vector3 position = transform.position + _knockback;
         // Keep X-position of minifig at 0.
-        if(!died){
+        if(!died || gameOver){
             position.x = 0;
         }else{
             position.x = endZone.x;
@@ -873,7 +886,16 @@ public class OurMinifigController : MonoBehaviour
 
     private void OnSouthPress()
     {
-        PlaySpecialAnimation(SpecialAnimation.KickRightFoot);
+        if (!inputEnabled)
+        {
+            return;
+        }
+        if (!hasItem)
+            animator.SetTrigger(punchHash);
+        else if (itemType == "batarang")
+            animator.SetTrigger(throwHash);
+        else if (itemType == "sword")
+            animator.SetTrigger(swordHash);
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
         {
@@ -910,6 +932,13 @@ public class OurMinifigController : MonoBehaviour
     }
 
     #endregion
+
+
+void OnCollisionEnter(Collision collision)
+    {
+        GameObject gameObj = collision.gameObject;
+        if(gameObj.tag=="Player" ){
+            print("collided other player");
+        }
+    }
 }
-
-

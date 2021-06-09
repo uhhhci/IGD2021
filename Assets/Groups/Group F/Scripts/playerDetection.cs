@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class playerDetection : MonoBehaviour
-{
+public class playerDetection : MonoBehaviour {
     enum PlatformState { Virgin, Dying, Dead }
 
     public Rigidbody rb;
@@ -11,37 +8,53 @@ public class playerDetection : MonoBehaviour
     public MeshRenderer mr;
     public float decaySpeed = 0.2f;
 
+    public AudioSource dyingSound;
+    public AudioSource deathSound;
+
     private float decay = 0.0f; // [0.0, 1.0]
 
     private PlatformState state = PlatformState.Virgin;
-
-
-    void OnCollisionStay(Collision col)
-    {
+    
+    void OnCollisionStay(Collision col) {
         if (!col.collider.CompareTag("Player")) return;
+        if (state == PlatformState.Dead) return;
 
-        var myDelta = Time.deltaTime * decaySpeed;
-        decay += myDelta;
-        Debug.Log(decay);
+        if (state != PlatformState.Dying) {
+            state = PlatformState.Dying;
+            dyingSound.Play(0);
+        }
+    }
 
-        var fallingDistance = myDelta * 2.0f * (float)Mathf.Pow(decay, 3.0f);
-        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - fallingDistance, this.transform.position.z);
+    private void Update() {
+        if (rb.IsSleeping())
+            rb.WakeUp();
+
+        if (state == PlatformState.Dying) {
+
+            var myDelta = Time.deltaTime * decaySpeed;
+            decay += myDelta;
+            Debug.Log(decay);
+
+            var fallingDistance = myDelta * 2.0f * (float)Mathf.Pow(decay, 3.0f);
+            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - fallingDistance, this.transform.position.z);
+
+        }
 
         CalculateNewState();
         SetStateDependentColor();
         SetStateDependentPhysics();
-
     }
 
-    void CalculateNewState()
-    {
-        state = (decay >= 1.0) ? PlatformState.Dead : PlatformState.Dying;
+    void CalculateNewState() {
+        if (state == PlatformState.Dying && decay >= 1.0) {
+            state = PlatformState.Dead;
+            dyingSound.Stop();
+            deathSound.Play(0);
+        }
     }
 
-    void SetStateDependentColor()
-    {
-        switch (state)
-        {
+    void SetStateDependentColor() {
+        switch (state) {
             case PlatformState.Virgin:
                 this.GetComponent<MeshRenderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 1.0f);
                 break;
@@ -51,15 +64,13 @@ public class playerDetection : MonoBehaviour
                 this.GetComponent<MeshRenderer>().material.color = newColor;
                 break;
             case PlatformState.Dead:
-                // make platform unvisible
-                Debug.Log("DEAD");
+                // make platform invisible
                 this.GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
                 break;
         }
     }
 
-    void SetStateDependentPhysics()
-    {
+    void SetStateDependentPhysics() {
         var isAlive = state != PlatformState.Dead;
         bc.enabled = isAlive;
         mr.enabled = isAlive;
