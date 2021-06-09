@@ -14,7 +14,7 @@ public class playercollision : MonoBehaviour
         if (obj.tag == "ItemCollect")
         {
             PickUp(obj);
-            this.GetComponent<Rigidbody>().AddForce(Vector3.up * hoverForce, ForceMode.Acceleration);
+            GetComponent<Rigidbody>().AddForce(Vector3.up * hoverForce, ForceMode.Acceleration);
          }
 
         if (obj.tag == "SomethingElse")
