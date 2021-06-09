@@ -9,21 +9,25 @@ public static class GameList
     public const string MAIN_BOARD_SCENE = "BoardScene";
 
     public static List<MiniGame> FREE_FOR_ALL_LIST = new List<MiniGame>{
-        new TestingGame(),
-        new TestingGame(),
-        new TestingGame()
+        new GriddyGame(),
+        new MiniGame_Meteorfall(),
+        new SmashGameR(),
+        new RhythmGame(),        
+        new KartRacingGame(),
+        new TrafficTrouble(),
+        new PlattiGame(),
+        new Groups.Group_S.PartKartMiniGame(),
     };
 
     public static List<MiniGame> SINGLE_VS_TEAM_LIST = new List<MiniGame>{
-        new TestingGame(),
-        new TestingGame(),
-        new TestingGame()
+        new WhatTheHillGame(),
+        new GameController_G(),
     };
 
     public static List<MiniGame> TEAM_VS_TEAM_LIST = new List<MiniGame>{
-        new TestingGame(),
-        new TestingGame(),
-        new TestingGame()
+        new CrossTheCanyons(),
+        new LegoPaperScissorsMinigame(),
+        new GameManagerJ()
     };
 
 }
