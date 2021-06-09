@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public interface IPowerUpEvents : IEventSystemHandler
 {
-    void OnPowerUpCollected(PowerUp powerUp, Player_G player);
+    void OnPowerUpCollected(PowerUp_G powerUp, Player_G player);
 
-    void OnPowerUpExpired(PowerUp powerUp, Player_G player);
+    void OnPowerUpExpired(PowerUp_G powerUp, Player_G player);
 }

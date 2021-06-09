@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PowerUp : MonoBehaviour
+public class PowerUp_G : MonoBehaviour
 {
     public string Name;
     public bool ExpiresImmediately;
