@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class KickPlayer : MonoBehaviour
 {
+    public float kickForce = 0.5f;
     public float kickDistance = 1f;
     public float knockbackSpeed = 0.01f;
     public float knockbackDuration = 0.1f;
@@ -16,7 +17,8 @@ public class KickPlayer : MonoBehaviour
         if (hitDetected && hit.transform.gameObject.tag == "Player")
         {
             Vector3 direction = hit.transform.gameObject.transform.position - transform.position;
-            hit.collider.GetComponent<KickPlayer>().GetKicked(direction);
+            direction.Normalize();
+            hit.collider.GetComponent<KickPlayer>().GetKicked(direction * kickForce);
         }
     }
 
