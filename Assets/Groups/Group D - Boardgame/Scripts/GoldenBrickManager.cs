@@ -26,6 +26,7 @@ public class GoldenBrickManager : MonoBehaviour
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
         
         GameObject selected = tiles[Random.Range(0, tiles.Length)];
+        //GameObject selected = tiles[Random.Range(0, 4)];// closer to spawn for testing
         location = selected.GetComponent(typeof(Tile)) as Tile;
 
         Vector3 newPos = selected.transform.position;

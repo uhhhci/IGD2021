@@ -13,13 +13,16 @@ public class DieScript : MonoBehaviour
     float dirY;
     float dirZ;
 	public static int rollResult = -1;
-	private static bool done = false;
+	private static bool done = true;
+    public AudioClip dieRollAudioClip;
+    AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
 		rb = GetComponent<Rigidbody> ();
 		initialPosition = transform.position;
+		audioSource = GetComponent<AudioSource>();
     }
 
 	public static void rollDie() {
@@ -54,14 +57,15 @@ public class DieScript : MonoBehaviour
 				rb.AddForce (0,900,0);
 			}
 			
-			if(counter > 20 && counter < 100 )
+			if(counter > 20 && counter < 85 )
 			{
 				rb.AddTorque (dirX, dirY, dirZ);
-				rb.AddForce (Random.Range (-10, 10),0,Random.Range (-10, 10));
+				rb.AddForce (Random.Range (-10, 11),0,Random.Range (-10, 11));
 			}
-			if (counter == 100)
+			if (counter == 85)
 			{
 				DieSideChecker.done = false;
+				playDiceRollAudio();
 			}
 			if (counter > 120 && DieSideChecker.done && !done)
 			{
@@ -71,5 +75,10 @@ public class DieScript : MonoBehaviour
 
 			counter++;
 		}
+    }
+
+	public void playDiceRollAudio()
+    {
+        audioSource.PlayOneShot(dieRollAudioClip);
     }
 }

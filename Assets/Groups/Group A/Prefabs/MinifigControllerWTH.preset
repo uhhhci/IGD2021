@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MinifigControllerWTH
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 9020f48fa2cac4345af2a4c0c8a7149d,
+      type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: Minifig
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: RespawnPointsSource
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: maxForwardSpeed
+    value: 5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: maxBackwardSpeed
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: acceleration
+    value: 20
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: maxRotateSpeed
+    value: 150
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: rotateAcceleration
+    value: 600
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jumpSpeed
+    value: 6.6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gravity
+    value: 20
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: pushSpeed
+    value: 20
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: stepAudioClips.Array.size
+    value: 4
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: stepAudioClips.Array.data[0]
+    value: 
+    objectReference: {fileID: 8300000, guid: 39948ec2175e749819ecd850a1d0e5af, type: 3}
+  - target: {fileID: 0}
+    propertyPath: stepAudioClips.Array.data[1]
+    value: 
+    objectReference: {fileID: 8300000, guid: 97adc7a6316eb42039437d84c81b25c9, type: 3}
+  - target: {fileID: 0}
+    propertyPath: stepAudioClips.Array.data[2]
+    value: 
+    objectReference: {fileID: 8300000, guid: 325a89399f940412abe873057ca26add, type: 3}
+  - target: {fileID: 0}
+    propertyPath: stepAudioClips.Array.data[3]
+    value: 
+    objectReference: {fileID: 8300000, guid: 2a988a8f5a6ac4c5a9084b2a952daa59, type: 3}
+  - target: {fileID: 0}
+    propertyPath: jumpAudioClip
+    value: 
+    objectReference: {fileID: 8300000, guid: 542490ca55814441981ef88f5d1f2dc6, type: 3}
+  - target: {fileID: 0}
+    propertyPath: doubleJumpAudioClip
+    value: 
+    objectReference: {fileID: 8300000, guid: 542490ca55814441981ef88f5d1f2dc6, type: 3}
+  - target: {fileID: 0}
+    propertyPath: landAudioClip
+    value: 
+    objectReference: {fileID: 8300000, guid: a12caccc734354aa09f7d2a412925ac2, type: 3}
+  - target: {fileID: 0}
+    propertyPath: explodeAudioClip
+    value: 
+    objectReference: {fileID: 8300000, guid: b9b607b06267c4394b07c19523c455f1, type: 3}
+  - target: {fileID: 0}
+    propertyPath: inputEnabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: maxJumpsInAir
+    value: 0
+    objectReference: {fileID: 0}
