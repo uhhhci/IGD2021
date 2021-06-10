@@ -15,9 +15,9 @@ public class BoardgameController : MonoBehaviour
     const float distanceEpsilon = 0.1f;
     const float angleEpsilon = 0.1f;
 
-    public PlayerData playerData;
     public Vector3 tileCenterOffset;
-    public InteractionMenu interactions;
+
+    private bool animationCompleted = true;
 
     // Internal classes used to define targets when automatically animating.
     class MoveTarget
@@ -94,10 +94,11 @@ public class BoardgameController : MonoBehaviour
     public AudioClip doubleJumpAudioClip;
     public AudioClip landAudioClip;
     public AudioClip explodeAudioClip;
+    public AudioClip receiveItemAudioClip;
 
     [Header("Controls")]
     [SerializeField]
-    bool inputEnabled = true;
+    bool inputEnabled = false;
     [SerializeField, Range(0, 10)]
     int maxJumpsInAir = 1;
 
@@ -572,6 +573,11 @@ public class BoardgameController : MonoBehaviour
         inputEnabledCached = enabled; // also overwrite the cached value
     }
 
+    public void PlayPickupSound()
+    {
+        audioSource.PlayOneShot(receiveItemAudioClip);
+    }
+
     public void PlaySpecialAnimation(SpecialAnimation animation, AudioClip specialAudioClip = null, Action<bool> onSpecialComplete = null)
     {
         animator.SetBool(playSpecialHash, true);
@@ -964,42 +970,10 @@ public class BoardgameController : MonoBehaviour
         airborneTime = coyoteDelay;
     }
 
-    private void OnMoveDpad(InputValue value)
-    {
-        // get the nomralized movement vector 
-        // (e.g. W + A are pressed -> something around (-0.7,0.7))
-        Vector2 input = value.Get<Vector2>();
-        input.Normalize();
-
-        Tile nextTile = null;
-
-        if (input.x > 0.9) {
-            nextTile = playerData.currentTile().right;
-        } else if (input.x < -0.9) {
-            nextTile = playerData.currentTile().left;
-        } else if (input.y > 0.9) {
-            nextTile = playerData.currentTile().up;
-        } else if (input.y < -0.9) {
-            nextTile = playerData.currentTile().down;
-        } // else: multiple keys are pressed -> do nothing
-
-        if (nextTile == null) {
-            // either invalid movement or no neighbor tile in that direction
-            return;
-        }
-
-        MoveToTile(nextTile);
-    }
-
-    public void MoveToTile(Tile nextTile) { // public so that it can be used by the AI
-        if (!inputEnabled || !acceptingCommands()) {
-            // last movement was not completed
-            return;
-        }
-
-        playerData.setIdle(false);
-        playerData.walk();
-        playerData.moveTo(nextTile);
+    /// moves this player to the given tile (should be a neighboring tile, or the animation will be weird)
+    /// must not be called when  animationDone() == false
+    public void MoveToTile(Tile nextTile) { 
+        animationCompleted = false;
 
         Vector3 nextPos = nextTile.getPosition() + tileCenterOffset;
 
@@ -1007,64 +981,15 @@ public class BoardgameController : MonoBehaviour
         TurnTo(nextPos, 0.0f, () => {
             jump();
             MoveTo(nextPos, 0.0f, () => {
-                playerData.setIdle(true);
+                animationCompleted = true;
             });
         });
     }
 
-    private bool acceptingCommands() {
-        return !airborne && playerData.isIdle();
-    }
-
-    private void OnMenu()
-    {
-        print("OnMenu");
-    }
-
-    private void OnNorthPress()
-    {
-        if (inputEnabled && acceptingCommands()) {
-            interactions.nextAction();
-        }
-    }
-
-    private void OnNorthRelease()
-    {
-        print("OnNorthRelease");
-    }
-
-    private void OnEastPress()
-    {
-        if (inputEnabled && acceptingCommands()) {
-            interactions.chooseAction();
-        }
-    }
-
-    private void OnEastRelease()
-    {
-        print("OnEastRelease");
-    }
-
-    private void OnSouthPress()
-    {
-        if (inputEnabled && acceptingCommands()) {
-            interactions.previousAction();
-        }
-    }
-
-    private void OnSouthRelease()
-    {
-        print("OnSouthRelease");
-    }
-
-    private void OnWestPress()
-    {
-        print("OnWestPress");
-    }
-
-    private void OnWestRelease()
-    {
-        print("OnWestRelease");
+    /// returns whether any (movement) animation was completed
+    public bool animationDone() {
+        // TODO: extend to support animations other than moving around
+        return !airborne && animationCompleted;
     }
 
     #endregion

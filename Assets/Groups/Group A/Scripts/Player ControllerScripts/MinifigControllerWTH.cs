@@ -8,6 +8,7 @@ public class MinifigControllerWTH : MonoBehaviour
 {
     public GameObject Minifig;
     public GameObject RespawnPointsSource;
+    public int characterId;
     // Constants.
     const float stickyTime = 0.05f;
     const float stickyForce = 9.6f;
@@ -84,8 +85,9 @@ public class MinifigControllerWTH : MonoBehaviour
     public float jumpSpeed = 20f;
     public float gravity = 40f;
     public float pushSpeed = 20f;
+    public float drag = 0.93f;
+    public float pointLossRate = 0.75f;
     private Vector2 _movement = new Vector2();
-
     [Header("Audio")]
 
     public List<AudioClip> stepAudioClips = new List<AudioClip>();
@@ -113,7 +115,7 @@ public class MinifigControllerWTH : MonoBehaviour
         HatSwap = 8,
         HatSwap2 = 9,
         Idle_Light = 10,
-        // Unused 11
+        Punch = 11,
         IdleHeavy = 12,
         IdleImpatient = 13,
         Jump = 14,
@@ -165,6 +167,7 @@ public class MinifigControllerWTH : MonoBehaviour
     Vector3 directSpeed;
     bool exploded;
     bool stepped;
+    private GameObject equipment;
 
     List<MoveTarget> moves = new List<MoveTarget>();
     MoveTarget currentMove;
@@ -181,6 +184,7 @@ public class MinifigControllerWTH : MonoBehaviour
 
     float externalRotation;
     Vector3 externalMotion;
+    Vector3 externalForce;
 
     Transform groundedTransform;
     Vector3 groundedLocalPosition;
@@ -194,9 +198,13 @@ public class MinifigControllerWTH : MonoBehaviour
     int playSpecialHash = Animator.StringToHash("Play Special");
     int cancelSpecialHash = Animator.StringToHash("Cancel Special");
     int specialIdHash = Animator.StringToHash("Special Id");
+    int punchHash = Animator.StringToHash("Punch");
 
+    public int playerPoints = 0;
     Action<bool> onSpecialComplete;
 
+    private BasePowerUp inventory = null;
+    private bool isDead = false;
     void OnValidate()
     {
         maxForwardSpeed = Mathf.Clamp(maxForwardSpeed, 5, 30);
@@ -210,6 +218,7 @@ public class MinifigControllerWTH : MonoBehaviour
 
         // Initialise animation.
         animator.SetBool(groundedHash, true);
+        //animator.SetBool(spinHash, true);
 
         // Make sure the Character Controller is grounded if starting on the ground.
         controller.Move(Vector3.down * 0.01f);
@@ -290,9 +299,18 @@ public class MinifigControllerWTH : MonoBehaviour
             }
 
             // Calculate move delta.
-            moveDelta = new Vector3(directSpeed.x, moveDelta.y, directSpeed.z);
+            moveDelta = new Vector3(directSpeed.x , moveDelta.y, directSpeed.z);
 
-
+            // Apply external Force 
+            if(Mathf.Abs(externalForce.x) > 0f || Mathf.Abs(externalForce.z) > 0f)
+            {
+                externalForce.x *= drag;
+                externalForce.z *= drag;
+                if (Mathf.Abs( externalForce.x) < 0.005f) externalForce.x = 0f;
+                if (Mathf.Abs(externalForce.z) < 0.005f) externalForce.z = 0f;
+                moveDelta.z += externalForce.z;
+                moveDelta.x += externalForce.x;
+            }
 
             // Check if player is grounded.
             if (!airborne)
@@ -710,17 +728,24 @@ public class MinifigControllerWTH : MonoBehaviour
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.collider is CharacterController hitCharacter)
+        if (hit.collider.tag == "Player")
         {
-            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z) * Time.deltaTime * pushSpeed;
-            // This is instantanious and therefore not nice
-            hitCharacter.Move(pushDir);
+            Vector3 pushDir = hit.transform.position - transform.position;
+            pushDir *= pushSpeed;
+            pushDir.y = 10.5f;
             // This should allow us to interact with this script directly and define an appropriate behaviour that way
-            MinifigControllerWTH hitCharacterController = hitCharacter.GetComponentInParent<MinifigControllerWTH>();
+            MinifigControllerWTH hitCharacterController = hit.collider.GetComponentInParent<MinifigControllerWTH>();
+            hitCharacterController.AddForce(pushDir);
         }
         if (hit.collider.tag == "floor") 
         {
             Respawn();
+        }
+        if (hit.collider.tag == "Credit")
+        {
+            GameObject credit = hit.gameObject;
+            AddPoints(1);
+            Destroy(credit);
         }
         if (controller.isGrounded)
         {
@@ -944,8 +969,34 @@ public class MinifigControllerWTH : MonoBehaviour
     void Respawn()
     {
         GenerateRings rings = RespawnPointsSource.GetComponent<GenerateRings>();
-        Vector3 spwanLocation = rings.getSpawnLocation();
-        controller.transform.position = spwanLocation;
+        Vector3 spawnLocation = rings.getSpawnLocation(characterId);
+        playerPoints = Mathf.FloorToInt(playerPoints * pointLossRate);
+        controller.transform.position = spawnLocation;
+        if (equipment != null)
+        {
+            Destroy(equipment);
+           // equipment = null;
+        }
+    }
+
+    public void AddPoints(int points)
+    {
+        playerPoints += points;
+    }
+
+    public void AddPowerUp(BasePowerUp powerUp)
+    {
+        if (inventory == null)
+        {
+            inventory = powerUp;
+            Debug.Log($"Got PowerUp with tag{ powerUp.GetType()}");
+        }
+    }
+
+    public void AddForce(Vector3 force)
+    {
+        externalForce = force;
+        moveDelta.y = force.y;
     }
 
     #region Input Handling
@@ -982,6 +1033,21 @@ public class MinifigControllerWTH : MonoBehaviour
     private void OnEastPress()
     {
         print("OnEastPress");
+        if(equipment != null)
+        {
+            animator.SetTrigger(punchHash);
+        }
+        else if(inventory != null)
+        {
+            if(inventory is BatPowerUp)
+            {
+                equipment = SpawnPowerUps.instance.SpawnPlayerEquipment("BaseballBat", this);
+            } else
+            {
+                inventory.SpawnPowerUp(transform.position);
+            }
+            inventory = null;
+        }
     }
 
     private void OnEastRelease()
