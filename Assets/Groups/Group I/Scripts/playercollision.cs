@@ -1,34 +1,41 @@
 ﻿
+using System;
 using UnityEngine;
 
 public class playercollision : MonoBehaviour
 {
-    // Start is called before the first frame update
-    
+    MinifigController player;
+
+    private void Start()
+    {
+        player = (MinifigController)this.GetComponent("MinifigController");
+    }
+
     void OnTriggerEnter(Collider col)
     {
-        GameObject obj = col.gameObject;
-        float hoverForce = 12;
-        
+        GameObject pickup = col.gameObject;
 
-        if (obj.tag == "ItemCollect")
+        if (pickup.tag == "ItemCollect")
         {
-            PickUp(obj);
-            GetComponent<Rigidbody>().AddForce(Vector3.up * hoverForce, ForceMode.Acceleration);
-         }
-
-        if (obj.tag == "SomethingElse")
-        {
-            PickUp(obj);
-            // todo xyz
+            PickUp(pickup);
         }
 
+        if (pickup.tag == "LowGravity")
+        {
+            PickUp(pickup);
+            player.gravity /= 2;
+        }
+
+        if (pickup.tag == "HighSpeed")
+        {
+            PickUp(pickup);
+            player.maxForwardSpeed *= 2;
+        }
     }
 
-    private void PickUp(GameObject obj)
+    private void PickUp(GameObject pickup)
     {
-        Debug.Log("Picked up: " + obj.tag);
-        Destroy(obj);
+        Debug.Log("Picked up: " + pickup.tag);
+        Destroy(pickup);
     }
-
 }
