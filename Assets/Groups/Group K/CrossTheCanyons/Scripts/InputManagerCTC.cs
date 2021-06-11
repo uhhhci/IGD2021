@@ -26,4 +26,24 @@ public class InputManagerCTC : MonoBehaviour
         InputManager.Instance.AssignPlayerInput(playerInputs);
     }
 
+    /**
+    Meaningful playerIDs: 1, 2, 3 and 4
+    **/
+    public bool IsPlayerBot(int playerID)
+    {
+        switch(playerID)
+        {
+            case 1:
+                return true;
+            case 2:
+                return true;
+            case 3:
+                return true;
+            case 4:
+                return true;
+            default:
+                return false;
+        }
+    }
+
 }

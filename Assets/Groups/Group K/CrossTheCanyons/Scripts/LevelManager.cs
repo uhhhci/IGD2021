@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
     public int LeftPlayerFinalLevel {get; set;}
     public int RightPlayerFinalLevel {get; set;}
 
-    public class Level
+    private class Level
     {
         public Vector3 platformCenter;
         public Vector3 leftGoal;
@@ -174,6 +174,16 @@ public class LevelManager : MonoBehaviour
     public (Vector3 leftGoal, Vector3 rightGoal) GetCurrentGoals()
     {
         return (levels[currentLevel].leftGoal, levels[currentLevel].rightGoal);
+    }
+
+    public (Vector3 leftGoal, Vector3 rightGoal) GetPreviousGoals()
+    {
+        return (levels[currentLevel-1].leftGoal, levels[currentLevel-1].rightGoal);
+    }
+
+    public (GameObject leftBridge, GameObject rightBridge) GetCurrentBridges()
+    {
+        return (levels[currentLevel].leftBridge, levels[currentLevel].rightBridge);
     }
 
     public float DistanceBetweenCurrentPlatforms()
