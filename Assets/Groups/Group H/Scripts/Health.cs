@@ -29,6 +29,15 @@ public class Health : MonoBehaviour
         }
     }
 
+    public void increaseHealth()
+    {
+        if (health < 3)
+        {
+            health++;
+            gameManager.SubmitHealth(ownID, health);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

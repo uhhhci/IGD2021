@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Behaviour : MonoBehaviour
+public class bombScript : MonoBehaviour
 {
     public GameObject explosion;
 

@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 3376542816908581697}
   - component: {fileID: 3376542816907630107}
   - component: {fileID: 3332261553582914109}
+  - component: {fileID: 4712010752273122232}
   m_Layer: 0
   m_Name: Van
   m_TagString: Vehicle
@@ -196,6 +197,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 97982d8a36ff16f4a88f291ef2443e49, type: 3}
+--- !u!114 &4712010752273122232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3376542816905251997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 268de474f52910c4db851d9215d73c06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bomb: {fileID: 179796, guid: 5becf26d78135774abd90508835d786e, type: 3}
 --- !u!1 &3376542816905262559
 GameObject:
   m_ObjectHideFlags: 0

@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 7725109479240543231}
   - component: {fileID: 7725109479241689719}
   - component: {fileID: 7769219805565717203}
+  - component: {fileID: -4601715672377808778}
   m_Layer: 0
   m_Name: MuscleCar
   m_TagString: Vehicle
@@ -273,6 +274,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 823ed423ae6ba0d4589ddb8fe51e7f14, type: 3}
+--- !u!114 &-4601715672377808778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7725109479239475295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 268de474f52910c4db851d9215d73c06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bomb: {fileID: 179796, guid: 5becf26d78135774abd90508835d786e, type: 3}
 --- !u!1 &7725109479239493933
 GameObject:
   m_ObjectHideFlags: 0
