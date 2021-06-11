@@ -230,8 +230,10 @@ public class MinifigControllerH : MonoBehaviour
             return;
         }
 
+        // FixPosition();
+
         // possible fix for clipping and falling through the floor
-        if ( gameObject.transform.position.y < 0)
+        if (gameObject.transform.position.y < 0)
         {
             float x = gameObject.transform.position.x;
             float y = 0.01f;
@@ -978,7 +980,7 @@ public class MinifigControllerH : MonoBehaviour
     private void OnEastPress()
     {
         print("OnEastPress");
-        grabber.Grab();
+        Grab();
 
     }
 
@@ -1030,10 +1032,7 @@ public class MinifigControllerH : MonoBehaviour
     private void OnWestPress()
     {
         print("OnWestPress");
-        animator.SetBool(playSpecialHash, true);
-        animator.SetInteger(specialIdHash, (int)SpecialAnimation.KickRightFoot);
-        audioSource.PlayOneShot(kickAudioClip);
-        kicker.Kick();
+        Kick();
     }
 
     private void OnWestRelease()
@@ -1042,6 +1041,19 @@ public class MinifigControllerH : MonoBehaviour
     }
 
     #endregion
+
+    public void Kick()
+    {
+        animator.SetBool(playSpecialHash, true);
+        animator.SetInteger(specialIdHash, (int)SpecialAnimation.KickRightFoot);
+        audioSource.PlayOneShot(kickAudioClip);
+        kicker.Kick();
+    }
+
+    public void Grab()
+    {
+        grabber.Grab();
+    }
 }
 
 
