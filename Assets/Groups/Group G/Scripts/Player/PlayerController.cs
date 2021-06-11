@@ -11,11 +11,12 @@ public class Boundary
 
 public class PlayerController : MonoBehaviour
 {
+    public bool AI = false;
     public float Speed;
     public float Tilt;
     public Boundary Boundary;
     public WeaponSystem[] WeaponSystems;
-
+    
     private Vector2 Movement;
     private float SpeedOriginal;
     private int CurrentWeaponIndex = 0;
@@ -26,6 +27,11 @@ public class PlayerController : MonoBehaviour
     {
         string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
+
+        if (AI)
+        {
+            StartCoroutine(Moving());
+        }
     }
 
     private void Awake()
@@ -34,15 +40,29 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        
+
+    }
+    IEnumerator Moving()
+    {
+        while (true)
+        {
+            //MovingDirection [-1,1] in x and z
+            Movement = new Vector2(Random.Range(0, 2) * -Mathf.Sign(transform.position.x), Random.Range(0, 2) * -Mathf.Sign(transform.position.z));
+            //Maneuver time - Moving time
+            yield return new WaitForSeconds(Random.Range(1f,2.5f));
+            Movement = new Vector2(0f, 0f);
+            //Wait until next Movement
+            yield return new WaitForSeconds(Random.Range(0f, 0.5f));
+        }
     }
 
     //for physics
     void FixedUpdate()
     {
+
         Vector3 movement = new Vector3(Movement.x, 0.0f, Movement.y);
         GetComponent<Rigidbody>().velocity = movement * Speed;
-
+        
         GetComponent<Rigidbody>().position = new Vector3
         (
             Mathf.Clamp(GetComponent<Rigidbody>().position.x, Boundary.xMin, Boundary.xMax),
