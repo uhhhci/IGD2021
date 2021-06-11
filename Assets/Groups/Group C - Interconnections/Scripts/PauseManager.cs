@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// I attached the script to the gameObject "PauseManager".
-// Not sure if that's good over time.
-
 public class PauseManager : MonoBehaviour
 {
     public GameObject pauseMenuPrefab;
@@ -13,7 +10,6 @@ public class PauseManager : MonoBehaviour
     private bool pauseIsOpen=false;
 
 /////////////////////////////////////////////////////////////
-// THAT PART IS ALSO IN THE OTHER MANAGERS.
     public static PauseManager Instance;
     private void Awake () {
         if(!Instance) {
@@ -43,6 +39,7 @@ public class PauseManager : MonoBehaviour
     private GameObject pauseMenuInstance;
 
     public void OpenPauseMenu(){
+      Time.timeScale = 0;// Pauses the game.
       // Checking to see if one exists
       if(pauseMenuInstance == null){
         //Creates a new game menu
@@ -55,9 +52,9 @@ public class PauseManager : MonoBehaviour
   }
 
   public void ClosePauseMenu(){
-     //this.gameObject.SetActive(false);
+     Time.timeScale = 1;// Continues the game.
+     Destroy(GameObject.Find("PauseMenu(Clone)"));
      //Destroy(this.gameObject);
-     Destroy(GameObject.Find("Canvas(Clone)"));
      pauseIsOpen=false;
   }
 
