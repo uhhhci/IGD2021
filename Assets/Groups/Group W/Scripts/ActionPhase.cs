@@ -19,6 +19,7 @@ public class ActionPhase : MonoBehaviour
     public static List<PlayerProperties> players;
     bool isActionPhase;
     public GameObject leftHandWeapon;
+    public GameObject effect;
     public Vector3 leftHandPosition;
     public bool effective = false;
     public bool ineffective = false;
@@ -209,6 +210,15 @@ public class ActionPhase : MonoBehaviour
         {
             print("removed left hand weapon");
             DestroyImmediate(leftHandWeapon, true);
+        }
+    }
+
+    void RemoveEffect()
+    {
+        if (effect != null)
+        {
+            print("removed effect");
+            DestroyImmediate(effect, true);
         }
     }
 
