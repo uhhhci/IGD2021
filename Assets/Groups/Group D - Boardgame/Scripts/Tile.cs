@@ -17,6 +17,13 @@ public class Tile : MonoBehaviour
     public Tile right;
     public Tile up;
     public Tile down;
+
+    private Tile toBrick;
+
+    private static HashSet<Tile> visited = new HashSet<Tile>();
+    private static Queue<Tile> frontierA = new Queue<Tile>();
+    private static Queue<Tile> frontierB = new Queue<Tile>();
+
     bool trapPresent;
     int trapOwner;
 
@@ -37,6 +44,42 @@ public class Tile : MonoBehaviour
 
     public void setHasGoldenBrick(bool newValue) {
         goldenBrickPresent = newValue;
+
+        if (newValue) {
+            visited.Clear();
+            frontierA.Clear();
+            frontierB.Clear();
+            setToGoldenBrick(null);
+
+            while (frontierA.Count > 0) {
+                frontierA.Dequeue().setToGoldenBrick(frontierB.Dequeue());
+            }
+        }
+    }
+
+    /// returns the neighbor tile which is the next on the shortest path the golden brick
+    /// returns null when this tile contains the brick
+    public Tile nextOnPathToBrick() {
+        return toBrick;
+    }
+
+    /// sets the neighbor in which direction the golden brick is located
+    /// uses cicle detection
+    /// pass null to indicate that this tile contains the golden brick
+    private void setToGoldenBrick(Tile tile) {
+        toBrick = tile;
+        updateNeighbor(left);
+        updateNeighbor(right);
+        updateNeighbor(up);
+        updateNeighbor(down);
+    }
+
+    private void updateNeighbor(Tile neighbor) {
+        if (neighbor != null && !visited.Contains(neighbor)) {
+            visited.Add(neighbor);
+            frontierA.Enqueue(neighbor);
+            frontierB.Enqueue(this);
+        }
     }
 
     public bool hasTrap(){

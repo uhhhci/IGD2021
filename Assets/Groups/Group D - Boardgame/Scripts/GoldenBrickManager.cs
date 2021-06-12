@@ -35,4 +35,8 @@ public class GoldenBrickManager : MonoBehaviour
 
         location.setHasGoldenBrick(true);
     }
+
+    public Tile getBrickTile() {
+        return location;
+    }
 }

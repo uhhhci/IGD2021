@@ -83,13 +83,23 @@ public class PlayerDisplay : MonoBehaviour
         }
     }
 
-    // whether the player's inventory contains the given item
+    /// whether the player's inventory contains the given item
     public bool hasItem(ItemD.Type itemType) {
         return items.Contains(itemType);
     }
 
+    /// whether the player has still space for one item
     public bool hasSpaceForAnItem() {
         return items.Count < 3;
+    }
+
+    /// whether the player has at least one item
+    public bool hasAnItem() {
+        return items.Count > 0;
+    }
+
+    public ItemD.Type getFirstItem() {
+        return items[0];
     }
 
     // removes the given item from this player's inventory

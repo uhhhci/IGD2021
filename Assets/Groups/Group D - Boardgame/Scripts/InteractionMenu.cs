@@ -28,7 +28,7 @@ public class InteractionMenu : MonoBehaviour
 
 
     public PlayerAction getSelectedAction() {
-        if (highlighted > possibleActions.Count) {
+        if (highlighted > possibleActions.Count || highlighted < 0) {
             return null;
         }
         return possibleActions[highlighted];
@@ -74,6 +74,16 @@ public class InteractionMenu : MonoBehaviour
         } else if (highlighted < 0) {
             highlighted = 0;
         }
+    }
+
+    /// whether the given action can be used right now
+    public bool canUse(PlayerAction.Type action) {
+        for (int i = 0; i < actions.Length; i++) {
+            if (actions[i].type == action) {
+                return isActive(i) && canAfford(actions[i]);
+            }
+        }
+        return false;
     }
 
     /// returns whether the player can afford the given action (i.e. whether they have enough AP and credits)
