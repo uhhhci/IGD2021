@@ -219,6 +219,8 @@ public class ActionPhase : MonoBehaviour
         {
             print("removed effect");
             DestroyImmediate(effect, true);
+            effective = false;
+            ineffective = false;
         }
     }
 
