@@ -50,6 +50,8 @@ public class TurnManager : MonoBehaviour
     private int activePlayer = 0;
     private int round = 1;
     private int actionPoints = 0;
+    private double sleepTimeAI = 0.0;
+    private bool wantsToUseItemAI = false;
 
     private enum TurnState {MOVING_CAM_TO_DIE, ROLLING_DIE, MOVING_CAM_TO_PLAYER, ACCEPTING_INPUT, EXECUTING_ACTION, SHOWING_SHOP, APPLYING_TILE_EFFECT, TURN_ENDED,};
     private TurnState currentState;
@@ -79,6 +81,9 @@ public class TurnManager : MonoBehaviour
         }
         else if (currentState == TurnState.MOVING_CAM_TO_PLAYER && camera.movementCompleted()) {
             startNewTurn();
+        }
+        else if (currentState == TurnState.ACCEPTING_INPUT && isAI() && actionPoints > 0) {
+            takeActionAI();
         }
         else if (currentState == TurnState.ACCEPTING_INPUT && actionPoints <= 0) {
             applyTileEffect();
@@ -129,6 +134,12 @@ public class TurnManager : MonoBehaviour
         }
 
         updateHUD();
+    }
+
+    /// returns whether the current player is an AI
+    private bool isAI() {
+        // TODO: real implementation, this is a dummy for testing
+        return true;
     }
 
     // call this method whenever an FSM ended which might modify the credit amounts of players
@@ -411,19 +422,28 @@ public class TurnManager : MonoBehaviour
                 break;
         }
 
-        if (nextTile == null) {
-            // there is no neighboring tile in this direction
-            return;
-        }
+        tryToWalkTo(nextTile);
+    }
 
+    private void walkTo(Tile nextTile) {
         currentState = TurnState.EXECUTING_ACTION;
         actionPoints--;
         currentActionFSM = new Walking(players[activePlayer], playerData[activePlayer], nextTile);
     }
 
+    private bool tryToWalkTo(Tile nextTile) {
+        if (nextTile == null) {
+            // there is no neighboring tile in this direction
+            return false;
+        }
+
+        walkTo(nextTile);
+        return true;
+    }
+
     public void reactToNorth(int playerNumber)
     {
-        if (playerNumber != activePlayer) {
+        if (playerNumber != activePlayer || isAI()) {
             return;
         }
        
@@ -437,7 +457,7 @@ public class TurnManager : MonoBehaviour
 
     public void reactToEast(int playerNumber)
     {
-        if (playerNumber != activePlayer) {
+        if (playerNumber != activePlayer || isAI()) {
             return;
         }
        
@@ -450,7 +470,7 @@ public class TurnManager : MonoBehaviour
     }
 
     public void reactToWest(int playerNumber) {
-        if (playerNumber != activePlayer && currentState != TurnState.SHOWING_SHOP) {
+        if ((playerNumber != activePlayer && currentState != TurnState.SHOWING_SHOP) || isAI()) {
             return;
         }
 
@@ -462,7 +482,7 @@ public class TurnManager : MonoBehaviour
 
     public void reactToSouth(int playerNumber)
     {
-        if (playerNumber != activePlayer) {
+        if (playerNumber != activePlayer || isAI()) {
             return;
         }
        
@@ -471,6 +491,106 @@ public class TurnManager : MonoBehaviour
         }
         else if (currentState == TurnState.ACCEPTING_INPUT) {
             interactions.previousAction();
+        }
+    }
+
+    /// Called during the ACCEPTING_INPUT state when the current player
+    /// is an AI. The AI must take an action in this method.
+    /// The AI walks to the golden brick and buys it. When the AI has not enough
+    /// credits, it aborts its turn. Along the way, it used items it received
+    /// randomly.
+    private void takeActionAI() {
+        // used for a delay between actions taken
+        if (sleepTimeAI > 0.0) {
+            sleepTimeAI -= Time.deltaTime;
+            return;
+        }
+
+        Tile brickTile = brickManager.getBrickTile();
+        Tile currentTile = playerData[activePlayer].currentTile();
+
+        // when the AI is currently using an item, do that
+        if (wantsToUseItemAI) {
+            useItemAI();
+            
+        }
+        else if (currentTile == brickTile) {
+            // already on the goal tile
+            if (interactions.canUse(PlayerAction.Type.BUY_GOLDEN_BRICK)) {
+                // golden brick can be bought
+                executeActionAI(PlayerAction.Type.BUY_GOLDEN_BRICK);
+            }
+            else { 
+                useItemAttemptAI(); // might use an item randomly when available
+
+                if (!wantsToUseItemAI) {
+                    // cannot afford the golden brick, abort the turn
+                    executeActionAI(PlayerAction.Type.END_TURN);
+                }
+            }
+        }
+        else {
+            // when standing on the start tile, move to the next neighbor
+            if (currentTile.type == Tile.TileType.START) {
+                if (!tryToWalkTo(currentTile.right)) {
+                    if (!tryToWalkTo(currentTile.left)) {
+                        if (!tryToWalkTo(currentTile.up)) {
+                            if (!tryToWalkTo(currentTile.down)) {
+                                Debug.Log("The start tile is not connected to any neighbor tiles. This must not happen!");
+                            }
+                        }
+                    }
+                }
+            }
+            // move the the brick
+            else { 
+                useItemAttemptAI(); // might use an item randomly when available
+
+                if (!wantsToUseItemAI) {
+                    // move to the golden brick
+                    walkTo(currentTile.nextOnPathToBrick());
+                }
+            }
+        }
+
+        sleepTimeAI = 0.5; // wait 0.5 seconds before the next action is taken
+    }
+
+    /// AI attempts to use an item; if an item should be used, wantsToUseItemAI is set to true.
+    private void useItemAttemptAI() {
+        Debug.Log(UnityEngine.Random.value);
+        Debug.Log(playerBelongings[activePlayer].hasAnItem());
+        if (UnityEngine.Random.value > 0.75 && playerBelongings[activePlayer].hasAnItem()) {
+            PlayerAction.Type useItemAction = itemDB.getItem(playerBelongings[activePlayer].getFirstItem()).associatedAction;
+            if (interactions.canUse(useItemAction)) {
+                wantsToUseItemAI = true;
+            }
+        }
+        else {
+            wantsToUseItemAI = false; 
+        }
+    }
+
+    /// AI uses an item
+    private void useItemAI() {
+        PlayerAction.Type useItemAction = itemDB.getItem(playerBelongings[activePlayer].getFirstItem()).associatedAction;
+        // use an item
+        executeActionAI(useItemAction);
+    }
+
+    private void executeActionAI(PlayerAction.Type action) {
+        if (!interactions.anActionIsSelected()) {
+            return;
+        }
+        
+        if (interactions.getSelectedAction().type == action) {
+            // buy the golden brick
+            executeAction(interactions.getSelectedAction());
+            wantsToUseItemAI = false; 
+        }
+        else {
+            // wrong action is selected, next action
+            interactions.nextAction();
         }
     }
 }
