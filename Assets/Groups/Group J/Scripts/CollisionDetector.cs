@@ -15,10 +15,11 @@ public class CollisionDetector : MonoBehaviour
     private GameManagerJ gameplayManager;
     public bool isTeam1 = false;
     public bool isTeam2 = false;
+    public bool dead = false;
 
     void Awake()
     {
-        gameplayManager = GameObject.FindObjectOfType<GameManagerJ>();
+       gameplayManager = GameObject.FindObjectOfType<GameManagerJ>();
     }
     public void Start()
     {
@@ -30,10 +31,31 @@ public class CollisionDetector : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == ("Obstacle"))
+        if (collision.gameObject.tag == ("Obstacle"))
         {
             StartCoroutine(ActivateInvincibility());
             gameplayManager.UpdateDeath(isTeam1);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == ("Lava"))
+        {
+            Debug.Log("Player Died");
+            dead = true;
+            if (isTeam1) 
+                gameplayManager.team1LavaDeath++;
+            else
+                gameplayManager.team2LavaDeath++;
+
+            if (gameplayManager.team1LavaDeath == 2)
+                gameplayManager.gameFinished = true;
+            
+            if (gameplayManager.team2LavaDeath == 2)   
+                gameplayManager.gameFinished = true;
+
+            this.gameObject.SetActive(false);
         }
     }
 

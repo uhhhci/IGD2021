@@ -10,7 +10,7 @@ public class GameEventSystem : MonoBehaviour
     public static GameEventSystem current;
     public event Action onHit;
     public event Action onBeat;
-    public event Action onMiss;
+    public event Action onStartDance;
 
     private void Awake()
     {
@@ -26,9 +26,9 @@ public class GameEventSystem : MonoBehaviour
     {
         onBeat?.Invoke();
     }
-    public void Miss()
+    public void StartDance()
     {
-        onMiss?.Invoke();
+        onStartDance?.Invoke();
     }
 
 }

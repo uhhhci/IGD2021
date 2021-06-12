@@ -17,11 +17,18 @@ public class Tile : MonoBehaviour
     public Tile right;
     public Tile up;
     public Tile down;
+    bool trapPresent;
+    int trapOwner;
 
     private bool goldenBrickPresent;
+    public bool itemShopPresent;
 
     public Vector3 getPosition() {
         return this.transform.position;
+    }
+
+    public bool hasItemShop() {
+        return itemShopPresent;
     }
 
     public bool hasGoldenBrick() {
@@ -30,5 +37,20 @@ public class Tile : MonoBehaviour
 
     public void setHasGoldenBrick(bool newValue) {
         goldenBrickPresent = newValue;
+    }
+
+    public bool hasTrap(){
+        return trapPresent;
+    }
+
+    public void setTrap(bool newValue, int player=-1)
+    {
+        trapPresent = newValue;
+        trapOwner = player;
+    }
+
+    public int getTrapOwner()
+    {
+        return trapOwner;
     }
 }
