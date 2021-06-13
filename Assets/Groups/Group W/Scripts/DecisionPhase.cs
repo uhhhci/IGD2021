@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,10 +16,10 @@ public class DecisionPhase : MonoBehaviour
     bool isDecisionPhase;
 
     // plays an annimation according to whether its action/decision phase and which kind of decision was made
-    public void PlayActionPhaseAnimation()
+    public void PlayChangeTargetRowAnimation(bool isLegal=true)
     {
         // print($"animation decision: {decision}");
-        if (PhaseHandler.phase == PhaseHandler.Phase.Decision)
+        if (PhaseHandler.phase == PhaseHandler.Phase.Decision && isLegal)
         {
           playerMinifigController.PlaySpecialAnimation(MinifigControllerGroupW.SpecialAnimation.Wave);
 
@@ -30,13 +31,14 @@ public class DecisionPhase : MonoBehaviour
         }
     }
 
+    
     public void ChangeEquippedWeapon(WeaponDefinitions.WeaponType weapon, ActionPhase actionPhase)
     {
         // print("ChangeEquippedWeapon triggered");
         if (phase == PhaseHandler.Phase.Decision)
         {
-            print($"Changing Weapon to {selectedWeapon}");
             selectedWeapon = weapon;
+            print($"Changing Weapon to {selectedWeapon}");
             // just spawn a dummy weapon, such that it serves as feedback but does not reveal the actual selection
             actionPhase.ChangeLeftHandWeapon("Weapons/SA_Item_Fish");
         }
@@ -79,11 +81,10 @@ public class DecisionPhase : MonoBehaviour
         leftHandPosition = player.leftHandPosition;
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        // TODO if player.isAiPlayer, select random attackable target + weapon
-        // TODO .. also maybe prevent selecting non-attackable target for real players too
         phase = PhaseHandler.phase;
         isDecisionPhase = phase == PhaseHandler.Phase.Decision;
 

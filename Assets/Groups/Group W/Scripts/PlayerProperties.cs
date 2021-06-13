@@ -44,7 +44,7 @@ public class PlayerProperties : MonoBehaviour
     {
         string inputScheme = transform.parent.GetComponent<PlayerInput>().defaultControlScheme;
         // TODO get ai/bot string from interconnections group
-        return inputScheme == "ai";
+        return inputScheme == "AI";
     }
 
     // Start is called before the first frame update

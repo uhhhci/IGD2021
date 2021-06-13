@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -73,15 +74,16 @@ public class ActionPhase : MonoBehaviour
     }
 
     // searches for the player of the other team by chosing the other team and the target row
-    PlayerProperties GetTargetPlayer(PhaseHandler.RowPosition row)
+    public PlayerProperties GetTargetPlayer(PhaseHandler.RowPosition row)
     {
+        
         PhaseHandler.Team team = player.team == PhaseHandler.Team.Left ? PhaseHandler.Team.Right : PhaseHandler.Team.Left;
         List<PlayerProperties> matchingPlayers = players.FindAll(somePlayer => somePlayer.team == team
                                                 && somePlayer.rowPosition == row);
 
         if (matchingPlayers.Count == 1)
         {
-            print($"Matching target player is: {matchingPlayers[0].playerName}");
+            print($"Matching target player is: {matchingPlayers[0].playerName}, was called from { new StackFrame(1, true).GetMethod().Name}");
             return matchingPlayers[0];
         }
 
@@ -120,7 +122,7 @@ public class ActionPhase : MonoBehaviour
         playerMinifigController.MoveTo(targetPosition, onComplete: () => { MeleeAttack(targetPlayer); });
     }
 
-    bool CanPlayerAttack(PlayerProperties targetPlayer)
+    public bool CanPlayerAttack(PlayerProperties targetPlayer)
     {
         bool areBothOnFrontRow = player.CurrentRowPosition == PhaseHandler.RowPosition.Front && targetPlayer.CurrentRowPosition == PhaseHandler.RowPosition.Front;
         bool isPlayerOnBackRow = player.CurrentRowPosition == PhaseHandler.RowPosition.Back;
@@ -226,7 +228,7 @@ public class ActionPhase : MonoBehaviour
 
     public void ChangeLeftHandWeapon(PhaseHandler.RowPosition rowPosition, WeaponDefinitions.WeaponType weaponType)
     {
-        print("equipping new left hand weapon");
+        // print("equipping new left hand weapon");
         Transform leftHandTransform = player.transform.parent.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").transform;
         // weapon color should stay the same as previous
         Color color = leftHandWeapon != null ? leftHandWeapon.GetComponent<Renderer>().material.color : Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
@@ -240,7 +242,6 @@ public class ActionPhase : MonoBehaviour
     public void ChangeLeftHandWeapon(String assetPath)
     {
         RemoveLeftHandWeapon();
-        print("changing left hand weapon via asset path");
         Transform leftHandTransform = player.transform.parent.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").transform;
         Color randomColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         leftHandWeapon = LoadNewWeapon(assetPath, new Vector3(1f, 1f, 1f), randomColor);
@@ -330,7 +331,7 @@ public class ActionPhase : MonoBehaviour
 
         // Calculate flight time.
         float flightDuration = targetDistance / Vx;
-        print($"flight duration: {flightDuration}");
+        // print($"flight duration: {flightDuration}");
 
         // remove the equipped weapon and throw the new one;
         RemoveLeftHandWeapon();
@@ -350,10 +351,66 @@ public class ActionPhase : MonoBehaviour
         }
     }
 
+    WeaponDefinitions.WeaponType GetRandomWeapon()
+    {
+        Array values = Enum.GetValues(typeof(WeaponDefinitions.WeaponType));
+        System.Random random = new System.Random();
+        WeaponDefinitions.WeaponType randomWeapon = (WeaponDefinitions.WeaponType)values.GetValue(random.Next(values.Length));
+        print($"got random weapon: {randomWeapon}");
+        return randomWeapon;
+    }
+
+    PhaseHandler.RowPosition GetRandomTargetRow(ActionPhase actionPhase = null)
+    {
+        print("selecting a random target row");
+        if (actionPhase == null)
+        {
+            actionPhase = this;
+        }
+
+        Array values = Enum.GetValues(typeof(PhaseHandler.RowPosition));
+        System.Random random = new System.Random();
+        PhaseHandler.RowPosition randomTargetRow = (PhaseHandler.RowPosition)values.GetValue(random.Next(values.Length));
+
+        var targetPlayer = actionPhase.GetTargetPlayer(randomTargetRow);
+        print("validating whether the randomly chosen target is valid");
+        if (actionPhase.CanPlayerAttack(targetPlayer))
+        {
+            print($"got valid random target row: {randomTargetRow} (player {targetPlayer.playerName})");
+            return randomTargetRow;
+        }
+        else
+        {
+            // this is ugly since it will only work for 2 rows but its okay for our usecase now
+            print($"got invalid target row: {randomTargetRow}, therefore choosing the other one");
+            return randomTargetRow == PhaseHandler.RowPosition.Front ? PhaseHandler.RowPosition.Back : PhaseHandler.RowPosition.Front;
+        }
+    }
+
 
     public void DoAction()
     {
-        PlayerProperties targetPlayer = GetTargetPlayer();
+        PlayerProperties targetPlayer;
+
+        if (player.IsAiPlayer())
+        {
+            print("Player is an AI, selecting random weapon and target now");
+            // won't set the targetRow/Weapon in PlayerProperties, but will attack the correct random player with the random weapon
+            var decisionPhase = gameObject.GetComponent<DecisionPhase>();
+            var actionPhase = gameObject.GetComponent<ActionPhase>();
+
+            // choose a random valid(!) target player
+            var randomTargetRow = GetRandomTargetRow();
+            targetPlayer = GetTargetPlayer(randomTargetRow);
+
+            // and a random weapon
+            ChangeLeftHandWeapon(randomTargetRow, GetRandomWeapon());
+        }
+
+        else
+        { 
+            targetPlayer = GetTargetPlayer();
+        }
 
         // checks for restrictions before attacking
         if (CanPlayerAttack(targetPlayer))
