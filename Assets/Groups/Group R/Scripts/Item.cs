@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 
 public class Item : MonoBehaviour
@@ -14,6 +15,12 @@ public class Item : MonoBehaviour
     public Vector3 rotOffset;
 
     public int strength = 20;
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -25,7 +32,17 @@ public class Item : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    public void pickUp(Transform parent)
+    {
+        isPickedUp = true;
+        transform.SetParent(parent);
+        transform.localPosition = posOffset;
+        transform.localRotation = Quaternion.Euler(rotOffset);
+        rb.isKinematic = true;
+        rb.useGravity = false;
+    }
+
+    void OutcomOnCollisionEnter(Collision collision)
     {
         GameObject gameObj = collision.gameObject;
         if(!isPickedUp && gameObj.tag=="Player" && !gameObj.GetComponent<OurMinifigController>().hasItem){
@@ -40,11 +57,9 @@ public class Item : MonoBehaviour
                 child = child.GetChild(subtree);
             }
             transform.SetParent(child);
-            transform.localPosition = posOffset;
-            transform.localRotation = Quaternion.Euler(rotOffset);
-            Rigidbody rb = GetComponent<Rigidbody>();
-            rb.isKinematic = true;
-            rb.useGravity = false;
+            
+            
+            
         }else if(isPickedUp && gameObj.tag=="Player" && gameObj != player && player.GetComponent<OurMinifigController>().isHitting){
             OurMinifigController hit_player = gameObject.GetComponent<OurMinifigController>();
             if(!hit_player){

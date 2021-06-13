@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -130,6 +131,8 @@ public class OurMinifigController : MonoBehaviour
     /// Whether this player has picked up an item in his hand
     /// </summary>
     public bool hasItem = false;
+
+    public Item item = null;
 
 
     [Header("Audio")]
@@ -963,8 +966,30 @@ public class OurMinifigController : MonoBehaviour
 void OnCollisionEnter(Collision collision)
     {
         GameObject gameObj = collision.gameObject;
-        if(gameObj.tag=="Player" ){
-            print("collided other player");
+        if(gameObj.tag=="Item"){
+            Item collidingItem = gameObj.GetComponent<Item>();
+            if (collidingItem == item)
+                return;
+            if (collidingItem.isPickedUp) // item was already picked up by another player
+            {
+                Debug.Log("got hit by item");
+                return; //getting hit by item handling?
+            }
+            if (!collidingItem.isPickedUp)
+            {
+                // pick up item
+                item = collidingItem;
+                hasItem = true;
+                itemType = item.type;
+                // make item child of hand_R_loc
+                var tree = new List<int>() { 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 0, 2 };
+                Transform child = transform;
+                foreach (var subtree in tree)
+                {
+                    child = child.GetChild(subtree);
+                }
+                item.pickUp(child);
+            }
         }
     }
 }
