@@ -975,7 +975,7 @@ public class OurMinifigController : MonoBehaviour
             Item collidingItem = gameObj.GetComponent<Item>();
             if (collidingItem == item)
                 return;
-            if (collidingItem.isPickedUp) // item was already picked up by another player
+            if (collidingItem.isPickedUp && collidingItem.isActive) // item was already picked up by another player
             {
                 damage += collidingItem.strength;
                 Vector3 hit_direction = transform.position - collidingItem.transform.position;
@@ -1016,24 +1016,33 @@ public class OurMinifigController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0);
         else
             transform.rotation = Quaternion.Euler(0, 180, 0);
+        item.isActive = true;
     }
 
     public void release()
     {
         SetInputEnabled(true);
-        useItem();
+        item.isActive = false;
+        usedItem();
     }
 
     public void setHitting(bool hitting)
     {
         isHitting = hitting;
-        if (!hitting)
-            useItem();
+        if (hitting)
+        {
+            item.isActive = true;
+        }
+        else
+        {
+            item.isActive = false;
+            usedItem();
+        } 
     }
 
-    private void useItem()
+    private void usedItem()
     {
-        bool keep = item.Use();
+        bool keep = item.Used();
         if (!keep)
         {
             Destroy(item.gameObject);

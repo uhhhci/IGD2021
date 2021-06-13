@@ -9,6 +9,7 @@ public class Item : MonoBehaviour
     public string type;
     public bool isPickedUp = false;
     public int usesLeft = 10;
+    public bool isActive = false;
 
     public Vector3 posOffset;
     public Vector3 rotOffset;
@@ -41,7 +42,7 @@ public class Item : MonoBehaviour
         rb.useGravity = false;
     }
 
-    public bool Use()
+    public bool Used()
     {
         usesLeft -= 1;
         if (usesLeft <= 0)
