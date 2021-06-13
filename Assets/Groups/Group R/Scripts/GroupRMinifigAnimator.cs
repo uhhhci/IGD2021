@@ -8,13 +8,21 @@ public class GroupRMinifigAnimator : MonoBehaviour
 
     public void enableSword()
     {
-        Debug.Log("Moin");
         Controller.isHitting = true;
     }
 
-        public void disableSword()
+    public void disableSword()
     {
-        Debug.Log("Haide");
         Controller.isHitting = false;
+    }
+
+    public void throwBatarang()
+    {
+        Controller.fix();
+    }
+
+    public void catchBatarang()
+    {
+        Controller.release();
     }
 }

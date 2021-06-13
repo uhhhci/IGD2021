@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR.Haptics;
 using UnityEngine.UI;
 
 /**
@@ -29,11 +26,12 @@ public class SmashGameR : MiniGame
     public Countdown countdown;
     public int gameDuration;
 
-    private float startTime;
+    private float endTime;
     private float timeLeft;
     private int place = 4;
+    private bool startCountdownCalled = false;
+    private bool startedGame = false;
     private bool endCountdownCalled = false;
-    private bool startedEndAnimation = false;
 
     public override string getDisplayName()
     {
@@ -41,7 +39,7 @@ public class SmashGameR : MiniGame
     }
     public override string getSceneName()
     {
-        return "Scene1Thilo";
+        return "SceneR";
     }
 
     public override MiniGameType getMiniGameType()
@@ -60,25 +58,27 @@ public class SmashGameR : MiniGame
         //This assigns the player input in the order they were given in the array
         InputManager.Instance.AssignPlayerInput(playerInputs);
 
-        startTime = Time.time + gameDuration + 3;
+        endTime = Time.time + gameDuration + 3;
         countdown.StartCountDown(1);
 
     }
 
     void Update()
     {
-        timeLeft = startTime - Time.time;
-        if (timeLeft > gameDuration)
+        timeLeft = endTime - Time.time;
+        if (timeLeft > gameDuration && !startCountdownCalled)
         {
+            startCountdownCalled = true;
             foreach (OurMinifigController p in players)
                 p.SetInputEnabled(false);
         }
-        else if (timeLeft > 0)
+        if (timeLeft > 0 && timeLeft < gameDuration && !startedGame)
         {
+            startedGame = true;
             foreach (OurMinifigController p in players)
                 p.SetInputEnabled(true);
         }
-        else
+        if (timeLeft < 0)
         {
             foreach (OurMinifigController p in players)
                 p.SetInputEnabled(false);
@@ -104,15 +104,14 @@ public class SmashGameR : MiniGame
         //Time is up if only 1 player is left
         if (place == 1)
         {
-            startTime = Time.time; //-> timeLeft = 0
+            endTime = Time.time; //-> timeLeft = 0
             place -= 1;
             countdown.StartCountDown(0);
             
         }
 
-        if (timeLeft < -1)//w && !startedEndAnimation)
+        if (timeLeft < -1)
         {
-            startedEndAnimation = true;
             foreach (OurMinifigController p in players)
             {
                 switch (p.place)
