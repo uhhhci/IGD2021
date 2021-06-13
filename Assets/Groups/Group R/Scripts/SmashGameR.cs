@@ -29,6 +29,8 @@ public class SmashGameR : MiniGame
     private float endTime;
     private float timeLeft;
     private int place = 4;
+    private bool startCountdownCalled = false;
+    private bool startedGame = false;
     private bool endCountdownCalled = false;
 
     public override string getDisplayName()
@@ -64,17 +66,19 @@ public class SmashGameR : MiniGame
     void Update()
     {
         timeLeft = endTime - Time.time;
-        if (timeLeft > gameDuration)
+        if (timeLeft > gameDuration && !startCountdownCalled)
         {
+            startCountdownCalled = true;
             foreach (OurMinifigController p in players)
                 p.SetInputEnabled(false);
         }
-        else if (timeLeft > 0)
+        if (timeLeft > 0 && timeLeft < gameDuration && !startedGame)
         {
+            startedGame = true;
             foreach (OurMinifigController p in players)
                 p.SetInputEnabled(true);
         }
-        else
+        if (timeLeft < 0)
         {
             foreach (OurMinifigController p in players)
                 p.SetInputEnabled(false);

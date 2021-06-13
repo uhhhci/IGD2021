@@ -963,7 +963,7 @@ public class OurMinifigController : MonoBehaviour
     #endregion
 
 
-void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         GameObject gameObj = collision.gameObject;
         if(gameObj.tag=="Item"){
@@ -972,10 +972,20 @@ void OnCollisionEnter(Collision collision)
                 return;
             if (collidingItem.isPickedUp) // item was already picked up by another player
             {
-                Debug.Log("got hit by item");
+                damage += collidingItem.strength;
+                Vector3 hit_direction = transform.position - collidingItem.transform.position;
+                hit_direction.x = 0f; // do not change x position
+                hit_direction.y = 1f; // fly slightly upwards
+                if (hit_direction.z > 0)
+                    hit_direction.z = 1f;
+                else
+                    hit_direction.z = -1f;
+                hit_direction.Normalize();
+                float dmg_scale = (damage + 10) * 0.01f;
+                _knockback += hit_direction * dmg_scale;
                 return; //getting hit by item handling?
             }
-            if (!collidingItem.isPickedUp)
+            if (!collidingItem.isPickedUp && hasItem==false)
             {
                 // pick up item
                 item = collidingItem;
@@ -991,5 +1001,20 @@ void OnCollisionEnter(Collision collision)
                 item.pickUp(child);
             }
         }
+    }
+
+    public void fix()
+    {
+        SetInputEnabled(false);
+        float yrot = transform.rotation.eulerAngles.y;
+        if (yrot < 90 || yrot > 270)
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        else
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+    }
+
+    public void release()
+    {
+        SetInputEnabled(true);
     }
 }
