@@ -851,6 +851,8 @@ public class OurMinifigController : MonoBehaviour
 
     private void OnMoveDpad(InputValue value)
     {
+        if (!inputEnabled)
+            return;
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
         if(input[1]>0){
