@@ -70,26 +70,52 @@ public class OurMinifigController : MonoBehaviour
     private Vector2 _movement = new Vector2();
 
     //Our Custom Variables
+    /// <summary>
+    /// Whether the player has died
+    /// </summary>
     public bool died = false;
+    
+    /// <summary>
+    /// This variable is needed for the GameManagerR to see whether it has already noticed the death of this player
+    /// </summary>
     public bool noticedDeath = false;
+    
+    /// <summary>
+    /// Place (as in "rank") of this player. Will get updated during the game.
+    /// </summary>
     public int place = 1;
+    
+    /// <summary>
+    /// The GameManagerR sets this to true if the game is over
+    /// </summary>
     public bool gameOver = false;
+    
+    /// <summary>
+    /// Whether the player is hitting right now
+    /// </summary>
     public bool isHitting = false;
+    
+    /// <summary>
+    /// The type of item that the player has at the moment. e.g. batarang
+    /// </summary>
     public string itemType = "";
+    
     /// <summary>
     /// 3D Vector representing the force knocking the player back from getting hit
     /// </summary>
     public Vector3 _knockback = Vector3.zero;
-
+    
     /// <summary>
     /// How much damage the player has already taken from opponents
     /// ~ knockback
     /// </summary>
     public int damage = 0;
+    
     /// <summary>
     /// Damage that is dealt to other players if this player hits them 
     /// </summary>
     public int strength = 10;
+    
     /// <summary>
     /// Maximum distance an opponent to this player , where the opponent will still be hit
     /// </summary>
@@ -517,7 +543,7 @@ public class OurMinifigController : MonoBehaviour
         }else{
             position.x = endZone.x;
         }
-        transform.SetPositionAndRotation(position, transform.rotation);
+        TeleportTo(position);
         // Decrease the knockback.
         float delta = 0.93f;// (Time.deltaTime * 100f); //Movement becomes weird when multiplying with deltaTime
         _knockback = _knockback * delta;
