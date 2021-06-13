@@ -8,12 +8,12 @@ public class GroupRMinifigAnimator : MonoBehaviour
 
     public void enableSword()
     {
-        Controller.isHitting = true;
+        Controller.setHitting(true);
     }
 
     public void disableSword()
     {
-        Controller.isHitting = false;
+        Controller.setHitting(false);
     }
 
     public void throwBatarang()

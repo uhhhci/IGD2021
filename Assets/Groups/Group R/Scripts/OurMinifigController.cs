@@ -923,10 +923,13 @@ public class OurMinifigController : MonoBehaviour
         }
         if (!hasItem)
             animator.SetTrigger(punchHash);
-        else if (itemType == "batarang")
-            animator.SetTrigger(throwHash);
-        else if (itemType == "sword")
-            animator.SetTrigger(swordHash);
+        else
+        {
+            if (itemType == "batarang")
+                animator.SetTrigger(throwHash);
+            else if (itemType == "sword")
+                animator.SetTrigger(swordHash);
+        }
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
         {
@@ -1018,5 +1021,24 @@ public class OurMinifigController : MonoBehaviour
     public void release()
     {
         SetInputEnabled(true);
+        useItem();
+    }
+
+    public void setHitting(bool hitting)
+    {
+        isHitting = hitting;
+        if (!hitting)
+            useItem();
+    }
+
+    private void useItem()
+    {
+        bool keep = item.Use();
+        if (!keep)
+        {
+            Destroy(item.gameObject);
+            hasItem = false;
+            item = null;
+        }
     }
 }
