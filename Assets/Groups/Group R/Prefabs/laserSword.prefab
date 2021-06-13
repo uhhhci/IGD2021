@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 1740463500686128260}
   - component: {fileID: 1740463500686128258}
   - component: {fileID: 3208260179144822841}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: laserSword
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: sword
   isPickedUp: 0
+  isActive: 1
   posOffset: {x: 0, y: -0.33, z: 0.3}
   rotOffset: {x: 15, y: -5.2, z: 0}
   strength: 20
