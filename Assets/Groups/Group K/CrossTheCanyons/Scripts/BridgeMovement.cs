@@ -2,27 +2,36 @@
 
 public class BridgeMovement : MonoBehaviour
 {
-    private Rigidbody rb;
-    public float movementForce = 1.0f;
-    public float rotationForce = 1.0f;
+    private Rigidbody bridge;
+    private float movementForce = 0.7f;
+    private float rotationForce = 0.7f;
 
-    public Player1Movement player1;
-    public Player2Movement player2;
+    public HorizontalBridgeMovement horizontalPlayer;
+    public VerticalBridgeMovement verticalPlayer;
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        float bridgeHorizontalMovement = player1.GetBridge1HorizontalMovement();
-        float bridgeVerticalMovement = player2.GetBridge1VerticalMovement();
-        float rotationTorque = player1.GetClockwiseRotation() - player2.GetCounterclockwiseRotation();
+        float bridgeHorizontalMovement = horizontalPlayer.GetBridgeHorizontalMovement();
+        float bridgeVerticalMovement = verticalPlayer.GetBridgeVerticalMovement();
+        float rotationTorque = horizontalPlayer.GetClockwiseRotation() - verticalPlayer.GetCounterclockwiseRotation();
 
         Vector3 movementVec = new Vector3(-bridgeVerticalMovement, 0.0f, bridgeHorizontalMovement);
-        rb.AddForce(movementVec * movementForce * Time.deltaTime, ForceMode.VelocityChange);
-        rb.AddTorque(0, rotationTorque * rotationForce * Time.deltaTime, 0, ForceMode.VelocityChange);
+        bridge.AddForce(movementVec * movementForce * Time.deltaTime, ForceMode.VelocityChange);
+        bridge.AddTorque(0, rotationTorque * rotationForce * Time.deltaTime, 0, ForceMode.VelocityChange);
     }
 
-    public void SetBridgeBody(Rigidbody bridge)
+    public void SetBridgeBody(Rigidbody bridge, bool isPlayerDead)
     {
-        rb = bridge;
+        this.bridge = bridge;
+        if (!isPlayerDead)
+        {
+            gameObject.AddComponent<FixedJoint>();
+            GetComponent<FixedJoint>().connectedBody = bridge;
+        }
+    }
+
+    public void DisconnectFromCrane()
+    {
+        Destroy(GetComponent<FixedJoint>());
     }
 }

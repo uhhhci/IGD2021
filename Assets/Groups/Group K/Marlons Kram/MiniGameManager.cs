@@ -1,13 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+// TODO sort ranking for finished method
 public class MiniGameManager : MonoBehaviour
 {
     [SerializeField] private GameObject _player1;
     [SerializeField] private GameObject _player2;
     [SerializeField] private GameObject _player3;
     [SerializeField] private GameObject _player4;
+
+    private MiniGame_Meteorfall _minigame;
+
+    private void Awake()
+    {
+        _minigame = transform.GetComponent<MiniGame_Meteorfall>();
+
+        /* TODO this should be the correct way of initializing the controls as soon as Group C finishes it
+        List<PlayerInput> playerInputs = new List<PlayerInput>(4)
+        {
+            _player1.GetComponent<PlayerInput>(),
+            _player2.GetComponent<PlayerInput>(),
+            _player3.GetComponent<PlayerInput>(),
+            _player4.GetComponent<PlayerInput>()
+        };
+        List<string> ids = new List<string>(4)
+        {
+            "0",
+            "1",
+            "2",
+            "3"
+        };
+        InputManager.Instance.AssignPlayerInput(playerInputs, ids);
+        */
+    }
 
     // Update is called once per frame
     void Update()
@@ -50,11 +77,13 @@ public class MiniGameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         Debug.Log("Its a Draw!");
+        //minigameMeteorfall.MiniGameFinished()
     }
 
     public void WinGame(GameObject winner)
     {
         Time.timeScale = 0;
         Debug.Log(winner.name + " Wins the Game!");
+        //minigameMeteorfall.MiniGameFinished()
     }
 }

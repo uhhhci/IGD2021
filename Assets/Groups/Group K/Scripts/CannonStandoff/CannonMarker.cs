@@ -20,7 +20,7 @@ public class CannonMarker : MonoBehaviour {
 	}
 	
 	void Update() {
-		float movementHorizontal = -movement.x * speed * Time.deltaTime;
+		float movementHorizontal = movement.x * speed * Time.deltaTime;
 		float movementVertical = movement.y * speed * Time.deltaTime;
 		
 		transform.Translate(movementHorizontal, movementVertical, 0.0f);
