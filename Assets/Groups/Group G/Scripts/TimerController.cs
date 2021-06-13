@@ -10,6 +10,10 @@ public class TimerController : MonoBehaviour
     public Text TimeCounter;
     public float GametimeMinutes = 3.0f;
 
+    public string FirstThird = "green";
+    public string SecondThird = "yellow";
+    public string ThirdThird = "red";
+
     private TimeSpan TimePlaying;
     private float TimeLeft;
     private bool TimerGoing;
@@ -43,7 +47,23 @@ public class TimerController : MonoBehaviour
         {
             TimeLeft -= Time.deltaTime;
             TimePlaying = TimeSpan.FromSeconds(TimeLeft);
-            string timePlayingStr = "Time: " + TimePlaying.ToString("mm':'ss");
+            string TimerColor = "white";
+
+            if (TimeLeft > 120)
+            {
+                TimerColor = FirstThird;
+            }   
+            else if (TimeLeft > 60)
+            {
+                TimerColor = SecondThird;
+            }
+            else
+            {
+                TimerColor = ThirdThird;
+            }
+            string timePlayingStr = "<color=" + TimerColor + ">Time: " + TimePlaying.ToString("mm':'ss") + "</color>";
+            // string timePlayingStr = "Time: " + TimePlaying.ToString("mm':'ss");
+            
             TimeCounter.text = timePlayingStr;
 
             yield return null;
