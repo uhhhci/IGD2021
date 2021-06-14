@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enum_Destroy : MonoBehaviour
+public class Enums
 {
     public enum DestroyType
     {   

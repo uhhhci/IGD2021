@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollisionExplosion : Enum_Destroy
+public class CollisionExplosion : MonoBehaviour
 {
     public GameObject Explosion;
-    public DestroyType Type;
+    public Enums.DestroyType Type;
 }

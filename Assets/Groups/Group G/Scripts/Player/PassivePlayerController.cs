@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PassivePlayerController : MonoBehaviour
 {
+    public bool AI = false;
+
     public float Speed = 25.0f;
     public float Tilt = 1.0f;
     public Boundary Boundary;
@@ -66,6 +68,7 @@ public class PassivePlayerController : MonoBehaviour
         
         GameObject weapon = Instantiate(WeaponSystems[CurrentWeaponIndex].Bullet, WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.position, WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.rotation);
         weapon.name = "CurrentWeapon";
+        weapon.tag = "Obstacle";
         weapon.transform.parent = gameObject.transform;
         weapon.transform.position = WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.position;
         weapon.GetComponent<Rigidbody>().isKinematic = true;
@@ -138,6 +141,8 @@ public class PassivePlayerController : MonoBehaviour
 
     private void OnMoveDpad(InputValue value)
     {
+        if (AI) return;
+
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
         Movement = input;
@@ -172,11 +177,12 @@ public class PassivePlayerController : MonoBehaviour
 
     private void OnMenu()
     {
-        print("OnMenu");
+
     }
 
     private void OnNorthPress()
     {
+        if (AI) return;
         // + button
         string tag = transform.gameObject.tag;
         WeaponSystems[CurrentWeaponIndex].Fire(tag);
@@ -189,6 +195,7 @@ public class PassivePlayerController : MonoBehaviour
 
     private void OnEastPress()
     {
+        if (AI) return;
         // 4 button
         UpdateWeaponByIndex(CurrentWeaponIndex - 1);
     }
@@ -200,6 +207,7 @@ public class PassivePlayerController : MonoBehaviour
 
     private void OnSouthPress()
     {
+        if (AI) return;
         // 6 button
         UpdateWeaponByIndex(CurrentWeaponIndex + 1 );
     }
@@ -210,6 +218,7 @@ public class PassivePlayerController : MonoBehaviour
 
     private void OnWestPress()
     {
+        if (AI) return;
         if (Time.time > NextWave)
         {
             NextWave = Time.time + WaveRate - Level;

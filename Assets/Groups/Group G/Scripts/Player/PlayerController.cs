@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,10 +17,20 @@ public class PlayerController : MonoBehaviour
     public float Tilt;
     public Boundary Boundary;
     public WeaponSystem[] WeaponSystems;
-    
+    public Enums.DestroyType Type;
+
     private Vector2 Movement;
     private float SpeedOriginal;
     private int CurrentWeaponIndex = 0;
+
+    private GameObject Target;
+    private Vector3 ChaseTargetPosition;
+    public AIState State;
+    public enum AIState
+    {
+        Roaming,
+        ChaseTarget
+    }
 
     AudioSource AudioSource;
 
@@ -28,31 +39,49 @@ public class PlayerController : MonoBehaviour
         string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
 
-        if (AI)
-        {
-            StartCoroutine(Moving());
-        }
     }
 
     private void Awake()
     {
         AudioSource = GetComponent<AudioSource>();
+
+        State = AIState.Roaming;
+        if (AI)
+        {
+            StartCoroutine(Roaming());
+            Target = this.gameObject;
+        }
     }
     private void Update()
     {
-
+        if (AI)
+        {
+            switch (State)
+            {
+                default:
+                case AIState.Roaming:
+                    FindTarget();
+                    break;
+                case AIState.ChaseTarget:
+                    ChaseTarget();
+                    break;
+            }
+            
+        }
     }
-    IEnumerator Moving()
+
+    IEnumerator Roaming()
     {
-        while (true)
+        while (AI && (State == AIState.Roaming))
         {
             //MovingDirection [-1,1] in x and z
             Movement = new Vector2(Random.Range(0, 2) * -Mathf.Sign(transform.position.x), Random.Range(0, 2) * -Mathf.Sign(transform.position.z));
             //Maneuver time - Moving time
-            yield return new WaitForSeconds(Random.Range(1f,2.5f));
+            yield return new WaitForSeconds(Random.Range(1f, 2f));
             Movement = new Vector2(0f, 0f);
             //Wait until next Movement
             yield return new WaitForSeconds(Random.Range(0f, 0.5f));
+            FindTarget();
         }
     }
 
@@ -94,8 +123,95 @@ public class PlayerController : MonoBehaviour
         return CurrentWeaponIndex;
     }
 
+    private void FindTarget()
+    {
+        float targetRange = 50f;
+        GameObject closest = FindClosestEnemyOfValidType();
+        if (closest == null) return;
+
+        if(Vector3.Distance(transform.position, closest.transform.position) < targetRange)
+        {
+            Target = closest;
+            State = AIState.ChaseTarget;
+        }
+    }
+
+    private void ChaseTarget()
+    {
+        if (Target == null)
+        {
+            State = AIState.Roaming;
+            StartCoroutine(Roaming());
+            return;
+        }
+        // Move our position a step closer to the target.
+        float step = Speed * Time.deltaTime; // calculate distance to move
+
+        
+        if (Vector3.Distance(transform.position, ChaseTargetPosition) < 0.1f)
+        {
+            float offsetX = Random.Range(-3f, 3f);
+            float offsetZ = Random.Range(30f, 45f);
+            Vector3 offsetPosition = new Vector3(Mathf.Clamp(Target.transform.position.x + offsetX, Boundary.xMin, Boundary.xMax),
+                Target.transform.position.y,
+                Mathf.Clamp(Target.transform.position.z - offsetZ, Boundary.zMin, Boundary.zMax)
+                );
+            ChaseTargetPosition = offsetPosition;
+        }
+        GetComponent<Rigidbody>().position = Vector3.MoveTowards(transform.position, ChaseTargetPosition, step);
+        Shoot();
+    }
+
+    public GameObject FindClosestEnemyOfValidType()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        // If no enemies found at all directly return nothing
+        // This happens if there simply is no object tagged "Enemy" in the scene
+        if (enemies.Length == 0)
+        {
+            Debug.LogWarning("No enemies found!", this);
+            return null;
+        }
+
+        // If there is only exactly one anyway skip the rest and return it directly
+        if (enemies.Length == 1)
+        {
+            //dont chase what u cant destroy
+            if(enemies[0].GetComponent<Enemy_G>().CanBeDestroyedBy == Enums.DestroyType.All)
+            {
+                return enemies[0];
+            }else if(enemies[0].GetComponent<Enemy_G>().CanBeDestroyedBy != Type)
+            {
+                return null;
+            }
+            
+        }
+
+        enemies.OrderBy(go => (transform.position - go.transform.position).sqrMagnitude);
+        
+        foreach(GameObject go in enemies)
+        {
+            Enums.DestroyType enemyType = go.GetComponent<Enemy_G>().CanBeDestroyedBy;
+            if (enemyType == Enums.DestroyType.All || enemyType == Type)
+            {
+                return go;
+            }
+        }
+
+        return null;
+    }
+
+    private void Shoot()
+    {
+        string tag = transform.gameObject.tag;
+        WeaponSystems[CurrentWeaponIndex].Fire(tag);
+    }
+
     private void OnMoveDpad(InputValue value)
     {
+        if (AI) return;
+
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
         Movement = input;
@@ -136,8 +252,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnSouthPress()
     {
-        string tag = transform.gameObject.tag;
-        WeaponSystems[CurrentWeaponIndex].Fire(tag);
+        if (AI) return;
+        Shoot();
     }
     private void OnSouthRelease()
     {

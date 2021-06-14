@@ -19,7 +19,7 @@ public class WeaponSystem : MonoBehaviour
     private AudioSource SoundEffect;
     private float FireRateCounter;
     private float TimeCounter = 0.0f;
-    private int Level;
+    public int Level;
     private bool LevelSet = false;
 
     private void Awake()
@@ -46,9 +46,19 @@ public class WeaponSystem : MonoBehaviour
 
     public void Fire(string Tag)
     {
-        if (Tag == "Enemy") Level = 1;
-        
-        if(FireRateCounter >= FireRate / Level)
+        if (Tag == "Boundary") Level = 1;
+
+        float cooldown;
+
+        if (Tag == "Player") {
+            cooldown = (FireRate / (Level * 0.5f));
+        }
+        else
+        {
+            cooldown = FireRate / Level;
+        }
+
+        if (FireRateCounter >= cooldown)
         {
             FireRateCounter = 0;
             

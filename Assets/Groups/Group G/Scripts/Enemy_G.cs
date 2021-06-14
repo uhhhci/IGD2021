@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_G : Enum_Destroy
+public class Enemy_G : MonoBehaviour
 {
     public GameObject Explosion;
     public int HitPoints;
     public HealthBar HealthBar;
-    public DestroyType CanBeDestroyedBy;
+    public Enums.DestroyType CanBeDestroyedBy;
 
     public GameObject[] DropPowerUps;
     [Range(0.0f, 1.0f)]
@@ -59,7 +59,7 @@ public class Enemy_G : Enum_Destroy
                 {
                     Instantiate(otherCollider.GetComponent<CollisionExplosion>().Explosion, otherCollider.transform.position, otherCollider.transform.rotation);
                     //if color is not the same we return, so no dmg to the enemy
-                    if(CanBeDestroyedBy != DestroyType.All)
+                    if(CanBeDestroyedBy != Enums.DestroyType.All)
                     {
                         if(otherCollider.GetComponent<CollisionExplosion>().Type != CanBeDestroyedBy)
                         {
