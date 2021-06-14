@@ -4,15 +4,11 @@ public class TestingGame : MiniGame
 {
    
 
-    public GameObject myPlayer;
-    public GameObject secondPlayer;
-    
-
     public override string getDisplayName(){
-        return "My Awesome Game";
+        return "Game  Title";
     }
     public override string getSceneName(){
-        return "MyAwesomeGameScene";
+        return "Example";
     }
 
     public override MiniGameType getMiniGameType()
