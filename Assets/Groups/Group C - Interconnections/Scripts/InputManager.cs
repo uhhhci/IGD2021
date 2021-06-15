@@ -16,8 +16,6 @@ public class InputManager : MonoBehaviour
 
     private List<Tuple<int, int, string>> playerSchemes = new List<Tuple<int, int, string>>();
 
-    public GameObject _menuPlayerPrefab;
-
     public static InputManager Instance;
 
     private void Awake () {
