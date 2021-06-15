@@ -4,6 +4,9 @@ using System.Collections;
 public class PowerupSpeed : PowerUp
 {
     public override string Name { get { return "Speed"; } }
+    private static int DURATION = 5;
+    private static int MULTIPLIER = 2;
+    private static int BRICKPOWER = 25;
     public override IEnumerator UsePowerup(GameObject player)
     {
         Debug.Log("Name: " + Name);
@@ -14,24 +17,24 @@ public class PowerupSpeed : PowerUp
         if(ps.hasWhiteBrick)
         {
             usedBrick = true;
-            controller.maxVelocity += 30;
-            controller.maxAcceleration += 30;
+            controller.maxVelocity += BRICKPOWER;
+            controller.maxAcceleration += BRICKPOWER;
         }
 
-        controller.maxVelocity *= 2;
-        controller.maxAcceleration *= 2;
+        controller.maxVelocity = MULTIPLIER;
+        controller.maxAcceleration *= MULTIPLIER;
 
         ps.UsedPowerup();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(DURATION);
 
-        controller.maxVelocity /= 2;
-        controller.maxAcceleration /= 2;
+        controller.maxVelocity /= MULTIPLIER;
+        controller.maxAcceleration /= MULTIPLIER;
 
         if (usedBrick)
         {
-            controller.maxVelocity -= 30;
-            controller.maxAcceleration -= 30;
+            controller.maxVelocity -= BRICKPOWER;
+            controller.maxAcceleration -= BRICKPOWER;
         }
     }
 

@@ -25,7 +25,13 @@ public class PowerupReverseSteer : PowerUp
         ps.UsedPowerup();
 
         CarController targetCarController = targetPlayer.GetComponent<CarController>();
-        targetCarController.steeringReversed = true;
+
+        PlayerStats tps = targetPlayer.GetComponent<PlayerStats>();
+        if(!tps.hasShield)
+        {
+            targetCarController.steeringReversed = true;
+            tps.hasShield = false;
+        }
 
         yield return new WaitForSeconds(DURATION);
 
