@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,6 +13,10 @@ public class InputManager : MonoBehaviour
 
     private const string INPUT_DEVICE_PLAYER = "InputDevideIDPlayer";
     private const string CONTROL_SCHEME_PLAYER = "ControlSchemePlayer";
+
+    private List<Tuple<int, int, string>> playerSchemes = new List<Tuple<int, int, string>>();
+
+    public GameObject _menuPlayerPrefab;
 
     public static InputManager Instance;
 
@@ -27,7 +32,7 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
-        
+        SpawnKeyboardPlayers();
     }
 
     public PlayerInput AssignPlayerInput(PlayerInput player, string playerId)
@@ -48,6 +53,33 @@ public class InputManager : MonoBehaviour
         PlayerPrefs.SetString(CONTROL_SCHEME_PLAYER + playerId, controlScheme);
     }
 
+    //This should be called at the end of the selection screen
+    public void SavePlayersControlSchemes()
+    {
+        //Iterate over all tuples
+        foreach(Tuple<int, int, string> player in playerSchemes)
+        {
+            SavePlayerControlScheme(player.Item1.ToString(), player.Item2, player.Item3);
+        }
+    }
+
+    public void AddControlScheme(Tuple<int, int, string> playerScheme)
+    {
+        //Check if the tuple is already in the list
+        if (playerSchemes.Count == 0)
+        {
+            playerSchemes.Add(playerScheme);
+        }
+        else
+        {
+            if (!playerSchemes.Contains(playerScheme))
+            {
+                playerSchemes.Add(playerScheme);
+            }
+        }
+    }
+
+    
     /*
     private void GetPlayerControlScheme(string playerId)
     {
@@ -61,24 +93,29 @@ public class InputManager : MonoBehaviour
 
     
     //Work in progress
+    //This will be used when players select their character at the start screen
+    
     private void SpawnKeyboardPlayers()
     {
+        controls = new Controls();
+
         PlayerControllerLobby player;
         player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
-        player.SwitchCurrentControlScheme(controls.KeyboardWASDScheme.name, Keyboard.current);
+        player.SetInputDeviceAndControlScheme(controls.KeyboardWASDScheme.name, Keyboard.current);
+        
+        player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
+        player.SetInputDeviceAndControlScheme(controls.KeyboardZGHJScheme.name, Keyboard.current);
 
         player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
-        player.SwitchCurrentControlScheme(controls.KeyboardZGHJScheme.name, Keyboard.current);
+        player.SetInputDeviceAndControlScheme(controls.KeyboardPLÖÄScheme.name, Keyboard.current);
 
         player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
-        player.SwitchCurrentControlScheme(controls.KeyboardPLÖÄScheme.name, Keyboard.current);
-
-        player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
-        player.SwitchCurrentControlScheme(controls.KeyboardNumScheme.name, Keyboard.current);
-
+        player.SetInputDeviceAndControlScheme(controls.KeyboardNumScheme.name, Keyboard.current);
+        
 
     }
 
+    /*
     private void SpawnControllerPlayers()
     {
         PlayerControllerLobby player;
@@ -90,11 +127,7 @@ public class InputManager : MonoBehaviour
             player.SwitchCurrentControlScheme(controls.GamepadScheme.name, Gamepad.all[i]);
             
         }
-    }
+    } */
     
-}
-
-public class PlayerControllerLobby : PlayerInput
-{
-
+    
 }

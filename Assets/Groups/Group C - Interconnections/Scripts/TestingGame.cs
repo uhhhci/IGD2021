@@ -18,6 +18,12 @@ public class TestingGame : MiniGame
 
     void Start()
     {   
+        //Create list of player inputs from the players in the scene
+        //var playerInputs = new List<PlayerInput> { myPlayer.GetComponent<PlayerInput>(), secondPlayer.GetComponent<PlayerInput>() };
+
+        //This assigns the player input in the order they were given in the array
+        //InputManager.Instance.AssignPlayerInput(playerInputs);
+
         PlayerPrefs.SetString("PLAYER1_NAME", "Brenda");
         PlayerPrefs.SetString("PLAYER2_NAME", "Jovanna");
         PlayerPrefs.SetString("PLAYER3_NAME", "Myriem");
@@ -31,6 +37,5 @@ public class TestingGame : MiniGame
         Debug.Log(PlayerPrefs.GetInt("PLAYER3_PLACE"));
         Debug.Log(PlayerPrefs.GetInt("PLAYER4_PLACE"));
 
-        
     }
 }
