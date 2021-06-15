@@ -38,6 +38,10 @@ public class CarController : MonoBehaviour
     public List<GameObject> fastGrounds;
     public Boolean steeringReversed = false;
     private Boolean stopped = false;
+    public float GroundPercent { get; private set; }
+    public float AirPercent { get; private set; }
+    public float AddedGravity { get; private set; } = 1.0f;
+    public float CoastingDrag { get; private set; } = 7.0f;
 
     public void DisableControl()
     {
@@ -61,7 +65,8 @@ public class CarController : MonoBehaviour
         {
             CheckDrivingDirection(rb);
             ChangeGroundDependentSpeed();
-            // CheckGroundContact();
+            CheckGroundContact();
+            GroundAirbourne();
             Move();
             Turn();
         }
@@ -111,14 +116,26 @@ public class CarController : MonoBehaviour
         }
     }
 
+
     private void CheckGroundContact()
     {
-        if (HasGroundContact())
+        int groundedCount = 0;
+
+        foreach (Wheel wheel in wheels)
         {
-            rb.freezeRotation = false;
-        } else
+            if (wheel.collider.isGrounded && wheel.collider.GetGroundHit(out WheelHit hit))
+                groundedCount++;
+        }
+
+        GroundPercent = (float)groundedCount / 4.0f;
+        AirPercent = 1 - GroundPercent;
+    }
+
+    void GroundAirbourne()
+    {
+        if (AirPercent >= 1)
         {
-            rb.freezeRotation = true;
+            rb.velocity += Physics.gravity * Time.fixedDeltaTime * AddedGravity;
         }
     }
 
@@ -159,29 +176,40 @@ public class CarController : MonoBehaviour
             if (controlEnabled)
             {
                 // driving forwards --> accelerate
-                if (movement.y > 0 && !backwards)
+                if (movement.y > 0 && !backwards && GroundPercent > 0.0f)
                 {
                     wheel.collider.brakeTorque = 0;
                     ApplyMotorTorque(wheel);
+                    Debug.Log("forward-accelerate");
 
                 }
                 // driving forwards --> brake
-                else if (movement.y < 0 && !backwards)
+                else if (movement.y < 0 && !backwards && GroundPercent > 0.0f)
                 {
                     wheel.collider.motorTorque = 0;
                     ApplyBrakeTorque(wheel, -(movement.y * 0.001f));
-                // driving backwards --> brake
+                    Debug.Log("forward-brake");
                 }
-                else if (movement.y > 0 && backwards)
+                // driving backwards --> brake
+                else if (movement.y > 0 && backwards && GroundPercent > 0.0f)
                 {
                     wheel.collider.motorTorque = 0;
                     ApplyBrakeTorque(wheel, movement.y);
-                // driving backwards --> accelerate
+                    Debug.Log("backward-brake");
                 }
-                else if (movement.y < 0 && backwards)
+                // driving backwards --> accelerate
+                else if (movement.y < 0 && backwards && GroundPercent > 0.0f)
                 {
                     wheel.collider.brakeTorque = 0;
                     ApplyMotorTorque(wheel);
+                    Debug.Log("backward-accelerate");
+                }
+                // No Input (Coasting drag - DE:Motorbremswirkung)
+                else if(movement.y <= 0.01f && !backwards && GroundPercent > 0.0f)
+                {
+                    Debug.Log("no input!");
+                    wheel.collider.motorTorque = 1;
+                    wheel.collider.brakeTorque = CoastingDrag * 100;
                 }
                 else
                 {
@@ -199,6 +227,10 @@ public class CarController : MonoBehaviour
                 wheel.collider.brakeTorque = maxAcceleration * 35 * Time.deltaTime;
             }
         }
+        Debug.Log("01" + " mt: " + wheels[0].collider.motorTorque + " bt: " + wheels[0].collider.brakeTorque + '\n' 
+            + "02" + " mt: " + wheels[1].collider.motorTorque + " bt: " + wheels[1].collider.brakeTorque + '\n'
+            + "03" + " mt: " + wheels[2].collider.motorTorque + " bt: " + wheels[2].collider.brakeTorque + '\n'
+            + "04" + " mt: " + wheels[3].collider.motorTorque + " bt: " + wheels[3].collider.brakeTorque + '\n');
     }
 
     private void CheckDrivingDirection(Rigidbody rigidbody)
@@ -271,11 +303,6 @@ public class CarController : MonoBehaviour
             wheelRotation = wheelRotation * Quaternion.Euler(wheelRotationOffset);
             wheel.model.transform.rotation = wheelRotation;
         }
-    }
-
-    private Boolean HasGroundContact() {
-        Vector3 raycastStart = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
-        return Physics.Raycast(raycastStart, -Vector3.up, 1f);
     }
 
 private void OnMove(InputValue value)
