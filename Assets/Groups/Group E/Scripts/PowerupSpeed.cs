@@ -21,7 +21,7 @@ public class PowerupSpeed : PowerUp
             controller.maxAcceleration += BRICKPOWER;
         }
 
-        controller.maxVelocity = MULTIPLIER;
+        controller.maxVelocity *= MULTIPLIER;
         controller.maxAcceleration *= MULTIPLIER;
 
         ps.UsedPowerup();

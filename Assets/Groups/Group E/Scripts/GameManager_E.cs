@@ -11,7 +11,7 @@ public class GameManager_E : MonoBehaviour
     {
         PlayerStats thePlayer = player.GetComponent<PlayerStats>();
         thePlayer.CountRound();
-        Debug.Log("Player " + player.name + " : Round " + thePlayer.rounds);
+        //Debug.Log("Player " + player.name + " : Round " + thePlayer.rounds);
 
         if (thePlayer.rounds == 4)
         {

@@ -13,7 +13,7 @@ public class PowerupShield : PowerUp
         PlayerStats ps = player.GetComponent<PlayerStats>();
         
         bool usedBrick = false;
-
+        ps.audio.Play();
         if (ps.hasWhiteBrick)
         {
             usedBrick = true;

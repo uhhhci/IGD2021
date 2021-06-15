@@ -21,6 +21,7 @@ public class PlayerStats : MonoBehaviour
     public bool hasShield;
     public ParticleSystem ps;
     public GameObject myVFX;
+    public AudioSource audio;
 
     // Start is called before the first frame update
     void Start()
@@ -32,11 +33,14 @@ public class PlayerStats : MonoBehaviour
 
         var shield = transform.Find("ShieldSoftBlue");
         ps = shield.GetComponent<ParticleSystem>();
-        ps.Play();
-        var emmision = ps.emission;
-        emmision.enabled = true;
-        Debug.Log(ps.isEmitting);
-        Debug.Log(ps.isPlaying);
+        audio = shield.GetComponent<AudioSource>();
+
+        //ps.Play();
+        //var emmision = ps.emission;
+        //emmision.enabled = true;
+
+        Debug.Log("Is emitting: " + ps.isEmitting);
+        Debug.Log("Is playing: " + ps.isPlaying);
     }
 
     private void Update()
