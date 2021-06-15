@@ -62,12 +62,14 @@ MonoBehaviour:
   place: 1
   gameOver: 0
   isHitting: 0
+  itemType: 
   _knockback: {x: 0, y: 0, z: 0}
   damage: 0
   strength: 10
   hitRange: 1
-  endZone: {x: -24, y: 7, z: 0}
+  endZone: {x: -24, y: 30, z: 0}
   hasItem: 0
+  item: {fileID: 0}
   stepAudioClips:
   - {fileID: 8300000, guid: 39948ec2175e749819ecd850a1d0e5af, type: 3}
   - {fileID: 8300000, guid: 97adc7a6316eb42039437d84c81b25c9, type: 3}
@@ -265,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e789714f05612049a099f7e1795b74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Controller: {fileID: 0}
+  Controller: {fileID: 7371984904186746374}
 --- !u!1001 &516390373614893210
 PrefabInstance:
   m_ObjectHideFlags: 0
