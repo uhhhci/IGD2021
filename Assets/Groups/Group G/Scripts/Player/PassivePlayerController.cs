@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -32,7 +33,16 @@ public class PassivePlayerController : MonoBehaviour
     private float NextSlow;
     private int CurrentWeaponIndex = 0;
     private GameController_G GameController;
+
+    private Vector3 ChasePlayerPosition;
+    private float AIWaveWait;
+    private float AISlowWait;
+
     AudioSource AudioSource;
+    private void Awake()
+    {
+        AudioSource = GetComponent<AudioSource>();
+    }
 
     void Start()
     {
@@ -50,40 +60,38 @@ public class PassivePlayerController : MonoBehaviour
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
 
         UpdateWeaponVisualization();
-    }
-    public void UpdateWeaponByIndex(int index)
-    {
-        CurrentWeaponIndex = Mathf.RoundToInt(Mathf.Repeat((float)index, (float)(WeaponSystems.Length)));
-        //Debug.Log(CurrentWeaponIndex);
-        UpdateWeaponVisualization();
-    }
 
-    public void UpdateWeaponVisualization()
-    {
-        
-        if(gameObject.transform.Find("CurrentWeapon") != null)
+        if (AI)
         {
-            GameObject.Destroy(gameObject.transform.Find("CurrentWeapon").gameObject);
+            ChasePlayerPosition = transform.position;
+            StartCoroutine(SelectRandomWeapon());
+            AIWaveWait = 3f;
+            AISlowWait = 5f;
         }
-        
-        GameObject weapon = Instantiate(WeaponSystems[CurrentWeaponIndex].Bullet, WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.position, WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.rotation);
-        weapon.name = "CurrentWeapon";
-        weapon.tag = "Obstacle";
-        weapon.transform.parent = gameObject.transform;
-        weapon.transform.position = WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.position;
-        weapon.GetComponent<Rigidbody>().isKinematic = true;
-        weapon.GetComponent<Collider>().enabled = false;
-        weapon.GetComponent<Mover>().enabled = false;
-        weapon.transform.Find("CanvasHPBar").gameObject.SetActive(false);
-        
     }
 
-    private void Awake()
-    {
-        AudioSource = GetComponent<AudioSource>();
-    }
     private void Update()
     {
+        if (AI)
+        {
+            ChasePlayer();
+        
+            if (Time.time > NextWave + AIWaveWait)
+            {
+                AIWaveWait = Random.Range(5f, 10f);
+                NextWave = Time.time + WaveRate - Level;
+                StartCoroutine(SpawnWave());
+            }
+
+            //slowing players and slowmotion effect
+            if (Time.time > NextSlow + AISlowWait)
+            {
+                AISlowWait = Random.Range(10f, 15f);
+                SlowPlayers();
+                NextSlow = Time.time + SlowRate - Level;
+            }
+        }
+
         //cooldown for next slow
         float slowCooldown = (NextSlow - Time.time);
         if (slowCooldown > 0)
@@ -111,13 +119,15 @@ public class PassivePlayerController : MonoBehaviour
         {
             Level += 1;
             LevelSet = true;
-            Debug.Log("Level Up!");
+            //Debug.Log("Level Up!");
             
         }
         if ((int) TimeCounter % 2 == 1)
         {
             LevelSet = false;
         }
+
+
     }
 
     //for physics
@@ -137,7 +147,101 @@ public class PassivePlayerController : MonoBehaviour
         //GetComponent<Rigidbody>().rotation = Quaternion.Euler(0.0f, this.transform.rotation.y, GetComponent<Rigidbody>().velocity.x * -Tilt);
     }
 
+    private void ChasePlayer()
+    {
+        GameObject closestPlayer = FindClosestPlayer();
+        if (closestPlayer == null) return;
 
+        float step = Speed * Time.deltaTime; // calculate distance to move
+
+        //when reached goal position
+        if (Vector3.Distance(transform.position, ChasePlayerPosition) < 0.1f)
+        {
+            Shoot();
+
+            //update position for next chase
+            float offsetX = Random.Range(-3f, 3f);
+            Vector3 goalPosition = new Vector3(
+                Mathf.Clamp(closestPlayer.transform.position.x + offsetX, Boundary.xMin, Boundary.xMax),
+                0.0f,
+                Mathf.Clamp(GetComponent<Rigidbody>().position.z, Boundary.zMin, Boundary.zMax));
+            ChasePlayerPosition = goalPosition;
+        }
+        GetComponent<Rigidbody>().position = Vector3.MoveTowards(transform.position, ChasePlayerPosition, step);
+    }
+
+    private GameObject FindClosestPlayer()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        if (players.Length == 0)
+        {
+            return null;
+        }
+
+        GameObject closest;
+
+        // If there is only exactly one anyway skip the rest and return it directly
+        if (players.Length == 1)
+        {
+            closest = players[0];
+            return closest;
+        }
+
+        // Otherwise: Take the enemies
+        closest = players.OrderBy(go => (transform.position - go.transform.position).sqrMagnitude).First();
+
+        return closest;
+    }
+
+    IEnumerator SelectRandomWeapon()
+    {
+        while (AI)
+        {
+            RandomWeaponChange();
+            yield return new WaitForSeconds(Random.Range(1f, 2f));
+        }
+    }
+
+    private void RandomWeaponChange()
+    {
+        int choice = Random.Range(0, 2);
+        if (choice == 0)
+        {
+            UpdateWeaponByIndex(CurrentWeaponIndex - 1);
+        }
+        else
+        {
+            UpdateWeaponByIndex(CurrentWeaponIndex + 1);
+        }
+    }
+
+    public void UpdateWeaponByIndex(int index)
+    {
+        CurrentWeaponIndex = Mathf.RoundToInt(Mathf.Repeat((float)index, (float)(WeaponSystems.Length)));
+        //Debug.Log(CurrentWeaponIndex);
+        UpdateWeaponVisualization();
+    }
+
+    public void UpdateWeaponVisualization()
+    {
+
+        if (gameObject.transform.Find("CurrentWeapon") != null)
+        {
+            GameObject.Destroy(gameObject.transform.Find("CurrentWeapon").gameObject);
+        }
+
+        GameObject weapon = Instantiate(WeaponSystems[CurrentWeaponIndex].Bullet, WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.position, WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.rotation);
+        weapon.name = "CurrentWeapon";
+        weapon.tag = "Obstacle";
+        weapon.transform.parent = gameObject.transform;
+        weapon.transform.position = WeaponSystems[CurrentWeaponIndex].ShotSpawnPoints[0].transform.position;
+        weapon.GetComponent<Rigidbody>().isKinematic = true;
+        weapon.GetComponent<Collider>().enabled = false;
+        weapon.GetComponent<Mover>().enabled = false;
+        weapon.transform.Find("CanvasHPBar").gameObject.SetActive(false);
+
+    }
 
     private void OnMoveDpad(InputValue value)
     {
@@ -157,18 +261,24 @@ public class PassivePlayerController : MonoBehaviour
             //slowing players and slowmotion effect
             if (Time.time > NextSlow)
             {
-                foreach (GameObject player in GameController.Players)
-                {
-                    PlayerController controller = player.GetComponent<PlayerController>();
-                    controller.SetSpeedBoostOn(SlowMultiplier);
-                    StartCoroutine(WaitUntilExpires(controller));
-                }
+                SlowPlayers();
                 NextSlow = Time.time + SlowRate - Level;
             }
 
         }
 
     }
+
+    private void SlowPlayers()
+    {
+        foreach (GameObject player in GameController.Players)
+        {
+            PlayerController controller = player.GetComponent<PlayerController>();
+            controller.SetSpeedBoostOn(SlowMultiplier);
+            StartCoroutine(WaitUntilExpires(controller));
+        }
+    }
+
     IEnumerator WaitUntilExpires(PlayerController controller)
     {
         yield return new WaitForSeconds(SlowDuration);
@@ -184,6 +294,11 @@ public class PassivePlayerController : MonoBehaviour
     {
         if (AI) return;
         // + button
+        Shoot();
+    }
+
+    private void Shoot()
+    {
         string tag = transform.gameObject.tag;
         WeaponSystems[CurrentWeaponIndex].Fire(tag);
     }

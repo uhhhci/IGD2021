@@ -25,8 +25,8 @@ public class PlayerController : MonoBehaviour
 
     private GameObject Target;
     private Vector3 ChaseTargetPosition;
-    public AIState State;
-    public enum AIState
+    private AIState State;
+    private enum AIState
     {
         Roaming,
         ChaseTarget
@@ -125,11 +125,11 @@ public class PlayerController : MonoBehaviour
 
     private void FindTarget()
     {
-        float targetRange = 50f;
+        float minTargetRange = 10f;
         GameObject closest = FindClosestEnemyOfValidType();
         if (closest == null) return;
-
-        if(Vector3.Distance(transform.position, closest.transform.position) < targetRange)
+        
+        if (Mathf.Abs((closest.transform.position - transform.position).z) > minTargetRange)
         {
             Target = closest;
             State = AIState.ChaseTarget;
@@ -148,12 +148,12 @@ public class PlayerController : MonoBehaviour
         float step = Speed * Time.deltaTime; // calculate distance to move
 
         
-        if (Vector3.Distance(transform.position, ChaseTargetPosition) < 0.1f)
+        if (Vector3.Distance(transform.position, ChaseTargetPosition) <= 0.5f)
         {
             float offsetX = Random.Range(-3f, 3f);
             float offsetZ = Random.Range(30f, 45f);
             Vector3 offsetPosition = new Vector3(Mathf.Clamp(Target.transform.position.x + offsetX, Boundary.xMin, Boundary.xMax),
-                Target.transform.position.y,
+                0.0f,
                 Mathf.Clamp(Target.transform.position.z - offsetZ, Boundary.zMin, Boundary.zMax)
                 );
             ChaseTargetPosition = offsetPosition;
@@ -170,7 +170,7 @@ public class PlayerController : MonoBehaviour
         // This happens if there simply is no object tagged "Enemy" in the scene
         if (enemies.Length == 0)
         {
-            Debug.LogWarning("No enemies found!", this);
+            //Debug.LogWarning("No enemies found!", this);
             return null;
         }
 
