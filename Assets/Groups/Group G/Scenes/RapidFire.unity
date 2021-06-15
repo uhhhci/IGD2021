@@ -369,6 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5d5f23cf1a64811825cb10a87d81f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _menuPlayerPrefab: {fileID: 0}
 --- !u!1001 &325007319
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1226,6 +1227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b49e99a70665c7e46ab701677b364fc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _finishGamePrefab: {fileID: 722604870696496883, guid: ba6dca5006325334e83731e45cd27222,
+    type: 3}
   Players:
   - {fileID: 1809978580}
   - {fileID: 2039939486}
@@ -2014,6 +2017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227870ae020f043cbb47bfce29466447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _randomPicker: {fileID: 0}
 --- !u!4 &1392689486
 Transform:
   m_ObjectHideFlags: 0
