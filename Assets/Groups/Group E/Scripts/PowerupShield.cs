@@ -4,14 +4,27 @@ using System.Collections;
 public class PowerupShield : PowerUp
 {
     public override string Name { get { return "Shield"; } }
+    private static int DURATION = 15;
     public override IEnumerator UsePowerup(GameObject player)
     {
-        Debug.Log("Name: " + Name);
+        Debug.Log("Name: " + Name);        
 
+        CarController controller = player.GetComponent<CarController>();
         PlayerStats ps = player.GetComponent<PlayerStats>();
-        ps.UsedPowerup();
+        
+        bool usedBrick = false;
 
-        yield return new WaitForSeconds(5);
+        if (ps.hasWhiteBrick)
+        {
+            usedBrick = true;
+            ps.hasShield = true;
+            ps.UsedPowerup();
+        } else
+        {
+            ps.hasShield = true;
+            ps.UsedPowerup();
+            yield return new WaitForSeconds(DURATION);
+            ps.hasShield = false;
+        }
     }
-
 }

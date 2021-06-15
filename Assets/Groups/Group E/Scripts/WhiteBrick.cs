@@ -16,6 +16,7 @@ public class WhiteBrick : MonoBehaviour
     {
         PlayerStats ps = player.GetComponent<PlayerStats>();
         ps.hasWhiteBrick = true;
+        ps.imageWhiteBrick.enabled = true;
 
         GetComponent<Collider>().enabled = false;
         GetComponent<MeshRenderer>().enabled = false;

@@ -17,6 +17,10 @@ public class PlayerStats : MonoBehaviour
     public PowerUp power;
     public bool hasPowerup;
     public bool hasWhiteBrick;
+    public Image imageWhiteBrick;
+    public bool hasShield;
+    public ParticleSystem ps;
+    public GameObject myVFX;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +28,21 @@ public class PlayerStats : MonoBehaviour
         rounds = 0;
         hasPowerup = false;
         hasWhiteBrick = false;
+        imageWhiteBrick.enabled = false;
+
+        var shield = transform.Find("ShieldSoftBlue");
+        ps = shield.GetComponent<ParticleSystem>();
+        ps.Play();
+        var emmision = ps.emission;
+        emmision.enabled = true;
+        Debug.Log(ps.isEmitting);
+        Debug.Log(ps.isPlaying);
+    }
+
+    private void Update()
+    {
+        //GameObject spawnedVFX = Instantiate(myVFX, transform.position, transform.rotation) as GameObject;
+        //Destroy(spawnedVFX, 5f);
     }
 
     public void CountRound()
@@ -44,6 +63,7 @@ public class PlayerStats : MonoBehaviour
         power = null;
         textPowerup.text = "Powerup: ";
         hasWhiteBrick = false;
+        imageWhiteBrick.enabled = false;
     }
 
     public float GetDistance()
