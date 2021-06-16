@@ -18,7 +18,7 @@ public class PowerupAttack : PowerUp {
         CarController controller = player.GetComponent<CarController>();
         PlayerStats ps = player.GetComponent<PlayerStats>();
         bool usedBrick = false;
-        if(ps.hasGoldenBrick)
+        if(ps.hasWhiteBrick)
         {
             usedBrick = true;
      
