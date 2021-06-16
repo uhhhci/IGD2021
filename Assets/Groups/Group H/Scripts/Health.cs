@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     public int health = 3;
+    public int maxHealth = 3;
     public int numberOfHearts = 3;
     public Image[] hearts;
     public Sprite fullHeart;
@@ -20,18 +21,20 @@ public class Health : MonoBehaviour
         gameManager.SubmitHealth(ownID, health);
     }
 
-    public void reduceHealth()
+    public bool reduceHealth()
     {
         if (health > 0)
         {
             health--;
             gameManager.SubmitHealth(ownID, health);
         }
+        // return if player is still alive
+        return health > 0;
     }
 
     public void increaseHealth()
     {
-        if (health < 3)
+        if (health < maxHealth && health > 0)
         {
             health++;
             gameManager.SubmitHealth(ownID, health);
