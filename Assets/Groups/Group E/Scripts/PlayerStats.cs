@@ -19,9 +19,11 @@ public class PlayerStats : MonoBehaviour
     public bool hasWhiteBrick;
     public Image imageWhiteBrick;
     public bool hasShield;
-    public ParticleSystem ps;
+    public ParticleSystem psShield;
+    private ParticleSystem psSpeed;
     public GameObject myVFX;
-    public AudioSource audio;
+    public AudioSource audioShield;
+    private ParticleSystem.EmissionModule emmision;
 
     // Start is called before the first frame update
     void Start()
@@ -32,21 +34,40 @@ public class PlayerStats : MonoBehaviour
         imageWhiteBrick.enabled = false;
 
         var shield = transform.Find("ShieldSoftBlue");
-        ps = shield.GetComponent<ParticleSystem>();
-        audio = shield.GetComponent<AudioSource>();
-
-        //ps.Play();
-        //var emmision = ps.emission;
-        //emmision.enabled = true;
-
-        Debug.Log("Is emitting: " + ps.isEmitting);
-        Debug.Log("Is playing: " + ps.isPlaying);
+        var speed = transform.Find("MagicChargeBlue");
+        psShield = shield.GetComponent<ParticleSystem>();
+        audioShield = shield.GetComponent<AudioSource>();
+        emmision = psShield.emission;
+        psSpeed = speed.GetComponent<ParticleSystem>();
     }
 
-    private void Update()
+    public void StartShield()
     {
-        //GameObject spawnedVFX = Instantiate(myVFX, transform.position, transform.rotation) as GameObject;
-        //Destroy(spawnedVFX, 5f);
+        psShield.Play();        
+        emmision.enabled = true;
+        audioShield.Play();
+    }
+
+    public void StopShield()
+    {
+        emmision.enabled = false;
+        psShield.Stop();
+    }
+
+    public void StartSpeed()
+    {
+        psSpeed.Play();
+    }
+
+    public void StopSpeed()
+    {
+        psSpeed.Stop();
+    }
+
+    public IEnumerator SlowRemoveShield()
+    {
+        yield return new WaitForSeconds(1);
+        hasShield = false;
     }
 
     public void CountRound()

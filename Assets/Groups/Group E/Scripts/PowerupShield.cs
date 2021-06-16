@@ -11,9 +11,9 @@ public class PowerupShield : PowerUp
 
         CarController controller = player.GetComponent<CarController>();
         PlayerStats ps = player.GetComponent<PlayerStats>();
-        
         bool usedBrick = false;
-        ps.audio.Play();
+        ps.StartShield();        
+
         if (ps.hasWhiteBrick)
         {
             usedBrick = true;
@@ -25,6 +25,7 @@ public class PowerupShield : PowerUp
             ps.UsedPowerup();
             yield return new WaitForSeconds(DURATION);
             ps.hasShield = false;
+            ps.StopShield();
         }
     }
 }

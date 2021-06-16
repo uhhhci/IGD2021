@@ -14,6 +14,7 @@ public class PowerupSpeed : PowerUp
         CarController controller = player.GetComponent<CarController>();
         PlayerStats ps = player.GetComponent<PlayerStats>();
         bool usedBrick = false;
+        ps.StartSpeed();
         if(ps.hasWhiteBrick)
         {
             usedBrick = true;
@@ -27,6 +28,8 @@ public class PowerupSpeed : PowerUp
         ps.UsedPowerup();
 
         yield return new WaitForSeconds(DURATION);
+
+        ps.StopSpeed();
 
         controller.maxVelocity /= MULTIPLIER;
         controller.maxAcceleration /= MULTIPLIER;

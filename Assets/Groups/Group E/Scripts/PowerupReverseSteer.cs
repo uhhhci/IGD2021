@@ -31,6 +31,7 @@ public class PowerupReverseSteer : PowerUp
         {
             targetCarController.steeringReversed = true;
             tps.hasShield = false;
+            tps.StopShield();
         }
 
         yield return new WaitForSeconds(DURATION);

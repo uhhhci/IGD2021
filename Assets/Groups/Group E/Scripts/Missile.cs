@@ -19,10 +19,20 @@ public class Missile : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
+            PlayerStats ps = collision.gameObject.GetComponent<PlayerStats>();
             Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
             CarController playerController = collision.gameObject.GetComponent<CarController>();
-            playerRb.AddExplosionForce(1200f, gameObject.transform.position, 3.0f);
-            playerController.StopCar();
+
+            if(ps.hasShield)
+            {
+                ps.SlowRemoveShield();
+                ps.StopShield();
+            } else
+            {
+                playerRb.AddExplosionForce(1200f, gameObject.transform.position, 3.0f);
+                playerController.StopCar();
+            }
+
             AnimateExplosion(gameObject.transform);
             Destroy();
         } 
