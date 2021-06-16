@@ -17,6 +17,7 @@ public static class GameList
         new TrafficTrouble(),
         new PlattiGame(),
         new Groups.Group_S.PartKartMiniGame(),
+		new CannonStandoff(),
     };
 
     public static List<MiniGame> SINGLE_VS_TEAM_LIST = new List<MiniGame>{
