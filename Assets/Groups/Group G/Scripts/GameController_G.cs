@@ -82,12 +82,24 @@ public class GameController_G : MiniGame, IPowerUpEvents
         return playerInputs;
     }
 
+    public void SetPlayersAIState()
+    {
+        //Set AI State for 3 Players
+        for (int i = 1; i < 4; i++)
+        {
+            string playerString = "Player" + i + "_AI";
+            AllPlayers[i - 1].GetComponent<PlayerController>().AI = PlayerPrefs.GetString(playerString).Equals("True");
+        }
+        //Set AI State for 4th Player
+        AllPlayers[3].GetComponent<PassivePlayerController>().AI = PlayerPrefs.GetString("Player4_AI").Equals("True");
+    }
+
     public void BeginGame()
     {
         TimerController.instance.BeginTimer();
         GamePlaying = true;
         SetPlayerControllersActive(true);
-
+        SetPlayersAIState();
         InputManager.Instance.AssignPlayerInput(GetAllPlayerInputs());
         //LoadingManager.Instance.LoadMiniGame(getMiniGameType()); 
     }
