@@ -38,15 +38,16 @@ public class TrackCheckpoints : MonoBehaviour
 
         if (triggerZones.IndexOf(triggerZone) == nextCheckpointSingleIndex)
         {
-            Debug.Log("---------------Correct------------------------");
+            //Debug.Log("---------------Correct------------------------");
             nextCheckpointSingleIndexList[carTransformList.IndexOf(carTransform)] = (nextCheckpointSingleIndex + 1) % triggerZones.Count;
-            if(nextCheckpointSingleIndex == (triggerZones.Count - 1))
+            Debug.Log(nextCheckpointSingleIndex);
+            if(nextCheckpointSingleIndex == 0)
             {
                 gameManager.countRound(carTransform);
             }
         } else
         {
-            Debug.Log("Wrong");
+            //Debug.Log("Wrong");
         }
         
     }

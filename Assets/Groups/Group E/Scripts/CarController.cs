@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using System.Collections;
 
 public enum Axle
 {
@@ -26,25 +27,44 @@ public class CarController : MonoBehaviour
     private bool handbrake = false;
     private bool controlEnabled = true;
 
-    public float maxAcceleration = 20.0f;
-    public float turnSensitivity = 1.0f;
-    public float maxSteerAngle = 45.0f;
-    public float maxVelocity = 30.0f;
+    public float maxAcceleration = 5.0f;
+    public float turnSensitivity = 0.9f;
+    public float maxSteerAngle = 40.0f;
+    public float maxVelocity = 10.0f;
     public List<Wheel> wheels;
     public Vector3 centerOfMass;
     public Vector3 wheelRotationOffset;
     public float downForce = 10.0f;
+    public List<GameObject> fastGrounds;
+    public Boolean steeringReversed = false;
+    private Boolean stopped = false;
 
     public void DisableControl()
     {
         controlEnabled = false;
     }
 
+    public void StopCar()
+    {
+        stopped = true;
+        foreach(Wheel wheel in wheels)
+        {
+            wheel.collider.brakeTorque = Mathf.Infinity;
+            wheel.collider.steerAngle = 0.0f;
+        }
+        StartCoroutine(RestartCar(0.5f));
+    }
+
     void FixedUpdate()
     {
-        CheckDrivingDirection(rb);
-        Move();
-        Turn();
+        if(!stopped)
+        {
+            CheckDrivingDirection(rb);
+            ChangeGroundDependentSpeed();
+            // CheckGroundContact();
+            Move();
+            Turn();
+        }
         ApplyDownForce();
     }
 
@@ -58,6 +78,78 @@ public class CarController : MonoBehaviour
     void Update()
     {
         AnimateWheels();
+    }
+
+    IEnumerator RestartCar(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        foreach (Wheel wheel in wheels)
+        {
+            wheel.collider.brakeTorque = 0.0f;
+            wheel.collider.motorTorque = 0.0f;
+        }
+        stopped = false;
+    }
+
+    private void ChangeGroundDependentSpeed()
+    {
+
+        RaycastHit raycastHit;
+        Vector3 raycastStart = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+        if (Physics.Raycast(raycastStart, Vector3.down, out raycastHit, 40.0f))
+        {
+            if(fastGrounds.Contains(raycastHit.collider.gameObject))
+            {
+                SetWheelsSidewaysStiffnessTo(0.9f);
+                SetWheelsForwardStiffnessTo(3f);
+            } else
+            {
+                SetWheelsSidewaysStiffnessTo(0.4f);
+                SetWheelsForwardStiffnessTo(0.4f);
+            }
+        }
+    }
+
+    private void CheckGroundContact()
+    {
+        if (HasGroundContact())
+        {
+            rb.freezeRotation = false;
+        } else
+        {
+            rb.freezeRotation = true;
+        }
+    }
+
+    private void SetWheelsForwardStiffnessTo(float stiffness)
+    {
+        foreach (Wheel wheel in wheels)
+        {
+            SetWheelForwardStiffnessTo(wheel, stiffness);
+        }
+    }
+
+    private void SetWheelsSidewaysStiffnessTo(float stiffness)
+    {
+        foreach (Wheel wheel in wheels)
+        {
+            setWheelSidewaysStiffnessTo(wheel, stiffness);
+        }
+    }
+
+    private void SetWheelForwardStiffnessTo(Wheel wheel, float stiffness)
+    {
+        WheelFrictionCurve forwardFriction = wheel.collider.forwardFriction;
+        forwardFriction.stiffness = stiffness;
+        wheel.collider.forwardFriction = forwardFriction;
+    }
+
+    private void setWheelSidewaysStiffnessTo(Wheel wheel, float stiffness)
+    {
+        WheelFrictionCurve sidewaysFriction = wheel.collider.sidewaysFriction;
+        sidewaysFriction.stiffness = stiffness;
+        wheel.collider.sidewaysFriction = sidewaysFriction;
     }
 
     private void Move()
@@ -77,14 +169,14 @@ public class CarController : MonoBehaviour
                 else if (movement.y < 0 && !backwards)
                 {
                     wheel.collider.motorTorque = 0;
-                    wheel.collider.brakeTorque = -movement.y * maxAcceleration * 1000000 * Time.deltaTime;
-                    // driving backwards --> brake
+                    ApplyBrakeTorque(wheel, -(movement.y * 0.001f));
+                // driving backwards --> brake
                 }
                 else if (movement.y > 0 && backwards)
                 {
                     wheel.collider.motorTorque = 0;
-                    wheel.collider.brakeTorque = movement.y * maxAcceleration * 1000000 * Time.deltaTime;
-                    // driving backwards --> accelerate
+                    ApplyBrakeTorque(wheel, movement.y);
+                // driving backwards --> accelerate
                 }
                 else if (movement.y < 0 && backwards)
                 {
@@ -136,6 +228,11 @@ public class CarController : MonoBehaviour
         }
     }
 
+    private void ApplyBrakeTorque(Wheel wheel, float direction)
+    {
+        wheel.collider.brakeTorque = direction * maxAcceleration * 1000000  * Time.deltaTime;
+    }
+
     private void Turn()
     {
         if(controlEnabled)
@@ -145,6 +242,10 @@ public class CarController : MonoBehaviour
                 if (wheel.axle == Axle.Front)
                 {
                     float steerAngle = movement.x * turnSensitivity * maxSteerAngle;
+                    if(steeringReversed)
+                    {
+                        steerAngle = -steerAngle;
+                    }
                     wheel.collider.steerAngle = Mathf.Lerp(wheel.collider.steerAngle, steerAngle, 0.5f);
                 }
             }
@@ -172,13 +273,19 @@ public class CarController : MonoBehaviour
         }
     }
 
-    private void OnMove(InputValue value)
+    private Boolean HasGroundContact() {
+        Vector3 raycastStart = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+        return Physics.Raycast(raycastStart, -Vector3.up, 1f);
+    }
+
+private void OnMove(InputValue value)
     {
         movement = value.Get<Vector2>();
     }
 
     private void OnMoveDpad(InputValue value)
     {
+        Debug.Log("onmovedpad: " + movement);
         movement = value.Get<Vector2>();
     }
 
@@ -199,12 +306,17 @@ public class CarController : MonoBehaviour
 
     private void OnEastPress()
     {
-        print("OnEastPress");
+        //print("Powerup");
+        PlayerStats ps = gameObject.GetComponent<PlayerStats>();
+        if(ps.hasPowerup)
+        {
+            StartCoroutine(ps.power.UsePowerup(ps.gameObject));
+        }
     }
 
     private void OnEastRelease()
     {
-        print("OnEastRelease");
+        //print("OnEastRelease");
     }
 
     private void OnSouthPress()

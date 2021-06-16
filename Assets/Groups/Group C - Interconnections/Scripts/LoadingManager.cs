@@ -86,7 +86,7 @@ public class LoadingManager : MonoBehaviour
 
     public void LoadMainBoardGame() {
         //Load main board if we are not in it
-        SceneManager.LoadSceneAsync(GameList.MAIN_BOARD_GAME);
+        SceneManager.LoadSceneAsync(GameList.MAIN_BOARD_SCENE);
     }
     
     private void DisplayLoadingScreen() {

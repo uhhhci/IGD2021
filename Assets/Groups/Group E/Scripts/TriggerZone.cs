@@ -6,7 +6,8 @@ public class TriggerZone : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
         //if (collision.TryGetComponent<>(out Main player))
-        if (collision.name == "Main")
+        //if (collision.name == "Main")
+        if(collision.CompareTag("Player"))
         {
             trackCheckpoints.CarThroughCheckpoint(this, collision.transform);
         }

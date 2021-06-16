@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -70,21 +71,52 @@ public class OurMinifigController : MonoBehaviour
     private Vector2 _movement = new Vector2();
 
     //Our Custom Variables
+    /// <summary>
+    /// Whether the player has died
+    /// </summary>
     public bool died = false;
+    
+    /// <summary>
+    /// This variable is needed for the GameManagerR to see whether it has already noticed the death of this player
+    /// </summary>
+    public bool noticedDeath = false;
+    
+    /// <summary>
+    /// Place (as in "rank") of this player. Will get updated during the game.
+    /// </summary>
+    public int place = 1;
+    
+    /// <summary>
+    /// The GameManagerR sets this to true if the game is over
+    /// </summary>
+    public bool gameOver = false;
+    
+    /// <summary>
+    /// Whether the player is hitting right now
+    /// </summary>
+    public bool isHitting = false;
+    
+    /// <summary>
+    /// The type of item that the player has at the moment. e.g. batarang
+    /// </summary>
+    public string itemType = "";
+    
     /// <summary>
     /// 3D Vector representing the force knocking the player back from getting hit
     /// </summary>
-    private Vector3 _knockback = Vector3.zero;
-
+    public Vector3 _knockback = Vector3.zero;
+    
     /// <summary>
     /// How much damage the player has already taken from opponents
     /// ~ knockback
     /// </summary>
     public int damage = 0;
+    
     /// <summary>
     /// Damage that is dealt to other players if this player hits them 
     /// </summary>
     public int strength = 10;
+    
     /// <summary>
     /// Maximum distance an opponent to this player , where the opponent will still be hit
     /// </summary>
@@ -94,6 +126,13 @@ public class OurMinifigController : MonoBehaviour
     /// Position of second platform where players will be teleported when dead
     /// </summary>
     public Vector3 endZone = new Vector3(-24,7,0);
+
+    /// <summary>
+    /// Whether this player has picked up an item in his hand
+    /// </summary>
+    public bool hasItem = false;
+
+    public Item item = null;
 
 
     [Header("Audio")]
@@ -202,6 +241,9 @@ public class OurMinifigController : MonoBehaviour
     int playSpecialHash = Animator.StringToHash("Play Special");
     int cancelSpecialHash = Animator.StringToHash("Cancel Special");
     int specialIdHash = Animator.StringToHash("Special Id");
+    int punchHash = Animator.StringToHash("Punch");
+    int swordHash = Animator.StringToHash("Sword");
+    int throwHash = Animator.StringToHash("Throw");
 
     Action<bool> onSpecialComplete;
 
@@ -499,12 +541,12 @@ public class OurMinifigController : MonoBehaviour
         // Apply _knockback to transform
         Vector3 position = transform.position + _knockback;
         // Keep X-position of minifig at 0.
-        if(!died){
+        if(!died || gameOver){
             position.x = 0;
         }else{
             position.x = endZone.x;
         }
-        transform.SetPositionAndRotation(position, transform.rotation);
+        TeleportTo(position);
         // Decrease the knockback.
         float delta = 0.93f;// (Time.deltaTime * 100f); //Movement becomes weird when multiplying with deltaTime
         _knockback = _knockback * delta;
@@ -809,6 +851,8 @@ public class OurMinifigController : MonoBehaviour
 
     private void OnMoveDpad(InputValue value)
     {
+        if (!inputEnabled)
+            return;
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
         if(input[1]>0){
@@ -873,7 +917,19 @@ public class OurMinifigController : MonoBehaviour
 
     private void OnSouthPress()
     {
-        PlaySpecialAnimation(SpecialAnimation.KickRightFoot);
+        if (!inputEnabled)
+        {
+            return;
+        }
+        if (!hasItem)
+            animator.SetTrigger(punchHash);
+        else
+        {
+            if (itemType == "batarang")
+                animator.SetTrigger(throwHash);
+            else if (itemType == "sword")
+                animator.SetTrigger(swordHash);
+        }
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
         {
@@ -910,6 +966,88 @@ public class OurMinifigController : MonoBehaviour
     }
 
     #endregion
+
+
+    void OnCollisionEnter(Collision collision)
+    {
+        GameObject gameObj = collision.gameObject;
+        if(gameObj.tag=="Item"){
+            Item collidingItem = gameObj.GetComponent<Item>();
+            if (collidingItem == item)
+                return;
+            if (collidingItem.isPickedUp && collidingItem.isActive) // item was already picked up by another player
+            {
+                damage += collidingItem.strength;
+                Vector3 hit_direction = transform.position - collidingItem.transform.position;
+                hit_direction.x = 0f; // do not change x position
+                hit_direction.y = 1f; // fly slightly upwards
+                if (hit_direction.z > 0)
+                    hit_direction.z = 1f;
+                else
+                    hit_direction.z = -1f;
+                hit_direction.Normalize();
+                float dmg_scale = (damage + 10) * 0.01f;
+                _knockback += hit_direction * dmg_scale;
+                return; //getting hit by item handling?
+            }
+            if (!collidingItem.isPickedUp && hasItem==false)
+            {
+                // pick up item
+                item = collidingItem;
+                hasItem = true;
+                itemType = item.type;
+                // make item child of hand_R_loc
+                var tree = new List<int>() { 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 0, 2 };
+                Transform child = transform;
+                foreach (var subtree in tree)
+                {
+                    child = child.GetChild(subtree);
+                }
+                item.pickUp(child);
+            }
+        }
+    }
+
+    public void fix()
+    {
+        SetInputEnabled(false);
+        float yrot = transform.rotation.eulerAngles.y;
+        if (yrot < 90 || yrot > 270)
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        else
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        item.isActive = true;
+    }
+
+    public void release()
+    {
+        SetInputEnabled(true);
+        item.isActive = false;
+        usedItem();
+    }
+
+    public void setHitting(bool hitting)
+    {
+        isHitting = hitting;
+        if (hitting)
+        {
+            item.isActive = true;
+        }
+        else
+        {
+            item.isActive = false;
+            usedItem();
+        } 
+    }
+
+    private void usedItem()
+    {
+        bool keep = item.Used();
+        if (!keep)
+        {
+            Destroy(item.gameObject);
+            hasItem = false;
+            item = null;
+        }
+    }
 }
-
-

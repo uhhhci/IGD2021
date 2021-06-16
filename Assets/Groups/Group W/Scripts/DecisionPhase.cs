@@ -11,24 +11,45 @@ public class DecisionPhase : MonoBehaviour
     public Vector3 leftHandPosition;
     public GameObject leftHandWeapon;
     PlayerProperties player;
+    private MinifigControllerGroupW playerMinifigController;
     bool isDecisionPhase;
 
-    private void ChangeEquippedWeapon(WeaponDefinitions.WeaponType weapon)
+    // plays an annimation according to whether its action/decision phase and which kind of decision was made
+    public void PlayActionPhaseAnimation()
     {
+        // print($"animation decision: {decision}");
+        if (PhaseHandler.phase == PhaseHandler.Phase.Decision)
+        {
+          playerMinifigController.PlaySpecialAnimation(MinifigControllerGroupW.SpecialAnimation.Wave);
+
+        }
+        else
+        {
+            print("Decision is currently not allowed");
+            playerMinifigController.PlaySpecialAnimation(MinifigControllerGroupW.SpecialAnimation.IdleImpatient);
+        }
+    }
+
+    public void ChangeEquippedWeapon(WeaponDefinitions.WeaponType weapon, ActionPhase actionPhase)
+    {
+        // print("ChangeEquippedWeapon triggered");
         if (phase == PhaseHandler.Phase.Decision)
         {
             print($"Changing Weapon to {selectedWeapon}");
             selectedWeapon = weapon;
+            // just spawn a dummy weapon, such that it serves as feedback but does not reveal the actual selection
+            actionPhase.ChangeLeftHandWeapon("Weapons/SA_Item_Fish");
         }
-
+   
         else
         {
             print("Changing Weapon is currently not allowed");
         }
     }
 
-    private void ChangeTargetRow(PhaseHandler.RowPosition targetRow)
+    public void ChangeTargetRow(PhaseHandler.RowPosition targetRow)
     {
+        print("ChangeTargetRow triggered");
         if (phase == PhaseHandler.Phase.Decision)
         {
             print($"Changing TargetRow to {targetRow}");
@@ -40,41 +61,7 @@ public class DecisionPhase : MonoBehaviour
         }
     }
 
-    // listen to input events to change the Weapon / targetRow accordingly (only if in Decision phase, of course)
-    #region input handling
-    private void OnWestPress()
-    {
-        ChangeTargetRow(PhaseHandler.RowPosition.Back);
-    }
-
-    private void OnSouthPress()
-    {
-        ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Scissors);
-    }
-
-    private void OnEastPress()
-    {
-        ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Lego);
-    }
-
-    private void OnNorthPress()
-    {
-        ChangeTargetRow(PhaseHandler.RowPosition.Front);
-    }
-
-    private void OnMoveDpad(InputValue value)
-    {
-        Vector2 input = value.Get<Vector2>();
-        input.Normalize();
-
-        if (input.Equals(Vector2.up))
-        {
-            ChangeEquippedWeapon(WeaponDefinitions.WeaponType.Paper);
-        }
-    }
-    #endregion
-
-
+    // TODO call from ActionPhase instead, this is a duplicate right now
     void RemoveLeftHandWeapon()
     {
         if (leftHandWeapon != null)
@@ -88,6 +75,7 @@ public class DecisionPhase : MonoBehaviour
     {
         // access specific PlayerProperties of the gameobject where this script is attached to
         player = gameObject.GetComponent<PlayerProperties>();
+        playerMinifigController = gameObject.transform.parent.GetComponent<MinifigControllerGroupW>();
         leftHandPosition = player.leftHandPosition;
     }
 
