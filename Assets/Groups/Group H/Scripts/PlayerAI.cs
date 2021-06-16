@@ -13,7 +13,9 @@ public class PlayerAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // if (Playerprefs.GetString("Player1_AI").Equals("True"))
         StartCoroutine(MainIteration());
+
     }
 
     // Update is called once per frame
@@ -71,7 +73,7 @@ public class PlayerAI : MonoBehaviour
 
             // else move to random location
             MoveRandomly();
-            
+
             yield return GetRandomWaitingTime();
         }
     }
