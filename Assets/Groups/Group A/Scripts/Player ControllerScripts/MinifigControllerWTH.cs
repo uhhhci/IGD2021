@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 
@@ -8,6 +9,7 @@ public class MinifigControllerWTH : MonoBehaviour
 {
     public GameObject Minifig;
     public GameObject RespawnPointsSource;
+    private NavMeshAgent agent;
     public int characterId;
     // Constants.
     const float stickyTime = 0.05f;
@@ -215,6 +217,7 @@ public class MinifigControllerWTH : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = Minifig.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        
 
         // Initialise animation.
         animator.SetBool(groundedHash, true);
@@ -226,9 +229,17 @@ public class MinifigControllerWTH : MonoBehaviour
 
     private void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
         string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
         Respawn();
+        InvokeRepeating("setDest", 10, 10);
+    }
+
+    private void setDest()
+    {
+        agent.SetDestination(new Vector3(0, 0, 0));
+
     }
 
     void Update()
