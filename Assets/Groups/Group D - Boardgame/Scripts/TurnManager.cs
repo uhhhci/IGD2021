@@ -394,15 +394,6 @@ public class TurnManager : MonoBehaviour
             Debug.Log("Loading a 1v3 minigame.");
             LoadingManager.Instance.LoadMiniGame(MiniGameType.singleVsTeam);
         }
-        // add a random amount of credits
-        playerBelongings.ForEach((belongings) => {
-            belongings.addCreditAmount((int) UnityEngine.Random.Range(0f, 3.99f));
-        });
-
-        // TODO: does not work yet
-        // proposed solution: add a minigame state, when the minigame + scorescreen are over, check whether there is a true party person
-        // then do animations etc (before starting the next turn)
-        updateTruePartyState();
     }
 
     /// executes the given action
