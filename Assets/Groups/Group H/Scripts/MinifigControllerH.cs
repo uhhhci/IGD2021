@@ -855,7 +855,6 @@ public class MinifigControllerH : MonoBehaviour
         // Disable input if not idle.
         if (state != State.Idle)
         {
-            Debug.Log(state);
             inputEnabled = false;
         }
         else
