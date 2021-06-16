@@ -16,6 +16,13 @@ public class InputManager : MonoBehaviour
     private const string INPUT_DEVICE_PLAYER = "InputDevideIDPlayer";
     private const string CONTROL_SCHEME_PLAYER = "ControlSchemePlayer";
 
+    //AI PLayers keys
+    public const string PLAYER_1_AI = "PLAYER1_AI";
+    public const string PLAYER_2_AI = "PLAYER2_AI";
+    public const string PLAYER_3_AI = "PLAYER3_AI";
+    public const string PLAYER_4_AI = "PLAYER4_AI";
+
+
     private List<Tuple<int, int, string>> playerSchemes = new List<Tuple<int, int, string>>();
 
     public GameObject _menuPlayerPrefab;
@@ -39,6 +46,7 @@ public class InputManager : MonoBehaviour
     private void Start()
     {
         //SpawnKeyboardPlayers();
+        SaveAIPlayers(true, false, false, false);
     }
 
     //Assign control scheme that was read from the character selection
@@ -114,6 +122,19 @@ public class InputManager : MonoBehaviour
                 playerSchemes.Add(playerScheme);
             }
         }
+    }
+
+    //MEthos sets the values of which player is AI and which not, should only be called on the Character selection scene
+    public void SaveAIPlayers(bool firstPlayer, bool secondPlayer, bool thirdPlayer, bool fourthPlayer )
+    {
+        PlayerPrefs.SetString(PLAYER_1_AI, firstPlayer.ToString());
+        PlayerPrefs.SetString(PLAYER_2_AI, secondPlayer.ToString());
+        PlayerPrefs.SetString(PLAYER_3_AI, thirdPlayer.ToString());
+        PlayerPrefs.SetString(PLAYER_4_AI, fourthPlayer.ToString());
+
+        //Example of how to retrieve them
+        bool player1_AI = PlayerPrefs.GetString(PLAYER_1_AI).Equals("True");
+        print("AI player value === " + player1_AI.ToString());
     }
 
 
