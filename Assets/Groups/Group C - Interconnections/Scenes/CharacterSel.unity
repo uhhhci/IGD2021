@@ -139,8 +139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd0987d3005f4af5af3177afe22282c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: 
-  inputField: {fileID: 1155267427}
 --- !u!1 &117110468
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,8 +468,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd0987d3005f4af5af3177afe22282c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: 
-  inputField: {fileID: 1155267427}
 --- !u!1 &345763691 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 627107172102532984, guid: ef277551de3652c4dab21591da2a6201,
@@ -1059,8 +1055,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd0987d3005f4af5af3177afe22282c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: 
-  inputField: {fileID: 1155267427}
 --- !u!1 &976833289
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,6 +1684,8 @@ MonoBehaviour:
   - {fileID: 52111591}
   - {fileID: 2022434927}
   selectedCharacter: 0
+  characterName: 
+  inputField: {fileID: 0}
 --- !u!4 &1302215089
 Transform:
   m_ObjectHideFlags: 0
@@ -1715,7 +1711,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1302215087}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b5e5e9402b815434ea501cb57abf7935, type: 3}
@@ -2557,8 +2553,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd0987d3005f4af5af3177afe22282c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: 
-  inputField: {fileID: 1155267427}
 --- !u!1 &2053590316
 GameObject:
   m_ObjectHideFlags: 0
