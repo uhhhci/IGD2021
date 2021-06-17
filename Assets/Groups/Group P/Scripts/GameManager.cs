@@ -23,6 +23,10 @@ namespace GroupP {
 
         float beatsPerMinute;
 
+        public float getBpmOfActiveSong() {
+            return songs[songIndex].GetComponent<Song>().beatsPerMinute;
+        }
+
         public override string getDisplayName() {
         return "Rhythm Game";
         }
@@ -49,12 +53,24 @@ namespace GroupP {
         // Start is called before the first frame update
         void Start()
         {
-            var playerInputs = new List<PlayerInput> { 
-                player1.GetComponent<PlayerInput>(),
-                player2.GetComponent<PlayerInput>(),
-                player3.GetComponent<PlayerInput>(),
-                player4.GetComponent<PlayerInput>()
-            };
+            player1.GetComponent<Player>().isAI = PlayerPrefs.GetString("Player1_AI").Equals("True");
+            player2.GetComponent<Player>().isAI = PlayerPrefs.GetString("Player2_AI").Equals("True");
+            player3.GetComponent<Player>().isAI = true; //PlayerPrefs.GetString("Player3_AI").Equals("True");
+            player4.GetComponent<Player>().isAI = true;//PlayerPrefs.GetString("Player4_AI").Equals("True"); //TODO revert
+
+            var playerInputs = new List<PlayerInput>();
+            if(!player1.GetComponent<Player>().isAI) {
+                playerInputs.Add(player1.GetComponent<PlayerInput>());
+            }
+            if(!player2.GetComponent<Player>().isAI) {
+                playerInputs.Add(player2.GetComponent<PlayerInput>());
+            }
+            if(!player3.GetComponent<Player>().isAI) {
+                playerInputs.Add(player3.GetComponent<PlayerInput>());
+            }
+            if(!player4.GetComponent<Player>().isAI) {
+                playerInputs.Add(player4.GetComponent<PlayerInput>());
+            }
             
             InputManager.Instance.AssignPlayerInput(playerInputs);
 
