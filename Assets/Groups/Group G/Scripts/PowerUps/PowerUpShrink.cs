@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpShrink : PowerUp
+public class PowerUpShrink : PowerUp_G
 {
     public float Duration = 5f;
     [Range(1.0f, 2.0f)]

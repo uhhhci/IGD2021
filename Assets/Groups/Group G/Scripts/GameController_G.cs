@@ -14,7 +14,7 @@ public class GameController_G : MiniGame, IPowerUpEvents
     public GameObject PassivePlayer;
 
     private bool GamePlaying = false;
-    private List<PowerUp> ActivePowerUps;
+    private List<PowerUp_G> ActivePowerUps;
     private List<GameObject> AllPlayers = new List<GameObject>();
 
     void Awake()
@@ -30,7 +30,7 @@ public class GameController_G : MiniGame, IPowerUpEvents
             return;
         }
 
-        ActivePowerUps = new List<PowerUp>();
+        ActivePowerUps = new List<PowerUp_G>();
     }
 
     void Start()
@@ -126,7 +126,7 @@ public class GameController_G : MiniGame, IPowerUpEvents
         }
         PassivePlayer.GetComponent<PassivePlayerController>().enabled = b;
     }
-    void IPowerUpEvents.OnPowerUpCollected(PowerUp powerUp, Player_G player)
+    void IPowerUpEvents.OnPowerUpCollected(PowerUp_G powerUp, Player_G player)
     {
         // We dont bother storing those that expire immediately
         if (!powerUp.ExpiresImmediately)
@@ -135,7 +135,7 @@ public class GameController_G : MiniGame, IPowerUpEvents
             //UpdateActivePowerUpUi();
         }
     }
-    void IPowerUpEvents.OnPowerUpExpired(PowerUp powerUp, Player_G player)
+    void IPowerUpEvents.OnPowerUpExpired(PowerUp_G powerUp, Player_G player)
     {
         ActivePowerUps.Remove(powerUp);
         //UpdateActivePowerUpUi();

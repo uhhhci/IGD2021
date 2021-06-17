@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class PowerUpSpeed : PowerUp, IPlayerEvents
+class PowerUpSpeed : PowerUp_G, IPlayerEvents
 {
     [Range(1.0f, 4.0f)]
     public float speedMultiplier = 2.0f;
