@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Boundary
   - Obstacle
-  - K_Ground
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -26,10 +26,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - NoSameLayerCollision
+  - NavMesh1
+  - NavMesh2
+  - NavMesh3
   - 
   - 
   - 
