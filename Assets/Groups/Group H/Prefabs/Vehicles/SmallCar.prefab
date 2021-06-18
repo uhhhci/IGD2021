@@ -105,7 +105,6 @@ GameObject:
   - component: {fileID: 4363526804759585962}
   - component: {fileID: 4363526804758473878}
   - component: {fileID: 4352776111265979094}
-  - component: {fileID: -3816773994181826076}
   m_Layer: 0
   m_Name: SmallCar
   m_TagString: Vehicle
@@ -195,19 +194,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 5f72e1579cd001244802c30b332dae70, type: 3}
---- !u!114 &-3816773994181826076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4363526804760442188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 268de474f52910c4db851d9215d73c06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bomb: {fileID: 179796, guid: 5becf26d78135774abd90508835d786e, type: 3}
 --- !u!1 &4363526804760450900
 GameObject:
   m_ObjectHideFlags: 0

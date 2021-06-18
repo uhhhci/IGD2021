@@ -621,7 +621,6 @@ GameObject:
   - component: {fileID: 8607867070777015850}
   - component: {fileID: 8607867070776080258}
   - component: {fileID: 8615612620911391274}
-  - component: {fileID: -5110509176112043067}
   m_Layer: 0
   m_Name: Taxi
   m_TagString: Vehicle
@@ -711,16 +710,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: db57e923d75cb6c4e936d5e8caaa9165, type: 3}
---- !u!114 &-5110509176112043067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8607867070773917840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 268de474f52910c4db851d9215d73c06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bomb: {fileID: 179796, guid: 5becf26d78135774abd90508835d786e, type: 3}
