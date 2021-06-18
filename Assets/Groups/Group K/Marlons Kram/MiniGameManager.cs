@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.InputSystem;
 
 // TODO sort ranking for finished method
@@ -11,13 +12,12 @@ public class MiniGameManager : MonoBehaviour
     [SerializeField] private GameObject _player3;
     [SerializeField] private GameObject _player4;
 
-    private MiniGame_Meteorfall _minigame;
+    private MiniGame _minigame;
 
     private void Awake()
     {
         _minigame = transform.GetComponent<MiniGame_Meteorfall>();
 
-        /* TODO this should be the correct way of initializing the controls as soon as Group C finishes it
         List<PlayerInput> playerInputs = new List<PlayerInput>(4)
         {
             _player1.GetComponent<PlayerInput>(),
@@ -32,8 +32,8 @@ public class MiniGameManager : MonoBehaviour
             "2",
             "3"
         };
-        InputManager.Instance.AssignPlayerInput(playerInputs, ids);
-        */
+        InputManager.Instance.AssignPlayerInput(playerInputs);
+        //InputManager.Instance.AssignPlayerInput(playerInputs, ids); // Right Version when Playerprefs work correctly
     }
 
     // Update is called once per frame
@@ -46,19 +46,19 @@ public class MiniGameManager : MonoBehaviour
 
         if(aB1 && !(aB2 || aB3 || aB4))
         {
-            WinGame(_player1);
+            WinGame(0);
         }
         else if (aB2 && !(aB1 || aB3 || aB4))
         {
-            WinGame(_player1);
+            WinGame(1);
         }
         else if (aB3 && !(aB1 || aB2 || aB4))
         {
-            WinGame(_player1);
+            WinGame(2);
         }
         else if (aB4 && !(aB2 || aB3 || aB1))
         {
-            WinGame(_player1);
+            WinGame(3);
         }
         else if(!(aB1 || aB2 || aB3 || aB4))
         {
@@ -75,15 +75,16 @@ public class MiniGameManager : MonoBehaviour
 
     public void GameDraw(List<GameObject> winners)
     {
-        Time.timeScale = 0;
         Debug.Log("Its a Draw!");
-        //minigameMeteorfall.MiniGameFinished()
+        int[] placeholder = new int[4] { 0, 1, 2, 3 };
+        _minigame.MiniGameFinished(placeholder, new int[0], new int[0], new int[0]);
     }
 
-    public void WinGame(GameObject winner)
+    public void WinGame(int index)
     {
-        Time.timeScale = 0;
-        Debug.Log(winner.name + " Wins the Game!");
-        //minigameMeteorfall.MiniGameFinished()
+        Debug.Log("Player " + index + " Wins the Game!");
+        int[] numbers = { 0, 1, 2, 3};
+        numbers = numbers.Where(val => val != index).ToArray();
+        _minigame.MiniGameFinished(new int[1] { index }, numbers, new int[0], new int[0]);
     }
 }
