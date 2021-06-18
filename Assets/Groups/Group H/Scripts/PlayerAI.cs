@@ -10,6 +10,22 @@ public class PlayerAI : MonoBehaviour
     public float viewingDistance = 2f;
     public float dangerViewingDistance = 15f;
 
+
+
+    // States for AI player
+    enum State
+    {
+        Idle,
+        Moving,
+        CompletingMove,
+
+        Turning,
+        CompletingTurn,
+
+        Following,
+        CompletingFollow,
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,51 +47,51 @@ public class PlayerAI : MonoBehaviour
             // if cars or bombs are near, go away from them
             GameObject car = FindCar();
             GameObject bomb = FindBomb();
+
+            // if a burger is close, go colllect it
+            GameObject burger = FindBurger();
+
+            // if another player is close, go and annoy him
+            GameObject otherPlayer = FindOtherPlayer();
+
             if (car != null && bomb != null)
             {
                 Vector3 badPlace = (car.transform.position + bomb.transform.position) / 2;
                 MoveAwayFrom(badPlace);
                 yield return GetRandomWaitingTime();
-                break;
             }
             else if (car != null)
             {
                 Vector3 badPlace = car.transform.position;
                 MoveAwayFrom(badPlace);
                 yield return GetRandomWaitingTime();
-                break;
             }
             else if (bomb != null)
             {
                 Vector3 badPlace = bomb.transform.position;
                 MoveAwayFrom(badPlace);
                 yield return GetRandomWaitingTime();
-                break;
             }
-
-            // if a burger is close, go colllect it
-            GameObject burger = FindBurger();
-            if (burger != null)
+            else if (burger != null)
             {
                 MoveTo(burger.transform.position);
                 yield return GetRandomWaitingTime();
-                break;
             }
-
-            // if another player is close, go and annoy him
-            GameObject otherPlayer = FindOtherPlayer();
-            if (otherPlayer != null)
+            else if (otherPlayer != null)
             {
                 ObstructOtherPlayer(otherPlayer);
                 yield return GetRandomWaitingTime();
-                break;
             }
-
-            // else move to random location
-            MoveRandomly();
-
-            yield return GetRandomWaitingTime();
+            else
+            {
+                // else move to random location
+                MoveRandomly();
+                yield return GetRandomWaitingTime();
+            }
         }
+
+
+
     }
 
     private GameObject FindCar()
