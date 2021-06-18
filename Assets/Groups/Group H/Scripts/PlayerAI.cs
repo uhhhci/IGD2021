@@ -7,8 +7,13 @@ public class PlayerAI : MonoBehaviour
 
     public MinifigControllerH controller;
 
-    public float viewingDistance = 2f;
-    public float dangerViewingDistance = 15f;
+    public float carViewingDistance = 100f;
+    public float bombViewingDistance = 4f;
+    public float burgerViewingDistance = 5f;
+    public float playerViewingDistance = 2f;
+
+    private State state;
+    private Vector3 currentDestination;
 
 
 
@@ -16,93 +21,106 @@ public class PlayerAI : MonoBehaviour
     enum State
     {
         Idle,
-        Moving,
-        CompletingMove,
+        Waiting,
 
-        Turning,
-        CompletingTurn,
+        MovingAwayFromDanger,
+        MovingToBurger,
+        MovingToPlayer,
 
-        Following,
-        CompletingFollow,
+        MovingRandomly,
     }
 
     // Start is called before the first frame update
     void Start()
     {
         // if (Playerprefs.GetString("Player1_AI").Equals("True"))
-        StartCoroutine(MainIteration());
+        // StartCoroutine(MainIteration());
+        state = State.Idle;
 
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-
-    }
-
-    private IEnumerator MainIteration()
-    {
-        while (true)
+        if (state == State.Idle || state == State.MovingRandomly)
         {
-            // if cars or bombs are near, go away from them
+            Vector3 currentPosition = transform.position;
+
+            // if cars or bombs are close, go away from them
             GameObject car = FindCar();
             GameObject bomb = FindBomb();
-
-            // if a burger is close, go colllect it
-            GameObject burger = FindBurger();
-
-            // if another player is close, go and annoy him
-            GameObject otherPlayer = FindOtherPlayer();
 
             if (car != null && bomb != null)
             {
                 Vector3 badPlace = (car.transform.position + bomb.transform.position) / 2;
                 MoveAwayFrom(badPlace);
-                yield return GetRandomWaitingTime();
             }
             else if (car != null)
             {
                 Vector3 badPlace = car.transform.position;
                 MoveAwayFrom(badPlace);
-                yield return GetRandomWaitingTime();
             }
             else if (bomb != null)
             {
                 Vector3 badPlace = bomb.transform.position;
                 MoveAwayFrom(badPlace);
-                yield return GetRandomWaitingTime();
             }
-            else if (burger != null)
+
+            // if a burger is close, go colllect it
+            GameObject burger = FindBurger();
+            if (burger != null && state != State.MovingAwayFromDanger)
             {
+                state = State.MovingToBurger;
                 MoveTo(burger.transform.position);
-                yield return GetRandomWaitingTime();
+                //state = State.Idle;
             }
-            else if (otherPlayer != null)
+
+            // if another player is close, go and annoy him
+            GameObject otherPlayer = FindOtherPlayer();
+            if (otherPlayer != null && state != State.MovingAwayFromDanger && state != State.MovingToBurger)
             {
                 ObstructOtherPlayer(otherPlayer);
-                yield return GetRandomWaitingTime();
             }
-            else
+
+            // else move to random location
+            if (state == State.Idle)
             {
-                // else move to random location
                 MoveRandomly();
-                yield return GetRandomWaitingTime();
+                StartCoroutine(Wait());
+            }
+
+            if (state != State.MovingRandomly)
+            {
+                StartCoroutine(Wait());
             }
         }
-
-
-
     }
 
     private GameObject FindCar()
     {
         RaycastHit hit;
 
-        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, dangerViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right, out hit, transform.rotation, dangerViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right * -1, out hit, transform.rotation, dangerViewingDistance);
+        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, carViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right, out hit, transform.rotation, carViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right * -1, out hit, transform.rotation, carViewingDistance);
         if (hitDetected && hit.transform.gameObject.tag == "Vehicle")
         {
             GameObject car = hit.transform.gameObject;
             return car;
+            if ((car.transform.rotation.y / 90) % 2 == 0) // x is important lane
+            {
+                // if player is on car's lane
+                if (car.transform.position.x + 1 < transform.position.x || car.transform.position.x - 1 > transform.position.x)
+                {
+                    return car;
+                }
+            }
+            else // z is important lane
+            {
+                // if player is on car's lane
+                if (car.transform.position.z + 1 < transform.position.z || car.transform.position.z - 1 > transform.position.z)
+                {
+                    return car;
+                }
+            }
         }
         return null;
     }
@@ -111,7 +129,7 @@ public class PlayerAI : MonoBehaviour
     {
         RaycastHit hit;
 
-        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, dangerViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right, out hit, transform.rotation, dangerViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right * -1, out hit, transform.rotation, dangerViewingDistance);
+        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, bombViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right, out hit, transform.rotation, bombViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right * -1, out hit, transform.rotation, bombViewingDistance);
         if (hitDetected && hit.transform.gameObject.tag == "Bomb")
         {
             GameObject bomb = hit.transform.gameObject;
@@ -124,7 +142,7 @@ public class PlayerAI : MonoBehaviour
     {
         RaycastHit hit;
 
-        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, viewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right, out hit, transform.rotation, viewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right * -1, out hit, transform.rotation, viewingDistance);
+        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, burgerViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right, out hit, transform.rotation, burgerViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right * -1, out hit, transform.rotation, burgerViewingDistance);
         if (hitDetected && hit.transform.gameObject.tag == "Burger")
         {
             GameObject bomb = hit.transform.gameObject;
@@ -137,7 +155,7 @@ public class PlayerAI : MonoBehaviour
     {
         RaycastHit hit;
 
-        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, viewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right, out hit, transform.rotation, viewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right * -1, out hit, transform.rotation, viewingDistance);
+        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, playerViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right, out hit, transform.rotation, playerViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right * -1, out hit, transform.rotation, playerViewingDistance);
         if (hitDetected && hit.transform.gameObject.tag == "Player")
         {
             GameObject otherPlayer = hit.transform.gameObject;
@@ -148,7 +166,8 @@ public class PlayerAI : MonoBehaviour
 
     private void ObstructOtherPlayer(GameObject otherPlayer)
     {
-        MoveTo(otherPlayer.transform.position);
+        state = State.MovingToPlayer;
+        controller.Follow(otherPlayer.transform, 0.5f);
         if (Random.value < 0.5f)
         {
             // kick other player
@@ -165,16 +184,17 @@ public class PlayerAI : MonoBehaviour
 
     private void MoveRandomly()
     {
-        Vector3 destination = GetRandomDestination();
+        state = State.MovingRandomly;
+        Vector3 destination = transform.position + GetRandomDirection();
         MoveTo(destination);
     }
 
-    private Vector3 GetRandomDestination()
+    private Vector3 GetRandomDirection()
     {
-        int x = Random.Range(-5, 6);
-        int z = Random.Range(-5, 6);
-        Vector3 destination = new Vector3(x, 0.1f, z);
-        return destination;
+        int x = Random.Range(-2, 2);
+        int z = Random.Range(-2, 2);
+        Vector3 direction = new Vector3(x, 0.1f, z);
+        return direction;
     }
 
     private void MoveTo(Vector3 destination)
@@ -195,15 +215,22 @@ public class PlayerAI : MonoBehaviour
 
     private void MoveAwayFrom(Vector3 badPlace)
     {
+        Debug.Log("RUN!");
+        state = State.MovingAwayFromDanger;
         Vector3 direction = gameObject.transform.position - badPlace;
         direction.Normalize();
-        Vector3 destination = gameObject.transform.position + direction;
+        Vector3 destination = gameObject.transform.position + direction * 3;
         MoveTo(destination);
     }
 
-    private WaitForSeconds GetRandomWaitingTime()
+    private IEnumerator Wait()
     {
-        float waitingTime = Random.Range(5, 10) / 5;
-        return new WaitForSeconds(waitingTime);
+        float waitingTime = Random.Range(10, 20) / 10;
+        if (state == State.MovingRandomly)
+        {
+            //waitingTime = Random.Range(10, 15) / 10;
+        }
+        yield return new WaitForSeconds(waitingTime);
+        state = State.Idle;
     }
 }
