@@ -8,8 +8,9 @@ public class CannonPlayer : MonoBehaviour {
 	private GameObject cannon;
 	private bool shooting;
 	private float lastShotTimer;
+	private bool aiControlled;
 	
-	public GameObject marker = null;
+	public CannonMarker marker = null;
 	public Camera camera = null;
 	public GameObject bullet = null;
 	public float bulletSpeed = 15.0f;
@@ -19,6 +20,14 @@ public class CannonPlayer : MonoBehaviour {
 		string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
 		
 		GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
+	}
+	
+	private void ExecuteAi() {
+		if (!aiControlled) {
+			return;
+		}
+		
+		//TODO
 	}
 	
 	private void LookAtTarget() {
@@ -53,6 +62,7 @@ public class CannonPlayer : MonoBehaviour {
 	}
 	
 	void Update() {
+		ExecuteAi();
 		LookAtTarget();
 		CheckShooting();
 		
@@ -60,11 +70,43 @@ public class CannonPlayer : MonoBehaviour {
 	}
 	
 	void OnSouthPress() {
+		if (aiControlled) {
+			return;
+		}
+		
 		shooting = true;
 	}
 	
 	void OnSouthRelease() {
+		if (aiControlled) {
+			return;
+		}
+		
 		shooting = false;
+	}
+	
+	void OnMove(InputValue value) {
+		if (aiControlled) {
+			return;
+		}
+		
+		Vector2 movement = value.Get<Vector2>().normalized;
+		
+		marker.Move(movement);
+	}
+	
+	void OnMoveDpad(InputValue value) {
+		if (aiControlled) {
+			return;
+		}
+		
+		Vector2 movement = value.Get<Vector2>().normalized;
+		
+		marker.Move(movement);
+	}
+	
+	public void SetAiControlled(bool ai) {
+		aiControlled = ai;
 	}
 	
 }
