@@ -60,6 +60,27 @@ public class AIAgentR : MonoBehaviour
     }
 
 
+    public bool JumpToPosition(float z)
+    {
+        if (Math.Abs(player.transform.position.z - z) < 0.5f)
+        {
+            player.RightLeftJump(new Vector2(0, 1));  
+            arrived = true;
+            return true;
+        }
+        arrived = false;
+        if (player.transform.position.z < z)
+        {
+            player.RightLeftJump(new Vector2(1, 1));
+        }
+        if (player.transform.position.z > z)
+        {
+            player.RightLeftJump(new Vector2(-1, 1));
+        }
+        return false;
+    }
+
+
     public void MoveTo(float y){
         player.RightLeftJump(new Vector2(y,0));
     }
@@ -81,6 +102,15 @@ public class AIAgentR : MonoBehaviour
         target = gameManager.getPlayer(randomChoice);
         animator.SetInteger("platform",target.getPlatform());
         Debug.Log(target.getPlatform().ToString());
+    }
+
+    public void attackTarget(){
+        if(target.transform.position.y > player.transform.position.y){
+            JumpToPosition(target.transform.position.z);
+        }else{
+            MoveToPosition(target.transform.position.z);
+        }
+        player.Attack();
     }
 }
 
