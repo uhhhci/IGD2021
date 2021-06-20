@@ -1,14 +1,19 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class AIAgentR : MonoBehaviour
 {
     public OurMinifigController player;
+    private OurMinifigController target;
     public SmashGameR gameManager;
 
     public Animator animator;
     int atRightSideUpHash = Animator.StringToHash("atRightSideUp");
+    int atLeftSideUpHash = Animator.StringToHash("atLeftSideUp");
     bool arrived = false;
+    public int id;
 
     // Start is called before the first frame update
     void Start()
@@ -21,17 +26,21 @@ public class AIAgentR : MonoBehaviour
     {
         if(arrived){
             animator.SetTrigger(atRightSideUpHash);
+            animator.SetTrigger(atLeftSideUpHash);
             arrived = false;
         }
         if (UnityEngine.Random.Range(1, 100) > 98)
         {
             player.Attack();
         }
+        if (UnityEngine.Random.Range(0, 1000) < 1)
+        {
+            animator.SetInteger("platform",-1);
+        }
     }
 
     public bool MoveToPosition(float z)
     {
-        Debug.Log("Moving to ...");
         if (Math.Abs(player.transform.position.z - z) < 0.5f)
         {
             player.RightLeftJump(new Vector2(0, 0));  
@@ -60,8 +69,18 @@ public class AIAgentR : MonoBehaviour
     }
 
     public void chooseBehaviour(){
+        Debug.Log("Choosing Behaviour");
+        //Choose player to follow
         (int[] platforms,bool[] died) = gameManager.getGameState();
-
+        List<int> notDeadPlayers = new List<int>{};
+        for(int i = 0 ; i < 4;++i){
+            if(i==id || died[i]) continue;
+            notDeadPlayers.Add(i);
+        }
+        int randomChoice = UnityEngine.Random.Range(0,notDeadPlayers.Count);
+        target = gameManager.getPlayer(randomChoice);
+        animator.SetInteger("platform",target.getPlatform());
+        Debug.Log(target.getPlatform().ToString());
     }
 }
 

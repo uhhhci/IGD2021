@@ -205,4 +205,8 @@ public class SmashGameR : MiniGame
 
         return (playerPlatforms,playerDied);
     }
+
+    public OurMinifigController getPlayer(int id){
+        return players[id];
+    }
 }
