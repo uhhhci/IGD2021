@@ -154,6 +154,8 @@ public class ActionPhase : MonoBehaviour
     {
         playerMinifigController.PlaySpecialAnimation(MinifigControllerGroupW.SpecialAnimation.HatSwap, onSpecialComplete: (x) => {
             DealDamage(targetPlayer);
+            LoadNewEffect(new Vector3(2f, 2f, 2f),targetPlayer);
+            print("Effect was loaded");
             print("finished attack");
             ReturnToStartPosition(targetPlayer);
         });
@@ -278,25 +280,28 @@ public class ActionPhase : MonoBehaviour
     }
 
     // load a effect-gameobject with the correct prefab
-    GameObject LoadNewEffect(Vector3 scale, Color color, PlayerProperties targetPlayer)
+    GameObject LoadNewEffect(Vector3 scale, PlayerProperties targetPlayer)
     {
+        Vector3 slightlyRight = new Vector3(0.5f, 0, 0);
         GameObject newEffect;
-        GameObject prefabEffective = Resources.Load<GameObject>("Effects/Epic Toon FX/Prefabs/Combat/Text/KaPow.prefab") as GameObject;
-        GameObject prefabIneffective = Resources.Load<GameObject>("Effects/Epic Toon FX/Prefabs/Combat/Text/Crack.prefab") as GameObject;
-        GameObject prefabNormal = Resources.Load<GameObject>("Effects/Epic Toon FX/Prefabs/Combat/Text/Pow.prefab") as GameObject;
+        GameObject prefabEffective = Resources.Load<GameObject>("Effects/Epic Toon FX/Prefabs/Combat/Text/KaPow") as GameObject;
+        GameObject prefabIneffective = Resources.Load<GameObject>("Effects/Epic Toon FX/Prefabs/Combat/Text/Crack") as GameObject;
+        GameObject prefabNormal = Resources.Load<GameObject>("Effects/Epic Toon FX/Prefabs/Combat/Text/Pow") as GameObject;
+
+        print("entered effectfunction");
 
         if (effective == true){
-            newEffect = Instantiate(prefabEffective, targetPlayer.transform.position + Vector3.up, player.transform.rotation);
+            newEffect = Instantiate(prefabEffective, targetPlayer.transform.position + Vector3.up + slightlyRight, player.transform.rotation);
         }
         else if (ineffective == true){
-            newEffect = Instantiate(prefabIneffective, targetPlayer.transform.position + Vector3.up, player.transform.rotation);
+            newEffect = Instantiate(prefabIneffective, targetPlayer.transform.position + Vector3.up + slightlyRight, player.transform.rotation);
         } 
         else {
-            newEffect = Instantiate(prefabNormal, targetPlayer.transform.position + Vector3.up, player.transform.rotation);
+            newEffect = Instantiate(prefabNormal, targetPlayer.transform.position + Vector3.up + slightlyRight, player.transform.rotation);
         }
 
         newEffect.transform.localScale = scale;
-        newEffect.GetComponent<Renderer>().material.color = color;
+
         return newEffect;
     }
 
@@ -421,6 +426,7 @@ public class ActionPhase : MonoBehaviour
             {
                 Coroutine throwWeaponCoroutine = StartCoroutine(ThrowWeapon(targetPlayer, onComplete: () => {
                     DealDamage(targetPlayer);
+                    LoadNewEffect(new Vector3(2f, 2f, 2f),targetPlayer);
                     PhaseHandler.SetNextActivePlayer();
                 }));
             }
