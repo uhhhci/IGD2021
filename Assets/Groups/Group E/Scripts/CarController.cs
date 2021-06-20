@@ -180,7 +180,7 @@ public class CarController : MonoBehaviour
                 {
                     wheel.collider.brakeTorque = 0;
                     ApplyMotorTorque(wheel);
-                    Debug.Log("forward-accelerate");
+                    //Debug.Log("forward-accelerate");
 
                 }
                 // driving forwards --> brake
@@ -188,26 +188,26 @@ public class CarController : MonoBehaviour
                 {
                     wheel.collider.motorTorque = 0;
                     ApplyBrakeTorque(wheel, -(movement.y * 0.001f));
-                    Debug.Log("forward-brake");
+                    //Debug.Log("forward-brake");
                 }
                 // driving backwards --> brake
                 else if (movement.y > 0 && backwards && GroundPercent > 0.0f)
                 {
                     wheel.collider.motorTorque = 0;
                     ApplyBrakeTorque(wheel, movement.y);
-                    Debug.Log("backward-brake");
+                    //Debug.Log("backward-brake");
                 }
                 // driving backwards --> accelerate
                 else if (movement.y < 0 && backwards && GroundPercent > 0.0f)
                 {
                     wheel.collider.brakeTorque = 0;
                     ApplyMotorTorque(wheel);
-                    Debug.Log("backward-accelerate");
+                    //Debug.Log("backward-accelerate");
                 }
                 // No Input (Coasting drag - DE:Motorbremswirkung)
                 else if(movement.y <= 0.01f && !backwards && GroundPercent > 0.0f)
                 {
-                    Debug.Log("no input!");
+                    //Debug.Log("no input!");
                     wheel.collider.motorTorque = 1;
                     wheel.collider.brakeTorque = CoastingDrag * 100;
                 }
@@ -227,10 +227,10 @@ public class CarController : MonoBehaviour
                 wheel.collider.brakeTorque = maxAcceleration * 35 * Time.deltaTime;
             }
         }
-        Debug.Log("01" + " mt: " + wheels[0].collider.motorTorque + " bt: " + wheels[0].collider.brakeTorque + '\n' 
-            + "02" + " mt: " + wheels[1].collider.motorTorque + " bt: " + wheels[1].collider.brakeTorque + '\n'
-            + "03" + " mt: " + wheels[2].collider.motorTorque + " bt: " + wheels[2].collider.brakeTorque + '\n'
-            + "04" + " mt: " + wheels[3].collider.motorTorque + " bt: " + wheels[3].collider.brakeTorque + '\n');
+        //Debug.Log("01" + " mt: " + wheels[0].collider.motorTorque + " bt: " + wheels[0].collider.brakeTorque + '\n' 
+        //    + "02" + " mt: " + wheels[1].collider.motorTorque + " bt: " + wheels[1].collider.brakeTorque + '\n'
+        //    + "03" + " mt: " + wheels[2].collider.motorTorque + " bt: " + wheels[2].collider.brakeTorque + '\n'
+        //    + "04" + " mt: " + wheels[3].collider.motorTorque + " bt: " + wheels[3].collider.brakeTorque + '\n');
     }
 
     private void CheckDrivingDirection(Rigidbody rigidbody)
