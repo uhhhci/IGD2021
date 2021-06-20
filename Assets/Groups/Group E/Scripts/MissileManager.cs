@@ -3,25 +3,14 @@
 public class MissileManager : MonoBehaviour
 {
 
-    public Missile missileTemplate;
+    public Missile missileTemplateNormal;
+    public Missile missileTemplateWhiteBrick;
 
-    public Missile CreateMissile(Transform transform)
+    public Missile CreateMissile(Transform transform, bool whiteBrick)
     {
-        Missile missile = Instantiate(missileTemplate, transform.position + 7.0f * transform.forward + 1.0f * transform.up, transform.rotation);
+        Missile missile = Instantiate(whiteBrick ? missileTemplateWhiteBrick : missileTemplateNormal, transform.position + 7.0f * transform.forward + 1.0f * transform.up, transform.rotation);
         missile.gameObject.SetActive(true);
         missile.Init();
         return missile;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
