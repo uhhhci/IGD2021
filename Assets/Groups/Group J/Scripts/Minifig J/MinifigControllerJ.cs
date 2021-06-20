@@ -6,9 +6,10 @@ using UnityEngine.InputSystem;
 
 public class MinifigControllerJ : MonoBehaviour
 {
-    private float mass = 3.0f;
-    private float hitForce = 3.0f;
-    public Vector3 impact = Vector3.zero;
+    //private float mass = 3.0f;
+    //private float hitForce = 3.0f;
+    //public Vector3 impact = Vector3.zero;
+    public bool punchable = false;
 
     public GameObject Minifig;
     // Constants.
@@ -223,12 +224,12 @@ public class MinifigControllerJ : MonoBehaviour
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
     }
 
-    public void AddImpact (Vector3 force)
-    {
-        var dir = force.normalized;
-        //dir.y = 0.5f;
-        impact += dir.normalized * force.magnitude / mass;
-    }
+    //public void AddImpact (Vector3 force)
+    //{
+    //    var dir = force.normalized;
+    //    //dir.y = 0.5f;
+    //    impact += dir.normalized * force.magnitude / mass;
+    //}
 
     void Update()
     {
@@ -570,11 +571,11 @@ public class MinifigControllerJ : MonoBehaviour
         animator.SetFloat(rotateSpeedHash, rotateSpeed);
         animator.SetBool(groundedHash, !airborne);
 
-        if (impact.magnitude > 0.2)
-        {
-            controller.Move(impact * Time.deltaTime);
-        }
-        impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+        //if (impact.magnitude > 0.2)
+        //{
+        //    controller.Move(impact * Time.deltaTime);
+        //}
+        //impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
 
     public void SetInputEnabled(bool enabled)
@@ -722,14 +723,14 @@ public class MinifigControllerJ : MonoBehaviour
         stepped = false;
     }
 
-    public void OnTriggerStay (Collider other)
-    {
-        if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Punch") && other.gameObject.tag == "Player" && other.gameObject.layer != this.gameObject.layer)
-        {
-            Debug.Log("trigger");
-            other.gameObject.GetComponent<MinifigControllerJ>().AddImpact((this.transform.up + this.transform.forward) * hitForce);
-        }
-    }
+    //public void OnTriggerStay (Collider other)
+    //{
+    //    if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Punch") && other.gameObject.tag == "Player" && other.gameObject.layer != this.gameObject.layer)
+    //    {
+    //        Debug.Log("trigger");
+    //        other.gameObject.GetComponent<MinifigControllerJ>().AddImpact((this.transform.up + this.transform.forward) * hitForce);
+    //    }
+    //}
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -983,11 +984,12 @@ public class MinifigControllerJ : MonoBehaviour
         print("OnNorthRelease");
     }
 
-    private void OnEastPress()
+    public void OnEastPress()
     {
         if (!airborne)
         {
-            PlaySpecialAnimation(SpecialAnimation.Punch, explodeAudioClip);           
+            punchable = true;
+            //PlaySpecialAnimation(SpecialAnimation.Punch, explodeAudioClip);           
         }
             
     }
