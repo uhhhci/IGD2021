@@ -11,12 +11,19 @@ public class MoveToMiddleBehaviour : StateMachineBehaviour
     private Animator animator;
     private NavMeshPath currentPath;
     public float maxDistanceFromMiddle = 1f;
+    public float playerDetectionDistance = 5f;
+    private WhatTheHillGame game;
+    private GameObject pickUpContainer;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         playerController = animator.GetComponentInParent<MinifigControllerWTH>();
         player = animator.gameObject;
         this.animator = animator;
+        
+        game = GameObject.Find("WTHGameManger").GetComponent<WhatTheHillGame>();
+        pickUpContainer = GameObject.Find("PowerUpSpawner");
+
         Vector3 targetPosition = new Vector3(0, 0, 0);
         currentPath = new NavMeshPath(); 
         NavMesh.CalculatePath(player.transform.position, targetPosition, NavMesh.AllAreas, currentPath);
@@ -28,11 +35,53 @@ public class MoveToMiddleBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("IsInMiddle", isPlayerInMiddle(player.transform.position));
+        animator.SetBool("PlayerInSight", playerInRange(player.transform.position));
+        animator.SetBool("PowerUpInSight", powerUpInRange(player.transform.position));
+        if (playerController.state == MinifigControllerWTH.State.Idle)
+        {
+            currentPath = new NavMeshPath();
+            Vector3 targetPosition = new Vector3(0, 0, 0);
+            NavMesh.CalculatePath(player.transform.position, targetPosition, NavMesh.AllAreas, currentPath);
+            if (currentPath.corners.Length >= 2)
+            {
+                playerController.MoveTo(currentPath.corners[1]);
+            }
+            if (playerController.hasPowerUp())
+            {
+                playerController.SpawnPowerUp();
+                playerController.MoveTo(targetPosition, maxMoveTime: 1.5f);
+            }
+            
+        }
     }
 
     private bool isPlayerInMiddle (Vector3 position)
     {
-        return position.x <= maxDistanceFromMiddle && position.z <= maxDistanceFromMiddle;
+        return Mathf.Abs(position.x) <= maxDistanceFromMiddle && Mathf.Abs(position.z) <= maxDistanceFromMiddle;
+    }
+
+    private bool playerInRange (Vector3 myPosition)
+    {
+        bool result = false;
+        foreach (GameObject player in game.Players)
+        {
+            if(player != this.player)
+            {
+                Vector3 distance = player.transform.position - myPosition;
+                if (distance.magnitude <= playerDetectionDistance) return true;
+            }
+        }
+        return result;
+    }
+    private bool powerUpInRange (Vector3 myPosition)
+    {
+        bool result = false;
+        foreach(Transform pickup in pickUpContainer.transform)
+        {
+            Vector3 distance = pickup.position - myPosition;
+            if (distance.magnitude <= playerDetectionDistance) return true;
+        }
+        return result;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

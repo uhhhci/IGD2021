@@ -33,6 +33,7 @@ public class MinifigControllerWTH : MonoBehaviour
         public float speedMultiplier;
         public float rotationSpeedMultiplier;
         public Vector3? turnToWhileCompleting;
+        public float maxMoveTime;
     }
 
     class FollowTarget
@@ -60,7 +61,7 @@ public class MinifigControllerWTH : MonoBehaviour
     }
 
     // State used when automatically animating.
-    enum State
+    public enum State
     {
         Idle,
         Moving,
@@ -176,7 +177,7 @@ public class MinifigControllerWTH : MonoBehaviour
     MoveTarget currentMove;
     FollowTarget currentFollowTarget;
     TurnTarget currentTurnTarget;
-    State state;
+    public State state;
     float waitedTime = 0.0f;
 
     float speed;
@@ -356,11 +357,15 @@ public class MinifigControllerWTH : MonoBehaviour
                     {
                         // Stop moving.
                         MoveInDirection(transform.forward, 0.0f, false, 0.0f, 0.0f, 0.0f, false);
+                        SetInputEnabled(true);
                         break;
                     }
                 case State.Moving:
                     {
-                        if (waitedTime > currentMove.moveDelay)
+                        if (currentMove.maxMoveTime != 0f && currentMove.maxMoveTime <= waitedTime)
+                        {
+                            CompleteMove();
+                        } else if (waitedTime > currentMove.moveDelay)
                         {
                             var direction = currentMove.destination - transform.position;
 
@@ -645,7 +650,7 @@ public class MinifigControllerWTH : MonoBehaviour
 
 
     public void MoveTo(Vector3 destination, float minDistance = 0.0f, Action onComplete = null, float onCompleteDelay = 0.0f,
-        float moveDelay = 0.0f, bool cancelSpecial = true, float speedMultiplier = 1.0f, float rotationSpeedMultiplier = 1.0f, Vector3? turnToWhileCompleting = null)
+        float moveDelay = 0.0f, bool cancelSpecial = true, float speedMultiplier = 1.0f, float rotationSpeedMultiplier = 1.0f, Vector3? turnToWhileCompleting = null, float maxMoveTime = 0f)
     {
         MoveTarget move = new MoveTarget()
         {
@@ -657,7 +662,8 @@ public class MinifigControllerWTH : MonoBehaviour
             cancelSpecial = cancelSpecial,
             speedMultiplier = speedMultiplier,
             rotationSpeedMultiplier = rotationSpeedMultiplier,
-            turnToWhileCompleting = turnToWhileCompleting
+            turnToWhileCompleting = turnToWhileCompleting,
+            maxMoveTime = maxMoveTime
         };
 
         moves.Add(move);
@@ -989,6 +995,10 @@ public class MinifigControllerWTH : MonoBehaviour
 
     void Respawn()
     {
+        if(currentMove != null)
+        {
+            CompleteMove();
+        }
         GenerateRings rings = RespawnPointsSource.GetComponent<GenerateRings>();
         Vector3 spawnLocation = rings.getSpawnLocation(characterId);
         playerPoints = Mathf.FloorToInt(playerPoints * pointLossRate);
@@ -1060,10 +1070,22 @@ public class MinifigControllerWTH : MonoBehaviour
         }
         else if(inventory != null)
         {
-            if(inventory is BatPowerUp)
+            SpawnPowerUp();
+        }
+    }
+    public bool hasPowerUp()
+    {
+        return inventory != null;
+    }
+    public void SpawnPowerUp()
+    {
+        if (inventory != null)
+        {
+            if (inventory is BatPowerUp)
             {
                 equipment = SpawnPowerUps.instance.SpawnPlayerEquipment("BaseballBat", this);
-            } else
+            }
+            else
             {
                 inventory.SpawnPowerUp(transform.position);
             }
