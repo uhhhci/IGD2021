@@ -1062,4 +1062,11 @@ public class OurMinifigController : MonoBehaviour
             item = null;
         }
     }
+
+    public int getPlatform(){
+        if(transform.position.z < -8.5) return 0;
+        if(transform.position.z > 8.4) return 2;
+        if(transform.position.y > 3) return 3;
+        return 1;
+    }
 }

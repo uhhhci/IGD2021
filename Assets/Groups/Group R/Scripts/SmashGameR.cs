@@ -194,4 +194,15 @@ public class SmashGameR : MiniGame
         }
 
     }
+
+    public (int[],bool[]) getGameState(){
+        int[] playerPlatforms = {player1.getPlatform(),
+        player2.getPlatform(),
+        player3.getPlatform(),
+        player4.getPlatform()};
+
+        bool[] playerDied = {player1.died,player2.died,player3.died,player4.died};
+
+        return (playerPlatforms,playerDied);
+    }
 }
