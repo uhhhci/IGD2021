@@ -42,13 +42,17 @@ public class InputManagerCTC : MonoBehaviour
         switch(playerID)
         {
             case 1:
+                //return true;
                 return player1_AI;
             case 2:
-                return player2_AI;
+                return true;
+                //return player2_AI;
             case 3:
-                return player3_AI;
+                return true;
+                //return player3_AI;
             case 4:
-                return player4_AI;
+                return true;
+                //return player4_AI;
             default:
                 return false;
         }
