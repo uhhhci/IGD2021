@@ -1,7 +1,6 @@
 ﻿using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class InputManagerCTC : MonoBehaviour
 {
     //left team
@@ -11,6 +10,11 @@ public class InputManagerCTC : MonoBehaviour
     //right team
     public PlayerInput player3;
     public PlayerInput player4;
+
+    private bool player1_AI;
+    private bool player2_AI;
+    private bool player3_AI;
+    private bool player4_AI;
 
     void Start()
     {
@@ -24,6 +28,10 @@ public class InputManagerCTC : MonoBehaviour
 
         //optional return value is not used
         InputManager.Instance.AssignPlayerInput(playerInputs);
+        player1_AI = PlayerPrefs.GetString("Player1_AI").Equals("True");
+        player2_AI = PlayerPrefs.GetString("Player2_AI").Equals("True");
+        player3_AI = PlayerPrefs.GetString("Player3_AI").Equals("True");
+        player4_AI = PlayerPrefs.GetString("Player4_AI").Equals("True");
     }
 
     /**
@@ -34,13 +42,13 @@ public class InputManagerCTC : MonoBehaviour
         switch(playerID)
         {
             case 1:
-                return true;
+                return player1_AI;
             case 2:
-                return true;
+                return player2_AI;
             case 3:
-                return true;
+                return player3_AI;
             case 4:
-                return true;
+                return player4_AI;
             default:
                 return false;
         }
