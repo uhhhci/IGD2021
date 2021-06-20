@@ -9,7 +9,7 @@ public class MinifigControllerWTH : MonoBehaviour
 {
     public GameObject Minifig;
     public GameObject RespawnPointsSource;
-    private NavMeshAgent agent;
+    public Animator AIStateMachine;
     public int characterId;
     // Constants.
     const float stickyTime = 0.05f;
@@ -19,6 +19,7 @@ public class MinifigControllerWTH : MonoBehaviour
     const float distanceEpsilon = 0.1f;
     const float angleEpsilon = 0.1f;
 
+    public bool isAi = false;
 
     // Internal classes used to define targets when automatically animating.
     class MoveTarget
@@ -229,19 +230,22 @@ public class MinifigControllerWTH : MonoBehaviour
 
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
         string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
         Respawn();
-        InvokeRepeating("setDest", 10, 10);
+        if (isAi)
+        {
+            AIStateMachine.SetTrigger("AiIsActive");
+        }
     }
 
-    private void setDest()
+    private NavMeshPath getPath()
     {
-        agent.SetDestination(new Vector3(0, 0, 0));
-
+        Vector3 newPosition = transform.position;
+        newPosition.x += 0.5f;
+        NavMeshPath path = new NavMeshPath();
+        return path;
     }
-
     void Update()
     {
         if (exploded)
@@ -252,6 +256,12 @@ public class MinifigControllerWTH : MonoBehaviour
         // Handle input.
         if (inputEnabled)
         {
+            if (isAi)
+            {
+                //NavMeshPath path = getPath();
+                //MoveTo(path.corners[0]);
+                
+            }
             // Calculate direct speed and speed.
             var right = Vector3.right;
             var forward = Vector3.forward;
