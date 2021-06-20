@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.SceneManagement;
 using System;
 
@@ -138,8 +139,7 @@ public class TurnManager : MonoBehaviour
 
     /// returns whether the current player is an AI
     private bool isAI() {
-        // TODO: real implementation, this is a dummy for testing
-        return true;
+        return PlayerPrefs.GetString("Player" + (activePlayer+1).ToString() + "_AI").Equals("True");
     }
 
     // call this method whenever an FSM ended which might modify the credit amounts of players
