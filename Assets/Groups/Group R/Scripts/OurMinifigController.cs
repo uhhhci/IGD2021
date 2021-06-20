@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.UI;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -851,11 +851,17 @@ public class OurMinifigController : MonoBehaviour
 
     private void OnMoveDpad(InputValue value)
     {
+        Vector2 input = value.Get<Vector2>();
+        // First value is movement on z-axis, second is whether to jump or not.
+        input.Normalize();
+        RightLeftJump(input);
+    }
+
+    public void RightLeftJump(Vector2 input) 
+    {
         if (!inputEnabled)
             return;
-        Vector2 input = value.Get<Vector2>();
-        input.Normalize();
-        if(input[1]>0){
+        if (input[1]>0){
             //W
             // Check if player is jumping.
             if (!airborne || jumpsInAir > 0)
@@ -915,7 +921,13 @@ public class OurMinifigController : MonoBehaviour
         print("OnEastRelease");
     }
 
+
     private void OnSouthPress()
+    {
+        Attack();
+    }
+
+    public void Attack()
     {
         if (!inputEnabled)
         {

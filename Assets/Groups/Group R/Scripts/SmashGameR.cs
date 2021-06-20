@@ -58,6 +58,8 @@ public class SmashGameR : MiniGame
         //This assigns the player input in the order they were given in the array
         InputManager.Instance.AssignPlayerInput(playerInputs);
 
+        bool player1_AI = PlayerPrefs.GetString("Player1_AI").Equals("True");
+
         endTime = Time.time + gameDuration + 3;
         countdown.StartCountDown(1);
 
