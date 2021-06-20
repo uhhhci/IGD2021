@@ -8,9 +8,13 @@ public class LevelManager : MonoBehaviour
     public GameObject bridge;
     public GameObject goal;
     public GameObject barrier;
+    public GameObject ground;
+    public CraneMovement leftCrane;
+    public CraneMovement rightCrane;
     private const float minCenterDistance = 1.5f;
     private const float maxCenterDistance = 3.5f;
-    private const float distanceBridgeToPlatformCenter = 2.0f;
+    private const float distanceBridgeToPlatformCenter = 3.0f;
+    private Vector3 centerOffset = new Vector3(0, 0, 0.5f);
     private int currentLevel = 1;
     public int LeftPlayerFinalLevel {get; set;}
     public int RightPlayerFinalLevel {get; set;}
@@ -18,15 +22,19 @@ public class LevelManager : MonoBehaviour
     public class Level
     {
         public Vector3 platformCenter;
-        public Vector3 goal;
+        public Vector3 leftGoal;
+        public Vector3 rightGoal;
         public float bridgeLength;
+        public float distanceBetweenPlatforms;
         public GameObject leftBridge;
         public GameObject rightBridge;   
-        public Level(Vector3 platformCenter, Vector3 goal, float bridgeLength)
+        public Level(Vector3 platformCenter, Vector3 leftGoal, Vector3 rightGoal, float bridgeLength, float distanceBetweenPlatforms)
         {
             this.platformCenter = platformCenter;
-            this.goal = goal;
+            this.leftGoal = leftGoal;
+            this.rightGoal = rightGoal;
             this.bridgeLength = bridgeLength;
+            this.distanceBetweenPlatforms = distanceBetweenPlatforms;
         }
     }
     
@@ -36,7 +44,7 @@ public class LevelManager : MonoBehaviour
     public (Rigidbody leftBridge, Rigidbody rightBridge) NextLevel(bool leftPlayerDead, bool rightPlayerDead)
     {
         //can create levels well beyond the next level (depending on Init()) but still starts the next level
-        CreateNextLevel(levels[levels.Count-1].platformCenter, levels[levels.Count-1].goal, levels.Count);
+        CreateNextLevel(levels[levels.Count-1].platformCenter, levels[levels.Count-1].leftGoal, levels.Count);
         currentLevel++;
         return StartLevel(currentLevel, leftPlayerDead, rightPlayerDead);
     }
@@ -47,9 +55,9 @@ public class LevelManager : MonoBehaviour
         {
             barriers.Add(Instantiate(barrier, new Vector3(0,0,0), Quaternion.identity));
         }
-        levels.Add(new Level(new Vector3(2,1,0), new Vector3(2,2.01f,0), 0)); //add first platform to make levels.Count and currentLevel match in upcoming method calls
+        levels.Add(new Level(new Vector3(2,0,0), new Vector3(2,2.01f,-2), new Vector3(2,2.01f,2), 0, 0)); //add first platform to make levels.Count and currentLevel match in upcoming method calls
         for (int i = 0; i < 20; i++)
-            CreateNextLevel(levels[i].platformCenter, levels[i].goal, levels.Count);
+            CreateNextLevel(levels[i].platformCenter, levels[i].leftGoal, levels.Count);
 
         return StartLevel(currentLevel, leftPlayerDead: false, rightPlayerDead: false);
     }
@@ -58,21 +66,29 @@ public class LevelManager : MonoBehaviour
     {
         Vector3 leftRightOffset = new Vector3(0, 0, platform.transform.localScale.z/2);
         UpdateBarriers(lvl, leftRightOffset);
+        
         float bridgeWidth = 0.4f;
         float spawnOffset = platform.transform.localScale.x/2 - levels[lvl].bridgeLength/2;
-        Vector3 newBridgePosition = levels[lvl-1].platformCenter + new Vector3(spawnOffset, distanceBridgeToPlatformCenter, -platform.transform.localScale.z/2 + bridgeWidth/2);
+        Vector3 newBridgePosition = levels[lvl-1].platformCenter 
+                + new Vector3(spawnOffset, distanceBridgeToPlatformCenter, -platform.transform.localScale.z/2 + bridgeWidth/2);
+
         if (!leftPlayerDead)
         {
-            Instantiate(goal, levels[lvl].goal - leftRightOffset, Quaternion.identity);
-            levels[lvl].leftBridge = Instantiate(bridge, newBridgePosition - leftRightOffset, Quaternion.identity);
-            levels[lvl].leftBridge.gameObject.transform.localScale = new Vector3(levels[lvl].bridgeLength, 0.01f, bridgeWidth);
+            Instantiate(goal, levels[lvl].leftGoal, Quaternion.identity);
+            levels[lvl].leftBridge = Instantiate(bridge, newBridgePosition - leftRightOffset + centerOffset, Quaternion.identity);
+            levels[lvl].leftBridge.gameObject.transform.localScale = new Vector3(levels[lvl].bridgeLength, bridge.transform.localScale.y, bridgeWidth);
+            leftCrane.MoveIntoScene(true, levels[lvl].leftBridge);
         }
         if (!rightPlayerDead)
         {
-            Instantiate(goal, levels[lvl].goal + leftRightOffset, Quaternion.identity);
-            levels[lvl].rightBridge = Instantiate(bridge, newBridgePosition + leftRightOffset*3 - new Vector3(0,0,bridgeWidth), Quaternion.identity);
+            Instantiate(goal, levels[lvl].rightGoal, Quaternion.identity);
+            levels[lvl].rightBridge = Instantiate(bridge, newBridgePosition + leftRightOffset*3 - new Vector3(0,0,bridgeWidth) - centerOffset, Quaternion.identity);
             levels[lvl].rightBridge.gameObject.transform.localScale = new Vector3(levels[lvl].bridgeLength, 0.01f, bridgeWidth);
+            rightCrane.MoveIntoScene(false, levels[lvl].rightBridge);
         }
+
+        ground.transform.position = new Vector3(ground.transform.position.x - levels[lvl].distanceBetweenPlatforms,
+                ground.transform.position.y, ground.transform.position.z);
 
         //if necessary create placeholders to prevent nullpointer errors
         if (!levels[lvl].leftBridge)
@@ -85,6 +101,7 @@ public class LevelManager : MonoBehaviour
             levels[lvl].rightBridge = new GameObject();
             levels[lvl].rightBridge.AddComponent<Rigidbody>();
         }
+
         return (levels[lvl].leftBridge.GetComponent<Rigidbody>(), levels[lvl].rightBridge.GetComponent<Rigidbody>());
     }
 
@@ -129,29 +146,34 @@ public class LevelManager : MonoBehaviour
         barriers[7].transform.position = new Vector3(oldPlatformCenter.x + platformDepth/2, oldPlatformCenter.y + distanceBridgeToPlatformCenter, oldPlatformCenter.z)
                                              + leftRightOffset;
         barriers[7].transform.localScale = new Vector3(0, 2, platformWidth);
+
+        foreach (GameObject barrier in barriers)
+        {
+            barrier.SetActive(false);
+        }
     }
 
-    private void CreateNextLevel(Vector3 oldPlatformCenter, Vector3 oldGoal, int level)
+    private void CreateNextLevel(Vector3 oldPlatformCenter, Vector3 oldLeftGoal, int level)
     {
         float nextCenterDistance = Random.Range(minCenterDistance, maxCenterDistance);
         Vector3 newPlatformCenter = new Vector3(oldPlatformCenter.x - nextCenterDistance, oldPlatformCenter.y, oldPlatformCenter.z);
         Vector3 leftRightOffset = new Vector3(0, 0, platform.transform.localScale.z/2);
         Instantiate(platform, newPlatformCenter - leftRightOffset, Quaternion.identity);
         Instantiate(platform, newPlatformCenter + leftRightOffset, Quaternion.identity);
-        float newGoalOffset = Random.Range(-1.0f, 1.0f);
-        Vector3 newGoal = new Vector3(newPlatformCenter.x, oldGoal.y, newPlatformCenter.z + newGoalOffset);
-        float xDistanceBetweenGoals = Mathf.Abs(oldGoal.x - newGoal.x) - 1;
-        float zDistanceBetweenGoals = Mathf.Abs(oldGoal.z - newGoal.z);
+        float newGoalOffset = Random.Range(-0.5f, 1.5f);
+        Vector3 newLeftGoal = new Vector3(newPlatformCenter.x, oldLeftGoal.y, newPlatformCenter.z + newGoalOffset) - leftRightOffset;
+        Vector3 newRightGoal = new Vector3(newPlatformCenter.x, oldLeftGoal.y, newPlatformCenter.z - newGoalOffset) + leftRightOffset;
+        float xDistanceBetweenGoals = Mathf.Abs(oldLeftGoal.x - newLeftGoal.x) - 1;
+        float zDistanceBetweenGoals = Mathf.Abs(oldLeftGoal.z - newLeftGoal.z);
         float additionalBridgeLength = 10/(level+10) + 0.1f;
         float bridgeLength = Mathf.Sqrt(Mathf.Pow(xDistanceBetweenGoals, 2) + Mathf.Pow(zDistanceBetweenGoals, 2)) + additionalBridgeLength;
 
-        levels.Add(new Level(newPlatformCenter, newGoal, bridgeLength));
+        levels.Add(new Level(newPlatformCenter, newLeftGoal, newRightGoal, bridgeLength, nextCenterDistance - platform.transform.localScale.x));
     }
 
     public (Vector3 leftGoal, Vector3 rightGoal) GetCurrentGoals()
     {
-        Vector3 leftRightOffset = new Vector3(0, 0, platform.transform.localScale.z/2);
-        return (levels[currentLevel].goal - leftRightOffset, levels[currentLevel].goal + leftRightOffset);
+        return (levels[currentLevel].leftGoal, levels[currentLevel].rightGoal);
     }
 
     public float DistanceBetweenCurrentPlatforms()
@@ -162,5 +184,13 @@ public class LevelManager : MonoBehaviour
     public int GetCurrentLevel()
     {
         return currentLevel;
+    }
+
+    public void ActivateBarriers()
+    {
+        foreach (GameObject barrier in barriers)
+        {
+            barrier.SetActive(true);
+        }
     }
 }
