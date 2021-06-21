@@ -24,6 +24,7 @@ public class PlayerStats : MonoBehaviour
     public GameObject myVFX;
     public AudioSource audioShield;
     private ParticleSystem.EmissionModule emmision;
+    public int playerNumber;
 
     // Start is called before the first frame update
     void Start()
