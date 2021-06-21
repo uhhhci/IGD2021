@@ -62,10 +62,10 @@ public class SmashGameR : MiniGame
         //This assigns the player input in the order they were given in the array
         InputManager.Instance.AssignPlayerInput(playerInputs);
 
-        AI1.SetActive(PlayerPrefs.GetString("Player1_AI").Equals("True"));
-        AI2.SetActive(PlayerPrefs.GetString("Player2_AI").Equals("True"));
-        AI3.SetActive(PlayerPrefs.GetString("Player3_AI").Equals("True"));
-        AI4.SetActive(PlayerPrefs.GetString("Player4_AI").Equals("True"));
+        AI1.gameObject.SetActive(PlayerPrefs.GetString("Player1_AI").Equals("True"));
+        AI2.gameObject.SetActive(true);//PlayerPrefs.GetString("Player2_AI").Equals("True"));
+        AI3.gameObject.SetActive(true);//PlayerPrefs.GetString("Player3_AI").Equals("True"));
+        AI4.gameObject.SetActive(true);//PlayerPrefs.GetString("Player4_AI").Equals("True"));
 
         endTime = Time.time + gameDuration + 3;
         countdown.StartCountDown(1);
