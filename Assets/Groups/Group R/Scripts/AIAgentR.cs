@@ -110,5 +110,7 @@ public class AIAgentR : MonoBehaviour
         }
         player.Attack();
     }
+
+    public void nothing(){}
 }
 
