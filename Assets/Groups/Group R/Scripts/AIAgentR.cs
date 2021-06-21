@@ -115,5 +115,10 @@ public class AIAgentR : MonoBehaviour
     }
 
     public void nothing(){}
+
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
 }
 
