@@ -29,9 +29,19 @@ public class PlayerData : MonoBehaviour
         distanceWalked++;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public int getDistanceWalked() {
+        return distanceWalked;
+    }
+
+    // use this method to restore an old state after a minigame
+    public void restore(int oldDistanceWalked) {
+        distanceWalked = oldDistanceWalked;
+    }
+
+    void Awake()
     {
-        tile = startTile;
+        if (tile == null) {
+            tile = startTile;
+        }
     }
 }

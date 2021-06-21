@@ -40,12 +40,6 @@ public class PlayerDisplay : MonoBehaviour
         STOP,           // the desired amount has been added/removed
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -65,6 +59,11 @@ public class PlayerDisplay : MonoBehaviour
     // use the parameter to indicate whether it has been achieved by this player or not
     public void setIsTruePartyPerson(bool isItThisPlayer) {
         trueParyBar.setStateTaken(isItThisPlayer);
+    }
+
+    /// whether this player is the true party person
+    public bool isTruePartyPerson() {
+       return trueParyBar.isItThisPlayer();
     }
 
     /// updates the true party meter of this player
@@ -98,8 +97,21 @@ public class PlayerDisplay : MonoBehaviour
         return items.Count > 0;
     }
 
+    /// returns the first item the player currently has
+    /// ensure that he hasAnItem() before calling this method
     public ItemD.Type getFirstItem() {
         return items[0];
+    }
+
+    /// returns all items this player currently has
+    public List<ItemD.Type> getItems() {
+        List<ItemD.Type> res = new List<ItemD.Type>();
+
+        foreach (ItemD.Type item in items) {
+            res.Add(item);
+        }
+
+        return res;
     }
 
     // removes the given item from this player's inventory
@@ -151,6 +163,12 @@ public class PlayerDisplay : MonoBehaviour
     /// returns the number of golden bricks this player currently has
     public int goldenBricks() {
         return bricks;
+    }
+
+    // this method is used to restore a previous state after a minigame
+    public void restore(int numberOfCredits, int numberOfBricks) {
+        credits = numberOfCredits;
+        bricks = numberOfBricks;
     }
 
     private void animateCreditBobbing() {
