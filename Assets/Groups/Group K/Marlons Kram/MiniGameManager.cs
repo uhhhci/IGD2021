@@ -11,6 +11,21 @@ public class MiniGameManager : MonoBehaviour
     [SerializeField] private GameObject _player2;
     [SerializeField] private GameObject _player3;
     [SerializeField] private GameObject _player4;
+    public GameObject _arena;
+
+    [Header("AI Parameters")]
+    public float AI_idleTime = 1.0f;
+    public float AI_PlayerDetectRadius = 5.0f;
+    public float AI_StunnedPreferationMultiplier = 1.3f;
+    public float AI_HuntDelay = 1.0f;
+    public float AI_KickDistance = 1.0f;
+    public float AI_WaveDetectionRadius = 1.0f;
+    public float AI_WaveDodgePercentage = 1.0f;
+    public float AI_JumpPenalty = 0.5f;
+    public float AI_StunDuration = 1.0f;
+    public float AI_SinkingTolerance = 0.5f;
+    public float AI_MeteorFleeDistance = 2.0f;
+    public float AI_MeteorTolerance = 3.0f;
 
     private MiniGame _minigame;
 
@@ -32,7 +47,18 @@ public class MiniGameManager : MonoBehaviour
             "2",
             "3"
         };
-        InputManager.Instance.AssignPlayerInput(playerInputs);
+
+        bool player1_AI = PlayerPrefs.GetString("Player1_AI").Equals("True");
+        bool player2_AI = PlayerPrefs.GetString("Player2_AI").Equals("True");
+        bool player3_AI = PlayerPrefs.GetString("Player3_AI").Equals("True");
+        bool player4_AI = PlayerPrefs.GetString("Player4_AI").Equals("True");
+        player3_AI = true;
+        player4_AI = true;
+        player2_AI = true;
+        player1_AI = true;
+        AssignAI(player1_AI, player2_AI, player3_AI, player4_AI);
+
+        //InputManager.Instance.AssignPlayerInput(playerInputs); // Stops execution of this monobehaviour in absence of playerprefs
         //InputManager.Instance.AssignPlayerInput(playerInputs, ids); // Right Version when Playerprefs work correctly
     }
 
@@ -44,7 +70,7 @@ public class MiniGameManager : MonoBehaviour
         bool aB3 = _player3.activeSelf;
         bool aB4 = _player4.activeSelf;
 
-        if(aB1 && !(aB2 || aB3 || aB4))
+        if (aB1 && !(aB2 || aB3 || aB4))
         {
             WinGame(0);
         }
@@ -86,5 +112,25 @@ public class MiniGameManager : MonoBehaviour
         int[] numbers = { 0, 1, 2, 3};
         numbers = numbers.Where(val => val != index).ToArray();
         _minigame.MiniGameFinished(new int[1] { index }, numbers, new int[0], new int[0]);
+    }
+
+    public void AssignAI(bool p1, bool p2, bool p3, bool p4)
+    {
+        if(p1)
+        {
+            _player1.AddComponent<MeteorFallAI>();
+        }
+        if (p2)
+        {
+            _player2.AddComponent<MeteorFallAI>();
+        }
+        if (p3)
+        {
+            _player3.AddComponent<MeteorFallAI>();
+        }
+        if (p4)
+        {
+            _player4.AddComponent<MeteorFallAI>();
+        }
     }
 }

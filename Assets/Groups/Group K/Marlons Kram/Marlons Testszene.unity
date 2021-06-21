@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 1715088179}
   - component: {fileID: 1715088178}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: InputManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5d5f23cf1a64811825cb10a87d81f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _menuPlayerPrefab: {fileID: 2856742833348502590, guid: 2711f59b0862306459484f40f3281f88,
+    type: 3}
 --- !u!114 &1715088179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227870ae020f043cbb47bfce29466447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _randomPicker: {fileID: 1402479294234901553, guid: 4802adaf245a0f443b03527d09a8fc14,
+    type: 3}
 --- !u!4 &1715088180
 Transform:
   m_ObjectHideFlags: 0
@@ -175,7 +179,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1984431303796913723
 PrefabInstance:
@@ -184,6 +188,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1984431303897442013, guid: 847d642d203766149ad5491adde5a378,
+        type: 3}
+      propertyPath: AI_MeteorFleeDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984431303897442013, guid: 847d642d203766149ad5491adde5a378,
+        type: 3}
+      propertyPath: AI_HuntDelay
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984431303897442013, guid: 847d642d203766149ad5491adde5a378,
+        type: 3}
+      propertyPath: AI_PlayerDetectRadius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984431303897442013, guid: 847d642d203766149ad5491adde5a378,
+        type: 3}
+      propertyPath: AI_StunnedPreferationMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4945460910052205012, guid: 847d642d203766149ad5491adde5a378,
         type: 3}
       propertyPath: m_Name
@@ -227,7 +251,7 @@ PrefabInstance:
     - target: {fileID: 5919532238467029888, guid: 847d642d203766149ad5491adde5a378,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5919532238467029888, guid: 847d642d203766149ad5491adde5a378,
         type: 3}
