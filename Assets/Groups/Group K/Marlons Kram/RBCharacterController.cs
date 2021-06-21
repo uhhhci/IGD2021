@@ -285,7 +285,8 @@ public class RBCharacterController : MonoBehaviour
         //Test to see if there is a hit using a BoxCast
         //Calculate using the center of the GameObject's Collider(could also just use the GameObject's position), half the GameObject's size, the direction, the GameObject's rotation, and the maximum distance as variables.
         //Also fetch the hit data
-        m_HitDetect = Physics.BoxCast(transform.position, transform.lossyScale/2, transform.forward, out m_Hit, transform.rotation, _kickRange);
+        m_HitDetect = Physics.BoxCast(transform.position, transform.lossyScale/2, 
+            transform.forward, out m_Hit, transform.rotation, _kickRange);
         if (m_HitDetect)
         {
             if(m_Hit.collider.CompareTag("Player"))
