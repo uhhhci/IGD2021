@@ -39,7 +39,7 @@ public class CannonStandoff : MiniGame {
 				secondPlace = new int[]{1};
 			} else {
 				firstPlace = new int[]{1, 2, 3, 4};
-				secondPlace = new int[]{};
+				secondPlace = empty;
 			}
 			
 			MiniGameFinished(firstPlace, secondPlace, empty, empty);
@@ -62,6 +62,7 @@ public class CannonStandoff : MiniGame {
 			Destroy(inputMarker);
 			
 			p1.SetAiControlled(true);
+			p1.SetWall(activeWall);
 		}
 		
 		if (aiP2) {
@@ -72,6 +73,7 @@ public class CannonStandoff : MiniGame {
 			Destroy(inputMarker);
 			
 			p2.SetAiControlled(true);
+			p2.SetWall(activeWall);
 		}
 		
 		if (aiP3) {
@@ -82,6 +84,7 @@ public class CannonStandoff : MiniGame {
 			Destroy(inputMarker);
 			
 			p3.SetAiControlled(true);
+			p3.SetWall(activeWall);
 		}
 		
 		if (aiP4) {
@@ -92,6 +95,7 @@ public class CannonStandoff : MiniGame {
 			Destroy(inputMarker);
 			
 			p4.SetAiControlled(true);
+			p4.SetWall(activeWall);
 		}
 	}
 	

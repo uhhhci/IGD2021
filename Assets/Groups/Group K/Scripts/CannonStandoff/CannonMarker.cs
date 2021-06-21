@@ -21,7 +21,7 @@ public class CannonMarker : MonoBehaviour {
 	}
 	
 	public void Move(Vector2 movement) {
-		this.movement = movement;
+		this.movement = movement.normalized;
 	}
 	
 }

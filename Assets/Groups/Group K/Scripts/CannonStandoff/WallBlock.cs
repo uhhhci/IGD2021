@@ -43,4 +43,8 @@ public class WallBlock : MonoBehaviour {
 		}
 	}
 	
+	public bool HasScored() {
+		return scored;
+	}
+	
 }
