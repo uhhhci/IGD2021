@@ -14,11 +14,15 @@ public class SetTrap : FSM
     }
     private TrapControl trap;
     private int owner;
+    private PlayerData ownerData;
+    private Transform ownerTransform;
     private State state;
-    public SetTrap(int trapOwner)
+    
+    public SetTrap(PlayerData data, Transform transform, GameObject trapObject)
     {
-        trap = (TrapControl) GameObject.FindGameObjectsWithTag("Trap")[0].GetComponent(typeof(TrapControl));
-        owner = trapOwner;
+        trap = (TrapControl) trapObject.GetComponent(typeof(TrapControl));
+        ownerData = data;
+        ownerTransform = transform;
     }
 
     // Update is called once per frame
@@ -29,26 +33,30 @@ public class SetTrap : FSM
             case State.START:
                 if (trap.movementCompleted())
                 {
+                    Debug.Log("start");
                     state = State.HOVERING;
-                    trap.moveAbovePlayerTile(owner);
+                    trap.moveAbovePlayerTile(ownerData);
                 }
                 break;
             case State.HOVERING:
                 if (trap.movementCompleted())
                 {
+                    Debug.Log("hovering");
                     state = State.FALLING;
-                    trap.moveToPlayerTile(owner);
+                    trap.moveToPlayerTile(ownerData);
                 }
                 break;
             case State.FALLING:
                 if (trap.movementCompleted())
                 {
+                    Debug.Log("falling");
                     state = State.OPENING;
                 }
                 break;
             case State.OPENING:
                 if (trap.movementCompleted())
                 {
+                    Debug.Log("opening");
                     state = State.DONE;
                     trap.playDropAudio();
                 }
@@ -56,6 +64,7 @@ public class SetTrap : FSM
             case State.DONE:
                 if (trap.movementCompleted())
                 {
+                    Debug.Log("done");
                     return true;
                 }
                 break;

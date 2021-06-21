@@ -66,6 +66,9 @@ public class TurnManager : MonoBehaviour
     // FSMs are control various animations and are executed in some turn states
     private FSM currentActionFSM = null;
 
+    //TODO TRAP: declare trap spawner
+    public TrapSpawner trapSpawner;
+
     // Start is called before the first frame update
     void Start() {
         restoreGameState();
@@ -98,6 +101,10 @@ public class TurnManager : MonoBehaviour
         else if (currentState == TurnState.ROLLING_DIE && DieScript.isDone() && DieScript2.isDone())
         {
             actionPoints = DieScript.rollResult + DieScript2.rollResult;
+            //TODO TRAP: give traps and action points
+            actionPoints = 100;
+            playerBelongings[0].addItem(ItemD.Type.TRAP);
+            playerBelongings[0].addItem(ItemD.Type.TRAP);
 
             currentState = TurnState.MOVING_CAM_TO_PLAYER;
             camera.moveToPlayer(activePlayer);
@@ -122,7 +129,7 @@ public class TurnManager : MonoBehaviour
                     actionPoints = Math.Max(actionPoints-3,0);
                     playerData[activePlayer].currentTile().setTrap(false);
                     currentState = TurnState.EXECUTING_ACTION;
-                    currentActionFSM = new RemoveTrap(activePlayer);
+                    currentActionFSM = new RemoveTrap(playerData[activePlayer]);
                 }
                 else if (actionPoints <= 0) 
                 {
@@ -424,9 +431,12 @@ public class TurnManager : MonoBehaviour
                 currentActionFSM = new ItemCreditThief(camera, activePlayer, playerBelongings);
                 break;
             case PlayerAction.Type.SET_TRAP:
+                //TODO TRAP: instantiate new trap
+                GameObject trapObject = trapSpawner.spawnTrap(trapSpawner.transform.position);
                 playerData[activePlayer].currentTile().setTrap(true,activePlayer);
                 currentState = TurnState.EXECUTING_ACTION;
-                currentActionFSM = new SetTrap(activePlayer);
+                //currentActionFSM = new SetTrap(activePlayer);
+                currentActionFSM = new SetTrap(playerData[activePlayer],players[activePlayer].transform,trapObject);
                 playerBelongings[activePlayer].removeItem(ItemD.Type.TRAP);
                 break;
             case PlayerAction.Type.BUY_AP:
