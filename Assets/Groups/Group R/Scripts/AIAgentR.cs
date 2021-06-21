@@ -30,7 +30,12 @@ public class AIAgentR : MonoBehaviour
             {
                 player.Attack();
             }
-            if (UnityEngine.Random.Range(0, 1000) < 1)
+            if (UnityEngine.Random.Range(0, 100) < 10)
+            {
+                Vector2 randomMovement = new Vector2(UnityEngine.Random.Range(-1, 1),UnityEngine.Random.Range(-1,1));
+                player.RightLeftJump(randomMovement);
+            }
+            if (UnityEngine.Random.Range(0, 100) < 1)
             {
                 animator.SetInteger("platform",-1);
             }
@@ -88,7 +93,6 @@ public class AIAgentR : MonoBehaviour
     }
 
     public void chooseBehaviour(){
-        Debug.Log("Choosing Behaviour");
         //Choose player to follow
         (int[] platforms,bool[] died) = gameManager.getGameState();
         List<int> notDeadPlayers = new List<int>{};
@@ -99,7 +103,6 @@ public class AIAgentR : MonoBehaviour
         int randomChoice = UnityEngine.Random.Range(0,notDeadPlayers.Count);
         target = gameManager.getPlayer(randomChoice);
         animator.SetInteger("platform",target.getPlatform());
-        Debug.Log(target.getPlatform().ToString());
     }
 
     public void attackTarget(){
