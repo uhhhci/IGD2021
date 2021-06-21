@@ -7,9 +7,9 @@ public class TimerCountdown : MonoBehaviour
 {
     public GameObject textDisplay;
     public GameManager_E gameManager_E;
-    public int secondsLeft = 2;
+    public int secondsLeft = 60;
     private bool takingAway = false;
-    private bool timerStarted = true;
+    private bool timerStarted = false;
     private bool gameHasFinished = false;
     private List<Transform> carPositions;
 
