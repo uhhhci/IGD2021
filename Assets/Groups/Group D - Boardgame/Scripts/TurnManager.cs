@@ -66,6 +66,8 @@ public class TurnManager : MonoBehaviour
     // FSMs are control various animations and are executed in some turn states
     private FSM currentActionFSM = null;
 
+    public TrapSpawner trapSpawner;
+
     // Start is called before the first frame update
     void Start() {
         restoreGameState();
@@ -120,9 +122,9 @@ public class TurnManager : MonoBehaviour
                     int creditsToRemove = Math.Min(5,playerBelongings[activePlayer].creditAmount());
                     playerBelongings[activePlayer].addCreditAmount(-creditsToRemove);
                     actionPoints = Math.Max(actionPoints-3,0);
-                    playerData[activePlayer].currentTile().setTrap(false);
                     currentState = TurnState.EXECUTING_ACTION;
-                    currentActionFSM = new RemoveTrap(activePlayer);
+                    currentActionFSM = new RemoveTrap(playerData[activePlayer]);
+                    playerData[activePlayer].currentTile().setTrap(false,playerData[activePlayer].currentTile().getTrap());
                 }
                 else if (actionPoints <= 0) 
                 {
@@ -424,9 +426,10 @@ public class TurnManager : MonoBehaviour
                 currentActionFSM = new ItemCreditThief(camera, activePlayer, playerBelongings);
                 break;
             case PlayerAction.Type.SET_TRAP:
-                playerData[activePlayer].currentTile().setTrap(true,activePlayer);
+                GameObject trapObject = trapSpawner.spawnTrap(trapSpawner.transform.position);
+                playerData[activePlayer].currentTile().setTrap(true, trapObject, activePlayer);
                 currentState = TurnState.EXECUTING_ACTION;
-                currentActionFSM = new SetTrap(activePlayer);
+                currentActionFSM = new SetTrap(playerData[activePlayer],players[activePlayer].transform,trapObject);
                 playerBelongings[activePlayer].removeItem(ItemD.Type.TRAP);
                 break;
             case PlayerAction.Type.BUY_AP:
