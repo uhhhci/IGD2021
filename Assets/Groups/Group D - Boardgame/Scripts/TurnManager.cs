@@ -74,11 +74,17 @@ public class TurnManager : MonoBehaviour
         if (useTestMinigames) {
             // replace the real minigame list with dummies
             GameList.FREE_FOR_ALL_LIST.Clear();
-            GameList.FREE_FOR_ALL_LIST.Add(new TestingGame());
+            GameList.FREE_FOR_ALL_LIST.Add(new TestGameD());
+            GameList.FREE_FOR_ALL_LIST.Add(new TestGameD());
+            GameList.FREE_FOR_ALL_LIST.Add(new TestGameD());
             GameList.SINGLE_VS_TEAM_LIST.Clear();
-            GameList.SINGLE_VS_TEAM_LIST.Add(new TestingGame());
+            GameList.SINGLE_VS_TEAM_LIST.Add(new TestGameD());
+            GameList.SINGLE_VS_TEAM_LIST.Add(new TestGameD());
+            GameList.SINGLE_VS_TEAM_LIST.Add(new TestGameD());
             GameList.TEAM_VS_TEAM_LIST.Clear();
-            GameList.TEAM_VS_TEAM_LIST.Add(new TestingGame());
+            GameList.TEAM_VS_TEAM_LIST.Add(new TestGameD());
+            GameList.TEAM_VS_TEAM_LIST.Add(new TestGameD());
+            GameList.TEAM_VS_TEAM_LIST.Add(new TestGameD());
         }
     }
 
@@ -158,8 +164,7 @@ public class TurnManager : MonoBehaviour
             playerBelongings[0].animationsAreDone() && 
             playerBelongings[1].animationsAreDone() && 
             playerBelongings[2].animationsAreDone() && 
-            playerBelongings[3].animationsAreDone() &&
-            currentActionFSM.update()) {
+            playerBelongings[3].animationsAreDone()) {
            
             finishRound();
         }
@@ -744,6 +749,11 @@ public class TurnManager : MonoBehaviour
 
                 playerBelongings[i].restore(StatePreserver.Instance.playerStates[i].credits, StatePreserver.Instance.playerStates[i].bricks);
                 playerData[i].restore(StatePreserver.Instance.playerStates[i].distanceWalked);
+
+                if (truePartyPerson != -1) {
+                    playerBelongings[i].setIsTruePartyPerson(i == truePartyPerson);
+                } 
+                // else: no truePartyPerson yet
             }
         }
     }

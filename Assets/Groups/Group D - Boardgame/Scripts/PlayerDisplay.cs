@@ -40,12 +40,6 @@ public class PlayerDisplay : MonoBehaviour
         STOP,           // the desired amount has been added/removed
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -65,6 +59,11 @@ public class PlayerDisplay : MonoBehaviour
     // use the parameter to indicate whether it has been achieved by this player or not
     public void setIsTruePartyPerson(bool isItThisPlayer) {
         trueParyBar.setStateTaken(isItThisPlayer);
+    }
+
+    /// whether this player is the true party person
+    public bool isTruePartyPerson() {
+       return trueParyBar.isItThisPlayer();
     }
 
     /// updates the true party meter of this player
@@ -169,7 +168,7 @@ public class PlayerDisplay : MonoBehaviour
     // this method is used to restore a previous state after a minigame
     public void restore(int numberOfCredits, int numberOfBricks) {
         credits = numberOfCredits;
-        bricks = numberOfCredits;
+        bricks = numberOfBricks;
     }
 
     private void animateCreditBobbing() {

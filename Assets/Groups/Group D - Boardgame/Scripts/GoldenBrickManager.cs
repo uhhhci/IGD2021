@@ -9,12 +9,15 @@ public class GoldenBrickManager : MonoBehaviour
     public float hoverDistance = 1f;
 
     private Tile location;
+    private bool restored = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        relocate();
+        if (!restored) {
+            relocate();
+        }
     }
 
     public void relocate() {
@@ -41,6 +44,7 @@ public class GoldenBrickManager : MonoBehaviour
     }
 
     public void restore(Tile location, Transform t) {
+        restored = true;
         Vector3 newPos = t.position;
         newPos.y += hoverDistance;
         brick.position = newPos;

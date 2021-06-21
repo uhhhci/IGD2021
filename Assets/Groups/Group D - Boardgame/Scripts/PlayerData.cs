@@ -38,9 +38,10 @@ public class PlayerData : MonoBehaviour
         distanceWalked = oldDistanceWalked;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        tile = startTile;
+        if (tile == null) {
+            tile = startTile;
+        }
     }
 }
