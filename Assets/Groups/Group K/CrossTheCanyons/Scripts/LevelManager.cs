@@ -11,8 +11,9 @@ public class LevelManager : MonoBehaviour
     public GameObject ground;
     public CraneMovement leftCrane;
     public CraneMovement rightCrane;
-    private const float minCenterDistance = 1.5f;
-    private const float maxCenterDistance = 3.5f;
+    private const float minCenterDistance = 1.75f;
+    private const float maxCenterDistance = 3.75f;
+    private const float maxRotation = 5.0f;
     private const float distanceBridgeToPlatformCenter = 3.0f;
     private Vector3 centerOffset = new Vector3(0, 0, 0.5f);
     private int currentLevel = 1;
@@ -22,19 +23,53 @@ public class LevelManager : MonoBehaviour
     private class Level
     {
         public Vector3 platformCenter;
-        public Vector3 leftGoal;
-        public Vector3 rightGoal;
+        private GoalManager leftGoal;
+        private GoalManager rightGoal;
         public float bridgeLength;
         public float distanceBetweenPlatforms;
         public GameObject leftBridge;
         public GameObject rightBridge;   
-        public Level(Vector3 platformCenter, Vector3 leftGoal, Vector3 rightGoal, float bridgeLength, float distanceBetweenPlatforms)
+        public Level(Vector3 platformCenter, GoalManager leftGoal, GoalManager rightGoal, float bridgeLength, float distanceBetweenPlatforms)
         {
             this.platformCenter = platformCenter;
             this.leftGoal = leftGoal;
             this.rightGoal = rightGoal;
             this.bridgeLength = bridgeLength;
             this.distanceBetweenPlatforms = distanceBetweenPlatforms;
+        }
+
+        public Vector3 GetGoalPos(bool left)
+        {
+            if (left)
+            {
+                if (leftGoal)
+                    return leftGoal.GetGoalPosition();
+                else
+                    return new Vector3(2,2.01f,-2);
+            }
+            else
+            {
+                if (rightGoal)
+                    return rightGoal.GetGoalPosition();
+                else
+                    return new Vector3(2,2.01f,2);
+            }
+        }
+
+        public void ActivateGoal(bool left)
+        {
+            if (left)
+                leftGoal.ActivateGoal();
+            else
+                rightGoal.ActivateGoal();
+        }
+
+        public float GetExtremeX(bool upper)
+        {
+            if (leftGoal)
+                return upper? leftGoal.GetUpperExtremeX() : leftGoal.GetLowerExtremeX();
+            else
+                return upper? 3.5f : 3.5f;
         }
     }
     
@@ -44,45 +79,47 @@ public class LevelManager : MonoBehaviour
     public (Rigidbody leftBridge, Rigidbody rightBridge) NextLevel(bool leftPlayerDead, bool rightPlayerDead)
     {
         //can create levels well beyond the next level (depending on Init()) but still starts the next level
-        CreateNextLevel(levels[levels.Count-1].platformCenter, levels[levels.Count-1].leftGoal, levels.Count);
+        CreateNextLevel(levels[levels.Count-1].platformCenter, levels[levels.Count-1].GetGoalPos(left: true), levels.Count);
         currentLevel++;
         return StartLevel(currentLevel, leftPlayerDead, rightPlayerDead);
     }
 
     public (Rigidbody leftBridge, Rigidbody rightBridge) Init()
     {
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 5; i++)
         {
             barriers.Add(Instantiate(barrier, new Vector3(0,0,0), Quaternion.identity));
         }
-        levels.Add(new Level(new Vector3(2,0,0), new Vector3(2,2.01f,-2), new Vector3(2,2.01f,2), 0, 0)); //add first platform to make levels.Count and currentLevel match in upcoming method calls
+        //add first platform to make levels.Count and currentLevel match in upcoming method calls
+        levels.Add(new Level(new Vector3(2,0,0), null, null, 0, 0)); 
         for (int i = 0; i < 20; i++)
-            CreateNextLevel(levels[i].platformCenter, levels[i].leftGoal, levels.Count);
+            CreateNextLevel(levels[i].platformCenter, levels[i].GetGoalPos(left: true), levels.Count);
 
         return StartLevel(currentLevel, leftPlayerDead: false, rightPlayerDead: false);
     }
 
     private (Rigidbody leftBridge, Rigidbody rightBridge) StartLevel(int lvl, bool leftPlayerDead, bool rightPlayerDead)
     {
-        Vector3 leftRightOffset = new Vector3(0, 0, platform.transform.localScale.z/2);
+        Vector3 leftRightOffset = new Vector3(0, 0, 2.5f);
         UpdateBarriers(lvl, leftRightOffset);
         
         float bridgeWidth = 0.4f;
         float spawnOffset = platform.transform.localScale.x/2 - levels[lvl].bridgeLength/2;
-        Vector3 newBridgePosition = levels[lvl-1].platformCenter 
-                + new Vector3(spawnOffset, distanceBridgeToPlatformCenter, -platform.transform.localScale.z/2 + bridgeWidth/2);
+        Vector3 newBridgePosition = new Vector3(levels[lvl-1].platformCenter.x, levels[lvl-1].platformCenter.y, 0);
+        Vector3 leftBridgeOffset = new Vector3(spawnOffset, distanceBridgeToPlatformCenter, -5/2 + bridgeWidth/2) - leftRightOffset + centerOffset;
+        Vector3 rightBridgeOffset = new Vector3(spawnOffset, distanceBridgeToPlatformCenter, +5/2 - bridgeWidth/2) + leftRightOffset - centerOffset;
 
         if (!leftPlayerDead)
         {
-            Instantiate(goal, levels[lvl].leftGoal, Quaternion.identity);
-            levels[lvl].leftBridge = Instantiate(bridge, newBridgePosition - leftRightOffset + centerOffset, Quaternion.identity);
+            levels[lvl].ActivateGoal(left: true);
+            levels[lvl].leftBridge = Instantiate(bridge, newBridgePosition + leftBridgeOffset, Quaternion.identity);
             levels[lvl].leftBridge.gameObject.transform.localScale = new Vector3(levels[lvl].bridgeLength, bridge.transform.localScale.y, bridgeWidth);
             leftCrane.MoveIntoScene(true, levels[lvl].leftBridge);
         }
         if (!rightPlayerDead)
         {
-            Instantiate(goal, levels[lvl].rightGoal, Quaternion.identity);
-            levels[lvl].rightBridge = Instantiate(bridge, newBridgePosition + leftRightOffset*3 - new Vector3(0,0,bridgeWidth) - centerOffset, Quaternion.identity);
+            levels[lvl].ActivateGoal(left: false);
+            levels[lvl].rightBridge = Instantiate(bridge, newBridgePosition + rightBridgeOffset, Quaternion.identity);
             levels[lvl].rightBridge.gameObject.transform.localScale = new Vector3(levels[lvl].bridgeLength, 0.01f, bridgeWidth);
             rightCrane.MoveIntoScene(false, levels[lvl].rightBridge);
         }
@@ -107,45 +144,36 @@ public class LevelManager : MonoBehaviour
 
     private void UpdateBarriers(int lvl, Vector3 leftRightOffset)
     {
-        Vector3 oldPlatformCenter = levels[lvl-1].platformCenter;
+        float upperX = levels[lvl].GetExtremeX(upper: true) - 0.5f;
+        float lowerX = levels[lvl-1].GetExtremeX(upper: false) + 0.5f;
         Vector3 newPlatformCenter = levels[lvl].platformCenter;
-        float platformWidth = platform.transform.localScale.z;
-        float platformDepth = platform.transform.localScale.x;
-        float distanceBetweenPlatforms = Mathf.Abs(newPlatformCenter.x - oldPlatformCenter.x);
-        //Left Barriers
+        Vector3 upperLeft = new Vector3(upperX, newPlatformCenter.y + distanceBridgeToPlatformCenter, -5);
+        Vector3 upperRight = new Vector3(upperX, newPlatformCenter.y + distanceBridgeToPlatformCenter, 5);
+        Vector3 lowerLeft = new Vector3(lowerX, newPlatformCenter.y + distanceBridgeToPlatformCenter, -5);
+        Vector3 lowerRight = new Vector3(lowerX, newPlatformCenter.y + distanceBridgeToPlatformCenter, 5);
+        Vector3 upperCenter = Vector3.Lerp(upperLeft, upperRight, 0.5f);
+        Vector3 lowerCenter = Vector3.Lerp(lowerLeft, lowerRight, 0.5f);
+        Vector3 leftCenter = Vector3.Lerp(lowerLeft, upperLeft, 0.5f);
+        Vector3 rightCenter = Vector3.Lerp(lowerRight, upperRight, 0.5f);
+        Vector3 center = Vector3.Lerp(lowerCenter, upperCenter, 0.5f);
+        float verticalDistance = (upperLeft - lowerLeft).magnitude;
+        float horizontalDistance = (upperLeft - upperRight).magnitude;
+        
         //top barrier
-        barriers[0].transform.position = new Vector3(newPlatformCenter.x - platformDepth/2, newPlatformCenter.y + distanceBridgeToPlatformCenter, newPlatformCenter.z) 
-                                            - leftRightOffset;
-        barriers[0].transform.localScale = new Vector3(0, 2, platformWidth);
+        barriers[0].transform.position = upperCenter;
+        barriers[0].transform.localScale = new Vector3(0, 2, horizontalDistance);
         //right barrier
-        barriers[1].transform.position = new Vector3(oldPlatformCenter.x - distanceBetweenPlatforms/2,
-                                                        newPlatformCenter.y + distanceBridgeToPlatformCenter, newPlatformCenter.z + platformWidth/2) - leftRightOffset;
-        barriers[1].transform.localScale = new Vector3(distanceBetweenPlatforms + platformDepth, 2, 0);
+        barriers[1].transform.position = rightCenter;
+        barriers[1].transform.localScale = new Vector3(verticalDistance, 2, 0);
         //left barrier
-        barriers[2].transform.position = new Vector3(oldPlatformCenter.x - distanceBetweenPlatforms/2,
-                                                        oldPlatformCenter.y + distanceBridgeToPlatformCenter, newPlatformCenter.z - platformWidth/2) - leftRightOffset;
-        barriers[2].transform.localScale = new Vector3(distanceBetweenPlatforms + platformDepth, 2, 0);
+        barriers[2].transform.position = leftCenter;
+        barriers[2].transform.localScale = new Vector3(verticalDistance, 2, 0);
         //lower barrier
-        barriers[3].transform.position = new Vector3(oldPlatformCenter.x + platformDepth/2, oldPlatformCenter.y + distanceBridgeToPlatformCenter, oldPlatformCenter.z)
-                                             - leftRightOffset;
-        barriers[3].transform.localScale = new Vector3(0, 2, platformWidth);
-
-        //Right Barriers
-        barriers[4].transform.position = new Vector3(newPlatformCenter.x - platformDepth/2, newPlatformCenter.y + distanceBridgeToPlatformCenter, newPlatformCenter.z) 
-                                            + leftRightOffset;
-        barriers[4].transform.localScale = new Vector3(0, 2, platformWidth);
-        //right barrier
-        barriers[5].transform.position = new Vector3(oldPlatformCenter.x - distanceBetweenPlatforms/2,
-                                                        newPlatformCenter.y + distanceBridgeToPlatformCenter, newPlatformCenter.z + platformWidth/2) + leftRightOffset;
-        barriers[5].transform.localScale = new Vector3(distanceBetweenPlatforms + platformDepth, 2, 0);
-        //left barrier
-        barriers[6].transform.position = new Vector3(oldPlatformCenter.x - distanceBetweenPlatforms/2,
-                                                        oldPlatformCenter.y + distanceBridgeToPlatformCenter, newPlatformCenter.z - platformWidth/2) + leftRightOffset;
-        barriers[6].transform.localScale = new Vector3(distanceBetweenPlatforms + platformDepth, 2, 0);
-        //lower barrier
-        barriers[7].transform.position = new Vector3(oldPlatformCenter.x + platformDepth/2, oldPlatformCenter.y + distanceBridgeToPlatformCenter, oldPlatformCenter.z)
-                                             + leftRightOffset;
-        barriers[7].transform.localScale = new Vector3(0, 2, platformWidth);
+        barriers[3].transform.position = lowerCenter;
+        barriers[3].transform.localScale = new Vector3(0, 2, horizontalDistance);
+        //central barrier
+        barriers[4].transform.position = center;
+        barriers[4].transform.localScale = new Vector3(verticalDistance, 2, 0);
 
         foreach (GameObject barrier in barriers)
         {
@@ -156,29 +184,30 @@ public class LevelManager : MonoBehaviour
     private void CreateNextLevel(Vector3 oldPlatformCenter, Vector3 oldLeftGoal, int level)
     {
         float nextCenterDistance = Random.Range(minCenterDistance, maxCenterDistance);
+        float nextPlatformRotation = Random.Range(-maxRotation, maxRotation);
         Vector3 newPlatformCenter = new Vector3(oldPlatformCenter.x - nextCenterDistance, oldPlatformCenter.y, oldPlatformCenter.z);
         Vector3 leftRightOffset = new Vector3(0, 0, platform.transform.localScale.z/2);
-        Instantiate(platform, newPlatformCenter - leftRightOffset, Quaternion.identity);
-        Instantiate(platform, newPlatformCenter + leftRightOffset, Quaternion.identity);
+        GameObject leftPlatform = Instantiate(platform, newPlatformCenter - leftRightOffset, Quaternion.Euler(0, -nextPlatformRotation, 0));
+        GameObject rightPlatform = Instantiate(platform, newPlatformCenter + leftRightOffset, Quaternion.Euler(0, 180.0f + nextPlatformRotation, 0));
         float newGoalOffset = Random.Range(-0.5f, 1.5f);
-        Vector3 newLeftGoal = new Vector3(newPlatformCenter.x, oldLeftGoal.y, newPlatformCenter.z + newGoalOffset) - leftRightOffset;
-        Vector3 newRightGoal = new Vector3(newPlatformCenter.x, oldLeftGoal.y, newPlatformCenter.z - newGoalOffset) + leftRightOffset;
-        float xDistanceBetweenGoals = Mathf.Abs(oldLeftGoal.x - newLeftGoal.x) - 1;
-        float zDistanceBetweenGoals = Mathf.Abs(oldLeftGoal.z - newLeftGoal.z);
-        float additionalBridgeLength = 10/(level+10) + 0.1f;
-        float bridgeLength = Mathf.Sqrt(Mathf.Pow(xDistanceBetweenGoals, 2) + Mathf.Pow(zDistanceBetweenGoals, 2)) + additionalBridgeLength;
+        GoalManager leftGoalManager = leftPlatform.GetComponent<GoalManager>();
+        GoalManager rightGoalManager = rightPlatform.GetComponent<GoalManager>();
+        leftGoalManager.MoveGoal(newGoalOffset);
+        rightGoalManager.MoveGoal(newGoalOffset);
+        float additionalBridgeLength = 10/(level+10) + 0.125f;
+        float bridgeLength = (oldLeftGoal - leftGoalManager.GetGoalPosition()).magnitude + additionalBridgeLength - 1;
 
-        levels.Add(new Level(newPlatformCenter, newLeftGoal, newRightGoal, bridgeLength, nextCenterDistance - platform.transform.localScale.x));
+        levels.Add(new Level(newPlatformCenter, leftGoalManager, rightGoalManager, bridgeLength, nextCenterDistance - platform.transform.localScale.x));
     }
 
     public (Vector3 leftGoal, Vector3 rightGoal) GetCurrentGoals()
     {
-        return (levels[currentLevel].leftGoal, levels[currentLevel].rightGoal);
+        return (levels[currentLevel].GetGoalPos(left: true), levels[currentLevel].GetGoalPos(left: false));
     }
 
     public (Vector3 leftGoal, Vector3 rightGoal) GetPreviousGoals()
     {
-        return (levels[currentLevel-1].leftGoal, levels[currentLevel-1].rightGoal);
+        return (levels[currentLevel-1].GetGoalPos(left: true), levels[currentLevel-1].GetGoalPos(left: false));
     }
 
     public (GameObject leftBridge, GameObject rightBridge) GetCurrentBridges()
