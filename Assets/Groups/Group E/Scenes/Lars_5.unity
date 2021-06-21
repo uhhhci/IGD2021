@@ -8838,7 +8838,7 @@ PrefabInstance:
     - target: {fileID: 8949071884629004120, guid: dc2b33f518b9f1f4e8179bbe16c7e954,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8949071884629004120, guid: dc2b33f518b9f1f4e8179bbe16c7e954,
         type: 3}
@@ -16998,7 +16998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &1367089909
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -23830,7 +23830,7 @@ Transform:
   m_LocalScale: {x: 18.5, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1815953101
 MeshFilter:
@@ -25926,6 +25926,7 @@ MonoBehaviour:
   - {fileID: 1341724003}
   - {fileID: 688596254}
   carPositionList: []
+  Checkpoints: {fileID: 983677013}
 --- !u!4 &2041326670
 Transform:
   m_ObjectHideFlags: 0

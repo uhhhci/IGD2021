@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class GameManager_E : MonoBehaviour
 {
     int totalWinners = 0;
     public List<Transform> carTransformList;
     public List<Transform> carPositionList;
+    public Transform Checkpoints;
 
     public int firstPlace;
     public int secondPlace;
@@ -99,7 +101,8 @@ public class GameManager_E : MonoBehaviour
     private void Start()
     {
         totalWinners = 0;
-
+        carPositionList = new List<Transform>();
+        InitializeAIPlayer(carTransformList[3]);
     }
 
     public void finishGame()
@@ -113,9 +116,10 @@ public class GameManager_E : MonoBehaviour
         {
             PlayerStats thePlayer = car.GetComponent<PlayerStats>();
             thePlayer.GetKartPosition(carTransformList);
-            
+
             // some error
-            //carPositionList[thePlayer.GetKartPosition(carTransformList)] = car;
+            //Debug.Log(thePlayer.GetKartPosition(carTransformList));
+            //carPositionList[(thePlayer.GetKartPosition(carTransformList) - 1)] = car;
         }
 
         //finish game if the players end all rounds
@@ -123,5 +127,15 @@ public class GameManager_E : MonoBehaviour
         {
             this.finishGame();
         }
+    }
+
+    private void InitializeAIPlayer(Transform car)
+    {
+        NavMeshAgent agent = car.gameObject.AddComponent(typeof(NavMeshAgent)) as NavMeshAgent;
+        agent.speed = 20;
+        agent.acceleration = 15;
+
+        NavAgentScript_E agentScript = car.gameObject.AddComponent(typeof(NavAgentScript_E)) as NavAgentScript_E;
+        agentScript.Checkpoints = Checkpoints;
     }
 }
