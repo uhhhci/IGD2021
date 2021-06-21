@@ -98,14 +98,18 @@ public class PlayerAI : MonoBehaviour
 
     private GameObject FindCar()
     {
-        RaycastHit hit;
-
-        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, carViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right, out hit, transform.rotation, carViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right * -1, out hit, transform.rotation, carViewingDistance);
-        if (hitDetected && hit.transform.gameObject.tag == "Vehicle")
-        {
-            GameObject car = hit.transform.gameObject;
-            return car;
-            if ((car.transform.rotation.y / 90) % 2 == 0) // x is important lane
+        GameObject[] sceneObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+        List<GameObject> result = new List<GameObject>();
+        GameObject car = null;
+         for (int i = 0; i < sceneObjects.Length; i++)
+            {
+                if (sceneObjects[i].tag == "Vehicle")
+                {
+                        car=sceneObjects[i];
+                        Debug.Log("Car Found");
+                }
+            }
+            if (((car.transform.rotation.y / 90) % 2) == 0) // x is important lane
             {
                 // if player is on car's lane
                 if (car.transform.position.x + 1 < transform.position.x || car.transform.position.x - 1 > transform.position.x)
@@ -121,34 +125,39 @@ public class PlayerAI : MonoBehaviour
                     return car;
                 }
             }
-        }
-        return null;
+        return car;
     }
 
     private GameObject FindBomb()
     {
-        RaycastHit hit;
-
-        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, bombViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right, out hit, transform.rotation, bombViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right * -1, out hit, transform.rotation, bombViewingDistance);
-        if (hitDetected && hit.transform.gameObject.tag == "Bomb")
-        {
-            GameObject bomb = hit.transform.gameObject;
-            return bomb;
-        }
-        return null;
+        GameObject[] sceneObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+        List<GameObject> result = new List<GameObject>();
+        GameObject bomb = null;
+         for (int i = 0; i < sceneObjects.Length; i++)
+            {
+                if (sceneObjects[i].tag == "Bomb")
+                {
+                        bomb=sceneObjects[i];
+                        Debug.Log("Bomb Found");
+                }
+            }
+        return bomb;
     }
 
     private GameObject FindBurger()
     {
-        RaycastHit hit;
-
-        bool hitDetected = Physics.BoxCast(transform.position, transform.localScale, transform.forward, out hit, transform.rotation, burgerViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right, out hit, transform.rotation, burgerViewingDistance) || Physics.BoxCast(transform.position, transform.localScale, transform.right * -1, out hit, transform.rotation, burgerViewingDistance);
-        if (hitDetected && hit.transform.gameObject.tag == "Burger")
-        {
-            GameObject bomb = hit.transform.gameObject;
-            return bomb;
-        }
-        return null;
+        GameObject[] sceneObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+        List<GameObject> result = new List<GameObject>();
+        GameObject burger = null;
+         for (int i = 0; i < sceneObjects.Length; i++)
+            {
+                if (sceneObjects[i].tag == "Burger")
+                {
+                        burger=sceneObjects[i];
+                        Debug.Log("Burger Found");
+                }
+            }
+        return burger;
     }
 
     private GameObject FindOtherPlayer()
@@ -221,6 +230,8 @@ public class PlayerAI : MonoBehaviour
         direction.Normalize();
         Vector3 destination = gameObject.transform.position + direction * 3;
         MoveTo(destination);
+
+        
     }
 
     private IEnumerator Wait()
