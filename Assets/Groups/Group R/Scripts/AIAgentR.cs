@@ -15,27 +15,25 @@ public class AIAgentR : MonoBehaviour
     bool arrived = false;
     public int id;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if(arrived){
-            animator.SetTrigger(atRightSideUpHash);
-            animator.SetTrigger(atLeftSideUpHash);
-            arrived = false;
-        }
-        if (UnityEngine.Random.Range(1, 100) > 98)
-        {
-            player.Attack();
-        }
-        if (UnityEngine.Random.Range(0, 1000) < 1)
-        {
+        if(target && target.died){
             animator.SetInteger("platform",-1);
+        }else{
+            if(arrived){
+                animator.SetTrigger(atRightSideUpHash);
+                animator.SetTrigger(atLeftSideUpHash);
+                arrived = false;
+            }
+            if (UnityEngine.Random.Range(0, 100) < 5)
+            {
+                player.Attack();
+            }
+            if (UnityEngine.Random.Range(0, 1000) < 1)
+            {
+                animator.SetInteger("platform",-1);
+            }
         }
     }
 
