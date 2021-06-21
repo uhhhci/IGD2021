@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class AIAgentR : MonoBehaviour
@@ -40,6 +39,11 @@ public class AIAgentR : MonoBehaviour
                 animator.SetInteger("platform",-1);
             }
         }
+    }
+
+    public void SetId(int iD)
+    {
+        id = iD;
     }
 
     public bool MoveToPosition(float z)
