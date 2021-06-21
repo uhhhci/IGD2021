@@ -851,6 +851,8 @@ public class OurMinifigController : MonoBehaviour
 
     private void OnMoveDpad(InputValue value)
     {
+        if (!inputEnabled)
+            return;
         Vector2 input = value.Get<Vector2>();
         input.Normalize();
         if(input[1]>0){
@@ -921,10 +923,13 @@ public class OurMinifigController : MonoBehaviour
         }
         if (!hasItem)
             animator.SetTrigger(punchHash);
-        else if (itemType == "batarang")
-            animator.SetTrigger(throwHash);
-        else if (itemType == "sword")
-            animator.SetTrigger(swordHash);
+        else
+        {
+            if (itemType == "batarang")
+                animator.SetTrigger(throwHash);
+            else if (itemType == "sword")
+                animator.SetTrigger(swordHash);
+        }
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
         {
@@ -970,7 +975,7 @@ public class OurMinifigController : MonoBehaviour
             Item collidingItem = gameObj.GetComponent<Item>();
             if (collidingItem == item)
                 return;
-            if (collidingItem.isPickedUp) // item was already picked up by another player
+            if (collidingItem.isPickedUp && collidingItem.isActive) // item was already picked up by another player
             {
                 damage += collidingItem.strength;
                 Vector3 hit_direction = transform.position - collidingItem.transform.position;
@@ -1011,10 +1016,38 @@ public class OurMinifigController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0);
         else
             transform.rotation = Quaternion.Euler(0, 180, 0);
+        item.isActive = true;
     }
 
     public void release()
     {
         SetInputEnabled(true);
+        item.isActive = false;
+        usedItem();
+    }
+
+    public void setHitting(bool hitting)
+    {
+        isHitting = hitting;
+        if (hitting)
+        {
+            item.isActive = true;
+        }
+        else
+        {
+            item.isActive = false;
+            usedItem();
+        } 
+    }
+
+    private void usedItem()
+    {
+        bool keep = item.Used();
+        if (!keep)
+        {
+            Destroy(item.gameObject);
+            hasItem = false;
+            item = null;
+        }
     }
 }
