@@ -24371,6 +24371,7 @@ GameObject:
   - component: {fileID: 7566994460132671683}
   - component: {fileID: 5086430652124678788}
   - component: {fileID: 4989659760169832586}
+  - component: {fileID: 2271449081312173169}
   m_Layer: 0
   m_Name: Kart
   m_TagString: Player
@@ -24584,9 +24585,25 @@ MonoBehaviour:
   hasWhiteBrick: 0
   imageWhiteBrick: {fileID: 2196925190684426407}
   hasShield: 0
-  ps: {fileID: 0}
+  psShield: {fileID: 0}
   myVFX: {fileID: 7357353047288305315}
-  audio: {fileID: 0}
+  audioShield: {fileID: 0}
+--- !u!208 &2271449081312173169
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7566994460132671682}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.22, y: 1, z: 2.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.7, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7566994460142245588
 GameObject:
   m_ObjectHideFlags: 0
@@ -28430,9 +28447,9 @@ MonoBehaviour:
   hasWhiteBrick: 0
   imageWhiteBrick: {fileID: 0}
   hasShield: 0
-  ps: {fileID: 0}
+  psShield: {fileID: 0}
   myVFX: {fileID: 0}
-  audio: {fileID: 0}
+  audioShield: {fileID: 0}
 --- !u!1 &7566994460679575140
 GameObject:
   m_ObjectHideFlags: 0

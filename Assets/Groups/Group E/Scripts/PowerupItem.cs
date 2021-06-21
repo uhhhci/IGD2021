@@ -22,7 +22,7 @@ public class PowerupItem : MonoBehaviour
 
     public IEnumerator Pickup(Collider player)
     {
-        PowerUp[] powerupsArr = { new PowerupShield(), new PowerupSpeed(), new PowerupReverseSteer(gameManager), new PowerupAttack(missileManager) };
+        PowerUp[] powerupsArr = { new PowerupShield(), new PowerupSpeed(), new PowerupReverseSteer(gameManager), new PowerupAttack(missileManager, gameManager) };
 
         int rnd = Random.Range(0, powerupsArr.Length);
         PowerUp powerup = powerupsArr[rnd];

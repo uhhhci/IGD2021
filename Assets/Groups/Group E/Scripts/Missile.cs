@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Missile : MonoBehaviour
 {
 
     private Rigidbody rb;
+    private NavMeshAgent navMeshAgent;
+    private Transform toFollow = null;
+
     public float missileSpeed = 150.0f;
     public GameObject explosionPrefab;
 
@@ -12,6 +16,21 @@ public class Missile : MonoBehaviour
     public void Init()
     {
         rb = GetComponent<Rigidbody>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+    }
+
+    private void FixedUpdate()
+    {
+        
+        {
+            if(toFollow != null)
+            {
+                navMeshAgent.SetDestination(toFollow.position);
+            }
+            //Vector3 direction = toFollow.position - transform.position;
+            //rb.velocity = direction.normalized * missileSpeed;
+            
+        }
     }
 
 
@@ -48,6 +67,12 @@ public class Missile : MonoBehaviour
     public void Shoot()
     {
         rb.velocity = transform.forward.normalized * missileSpeed;
+    }
+
+    public void Follow(Transform toFollow)
+    {
+        this.toFollow = toFollow;
+        navMeshAgent.updatePosition = true;
     }
 
     public void Destroy()
