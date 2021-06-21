@@ -33,7 +33,6 @@ public class SetTrap : FSM
             case State.START:
                 if (trap.movementCompleted())
                 {
-                    Debug.Log("start");
                     state = State.HOVERING;
                     trap.moveAbovePlayerTile(ownerData);
                 }
@@ -41,7 +40,6 @@ public class SetTrap : FSM
             case State.HOVERING:
                 if (trap.movementCompleted())
                 {
-                    Debug.Log("hovering");
                     state = State.FALLING;
                     trap.moveToPlayerTile(ownerData);
                 }
@@ -49,14 +47,12 @@ public class SetTrap : FSM
             case State.FALLING:
                 if (trap.movementCompleted())
                 {
-                    Debug.Log("falling");
                     state = State.OPENING;
                 }
                 break;
             case State.OPENING:
                 if (trap.movementCompleted())
                 {
-                    Debug.Log("opening");
                     state = State.DONE;
                     trap.playDropAudio();
                 }
@@ -64,7 +60,6 @@ public class SetTrap : FSM
             case State.DONE:
                 if (trap.movementCompleted())
                 {
-                    Debug.Log("done");
                     return true;
                 }
                 break;

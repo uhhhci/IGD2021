@@ -17,8 +17,8 @@ public class RemoveTrap : FSM
     private PlayerData playerData;
     public RemoveTrap(PlayerData triggeringPlayer)
     {
-        trap = (TrapControl) GameObject.FindGameObjectsWithTag("Trap")[0].GetComponent(typeof(TrapControl));
         playerData = triggeringPlayer;
+        trap = (TrapControl) playerData.currentTile().getTrap().GetComponent(typeof(TrapControl));
     }
 
     // Update is called once per frame
@@ -44,6 +44,7 @@ public class RemoveTrap : FSM
             case State.HOVERING:
                 if (trap.movementCompleted())
                 {
+                    playerData.currentTile().destroyTrap();
                     state = State.DONE;
                 }
                 break;
