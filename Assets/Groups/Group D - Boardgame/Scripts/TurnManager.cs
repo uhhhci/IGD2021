@@ -698,8 +698,14 @@ public class TurnManager : MonoBehaviour
                 StatePreserver.Instance.boardState.brickTile.x = t.transform.position.x;
                 StatePreserver.Instance.boardState.brickTile.z = t.transform.position.z;
             }
-
-            // TODO: preserve traps
+            if ((t.GetComponent(typeof(Tile)) as Tile).hasTrap()){
+                StatePreserver.TrapState trapPreserver = new StatePreserver.TrapState();
+                trapPreserver.x = t.transform.position.x;
+                trapPreserver.y = t.transform.position.y;
+                trapPreserver.z = t.transform.position.z;
+                trapPreserver.owner = (t.GetComponent(typeof(Tile)) as Tile).getTrapOwner();
+                StatePreserver.Instance.boardState.trapTiles.Add(trapPreserver);
+            }
         }
 
         StatePreserver.Instance.playerStates = new List<StatePreserver.PlayerState>();
@@ -749,8 +755,13 @@ public class TurnManager : MonoBehaviour
                     t.transform.position.z == StatePreserver.Instance.boardState.brickTile.z) {
 
                     brickManager.restore(tile, t.transform);
+                }
 
-                    // TODO: restore traps
+                foreach (StatePreserver.TrapState savedTrap in StatePreserver.Instance.boardState.trapTiles){
+                    if (t.transform.position.x == savedTrap.x && t.transform.position.z == savedTrap.z){
+                        GameObject newTrap = trapSpawner.spawnTrap(new Vector3(savedTrap.x,savedTrap.y,savedTrap.z));
+                        (t.GetComponent(typeof(Tile)) as Tile).setTrap(true,newTrap,savedTrap.owner);
+                    }
                 }
 
                 for (int i = 0; i < 4; i++) {
