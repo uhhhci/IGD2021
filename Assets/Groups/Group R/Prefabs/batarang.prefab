@@ -249,9 +249,9 @@ GameObject:
   - component: {fileID: -4633283833770344196}
   - component: {fileID: -7867670526219652767}
   - component: {fileID: 3164067402426383098}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: batarang
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -317,9 +317,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: batarang
   isPickedUp: 0
+  usesLeft: 3
   posOffset: {x: 0, y: 0, z: 0.44}
   rotOffset: {x: 0, y: 90, z: 13}
-  strength: 20
+  strength: 10
 --- !u!1 &8695958163377754850
 GameObject:
   m_ObjectHideFlags: 0
