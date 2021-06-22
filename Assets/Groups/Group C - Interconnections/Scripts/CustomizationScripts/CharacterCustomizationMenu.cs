@@ -22,7 +22,8 @@ public class CharacterCustomizationMenu : MonoBehaviour
         color_player.color = InputManager.Instance.players_colors[0];
         color_player.text = InputManager.Instance.players_colors_names[0];
         
-        PlayerPrefs.SetString("PLAYER"+InputManager.Instance.ids_players.ToString()+"_NAME", InputManager.Instance.players_colors_names[0]);
+        PlayerPrefs.SetString("PLAYER"+InputManager.Instance.ids_players[0].ToString()+"_NAME", InputManager.Instance.players_colors_names[0]);
+        PlayerPrefs.SetString("PLAYER"+InputManager.Instance.ids_players[0].ToString()+"_AI", "False");
         InputManager.Instance.players_colors.RemoveAt(0);
         InputManager.Instance.players_colors_names.RemoveAt(0);
         InputManager.Instance.ids_players.RemoveAt(0);
@@ -34,6 +35,19 @@ public class CharacterCustomizationMenu : MonoBehaviour
         
         Debug.Log("color saved");
         PrefabUtility.SaveAsPrefabAsset(character,"Assets/Groups/Group C - Interconnections/Prefabs/Minifig Character.prefab");
+    }
+
+    public void StartGame(){
+        if (InputManager.Instance.players_colors.Count != 0) {
+            for(int i =0; i<InputManager.Instance.players_colors.Count; i++){
+                PlayerPrefs.SetString("PLAYER"+InputManager.Instance.ids_players[0].ToString()+"_AI", "True");
+                InputManager.Instance.ids_players.RemoveAt(0);
+            }
+        }
+        Debug.Log("PLAYER1_AI"+PlayerPrefs.GetString("PLAYER1_AI"));
+        Debug.Log("PLAYER2_AI"+PlayerPrefs.GetString("PLAYER2_AI"));
+        Debug.Log("PLAYER3_AI"+PlayerPrefs.GetString("PLAYER3_AI"));
+        Debug.Log("PLAYER4_AI"+PlayerPrefs.GetString("PLAYER4_AI"));
     }
 
     public void RandomizeCharacter()
