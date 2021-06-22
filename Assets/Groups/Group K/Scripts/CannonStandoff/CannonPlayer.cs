@@ -10,15 +10,20 @@ public class CannonPlayer : MonoBehaviour {
 	private bool shooting;
 	private float lastShotTimer;
 	
+	/* AI */
 	private bool aiControlled;
 	private GameObject wall;
 	private WallBlock currentTarget;
+	private int attemptedShots;
 	
 	public CannonMarker marker = null;
 	public Camera camera = null;
 	public GameObject bullet = null;
 	public float bulletSpeed = 15.0f;
 	public float cooldown = 1.0f;
+	
+	/* AI */
+	public int maxAttemptedShots = 5;
 	
 	private void SwitchInput() {
 		string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
@@ -31,7 +36,7 @@ public class CannonPlayer : MonoBehaviour {
 			return;
 		}
 		
-		if (currentTarget == null || currentTarget.HasScored()) {
+		if (currentTarget == null || currentTarget.HasScored() || attemptedShots > maxAttemptedShots) {
 			List<WallBlock> blocks = wall.GetComponentsInChildren<Transform>()
 				.Select(c => c.GetComponent<WallBlock>())
 				.Where(c => c != null)
@@ -46,6 +51,8 @@ public class CannonPlayer : MonoBehaviour {
 			int i = Random.Range(0, blockCount);
 			
 			currentTarget = blocks[i];
+			attemptedShots = 0;
+			shooting = false;
 		}
 		
 		Vector3 targetScreenPos = camera.WorldToScreenPoint(currentTarget.transform.position)
@@ -57,6 +64,8 @@ public class CannonPlayer : MonoBehaviour {
 		
 		if (distance2d.magnitude > marker.speed + 1.0f) {
 			marker.Move(distance2d);
+			
+			shooting = false;
 		} else {
 			marker.Move(Vector2.zero);
 			
@@ -85,6 +94,10 @@ public class CannonPlayer : MonoBehaviour {
 			rb.velocity = cannon.transform.forward * bulletSpeed;
 			shooting = false;
 			lastShotTimer = 0.0f;
+			
+			if (aiControlled) {
+				attemptedShots++;
+			}
 		}
 	}
 	
