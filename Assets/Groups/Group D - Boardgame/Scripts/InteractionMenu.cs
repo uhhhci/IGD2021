@@ -18,6 +18,8 @@ public class InteractionMenu : MonoBehaviour
 
     private Vector3 neverSeen = new Vector3(0f, -2000f, 0f); // a location which is never seen by players
 
+    public TurnManager turnManager;
+
     // Update is called once per frame
     void Update()
     {
@@ -80,7 +82,12 @@ public class InteractionMenu : MonoBehaviour
     public bool canUse(PlayerAction.Type action) {
         for (int i = 0; i < actions.Length; i++) {
             if (actions[i].type == action) {
-                return isActive(i) && canAfford(actions[i]);
+                if(action==PlayerAction.Type.SET_TRAP){
+                    return (isActive(i) && canAfford(actions[i]) && isValidTile());
+                }
+                else{
+                    return isActive(i) && canAfford(actions[i]);
+                }
             }
         }
         return false;
@@ -97,6 +104,10 @@ public class InteractionMenu : MonoBehaviour
         return actions[i].isPresent();
     }
 
+    private bool isValidTile(){
+        return turnManager.playerIsAloneOnTile() && turnManager.currentTileHasNoTrap();
+    }
+
     private void renderActiveSprites() {
         Vector3 nextPos = transform.position;
 
@@ -104,6 +115,9 @@ public class InteractionMenu : MonoBehaviour
             if (isActive(i)) {
                 // display/hide the "Unusable" overlay sprite when the player can (not) afford the action
                 actions[i].setEnabled(canAfford(actions[i]));
+                if(actions[i].type==PlayerAction.Type.SET_TRAP){
+                    actions[i].setEnabled(canAfford(actions[i])&&(isValidTile()));
+                }
 
                 // render the sprite
                 Vector3 spritePos = nextPos;
