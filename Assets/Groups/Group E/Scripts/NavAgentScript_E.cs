@@ -10,9 +10,12 @@ public class NavAgentScript_E : MonoBehaviour
     public Transform target;
     NavMeshAgent agent;
     private int NextCheckPoint;
+    PlayerStats thePlayer;
     // Start is called before the first frame update
     void Start()
     {
+        thePlayer = this.GetComponent<PlayerStats>();        
+
         triggerZones = new List<TriggerZone>();
         foreach (Transform checkpointSingleTransform in Checkpoints)
         {
@@ -36,6 +39,10 @@ public class NavAgentScript_E : MonoBehaviour
             Debug.Log(NextCheckPoint);
             NextCheckPoint = (NextCheckPoint + 1) % triggerZones.Count;
             //StartCoroutine(WaitSeconds(1));
+        }
+        if(thePlayer.hasPowerup)
+        {
+            StartCoroutine(thePlayer.power.UsePowerup(thePlayer.gameObject));
         }
     }
 

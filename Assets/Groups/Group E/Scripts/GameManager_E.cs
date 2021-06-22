@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class GameManager_E : MonoBehaviour
@@ -103,6 +103,23 @@ public class GameManager_E : MonoBehaviour
         totalWinners = 0;
         carPositionList = new List<Transform>();
         InitializeAIPlayer(carTransformList[3]);
+        if (PlayerPrefs.GetString("Player1_AI").Equals("True"))
+        {
+            InitializeAIPlayer(carTransformList[0]);
+        }
+        if (PlayerPrefs.GetString("Player2_AI").Equals("True"))
+        {
+            InitializeAIPlayer(carTransformList[1]);
+        }
+        if (PlayerPrefs.GetString("Player3_AI").Equals("True"))
+        {
+            InitializeAIPlayer(carTransformList[2]);
+        }
+        if (PlayerPrefs.GetString("Player4_AI").Equals("True"))
+        {
+            InitializeAIPlayer(carTransformList[3]);
+        }
+
     }
 
     public void finishGame()

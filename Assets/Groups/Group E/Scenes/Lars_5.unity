@@ -16998,7 +16998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!136 &1367089909
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -17097,7 +17097,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1367089908}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 7.83
   m_Speed: 40
   m_Acceleration: 50
   avoidancePriority: 50
@@ -25927,6 +25927,10 @@ MonoBehaviour:
   - {fileID: 688596254}
   carPositionList: []
   Checkpoints: {fileID: 983677013}
+  firstPlace: 0
+  secondPlace: 0
+  thirdPlace: 0
+  fourthPlace: 0
 --- !u!4 &2041326670
 Transform:
   m_ObjectHideFlags: 0
