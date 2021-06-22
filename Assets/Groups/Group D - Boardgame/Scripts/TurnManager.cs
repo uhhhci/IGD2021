@@ -173,7 +173,12 @@ public class TurnManager : MonoBehaviour
         
         foreach (PlayerAction action in interactions.actions) {        
             if (currentState == TurnState.ACCEPTING_INPUT && actionPoints > 0) {
-                action.updateStatus(actionIsActive(action), canAfford(action));
+                if (action.type==PlayerAction.Type.SET_TRAP){
+                    action.updateStatus(actionIsActive(action), currentTileHasNoTrap() && playerIsAloneOnTile() &&canAfford(action));
+                }
+                else {
+                    action.updateStatus(actionIsActive(action), canAfford(action));
+                }
             }
             else {
                 action.updateStatus(false, false);
@@ -241,6 +246,20 @@ public class TurnManager : MonoBehaviour
                 return (playerBelongings[activePlayer].hasItem(ItemD.Type.TRAP))&&(!(playerData[activePlayer].currentTile().type.Equals(Tile.TileType.START)));
         }
         return false;
+    }
+    public bool currentTileHasNoTrap(){
+        return !(playerData[activePlayer].currentTile().hasTrap());
+    }
+
+    public bool playerIsAloneOnTile()    {
+        Tile activePlayerTile = playerData[activePlayer].currentTile();
+        int playersOnTile = 0;
+        for (int i =0; i<4;i++){
+            if(playerData[i].currentTile() == activePlayerTile){
+                playersOnTile++;
+            }
+        }
+        return playersOnTile == 1;
     }
 
     /// returns whether the player can afford the given action (i.e. whether they have enough AP and credits)
