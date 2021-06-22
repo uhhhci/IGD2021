@@ -7,7 +7,7 @@
     }
     public override string getSceneName()
     {
-        return "PlattiGame";
+        return "platti";
     }
 
     public override MiniGameType getMiniGameType()

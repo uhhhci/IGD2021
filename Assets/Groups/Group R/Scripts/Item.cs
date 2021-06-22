@@ -8,7 +8,8 @@ public class Item : MonoBehaviour
 
     public string type;
     public bool isPickedUp = false;
-    public bool isActive = true;
+    public int usesLeft = 10;
+    public bool isActive = false;
 
     public Vector3 posOffset;
     public Vector3 rotOffset;
@@ -39,5 +40,13 @@ public class Item : MonoBehaviour
         transform.localRotation = Quaternion.Euler(rotOffset);
         rb.isKinematic = true;
         rb.useGravity = false;
+    }
+
+    public bool Used()
+    {
+        usesLeft -= 1;
+        if (usesLeft <= 0)
+            return false;
+        return true;
     }
 }
