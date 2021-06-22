@@ -14,10 +14,18 @@ public class InterconnectionsAi : MonoBehaviour
         for (int index = 1; index <= 4; index++)
         {
             var player = players[index -1];
+
+            // TODO this is just for demo purposes and should be removed after presentation
+            if(playerName == "PLÖÄ")
+            {
+                // print("demo! PLÖÄ is an AI now");
+                return true;
+            }
+
             if(playerName == player.playerName)
             {
                 bool isAi = PlayerPrefs.GetString($"Player{index}_AI").Equals("True");
-                print($"player at index {index} ({playerName}) isAi? {isAi}");
+                // print($"player at index {index} ({playerName}) isAi? {isAi}");
                 return isAi;
             }
         }

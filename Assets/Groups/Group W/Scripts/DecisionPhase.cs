@@ -19,7 +19,7 @@ public class DecisionPhase : MonoBehaviour
     public void PlayChangeTargetRowAnimation(bool isLegal=true)
     {
         // print($"animation decision: {decision}");
-        if (PhaseHandler.phase == PhaseHandler.Phase.Decision && isLegal)
+        if (PhaseHandler.phase == PhaseHandler.Phase.Decision && isLegal && !player.IsAiPlayer)
         {
           playerMinifigController.PlaySpecialAnimation(MinifigControllerGroupW.SpecialAnimation.Wave);
 
@@ -35,7 +35,7 @@ public class DecisionPhase : MonoBehaviour
     public void ChangeEquippedWeapon(WeaponDefinitions.WeaponType weapon, ActionPhase actionPhase)
     {
         // print("ChangeEquippedWeapon triggered");
-        if (phase == PhaseHandler.Phase.Decision)
+        if (phase == PhaseHandler.Phase.Decision && !player.IsAiPlayer)
         {
             selectedWeapon = weapon;
             print($"Changing Weapon to {selectedWeapon}");
@@ -46,6 +46,7 @@ public class DecisionPhase : MonoBehaviour
         else
         {
             print("Changing Weapon is currently not allowed");
+            playerMinifigController.PlaySpecialAnimation(MinifigControllerGroupW.SpecialAnimation.IdleImpatient);
         }
     }
 

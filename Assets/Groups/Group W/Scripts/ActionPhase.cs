@@ -401,8 +401,8 @@ public class ActionPhase : MonoBehaviour
         {
             print("Player is an AI, selecting random weapon and target now");
             // won't set the targetRow/Weapon in PlayerProperties, but will attack the correct random player with the random weapon
-            var decisionPhase = gameObject.GetComponent<DecisionPhase>();
-            var actionPhase = gameObject.GetComponent<ActionPhase>();
+            //var decisionPhase = gameObject.GetComponent<DecisionPhase>();
+            //var actionPhase = gameObject.GetComponent<ActionPhase>();
 
             // choose a random valid(!) target player
             var randomTargetRow = GetRandomTargetRow();
