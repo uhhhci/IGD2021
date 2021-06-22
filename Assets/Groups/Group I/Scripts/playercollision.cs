@@ -32,11 +32,7 @@ public class playercollision : MonoBehaviour
             player.maxForwardSpeed *= 2;
         }
 
-        if (pickup.tag == "HighSpeed")
-        {
-            PickUp(pickup);
-            player.maxForwardSpeed *= 2;
-        }
+        
     }
 
     private void PickUp(GameObject pickup)
