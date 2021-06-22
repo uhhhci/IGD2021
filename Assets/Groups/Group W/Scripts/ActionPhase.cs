@@ -397,7 +397,7 @@ public class ActionPhase : MonoBehaviour
     {
         PlayerProperties targetPlayer;
 
-        if (player.IsAiPlayer())
+        if (player.IsAiPlayer)
         {
             print("Player is an AI, selecting random weapon and target now");
             // won't set the targetRow/Weapon in PlayerProperties, but will attack the correct random player with the random weapon
