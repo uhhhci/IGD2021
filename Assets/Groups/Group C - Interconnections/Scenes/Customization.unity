@@ -1496,7 +1496,7 @@ GameObject:
   - component: {fileID: 261318581}
   - component: {fileID: 261318582}
   m_Layer: 0
-  m_Name: Hip
+  m_Name: HipSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1517,7 +1517,7 @@ Transform:
   - {fileID: 236682906}
   - {fileID: 98274716}
   m_Father: {fileID: 1470630438}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &261318582
 MonoBehaviour:
@@ -2937,7 +2937,7 @@ Transform:
   - {fileID: 522643686}
   - {fileID: 1499348078}
   m_Father: {fileID: 1470630438}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &503681127
 MonoBehaviour:
@@ -4704,7 +4704,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1063635934}
+      - m_Target: {fileID: 0}
         m_MethodName: NextOption
         m_Mode: 1
         m_Arguments:
@@ -5359,7 +5359,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1058860737}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 82752115}
+        m_MethodName: RandomizeCharacter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1058860737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5408,7 +5419,7 @@ GameObject:
   - component: {fileID: 1063635933}
   - component: {fileID: 1063635934}
   m_Layer: 0
-  m_Name: Face
+  m_Name: FaceGesture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5692,7 +5703,8 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2035494817}
   m_Father: {fileID: 1470630438}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6740,7 +6752,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1063635934}
+      - m_Target: {fileID: 0}
         m_MethodName: PreviousOption
         m_Mode: 1
         m_Arguments:
@@ -7345,7 +7357,6 @@ RectTransform:
   m_Children:
   - {fileID: 1138312492}
   - {fileID: 692905536}
-  - {fileID: 2035494817}
   - {fileID: 1522912134}
   - {fileID: 261318581}
   - {fileID: 503681126}
@@ -7968,7 +7979,7 @@ Transform:
   - {fileID: 111868508}
   - {fileID: 1179053430}
   m_Father: {fileID: 1470630438}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1522912135
 MonoBehaviour:
@@ -8519,7 +8530,7 @@ RectTransform:
   - {fileID: 1024144581}
   - {fileID: 163038027}
   m_Father: {fileID: 1470630438}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9285,14 +9296,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035494816}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 217.99995, y: 228, z: 0}
-  m_LocalScale: {x: 2.324455, y: 2.324455, z: 2.324455}
+  m_LocalPosition: {x: 271.00006, y: 18.999985, z: 0}
+  m_LocalScale: {x: 2.3244548, y: 2.3244548, z: 2.3244548}
   m_Children:
   - {fileID: 1985502224}
   - {fileID: 1333883108}
   - {fileID: 215073875}
-  m_Father: {fileID: 1470630438}
-  m_RootOrder: 2
+  m_Father: {fileID: 1138312492}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2035494818
 MonoBehaviour:
