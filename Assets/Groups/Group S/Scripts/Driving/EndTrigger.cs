@@ -17,6 +17,11 @@ namespace Groups.Group_S.Driving
                 if (checkpointCollector.HasPassedAllCheckpoints(requiredCheckpoints))
                 {
                     Debug.Log("Car successfully finished!");
+                    Drivable drivable;
+                    if (other.gameObject.TryGetComponent(out drivable))
+                    {
+                        FindObjectOfType<PartKartMiniGame>().KartFinishedRace(drivable);
+                    }
                 }
                 else
                 {

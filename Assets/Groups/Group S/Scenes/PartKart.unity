@@ -3861,6 +3861,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 749688781}
     m_Modifications:
+    - target: {fileID: 4598928730061189650, guid: eb80993c89a63a540bed42b779731471,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354590806409088855, guid: eb80993c89a63a540bed42b779731471,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7202726200624932356, guid: eb80993c89a63a540bed42b779731471,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3966,10 +3976,20 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8601145226151000171, guid: eb80993c89a63a540bed42b779731471,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8914169427414623133, guid: eb80993c89a63a540bed42b779731471,
         type: 3}
       propertyPath: m_Name
       value: FinishGames
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914169427414623133, guid: eb80993c89a63a540bed42b779731471,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb80993c89a63a540bed42b779731471, type: 3}
