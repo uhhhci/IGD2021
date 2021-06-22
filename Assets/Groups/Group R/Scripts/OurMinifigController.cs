@@ -1022,6 +1022,8 @@ public class OurMinifigController : MonoBehaviour
 
     public void fix()
     {
+        if (!hasItem)
+            return;
         SetInputEnabled(false);
         float yrot = transform.rotation.eulerAngles.y;
         if (yrot < 90 || yrot > 270)
@@ -1033,6 +1035,8 @@ public class OurMinifigController : MonoBehaviour
 
     public void release()
     {
+        if (!hasItem)
+            return;
         SetInputEnabled(true);
         item.isActive = false;
         usedItem();
@@ -1040,6 +1044,8 @@ public class OurMinifigController : MonoBehaviour
 
     public void setHitting(bool hitting)
     {
+        if (!hasItem)
+            return;
         isHitting = hitting;
         if (hitting)
         {

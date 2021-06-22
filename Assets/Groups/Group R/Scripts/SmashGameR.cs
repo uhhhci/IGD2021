@@ -64,11 +64,11 @@ public class SmashGameR : MiniGame
 
         AI1.gameObject.SetActive(PlayerPrefs.GetString("Player1_AI").Equals("True"));
         AI1.SetId(1);
-        AI2.gameObject.SetActive(true);//PlayerPrefs.GetString("Player2_AI").Equals("True"));
+        AI2.gameObject.SetActive(PlayerPrefs.GetString("Player2_AI").Equals("True"));
         AI2.SetId(2);
-        AI3.gameObject.SetActive(true);//PlayerPrefs.GetString("Player3_AI").Equals("True"));
+        AI3.gameObject.SetActive(PlayerPrefs.GetString("Player3_AI").Equals("True"));
         AI3.SetId(3);
-        AI4.gameObject.SetActive(true);//PlayerPrefs.GetString("Player4_AI").Equals("True"));
+        AI4.gameObject.SetActive(PlayerPrefs.GetString("Player4_AI").Equals("True"));
         AI4.SetId(4);
 
         endTime = Time.time + gameDuration + 3;

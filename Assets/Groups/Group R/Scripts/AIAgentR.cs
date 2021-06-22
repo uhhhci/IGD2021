@@ -11,13 +11,28 @@ public class AIAgentR : MonoBehaviour
     public Animator animator;
     int atRightSideUpHash = Animator.StringToHash("atRightSideUp");
     int atLeftSideUpHash = Animator.StringToHash("atLeftSideUp");
+    int recRightHash = Animator.StringToHash("recRight");
+    int recLeftHash = Animator.StringToHash("recLeft");
     bool arrived = false;
     public int id;
 
     // Update is called once per frame
     void Update()
     {
-        if(target && target.died){
+        //need to recover?
+        float z = player.transform.position.z;
+        if (z > 11 || (z > 8 && player.transform.position.y < 1))
+        {
+            animator.SetTrigger(recRightHash);
+            return;
+        }
+        else if (z < -11 || (z < -8.5f && player.transform.position.y < 0.6f))
+        {
+            animator.SetTrigger(recLeftHash);
+            return;
+        }
+            
+        if (target && target.died){
             animator.SetInteger("platform",-1);
         }else{
             if(arrived){
