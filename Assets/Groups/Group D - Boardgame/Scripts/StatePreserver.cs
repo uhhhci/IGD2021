@@ -19,12 +19,18 @@ public class StatePreserver : MonoBehaviour
         public float x;
         public float z;
     }
+    public class TrapState {
+        public float x;
+        public float y;
+        public float z;
+        public int owner;
+    }
 
     public class BoardState {
         public int truePartyPerson;
         public int round;
         public TileCoord brickTile;
-        public List<TileCoord> trapTiles;
+        public List<TrapState> trapTiles;
     }
 
     public BoardState boardState;
