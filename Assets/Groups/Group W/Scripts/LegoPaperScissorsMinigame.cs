@@ -11,15 +11,9 @@ public class LegoPaperScissorsMinigame : MiniGame
     List<PlayerProperties> players;
     public static PhaseHandler.Phase phase;
 
-    public override string getDisplayName()
-    {
-        return "LegoPaperScissors";
-    }
+    public override string getDisplayName() => "LegoPaperScissors";
 
-    public override MiniGameType getMiniGameType()
-    {
-        return MiniGameType.teamVsTeam;
-    }
+    public override MiniGameType getMiniGameType() => MiniGameType.teamVsTeam;
 
     public override string getSceneName()
     {
@@ -51,12 +45,12 @@ public class LegoPaperScissorsMinigame : MiniGame
     // Start is called before the first frame update
     void Start()
     {
-        playerInputs = new List<PlayerInput>();
-        foreach (Transform child in transform)
-        {
-            playerInputs.Add(child.GetComponent<PlayerInput>());
-            print($"[BEFORE AssignPlayerInput()] defaultControlScheme: {child.GetComponent<PlayerInput>().defaultControlScheme}");
-        }
+        //playerInputs = new List<PlayerInput>();
+        //foreach (Transform child in transform)
+        //{
+        //    playerInputs.Add(child.GetComponent<PlayerInput>());
+        //    print($"[BEFORE AssignPlayerInput()] defaultControlScheme: {child.GetComponent<PlayerInput>().defaultControlScheme}");
+        //}
 
         // TODO commented this because else, inputs are not working anymore
         // assigns the player input in the order they were given in the array
