@@ -253,26 +253,29 @@ public class MeteorFallAI : MonoBehaviour
     private void Hunt()
     {
         RBCharacterController closest = FindBestTarget();
-        Vector2 selfPos = GetFlatVector(transform.position);
-        Vector2 closestPos = GetFlatVector(closest.transform.position);
-        float distance = Vector2.Distance(selfPos, closestPos);
-        if(distance >= _manager.AI_KickDistance)
+        if(closest != null)
         {
-            Vector3 dir3 = FindBestTarget().transform.position - transform.position;
-            Vector2 dir2 = GetFlatVector(dir3, true);
-            dir2.Normalize();
-            _controller._moveDirection += dir2;
-            _controller._moveDirection.Normalize();
-        }
-        else
-        {
-            if(Time.time > kickTimer + kickDelay)
+            Vector2 selfPos = GetFlatVector(transform.position);
+            Vector2 closestPos = GetFlatVector(closest.transform.position);
+            float distance = Vector2.Distance(selfPos, closestPos);
+            if (distance >= _manager.AI_KickDistance)
             {
-                _controller.TryKick();
-                kickTimer = Time.time;
+                Vector3 dir3 = FindBestTarget().transform.position - transform.position;
+                Vector2 dir2 = GetFlatVector(dir3, true);
+                dir2.Normalize();
+                _controller._moveDirection += dir2;
+                _controller._moveDirection.Normalize();
+            }
+            else
+            {
+                if (Time.time > kickTimer + kickDelay)
+                {
+                    _controller.TryKick();
+                    kickTimer = Time.time;
 
-                huntTime = Time.time + _manager.AI_HuntDelay;
-                _currentState = State.Wandering;
+                    huntTime = Time.time + _manager.AI_HuntDelay;
+                    _currentState = State.Wandering;
+                }
             }
         }
     }
