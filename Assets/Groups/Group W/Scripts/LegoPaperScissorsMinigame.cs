@@ -15,10 +15,7 @@ public class LegoPaperScissorsMinigame : MiniGame
 
     public override MiniGameType getMiniGameType() => MiniGameType.teamVsTeam;
 
-    public override string getSceneName()
-    {
-        return "LegoPaperScissors";
-    }
+    public override string getSceneName() => "LegoPaperScissors";
 
     public void GetWinners()
     {
@@ -26,7 +23,6 @@ public class LegoPaperScissorsMinigame : MiniGame
         {
             print("end phase!");
             PhaseHandler.Team leadingTeam = PhaseHandler.leadingTeam;
-
 
             int[] firstPlaceIndices = players.Select((v, i) => new { v, i })
                     .Where(x => x.v.team == leadingTeam)
@@ -45,26 +41,7 @@ public class LegoPaperScissorsMinigame : MiniGame
     // Start is called before the first frame update
     void Start()
     {
-        //playerInputs = new List<PlayerInput>();
-        //foreach (Transform child in transform)
-        //{
-        //    playerInputs.Add(child.GetComponent<PlayerInput>());
-        //    print($"[BEFORE AssignPlayerInput()] defaultControlScheme: {child.GetComponent<PlayerInput>().defaultControlScheme}");
-        //}
 
-        // TODO commented this because else, inputs are not working anymore
-        // assigns the player input in the order they were given in the array
-        //InputManager.Instance.AssignPlayerInput(playerInputs);
-
-        // same result, inputs are gone once this is called
-        // var inputManager = GameObject.Find("Interconnections/InputManager").GetComponent<InputManager>();
-        // print($"inputManager: {inputManager}");
-        // inputManager.AssignPlayerInput(playerInputs);
-
-        // foreach (Transform child in transform)
-        // {
-        //    print($"[AFTER AssignPlayerInput()] defaultControlScheme: {child.GetComponent<PlayerInput>().defaultControlScheme}");
-        // }
     }
 
     void Update()
