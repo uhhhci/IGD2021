@@ -3,12 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CharacterCustomizationMenu : MonoBehaviour
 {
     public GameObject character;
+  
     public void SaveButton()
     {
+        Button savebutton = GameObject.Find("SaveButton").GetComponent<Button>();
+        Button randombutton = GameObject.Find("RandomizeButton").GetComponent<Button>();
+        Button startgame = GameObject.Find("StartButton").GetComponent<Button>();
+
+        Text color_player = GameObject.Find("MessageColor").GetComponent<Text>();
+        Text messagetitle = GameObject.Find("Message1").GetComponent<Text>();
+        messagetitle.text = "Player saved! :";
+
+        color_player.color = InputManager.Instance.players_colors[0];
+        color_player.text = InputManager.Instance.players_colors_names[0];
+        
+        PlayerPrefs.SetString("PLAYER"+InputManager.Instance.ids_players.ToString()+"_NAME", InputManager.Instance.players_colors_names[0]);
+        InputManager.Instance.players_colors.RemoveAt(0);
+        InputManager.Instance.players_colors_names.RemoveAt(0);
+        InputManager.Instance.ids_players.RemoveAt(0);
+
+        if (InputManager.Instance.players_colors.Count == 0) {
+            savebutton.interactable = false;
+            randombutton.interactable = false;
+        }
+        
+        Debug.Log("color saved");
         PrefabUtility.SaveAsPrefabAsset(character,"Assets/Groups/Group C - Interconnections/Prefabs/Minifig Character.prefab");
     }
 
@@ -112,15 +136,11 @@ public class CharacterCustomizationMenu : MonoBehaviour
         GameObject hip = GameObject.Find("HipSelection");
         ChangeHip hipScript = hip.GetComponent<ChangeHip>();
 
-         Debug.Log("hip"+hipScript.ToString());
-
         int idx_hipCrotch = Random.Range(0, hipScript.hipCrotchOptions.Count);
         hipScript.hipCrotch.material = hipScript.hipCrotchOptions[idx_hipCrotch];
-         Debug.Log("hip");
 
         int idx_hipFront = Random.Range(0, hipScript.hipFrontOptions.Count);
         hipScript.hipFront.material = hipScript.hipFrontOptions[idx_hipFront];
-         Debug.Log("hip");
 
         int idx_hipMain = Random.Range(0, hipScript.hipMainOptions.Count);
         hipScript.hipMain.material = hipScript.hipMainOptions[idx_hipMain];
