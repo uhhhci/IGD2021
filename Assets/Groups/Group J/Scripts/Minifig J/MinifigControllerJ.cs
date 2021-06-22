@@ -195,7 +195,7 @@ public class MinifigControllerJ : MonoBehaviour
     int groundedHash = Animator.StringToHash("Grounded");
     int jumpHash = Animator.StringToHash("Jump");
     int playSpecialHash = Animator.StringToHash("Play Special");
-    int cancelSpecialHash = Animator.StringToHash("Cancel Special");
+    public int cancelSpecialHash = Animator.StringToHash("Cancel Special");
     int specialIdHash = Animator.StringToHash("Special Id");
 
     Action<bool> onSpecialComplete;

@@ -49,12 +49,12 @@ using UnityEngine.UI;
         if (isTeam1) 
         {
             deathCount1++;
-            team1DeathCount.text = "Deaths: " + deathCount1;
+            team1DeathCount.text = "Hits: " + deathCount1;
         }
         else
         {
             deathCount2++;
-            team2DeathCount.text = "Deaths: " + deathCount2;
+            team2DeathCount.text = "Hits: " + deathCount2;
         }       
     }
 

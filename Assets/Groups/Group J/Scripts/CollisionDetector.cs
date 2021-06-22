@@ -36,23 +36,20 @@ public class CollisionDetector : MonoBehaviour
             StartCoroutine(ActivateInvincibility());
             gameplayManager.UpdateDeath(isTeam1);
         }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == ("Lava"))
+        if(collision.gameObject.tag == ("Lava"))
         {
             Debug.Log("Player Died");
             dead = true;
-            if (isTeam1) 
+            if (isTeam1)
                 gameplayManager.team1LavaDeath++;
             else
                 gameplayManager.team2LavaDeath++;
 
             if (gameplayManager.team1LavaDeath == 2)
                 gameplayManager.gameFinished = true;
-            
-            if (gameplayManager.team2LavaDeath == 2)   
+
+            if (gameplayManager.team2LavaDeath == 2)
                 gameplayManager.gameFinished = true;
 
             this.gameObject.SetActive(false);
@@ -61,7 +58,7 @@ public class CollisionDetector : MonoBehaviour
 
     IEnumerator ActivateInvincibility()
     {
-        Physics.IgnoreLayerCollision(gameObject.layer, 13, true);
+        Physics.IgnoreLayerCollision(gameObject.layer, 21, true);
 
         if (hitSound)
         {
@@ -81,7 +78,7 @@ public class CollisionDetector : MonoBehaviour
 
             yield return new WaitForSeconds(deltaTime);
         }
-        Physics.IgnoreLayerCollision(gameObject.layer, 13, false);
+        Physics.IgnoreLayerCollision(gameObject.layer, 21, false);
         ScaleModelTo(Vector3.one);
     }
 

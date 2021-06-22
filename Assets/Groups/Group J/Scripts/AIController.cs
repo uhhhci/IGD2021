@@ -17,11 +17,14 @@ public class AIController : MonoBehaviour
     private AudioSource audio;
 
     public float lookRadius = 5f;
-    public GameObject[] players;
+    public List<GameObject> players = new List<GameObject>();
     private List<Transform> targets;
     private NavMeshAgent agent;
     private MinifigControllerJ controllerJ;
     string controlScheme;
+    private bool collided = false;
+    public GameObject obstacle;
+    private Transform obstacleTransform;
  
     // Start is called before the first frame update
     void Start()
@@ -31,9 +34,15 @@ public class AIController : MonoBehaviour
         controllerJ = GetComponent<MinifigControllerJ>();
         explosion = controllerJ.explodeAudioClip;
         audio = GetComponent<AudioSource>();
+        obstacleTransform = obstacle.transform;
 
-        players = GameObject.FindGameObjectsWithTag("Player");
-        targets = players.Select(go => go.transform).ToList();
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (go.Equals(this.gameObject))
+                continue;
+            players.Add(go);
+        }
+        
         controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         if (controlScheme == "AI")
         {
@@ -47,18 +56,52 @@ public class AIController : MonoBehaviour
     {
         if (controlScheme == "AI")
         {
-            float distance = Vector3.Distance(targets[2].position, transform.position);
+            foreach (GameObject player in players)
+            {
+                if (! player.activeSelf)
+                {
+                    players.Remove(player);
+                }
+            }
+
+            targets = players.Select(go => go.transform).ToList();
+
+            Transform tMin = null;
+            float minDist = Mathf.Infinity;
+            Vector3 currentPos = transform.position;
+
+            foreach (Transform t in targets)
+            {
+                float dist = Vector3.Distance(t.position, currentPos);
+                if (dist < minDist)
+                {
+                    tMin = t;
+                    minDist = dist;
+                }
+            }
+
+            float distance = Vector3.Distance(tMin.position, transform.position);
+            float distanceObstacle = Vector3.Distance(obstacleTransform.position, transform.position);
 
             if (distance <= lookRadius)
             {
-                agent.SetDestination(targets[2].position);
+                agent.SetDestination(tMin.position);
                 controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Walk);
 
-                if (distance <= agent.stoppingDistance)
+                if(distanceObstacle <= 6 && ! this.animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
                 {
-                    //controllerJ.OnEastPress();
-                    controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Punch);
+                    Debug.Log("Jump");
+                    controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Jump);
+                    //Physics.IgnoreLayerCollision(gameObject.layer, 21, true);
                 }
+
+                //Physics.IgnoreLayerCollision(gameObject.layer, 21, false);
+
+                if (distance <= agent.stoppingDistance && ! this.animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                {
+                    Debug.Log("Punch");
+                    controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Punch);
+                }           
             }
         }
      

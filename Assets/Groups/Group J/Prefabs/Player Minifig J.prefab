@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 1006981346947650990}
   - component: {fileID: 4204894419759497035}
   - component: {fileID: 6226401840187301817}
-  - component: {fileID: 3193311293996516437}
   - component: {fileID: 3014733515802919082}
+  - component: {fileID: 3193311293996516437}
   - component: {fileID: 929011022277811195}
   - component: {fileID: -7487976069247552195}
-  - component: {fileID: -3556556488981143618}
   - component: {fileID: 3776569923070715388}
+  - component: {fileID: 1806776424461721919}
   m_Layer: 8
   m_Name: Player Minifig J
   m_TagString: Player
@@ -72,7 +72,8 @@ MonoBehaviour:
   landAudioClip: {fileID: 8300000, guid: a12caccc734354aa09f7d2a412925ac2, type: 3}
   explodeAudioClip: {fileID: 8300000, guid: b9b607b06267c4394b07c19523c455f1, type: 3}
   inputEnabled: 1
-  maxJumpsInAir: 1
+  maxJumpsInAir: 0
+  cancelSpecialHash: 1560732106
 --- !u!143 &1006981346947650990
 CharacterController:
   m_ObjectHideFlags: 0
@@ -218,20 +219,6 @@ MonoBehaviour:
   m_DefaultActionMap: Ingame
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!136 &3193311293996516437
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6785397718972689670}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 1.6399813
-  m_Height: 4.596112
-  m_Direction: 1
-  m_Center: {x: 0.15476762, y: 1.9999988, z: 0.064280175}
 --- !u!136 &3014733515802919082
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -246,6 +233,20 @@ CapsuleCollider:
   m_Height: 4.2928863
   m_Direction: 1
   m_Center: {x: 0.13946909, y: 1.9753929, z: 0.117307}
+--- !u!136 &3193311293996516437
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785397718972689670}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 1.6399813
+  m_Height: 4.596112
+  m_Direction: 1
+  m_Center: {x: 0.15476762, y: 1.9999988, z: 0.064280175}
 --- !u!114 &929011022277811195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,28 +282,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!195 &-3556556488981143618
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6785397718972689670}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 2
-  m_Acceleration: 20
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0.5
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &3776569923070715388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +298,29 @@ MonoBehaviour:
   Minifig: {fileID: 0}
   lookRadius: 5
   players: []
+  obstacle: {fileID: 0}
+--- !u!195 &1806776424461721919
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785397718972689670}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1
+  m_Speed: 2
+  m_Acceleration: 20
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0.7
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 4
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &2746216228418546370
 PrefabInstance:
   m_ObjectHideFlags: 0
