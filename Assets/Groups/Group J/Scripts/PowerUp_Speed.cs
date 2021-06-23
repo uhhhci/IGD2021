@@ -24,8 +24,8 @@ public class PowerUp_Speed : MonoBehaviour
     void PickUp(Collider player)
     {
         MinifigControllerJ controller = player.GetComponent<MinifigControllerJ>();
-        controller.maxForwardSpeed += 10;
-        controller.acceleration += 10;
+        controller.maxForwardSpeed *= 2;
+        controller.acceleration *= 2;
         Destroy(this.gameObject);
     }
 
