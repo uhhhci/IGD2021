@@ -43,25 +43,29 @@ public class PlayerAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cleanSafePlaces();
-        GameObject car = FindCar();
-        GameObject bomb = FindBomb();
+        
 
         if (state == State.Idle)
         {
+            cleanSafePlaces();
+            GameObject car = FindCar();
+            GameObject bomb = FindBomb();
             // if cars or bombs are close, go away from them
             if (car != null && bomb != null)
             {
+                state = State.MovingAwayFromDanger;
                 Vector3 badPlace = (car.transform.position + bomb.transform.position) / 2;
                 MoveAwayFrom(badPlace);
             }
             else if (car != null)
             {
+                state = State.MovingAwayFromDanger;
                 Vector3 badPlace = car.transform.position;
                 MoveAwayFrom(badPlace);
             }
             else if (bomb != null)
             {
+                state = State.MovingAwayFromDanger;
                 Vector3 badPlace = bomb.transform.position;
                 MoveAwayFrom(badPlace);
             }
@@ -72,19 +76,20 @@ public class PlayerAI : MonoBehaviour
             {
                 state = State.MovingToBurger;
                 MoveTo(burger.transform.position);
-                //state = State.Idle;
             }
 
             // if another player is close, go and annoy him
             GameObject otherPlayer = FindOtherPlayer();
             if (otherPlayer != null && state != State.MovingAwayFromDanger && state != State.MovingToBurger && state != State.MovingRandomly)
             {
+                state = State.MovingToPlayer;
                 ObstructOtherPlayer(otherPlayer);
             }
 
             // else move to random location
             if (state == State.Idle)
             {
+                state = State.MovingRandomly;
                 MoveRandomly();
             }
 
@@ -108,6 +113,8 @@ public class PlayerAI : MonoBehaviour
     {
         int i = x + 5;
         int j = z + 5;
+        Debug.Log(x);
+        Debug.Log(z);
         safePlaces[i, j] = false;
     }
 
@@ -128,15 +135,14 @@ public class PlayerAI : MonoBehaviour
             if (sceneObjects[i].tag == "Vehicle")
             {
                 car = sceneObjects[i];
-                Debug.Log("Car Found");
             }
         }
         if (car != null && ((car.transform.rotation.y / 90) % 2) == 0) // x is important lane
         {
             int x_car = (int)car.transform.position.x;
-            for (int x = Mathf.Max(0, x_car - 1); x <= Mathf.Min(10, x_car + 1); x++)
+            for (int x = Mathf.Max(-5, x_car - 1); x <= Mathf.Min(5, x_car + 1); x++)
             {
-                for (int z = 0; z < 11; z++)
+                for (int z = -5; z < 6; z++)
                 {
                     registerDangerousPlace(x, z);
                 }
@@ -150,9 +156,9 @@ public class PlayerAI : MonoBehaviour
         else if (car != null && ((car.transform.rotation.y / 90) % 2) == 1) // z is important lane
         {
             int z_car = (int)car.transform.position.z;
-            for (int z = Mathf.Max(0, z_car - 1); z <= Mathf.Min(10, z_car + 1); z++)
+            for (int z = Mathf.Max(-5, z_car - 1); z <= Mathf.Min(5, z_car + 1); z++)
             {
-                for (int x = 0; x < 11; x++)
+                for (int x = -5; x < 6; x++)
                 {
                     registerDangerousPlace(x, z);
                 }
@@ -176,7 +182,15 @@ public class PlayerAI : MonoBehaviour
             if (sceneObjects[i].tag == "Bomb")
             {
                 bomb = sceneObjects[i];
-                Debug.Log("Bomb Found");
+                int x_bomb = (int)bomb.transform.position.x;
+                int z_bomb = (int)bomb.transform.position.z;
+                for (int x = Mathf.Max(-5, x_bomb - 1); x <= Mathf.Min(5, x_bomb + 1); x++)
+                {
+                    for (int z = Mathf.Max(-5, z_bomb - 1); z <= Mathf.Min(5, z_bomb + 1); z++)
+                    {
+                        registerDangerousPlace(x, z);
+                    }
+                }
             }
         }
         return bomb;
@@ -192,7 +206,6 @@ public class PlayerAI : MonoBehaviour
             if (sceneObjects[i].tag == "Burger")
             {
                 burger = sceneObjects[i];
-                Debug.Log("Burger Found");
             }
         }
         return burger;
@@ -213,7 +226,6 @@ public class PlayerAI : MonoBehaviour
 
     private void ObstructOtherPlayer(GameObject otherPlayer)
     {
-        state = State.MovingToPlayer;
         controller.Follow(otherPlayer.transform, 0.3f);
         if (Random.Range(0, 100) < 50)
         {
@@ -231,8 +243,6 @@ public class PlayerAI : MonoBehaviour
 
     private void MoveRandomly()
     {
-        state = State.MovingRandomly;
-
         int x;
         int z;
         do
@@ -272,12 +282,6 @@ public class PlayerAI : MonoBehaviour
 
     private void MoveAwayFrom(Vector3 badPlace)
     {
-        Debug.Log("RUN!");
-        state = State.MovingAwayFromDanger;
-        Vector3 direction = gameObject.transform.position - badPlace;
-        direction.Normalize();
-        Vector3 destination = gameObject.transform.position + direction * 3;
-        //MoveTo(destination);
         MoveRandomly();
     }
 
