@@ -7,13 +7,14 @@ public class PlayerAI : MonoBehaviour
 
     public MinifigControllerH controller;
 
-    public float carViewingDistance = 100f;
-    public float bombViewingDistance = 4f;
-    public float burgerViewingDistance = 5f;
-    public float playerViewingDistance = 2f;
+    public int ownID = 0;
+
+    public float playerViewingDistance = 1f;
 
     private State state;
     private Vector3 currentDestination;
+    private float prefferedDistanceFromCar = 2.5f;
+    private GameObject currentCar;
 
 
 
@@ -33,14 +34,15 @@ public class PlayerAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // if (Playerprefs.GetString("Player1_AI").Equals("True"))
-        // StartCoroutine(MainIteration());
+        if (!PlayerPrefs.GetString("Player" + ownID + "_AI").Equals("True"))
+        {
+            Destroy(this);
+        }
         state = State.Idle;
-
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (state == State.Idle || state == State.MovingRandomly)
         {
@@ -77,7 +79,7 @@ public class PlayerAI : MonoBehaviour
 
             // if another player is close, go and annoy him
             GameObject otherPlayer = FindOtherPlayer();
-            if (otherPlayer != null && state != State.MovingAwayFromDanger && state != State.MovingToBurger)
+            if (otherPlayer != null && state != State.MovingAwayFromDanger && state != State.MovingToBurger && state != State.MovingRandomly    )
             {
                 ObstructOtherPlayer(otherPlayer);
             }
@@ -101,31 +103,31 @@ public class PlayerAI : MonoBehaviour
         GameObject[] sceneObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         List<GameObject> result = new List<GameObject>();
         GameObject car = null;
-         for (int i = 0; i < sceneObjects.Length; i++)
+        for (int i = 0; i < sceneObjects.Length; i++)
+        {
+            if (sceneObjects[i].tag == "Vehicle")
             {
-                if (sceneObjects[i].tag == "Vehicle")
-                {
-                        car=sceneObjects[i];
-                        Debug.Log("Car Found");
-                }
+                car = sceneObjects[i];
+                Debug.Log("Car Found");
             }
-            if (((car.transform.rotation.y / 90) % 2) == 0) // x is important lane
+        }
+        if (car != null && ((car.transform.rotation.y / 90) % 2) == 0) // x is important lane
+        {
+            // if player is on car's lane
+            if (car.transform.position.x + prefferedDistanceFromCar < transform.position.x || car.transform.position.x - prefferedDistanceFromCar > transform.position.x)
             {
-                // if player is on car's lane
-                if (car.transform.position.x + 1 < transform.position.x || car.transform.position.x - 1 > transform.position.x)
-                {
-                    return car;
-                }
+                return car;
             }
-            else // z is important lane
+        }
+        else if (car != null && ((car.transform.rotation.y / 90) % 2) == 1) // z is important lane
+        {
+            // if player is on car's lane
+            if (car.transform.position.z + prefferedDistanceFromCar < transform.position.z || car.transform.position.z - prefferedDistanceFromCar > transform.position.z)
             {
-                // if player is on car's lane
-                if (car.transform.position.z + 1 < transform.position.z || car.transform.position.z - 1 > transform.position.z)
-                {
-                    return car;
-                }
+                return car;
             }
-        return car;
+        }
+        return null;
     }
 
     private GameObject FindBomb()
@@ -133,14 +135,14 @@ public class PlayerAI : MonoBehaviour
         GameObject[] sceneObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         List<GameObject> result = new List<GameObject>();
         GameObject bomb = null;
-         for (int i = 0; i < sceneObjects.Length; i++)
+        for (int i = 0; i < sceneObjects.Length; i++)
+        {
+            if (sceneObjects[i].tag == "Bomb")
             {
-                if (sceneObjects[i].tag == "Bomb")
-                {
-                        bomb=sceneObjects[i];
-                        Debug.Log("Bomb Found");
-                }
+                bomb = sceneObjects[i];
+                Debug.Log("Bomb Found");
             }
+        }
         return bomb;
     }
 
@@ -149,14 +151,14 @@ public class PlayerAI : MonoBehaviour
         GameObject[] sceneObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         List<GameObject> result = new List<GameObject>();
         GameObject burger = null;
-         for (int i = 0; i < sceneObjects.Length; i++)
+        for (int i = 0; i < sceneObjects.Length; i++)
+        {
+            if (sceneObjects[i].tag == "Burger")
             {
-                if (sceneObjects[i].tag == "Burger")
-                {
-                        burger=sceneObjects[i];
-                        Debug.Log("Burger Found");
-                }
+                burger = sceneObjects[i];
+                Debug.Log("Burger Found");
             }
+        }
         return burger;
     }
 
@@ -176,8 +178,8 @@ public class PlayerAI : MonoBehaviour
     private void ObstructOtherPlayer(GameObject otherPlayer)
     {
         state = State.MovingToPlayer;
-        controller.Follow(otherPlayer.transform, 0.5f);
-        if (Random.value < 0.5f)
+        controller.Follow(otherPlayer.transform, 0.3f);
+        if (Random.Range(0, 100) < 50)
         {
             // kick other player
             Debug.Log("AI kicking");
@@ -230,8 +232,6 @@ public class PlayerAI : MonoBehaviour
         direction.Normalize();
         Vector3 destination = gameObject.transform.position + direction * 3;
         MoveTo(destination);
-
-        
     }
 
     private IEnumerator Wait()

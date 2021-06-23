@@ -240,32 +240,32 @@ public class MinifigControllerH : MonoBehaviour
             float z = gameObject.transform.position.z;
             TeleportTo(new Vector3(x, y, z));
         }
-        if (gameObject.transform.position.x > 4.20)
+        if (gameObject.transform.position.x > 5)
         {
-            float x = 4.19f;
+            float x = 4.99f;
             float y = gameObject.transform.position.y;
             float z = gameObject.transform.position.z;
             TeleportTo(new Vector3(x, y, z));
         }
-        if (gameObject.transform.position.x < -4.20)
+        if (gameObject.transform.position.x < -5)
         {
-            float x = -4.19f;
+            float x = -4.99f;
             float y = gameObject.transform.position.y;
             float z = gameObject.transform.position.z;
             TeleportTo(new Vector3(x, y, z));
         }
-        if (gameObject.transform.position.z > 4.20)
+        if (gameObject.transform.position.z > 5)
         {
             float x = gameObject.transform.position.x;
             float y = gameObject.transform.position.y;
-            float z = 4.19f;
+            float z = 4.99f;
             TeleportTo(new Vector3(x, y, z));
         }
-        if (gameObject.transform.position.z < -4.20)
+        if (gameObject.transform.position.z < -5)
         {
             float x = gameObject.transform.position.x;
             float y = gameObject.transform.position.y;
-            float z = -4.19f;
+            float z = -4.99f;
             TeleportTo(new Vector3(x, y, z));
         }
 
