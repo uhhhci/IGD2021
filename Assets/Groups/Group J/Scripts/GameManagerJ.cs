@@ -22,11 +22,11 @@ using UnityEngine.UI;
 
     public int team1LavaDeath = 0;
     public int team2LavaDeath = 0;
-
+    public readonly GameObject _finishedGamePrefab;
 
     void Start()
     {
-   
+        
         var playerInputs = new List<PlayerInput> { myPlayer.GetComponent<PlayerInput>(), secondPlayer.GetComponent<PlayerInput>(), thirdPlayer.GetComponent<PlayerInput>(), fourthPlayer.GetComponent<PlayerInput>() };
    
         InputManager.Instance.AssignPlayerInput(playerInputs);
