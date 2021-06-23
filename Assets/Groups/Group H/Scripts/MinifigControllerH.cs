@@ -232,12 +232,40 @@ public class MinifigControllerH : MonoBehaviour
 
         // FixPosition();
 
-        // possible fix for clipping and falling through the floor
+        // Possible fix for clipping out of bounce and falling through the floor
         if (gameObject.transform.position.y < 0)
         {
             float x = gameObject.transform.position.x;
             float y = 0.01f;
             float z = gameObject.transform.position.z;
+            TeleportTo(new Vector3(x, y, z));
+        }
+        if (gameObject.transform.position.x > 4.20)
+        {
+            float x = 4.19f;
+            float y = gameObject.transform.position.y;
+            float z = gameObject.transform.position.z;
+            TeleportTo(new Vector3(x, y, z));
+        }
+        if (gameObject.transform.position.x < -4.20)
+        {
+            float x = -4.19f;
+            float y = gameObject.transform.position.y;
+            float z = gameObject.transform.position.z;
+            TeleportTo(new Vector3(x, y, z));
+        }
+        if (gameObject.transform.position.z > 4.20)
+        {
+            float x = gameObject.transform.position.x;
+            float y = gameObject.transform.position.y;
+            float z = 4.19f;
+            TeleportTo(new Vector3(x, y, z));
+        }
+        if (gameObject.transform.position.z < -4.20)
+        {
+            float x = gameObject.transform.position.x;
+            float y = gameObject.transform.position.y;
+            float z = -4.19f;
             TeleportTo(new Vector3(x, y, z));
         }
 
