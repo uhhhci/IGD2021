@@ -25,10 +25,23 @@ public class AIController : MonoBehaviour
     private bool collided = false;
     public GameObject obstacle;
     private Transform obstacleTransform;
+    private CollisionDetector collisionDetector;
+    public int ownTeam;
  
     // Start is called before the first frame update
     void Start()
     {
+        collisionDetector = this.GetComponent<CollisionDetector>();
+
+        if(collisionDetector.isTeam1 == true)
+        {
+            ownTeam = 1;
+        }
+        else
+        {
+            ownTeam = 2;
+        }
+
         controller = GetComponent<CharacterController>();
         animator = Minifig.GetComponent<Animator>();
         controllerJ = GetComponent<MinifigControllerJ>();
@@ -42,7 +55,7 @@ public class AIController : MonoBehaviour
                 continue;
             players.Add(go);
         }
-        
+
         controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         if (controlScheme == "AI")
         {
@@ -54,7 +67,15 @@ public class AIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (controlScheme == "AI")
+        foreach (GameObject player in players)
+        {
+            if (player.GetComponent<AIController>().ownTeam == this.ownTeam)
+            {
+                players.Remove(player);
+            }
+        }
+
+        if (controlScheme == "AI" && players.Count != 0)
         {
             foreach (GameObject player in players)
             {
@@ -92,10 +113,8 @@ public class AIController : MonoBehaviour
                 {
                     Debug.Log("Jump");
                     controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Jump);
-                    //Physics.IgnoreLayerCollision(gameObject.layer, 21, true);
+                    Physics.IgnoreLayerCollision(gameObject.layer, 21, true);
                 }
-
-                //Physics.IgnoreLayerCollision(gameObject.layer, 21, false);
 
                 if (distance <= agent.stoppingDistance && ! this.animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
                 {
