@@ -13,7 +13,7 @@ public class GameTimer : MonoBehaviour
     private List<bool> allChildrenBoolean = new List<bool>();
     public float maxTimeUntilPlateDestruction = 10;
     private float timerPlate = 0;
-    public float timerStartPlateDestruction = 60;
+    public float timerStartPlateDestruction = 90;
     public bool randomDestructionTimer = true;
     private bool nextRandomDestructionTime = true;
     private GameManagerJ gameplayManager;
