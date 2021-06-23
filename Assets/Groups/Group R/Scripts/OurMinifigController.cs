@@ -941,13 +941,21 @@ public class OurMinifigController : MonoBehaviour
                 animator.SetTrigger(throwHash);
             else if (itemType == "sword")
                 animator.SetTrigger(swordHash);
+            else if (itemType== "gun"){
+                animator.SetTrigger(swordHash);
+                castARay(item.strength,1000.0f);
+            }
         }
+        castARay(strength,hitRange);
+    }
+
+    private void castARay(int damageToInduce, float rayDistance){
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, rayDistance))
         {
             if(hit.collider.tag == "Player"){
                 OurMinifigController hit_player = hit.collider.gameObject.GetComponent<OurMinifigController>();
-                hit_player.damage += strength;
+                hit_player.damage += damageToInduce;
                 Vector3 hit_direction = hit_player.transform.position - transform.position;
                 hit_direction.x = 0f; // do not change x position
                 hit_direction.y += 1f; // make the hit player fly slightly upwards
