@@ -105,7 +105,7 @@ public class GameTimer : MonoBehaviour
             var rdm = Random.Range(0, allChildren.Count);
             int before = 0;
             int after = 0;
-            if (rdm != 0 && rdm != 32)
+            if (rdm != 0 && rdm != 68)
             {
                 before = rdm - 1;
                 after = rdm + 1;
@@ -114,12 +114,12 @@ public class GameTimer : MonoBehaviour
             {
                 if (rdm == 0)
                 {
-                    before = 32;
+                    before = 68;
                     after = 1;
                 }
                 else
                 {
-                    before = 31;
+                    before = 67;
                     after = 0;
                 }
             }
@@ -143,6 +143,7 @@ public class GameTimer : MonoBehaviour
 
         catch { }
     }
+
 
 
 }
