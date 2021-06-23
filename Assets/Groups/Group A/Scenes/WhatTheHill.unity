@@ -959,7 +959,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013ba858dff67f9458509c0164fc134e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _finishGamePrefab: {fileID: 0}
+  _finishGamePrefab: {fileID: 8914169427414623133, guid: eb80993c89a63a540bed42b779731471,
+    type: 3}
   Players:
   - {fileID: 856198391}
   - {fileID: 939234808}
@@ -4755,11 +4756,11 @@ MonoBehaviour:
   numberOfRings: 2
   lengthOfBlock: 3.5
   yLevel: 0
-  randomCapProb: 0.1
+  randomCapProb: 0.01
   offsetRotation: 5
   offsetRadius: 1
   offsetAngle: 10
-  offsetHeight: 0.35
+  offsetHeight: 0.2
   rotate: 1
   rotationSpeed: 3
   ringToRotate: 1
@@ -6506,7 +6507,7 @@ MonoBehaviour:
   - {fileID: 6576706715087354607, guid: daf503b9626d6164aad2167fa85e9671, type: 3}
   RespawnPointsSource: {fileID: 968045323}
   spawningStartTime: 0
-  spawningRateSecs: 5
+  spawningRateSecs: 2
   equipSpawningRateSecs: 15
 --- !u!4 &1293227845
 Transform:

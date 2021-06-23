@@ -234,7 +234,12 @@ public class MinifigControllerWTH : MonoBehaviour
         string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
         Respawn();
-        if (isAi)
+
+    }
+
+    public void activateAI(bool activate)
+    {
+        if (activate)
         {
             AIStateMachine.SetTrigger("AiIsActive");
         }
@@ -257,12 +262,6 @@ public class MinifigControllerWTH : MonoBehaviour
         // Handle input.
         if (inputEnabled)
         {
-            if (isAi)
-            {
-                //NavMeshPath path = getPath();
-                //MoveTo(path.corners[0]);
-                
-            }
             // Calculate direct speed and speed.
             var right = Vector3.right;
             var forward = Vector3.forward;
