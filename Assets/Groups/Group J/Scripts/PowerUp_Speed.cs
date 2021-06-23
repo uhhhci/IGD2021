@@ -34,7 +34,7 @@ public class PowerUp_Speed : MonoBehaviour
     {
         if (collision.gameObject.tag == ("Obstacle"))
         {
-            StartCoroutine(ActivateInvincibility());
+            Physics.IgnoreLayerCollision(gameObject.layer, 21, true);
         }
 
      

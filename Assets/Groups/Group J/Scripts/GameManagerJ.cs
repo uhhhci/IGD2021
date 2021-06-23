@@ -38,7 +38,7 @@ using UnityEngine.UI;
     {
         while (true)
         {
-            arm.GetComponent<HingeJoint>().motor = new JointMotor() { targetVelocity = 100 + counter, force = 100000 };
+            arm.GetComponent<HingeJoint>().motor = new JointMotor() { targetVelocity = 50 + counter, force = 100000 };
             counter += 5;
             yield return new WaitForSeconds(3);
         }
