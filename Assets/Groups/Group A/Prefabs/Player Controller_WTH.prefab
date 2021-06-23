@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7244567856315620408}
   - component: {fileID: 629297074304548042}
   - component: {fileID: -2901904253831029041}
+  - component: {fileID: 6369660411640124950}
   m_Layer: 9
   m_Name: Player Controller_WTH
   m_TagString: Player
@@ -195,6 +196,7 @@ MonoBehaviour:
   Minifig: {fileID: 0}
   RespawnPointsSource: {fileID: 0}
   characterId: 0
+  isAi: 0
   maxForwardSpeed: 5
   maxBackwardSpeed: 4
   acceleration: 20
@@ -217,6 +219,25 @@ MonoBehaviour:
   inputEnabled: 1
   maxJumpsInAir: 0
   playerPoints: 0
+--- !u!95 &6369660411640124950
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70292193334677109}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7f87d600f6a8bbf4b8366ee57f76595e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &4171157057607150991
 PrefabInstance:
   m_ObjectHideFlags: 0
