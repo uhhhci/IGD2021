@@ -33,7 +33,7 @@ namespace Groups.Group_S
         }
 
 
-        void onEastPress() {
+        void OnEastPress() {
             if (_grabbed != null) {
                 //Drop old part
                 DropPart();

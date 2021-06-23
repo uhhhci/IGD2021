@@ -60,7 +60,7 @@ namespace Groups.Group_S.AI {
 
         // Find next car part 
         void Find() {
-            Debug.Log($"{gameObject.name} is in find mode");
+            //Debug.Log($"{gameObject.name} is in find mode");
             GameObject[] all_parts = GameObject.FindGameObjectsWithTag("KartPart");
             GameObject[] parts = all_parts.Where(p => {
                 bool grabbed = p.transform.parent != null;
@@ -68,23 +68,23 @@ namespace Groups.Group_S.AI {
                 return !grabbed && dist > distThreshold;
             }).ToArray();
 
-            Debug.Log($"{gameObject.name}: parts: {parts.Length}");
+            //Debug.Log($"{gameObject.name}: parts: {parts.Length}");
             if (parts.Length > 0) {
                 _target = parts[UnityEngine.Random.Range(0,parts.Length)];
-                Debug.Log($"{gameObject.name} found target!");
+                //Debug.Log($"{gameObject.name} found target!");
                 _state  = State.MOVE_TO;
             } else {
-                Debug.Log($"{gameObject.name}: part list is empty");
+                //Debug.Log($"{gameObject.name}: part list is empty");
             }
         }
 
         // move towards item
         void MoveTo() {
-            Debug.Log($"{gameObject.name} is in move to mode");
+            //Debug.Log($"{gameObject.name} is in move to mode");
 
             //Part was grabbed by other player
             if (_target.transform.parent != null) {
-                Debug.Log($"{gameObject.name}: target was grabbed by other player");
+                //Debug.Log($"{gameObject.name}: target was grabbed by other player");
                 minifig.StopFollowing();
                 _state = State.FIND;
                 return;
@@ -103,7 +103,7 @@ namespace Groups.Group_S.AI {
 
         private void OnCollisionEnter(Collision other)
         {
-            Debug.Log($"{gameObject.name}: collision happened");
+            //Debug.Log($"{gameObject.name}: collision happened");
 
             switch (_state) {
                 case State.MOVE_TO:
@@ -129,7 +129,7 @@ namespace Groups.Group_S.AI {
 
         // return current grabbed car part
         void Return() {
-            Debug.Log($"{gameObject.name} is in return mode");
+            //Debug.Log($"{gameObject.name} is in return mode");
 
             float dist = DistanceToHome(gameObject.transform.position);
             if (dist < UnityEngine.Random.Range(0.5f, dist)) {
@@ -143,7 +143,7 @@ namespace Groups.Group_S.AI {
             Vector3 targetPosition = homePlate.transform.position;
             targetPosition.z += 0.1f;
             minifig.MoveTo(targetPosition, onComplete: () => { 
-                Debug.Log("return complete!!!"); 
+                //Debug.Log("return complete!!!"); 
                 _grabber.DropPart();
                 _target = null;
                 _state = State.FIND;    
