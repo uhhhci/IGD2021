@@ -4,7 +4,8 @@ using System.Collections;
 public class PowerupReverseSteer : PowerUp
 {
     public GameManager_E gameManager;
-    public int DURATION = 10;
+    public int DURATION = 5;
+    public int WHITE_BRICK_DURATION = 10;
 
     public PowerupReverseSteer(GameManager_E gameManager_e)
     {
@@ -15,6 +16,8 @@ public class PowerupReverseSteer : PowerUp
     public override IEnumerator UsePowerup(GameObject player)
     {
         int activatorPosition = gameManager.GetPositionByPlayer(player.GetComponent<Transform>());
+
+        PlayerStats aps = player.GetComponent<PlayerStats>();
 
         int targetPosition = activatorPosition - 1;
         if (targetPosition == 0) { targetPosition = 2; }
@@ -34,7 +37,13 @@ public class PowerupReverseSteer : PowerUp
             tps.StopShield();
         }
 
-        yield return new WaitForSeconds(DURATION);
+        if(aps.hasWhiteBrick)
+        {
+            yield return new WaitForSeconds(WHITE_BRICK_DURATION);
+        } else
+        {
+            yield return new WaitForSeconds(DURATION);
+        }
 
         targetCarController.steeringReversed = false;
     }
