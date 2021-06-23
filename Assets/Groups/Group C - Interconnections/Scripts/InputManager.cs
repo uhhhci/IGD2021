@@ -26,6 +26,16 @@ public class InputManager : MonoBehaviour
     private List<Tuple<int, int, string>> playerSchemes = new List<Tuple<int, int, string>>();
 
     public GameObject _menuPlayerPrefab;
+    public List<Color> players_colors = new List<Color>{Color.red, Color.yellow, Color.magenta, Color.blue};
+    public List<string> players_colors_names = new List<string>{"RED", "YELLOW", "PINK", "BLUE"};
+    public List<int> ids_players = new List<int>{1, 2, 3, 4};
+
+    //CustomCharacter player1 = new CustomCharacter();
+    //CustomCharacter player2 = new CustomCharacter();
+    //CustomCharacter player3 = new CustomCharacter();
+    //CustomCharacter player4 = new CustomCharacter();
+
+    //public List<CustomCharacter> players_minifigs = new List<CustomCharacter>{player1, player2, player3, player4};
 
     public static InputManager Instance;
 
