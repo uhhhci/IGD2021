@@ -149,16 +149,11 @@ public class TurnManager : MonoBehaviour
             finishTurn();
         }
         else if (currentState == TurnState.SCOREBOARD) {
+            for (int i = 0; i < 4; i++) {
+                int place = PlayerPrefs.GetInt("PLAYER" + i.ToString() + "_PLACE");
 
-            // TODO: replace with an amount of credits based on the rank each player achieved in the last minigame
-            playerBelongings.ForEach((belongings) => {
-                belongings.addCreditAmount((int) UnityEngine.Random.Range(0f, 3.99f));
-            });
-
-            // TODO: does not work yet
-            // proposed solution: add a minigame state, when the minigame + scorescreen are over, check whether there is a true party person
-            // then do animations etc (before starting the next turn)
-            updateTruePartyState();
+                playerBelongings[i].addCreditAmount(4 - place + 1);
+            }
 
             currentState = TurnState.SCOREBOARD_END;
         }
@@ -169,6 +164,7 @@ public class TurnManager : MonoBehaviour
             playerBelongings[3].animationsAreDone()) {
            
             finishRound();
+            updateTruePartyState();
         }
         
         foreach (PlayerAction action in interactions.actions) {        
@@ -692,6 +688,8 @@ public class TurnManager : MonoBehaviour
         StatePreserver.Instance.boardState.truePartyPerson = truePartyPerson;
         StatePreserver.Instance.boardState.round = round;
 
+        StatePreserver.Instance.boardState.trapTiles = new List<StatePreserver.TrapState>();
+
         foreach (GameObject t in GameObject.FindGameObjectsWithTag("Tile")) { // for each tile
             if ((t.GetComponent(typeof(Tile)) as Tile).hasGoldenBrick()) {
                 StatePreserver.Instance.boardState.brickTile = new StatePreserver.TileCoord();
@@ -701,7 +699,7 @@ public class TurnManager : MonoBehaviour
             if ((t.GetComponent(typeof(Tile)) as Tile).hasTrap()){
                 StatePreserver.TrapState trapPreserver = new StatePreserver.TrapState();
                 trapPreserver.x = t.transform.position.x;
-                trapPreserver.y = t.transform.position.y;
+                trapPreserver.y = t.transform.position.y + 0.51f; // hovering offset
                 trapPreserver.z = t.transform.position.z;
                 trapPreserver.owner = (t.GetComponent(typeof(Tile)) as Tile).getTrapOwner();
                 StatePreserver.Instance.boardState.trapTiles.Add(trapPreserver);
@@ -760,7 +758,7 @@ public class TurnManager : MonoBehaviour
                 foreach (StatePreserver.TrapState savedTrap in StatePreserver.Instance.boardState.trapTiles){
                     if (t.transform.position.x == savedTrap.x && t.transform.position.z == savedTrap.z){
                         GameObject newTrap = trapSpawner.spawnTrap(new Vector3(savedTrap.x,savedTrap.y,savedTrap.z));
-                        (t.GetComponent(typeof(Tile)) as Tile).setTrap(true,newTrap,savedTrap.owner);
+                        tile.setTrap(true,newTrap,savedTrap.owner);
                     }
                 }
 

@@ -43,8 +43,9 @@ public class GoldenBrickManager : MonoBehaviour
         return location;
     }
 
-    public void restore(Tile location, Transform t) {
+    public void restore(Tile brickLocation, Transform t) {
         restored = true;
+        location = brickLocation;
         Vector3 newPos = t.position;
         newPos.y += hoverDistance;
         brick.position = newPos;
