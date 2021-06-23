@@ -14,8 +14,7 @@ public class PlayerAI : MonoBehaviour
     private State state;
     private Vector3 currentDestination;
     private float prefferedDistanceFromCar = 2.5f;
-    private GameObject currentCar;
-
+    private bool[,] safePlaces = new bool[11, 11];
 
 
     // States for AI player
@@ -36,7 +35,7 @@ public class PlayerAI : MonoBehaviour
     {
         if (!PlayerPrefs.GetString("Player" + ownID + "_AI").Equals("True"))
         {
-            Destroy(this);
+            // Destroy(this);
         }
         state = State.Idle;
     }
@@ -44,14 +43,13 @@ public class PlayerAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state == State.Idle || state == State.MovingRandomly)
+        cleanSafePlaces();
+        GameObject car = FindCar();
+        GameObject bomb = FindBomb();
+
+        if (state == State.Idle)
         {
-            Vector3 currentPosition = transform.position;
-
             // if cars or bombs are close, go away from them
-            GameObject car = FindCar();
-            GameObject bomb = FindBomb();
-
             if (car != null && bomb != null)
             {
                 Vector3 badPlace = (car.transform.position + bomb.transform.position) / 2;
@@ -79,7 +77,7 @@ public class PlayerAI : MonoBehaviour
 
             // if another player is close, go and annoy him
             GameObject otherPlayer = FindOtherPlayer();
-            if (otherPlayer != null && state != State.MovingAwayFromDanger && state != State.MovingToBurger && state != State.MovingRandomly    )
+            if (otherPlayer != null && state != State.MovingAwayFromDanger && state != State.MovingToBurger && state != State.MovingRandomly)
             {
                 ObstructOtherPlayer(otherPlayer);
             }
@@ -88,14 +86,36 @@ public class PlayerAI : MonoBehaviour
             if (state == State.Idle)
             {
                 MoveRandomly();
-                StartCoroutine(Wait());
             }
 
-            if (state != State.MovingRandomly)
+            // wait to start next action
+            StartCoroutine(Wait());
+        }
+    }
+
+    private void cleanSafePlaces()
+    {
+        for (int i = 0; i < 11; i++)
+        {
+            for (int j = 0; j < 11; j++)
             {
-                StartCoroutine(Wait());
+                safePlaces[i, j] = true;
             }
         }
+    }
+
+    private void registerDangerousPlace(int x, int z)
+    {
+        int i = x + 5;
+        int j = z + 5;
+        safePlaces[i, j] = false;
+    }
+
+    private bool isSafePlace(int x, int z)
+    {
+        int i = x + 5;
+        int j = z + 5;
+        return safePlaces[i, j];
     }
 
     private GameObject FindCar()
@@ -113,6 +133,14 @@ public class PlayerAI : MonoBehaviour
         }
         if (car != null && ((car.transform.rotation.y / 90) % 2) == 0) // x is important lane
         {
+            int x_car = (int)car.transform.position.x;
+            for (int x = Mathf.Max(0, x_car - 1); x <= Mathf.Min(10, x_car + 1); x++)
+            {
+                for (int z = 0; z < 11; z++)
+                {
+                    registerDangerousPlace(x, z);
+                }
+            }
             // if player is on car's lane
             if (car.transform.position.x + prefferedDistanceFromCar < transform.position.x || car.transform.position.x - prefferedDistanceFromCar > transform.position.x)
             {
@@ -121,6 +149,14 @@ public class PlayerAI : MonoBehaviour
         }
         else if (car != null && ((car.transform.rotation.y / 90) % 2) == 1) // z is important lane
         {
+            int z_car = (int)car.transform.position.z;
+            for (int z = Mathf.Max(0, z_car - 1); z <= Mathf.Min(10, z_car + 1); z++)
+            {
+                for (int x = 0; x < 11; x++)
+                {
+                    registerDangerousPlace(x, z);
+                }
+            }
             // if player is on car's lane
             if (car.transform.position.z + prefferedDistanceFromCar < transform.position.z || car.transform.position.z - prefferedDistanceFromCar > transform.position.z)
             {
@@ -196,7 +232,17 @@ public class PlayerAI : MonoBehaviour
     private void MoveRandomly()
     {
         state = State.MovingRandomly;
-        Vector3 destination = transform.position + GetRandomDirection();
+
+        int x;
+        int z;
+        do
+        {
+            x = Random.Range(-5, 5);
+            z = Random.Range(-5, 5);
+        }
+        while (!isSafePlace(x, z));
+
+        Vector3 destination = new Vector3(x, 0.1f, z);
         MoveTo(destination);
     }
 
@@ -204,7 +250,7 @@ public class PlayerAI : MonoBehaviour
     {
         int x = Random.Range(-2, 2);
         int z = Random.Range(-2, 2);
-        Vector3 direction = new Vector3(x, 0.1f, z);
+        Vector3 direction = new Vector3(x, 0, z);
         return direction;
     }
 
@@ -231,7 +277,8 @@ public class PlayerAI : MonoBehaviour
         Vector3 direction = gameObject.transform.position - badPlace;
         direction.Normalize();
         Vector3 destination = gameObject.transform.position + direction * 3;
-        MoveTo(destination);
+        //MoveTo(destination);
+        MoveRandomly();
     }
 
     private IEnumerator Wait()
