@@ -540,6 +540,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 0}
+  _menuPlayerPrefab: {fileID: 5329118978466406802, guid: d8e8c7299b9c148a28d8b562f743facd,
+    type: 3}
 --- !u!1 &98274715
 GameObject:
   m_ObjectHideFlags: 0
@@ -3990,6 +3992,51 @@ MonoBehaviour:
   - {fileID: 2100000, guid: dc6b608f2e25d4858852f094e49e0c05, type: 2}
   - {fileID: 2100000, guid: c701907d892fd4fecafb9043e2bdc5d4, type: 2}
   - {fileID: 2100000, guid: 0c11c30f9a79946d3bd5280e255296dc, type: 2}
+--- !u!1 &774817081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 774817083}
+  - component: {fileID: 774817082}
+  m_Layer: 0
+  m_Name: LoadingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &774817082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774817081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227870ae020f043cbb47bfce29466447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _randomPicker: {fileID: 1402479294234901553, guid: 4802adaf245a0f443b03527d09a8fc14,
+    type: 3}
+--- !u!4 &774817083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774817081}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 10.000002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &806322794
 GameObject:
   m_ObjectHideFlags: 0
@@ -9244,7 +9291,7 @@ GameObject:
   - component: {fileID: 1957095863}
   - component: {fileID: 1957095862}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: InputManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9262,15 +9309,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5d5f23cf1a64811825cb10a87d81f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _menuPlayerPrefab: {fileID: 0}
   players_colors:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
   - {r: 0, g: 0, b: 1, a: 1}
   players_colors_names:
   - RED
   - YELLOW
-  - GREEN
+  - PINK
   - BLUE
   ids_players: 01000000020000000300000004000000
 --- !u!4 &1957095863

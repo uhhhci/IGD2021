@@ -9,8 +9,6 @@ using UnityEngine.InputSystem.Utilities;
 public class InputManager : MonoBehaviour
 {
 
-
-    //public GameObject _menuPlayerPrefab;
     private Controls controls;
 
     private const string INPUT_DEVICE_PLAYER = "InputDevideIDPlayer";
@@ -25,15 +23,19 @@ public class InputManager : MonoBehaviour
 
     private List<Tuple<int, int, string>> playerSchemes = new List<Tuple<int, int, string>>();
 
+    //Used to detect player inputs, testing purposes only
     public GameObject _menuPlayerPrefab;
+
     public List<Color> players_colors = new List<Color>{Color.red, Color.yellow, Color.magenta, Color.blue};
     public List<string> players_colors_names = new List<string>{"RED", "YELLOW", "PINK", "BLUE"};
     public List<int> ids_players = new List<int>{1, 2, 3, 4};
 
-    //CustomCharacter player1 = new CustomCharacter();
-    //CustomCharacter player2 = new CustomCharacter();
-    //CustomCharacter player3 = new CustomCharacter();
-    //CustomCharacter player4 = new CustomCharacter();
+    private CustomCharacter customPlayer1;
+    private CustomCharacter customPlayer2;
+    private CustomCharacter customPlayer3;
+    private CustomCharacter customPlayer4;
+
+    private List<CustomCharacter> customCharacterList = new List<CustomCharacter>();
 
     //public List<CustomCharacter> players_minifigs = new List<CustomCharacter>{player1, player2, player3, player4};
 
@@ -59,6 +61,129 @@ public class InputManager : MonoBehaviour
         SaveAIPlayers(true, false, false, false);
     }
 
+    public void SaveCustomCharacter(CustomCharacter customCharacter)
+    {
+        customCharacterList.Add(customCharacter);
+    }
+
+    public bool ShouldEnableSaveButton ()
+    {
+        return playerSchemes.Count == (customCharacterList.Count + 1);
+    }
+
+    //Assuming that players id are 1, 2, 3, 4
+    public void ApplyPlayerCustomization(GameObject player, int playerId)
+    {
+        //Base Minifig and corresponding custom deisgn
+        var minifigComponent = player.transform.Find("Minifig Character").transform.Find("Geo_grp");
+        CustomCharacter customCharacter = customCharacterList[playerId - 1];
+
+        //Hair / Hat
+        var hairComponent = player.transform.Find(
+            "Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/spine07/neck/head/hat_loc/m85974(Clone)/Shell"
+            );
+        var hair = hairComponent.GetComponent<MeshFilter>();
+        hair.mesh = customCharacter.hair;
+
+        //Hair / Hat Color
+        var hairColor = hairComponent.GetComponent<MeshRenderer>();
+        hairColor.material = customCharacter.hairColor;
+
+
+
+        //Face tone
+        var playerComponents = minifigComponent.transform.Find("Head");
+        var faceTone = minifigComponent.transform.Find("Head").GetComponent<SkinnedMeshRenderer>();
+        faceTone.material = customCharacter.faceTone;
+
+        //Face
+        var face = minifigComponent.transform.Find("Face").GetComponent<SkinnedMeshRenderer>();
+        face.material = customCharacter.face;
+
+        //Upper body
+        playerComponents = minifigComponent.transform.Find("Torso");
+        
+        var torsoBack = playerComponents.transform.Find("Torso_Back").GetComponent<SkinnedMeshRenderer>();
+        torsoBack.material = customCharacter.upperBody_back;
+
+        var torsoFront = playerComponents.transform.Find("Torso_Front").GetComponent<SkinnedMeshRenderer>();
+        torsoFront.material = customCharacter.upperBody_front;
+
+        var torsoMain = playerComponents.transform.Find("Torso_main").GetComponent<SkinnedMeshRenderer>();
+        torsoMain.material = customCharacter.upperBody_main;
+
+        //Arms
+        playerComponents = minifigComponent.transform.Find("Arm_Left");
+
+        var armLeftFront = playerComponents.transform.Find("Arm_L_Front").GetComponent<SkinnedMeshRenderer>();
+        armLeftFront.material = customCharacter.leftArm_front;
+
+        var armLeftMain = playerComponents.transform.Find("Arm_L_Main").GetComponent<SkinnedMeshRenderer>();
+        armLeftMain.material = customCharacter.leftArm_main;
+
+        playerComponents = minifigComponent.transform.Find("Arm_Right");
+
+        var armRightFront = playerComponents.transform.Find("Arm_R_Front").GetComponent<SkinnedMeshRenderer>();
+        armRightFront.material = customCharacter.leftArm_front;
+
+        var armRightMain = playerComponents.transform.Find("Arm_R_Main").GetComponent<SkinnedMeshRenderer>();
+        armRightMain.material = customCharacter.leftArm_main;
+
+        //Hands
+        var handLeft = minifigComponent.transform.Find("Hand_Left").GetComponent<SkinnedMeshRenderer>();
+        handLeft.material = customCharacter.left_hand;
+
+        var handRight = minifigComponent.transform.Find("Hand_Right").GetComponent<SkinnedMeshRenderer>();
+        handRight.material = customCharacter.right_hand;
+
+        //Hips
+        playerComponents = minifigComponent.transform.Find("Hip");
+
+        var hipCrotch = playerComponents.transform.Find("Hip_Crotch").GetComponent<SkinnedMeshRenderer>();
+        hipCrotch.material = customCharacter.hip_crotch;
+
+        var hipFront = playerComponents.transform.Find("Hip_Front").GetComponent<SkinnedMeshRenderer>();
+        hipFront.material = customCharacter.hip_front;
+
+        var hipMain = playerComponents.transform.Find("Hip_Main").GetComponent<SkinnedMeshRenderer>();
+        hipMain.material = customCharacter.hip_main;
+
+        //Legs
+        //Left
+        playerComponents = minifigComponent.transform.Find("Leg_Left");
+
+        var legLeftFront = playerComponents.transform.Find("Leg_L_Front").GetComponent<SkinnedMeshRenderer>();
+        legLeftFront.material = customCharacter.leftleg_front;
+
+        var legLeftSide = playerComponents.transform.Find("Leg_L_Side").GetComponent<SkinnedMeshRenderer>();
+        legLeftSide.material = customCharacter.leftleg_side;
+
+        var legLeftMain = playerComponents.transform.Find("Leg_L_Main").GetComponent<SkinnedMeshRenderer>();
+        legLeftMain.material = customCharacter.leftleg_main;
+
+        //Left Foot
+        var legLeftFoot = playerComponents.transform.Find("Leg_L_Foot").GetComponent<SkinnedMeshRenderer>();
+        legLeftFoot.material = customCharacter.left_foot;
+
+
+        //Right
+        playerComponents = minifigComponent.transform.Find("Leg_Right");
+
+        var rightLeftFront = playerComponents.transform.Find("Leg_R_Front").GetComponent<SkinnedMeshRenderer>();
+        rightLeftFront.material = customCharacter.rightleg_front;
+
+        var rightLeftSide = playerComponents.transform.Find("Leg_R_Side").GetComponent<SkinnedMeshRenderer>();
+        rightLeftSide.material = customCharacter.rightleg_side;
+
+        var rightLeftMain = playerComponents.transform.Find("Leg_R_Main").GetComponent<SkinnedMeshRenderer>();
+        rightLeftMain.material = customCharacter.rightleg_main;
+
+        //Right Foot
+        var rightLeftFoot = playerComponents.transform.Find("Leg_R_Foot").GetComponent<SkinnedMeshRenderer>();
+        rightLeftFoot.material = customCharacter.right_foot;
+
+    }
+
     //Assign control scheme that was read from the character selection
     public List<PlayerInput> AssignPlayerInput(List<PlayerInput> players, List<string> playerIds)
     {
@@ -68,6 +193,7 @@ public class InputManager : MonoBehaviour
             //Read values from PlayerPrefs
             int inputDeviceId = PlayerPrefs.GetInt(INPUT_DEVICE_PLAYER + playerIds[i]);
             string controlScheme = PlayerPrefs.GetString(CONTROL_SCHEME_PLAYER + playerIds[i]);
+            print(CONTROL_SCHEME_PLAYER + playerIds[i]);
 
             players[i].SwitchCurrentControlScheme(controlScheme, InputSystem.GetDeviceById(inputDeviceId));
         }
@@ -106,12 +232,14 @@ public class InputManager : MonoBehaviour
     {
         PlayerPrefs.SetInt(INPUT_DEVICE_PLAYER + playerId, inputDeviceId);
         PlayerPrefs.SetString(CONTROL_SCHEME_PLAYER + playerId, controlScheme);
+        print(CONTROL_SCHEME_PLAYER + playerId);
     }
 
     //This should be called at the end of the selection screen
     public void SavePlayersControlSchemes()
     {
         //Iterate over all tuples
+        //Tupple corresponds to playerId, inputDeviceId, controlScheme
         foreach (Tuple<int, int, string> player in playerSchemes)
         {
             SavePlayerControlScheme(player.Item1.ToString(), player.Item2, player.Item3);
@@ -123,18 +251,24 @@ public class InputManager : MonoBehaviour
         //Check if the tuple is already in the list
         if (playerSchemes.Count == 0)
         {
+            print("Control Scheme Agregado: " + playerScheme.Item3);
             playerSchemes.Add(playerScheme);
         }
         else
         {
             if (!playerSchemes.Contains(playerScheme))
             {
-                playerSchemes.Add(playerScheme);
+                if (playerSchemes.Count == (4 - ids_players.Count))
+                {
+                    print("Control Scheme Agregado: " + playerScheme.Item3 );
+                    playerSchemes.Add(playerScheme);
+                }
+                
             }
         }
     }
 
-    //MEthos sets the values of which player is AI and which not, should only be called on the Character selection scene
+    //Methods sets the values of which player is AI and which not, should only be called on the Character selection scene
     public void SaveAIPlayers(bool firstPlayer, bool secondPlayer, bool thirdPlayer, bool fourthPlayer )
     {
         PlayerPrefs.SetString(PLAYER_1_AI, firstPlayer.ToString());
@@ -158,45 +292,6 @@ public class InputManager : MonoBehaviour
         
     }
     */
-
-
-    //Work in progress
-    //This will be used when players select their character at the start screen
-
-    private void SpawnKeyboardPlayers()
-    {
-        controls = new Controls();
-
-        PlayerControllerLobby player;
-        player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
-        player.SetInputDeviceAndControlScheme(controls.KeyboardWASDScheme.name, Keyboard.current);
-
-        player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
-        player.SetInputDeviceAndControlScheme(controls.KeyboardZGHJScheme.name, Keyboard.current);
-
-        player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
-        player.SetInputDeviceAndControlScheme(controls.KeyboardPLÖÄScheme.name, Keyboard.current);
-
-        player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
-        player.SetInputDeviceAndControlScheme(controls.KeyboardNumScheme.name, Keyboard.current);
-
-
-    }
-
-    /*
-    private void SpawnControllerPlayers()
-    {
-        PlayerControllerLobby player;
-        ReadOnlyArray<Gamepad> gamepads = Gamepad.all;
-
-        for (int i = 0; i < gamepads.Count; i++)
-        {
-            player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
-            player.SwitchCurrentControlScheme(controls.GamepadScheme.name, Gamepad.all[i]);
-            
-        }
-    } */
-
 
 }
 

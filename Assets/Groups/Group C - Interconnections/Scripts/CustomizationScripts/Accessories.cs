@@ -36,4 +36,9 @@ public class Accessories : MonoBehaviour
         currentOption = Random.Range(0, options.Count - 1);
         hatShape.mesh = options[currentOption];
     }
+
+    public Mesh GetCurrentSelection()
+    {
+        return options[currentOption];
+    }
 }

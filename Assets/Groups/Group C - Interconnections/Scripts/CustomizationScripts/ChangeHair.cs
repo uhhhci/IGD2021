@@ -31,11 +31,16 @@ public class ChangeHair : MonoBehaviour
         bodyPart.mesh = options[currentOption];
     }
 
+    public void Randomize()
+    {
+        currentOption = Random.Range(0, options.Count - 1);
+        bodyPart.mesh = options[currentOption];
+    }
 
-
-    
-
-     
+    public Mesh GetCurrentSelection()
+    {
+        return options[currentOption];
+    }
 
 
 }

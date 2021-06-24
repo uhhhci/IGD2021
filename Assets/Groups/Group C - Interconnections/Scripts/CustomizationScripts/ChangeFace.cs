@@ -31,4 +31,15 @@ public class ChangeFace : MonoBehaviour
         }
         bodyPart.material = options[currentOption];
     }
+
+    public void Randomize()
+    {
+        currentOption = Random.Range(0, options.Count - 1);
+        bodyPart.material = options[currentOption];
+    }
+
+    public Material GetCurrentSelection ()
+    {
+        return options[currentOption];
+    }
 }

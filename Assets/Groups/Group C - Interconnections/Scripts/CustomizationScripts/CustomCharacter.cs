@@ -7,30 +7,50 @@ using UnityEngine.SceneManagement;
 
 public class CustomCharacter
 {
-    /*public Mesh hair;
-    public Mesh hat;
-    public Material hairColor;
-	public SkinnedMesh face;
-    public Mesh faceTone;
-	public Mesh upperBody_front;
-	public Mesh upperBody_back;
-    public Mesh upperBody_main;
-    public Mesh rightArm_front;
-    public Mesh rightArm_main;
-    public Mesh leftArm_front;
-    public Mesh leftArm_main;
-    public Mesh right_hand;
-    public Mesh left_hand;
-    public Mesh hip_crotch;
-    public Mesh hip_front;
-    public Mesh hip_main;
-    public Mesh leftleg_front;
-    public Mesh leftleg_side;
-    public Mesh leftleg_main;
-    public Mesh rightleg_front;
-    public Mesh rightleg_side;
-    public Mesh rightleg_main;
-    public Mesh right_foot;
-    public Mesh left_foot;
-    */
+    /*
+     * Everything in the Minifig is a SkinnedMeshRenderer,
+     * unless it is commented otherwise
+     */
+
+    public int playerId = 0;
+
+    //Head
+    public Mesh hair; //MeshFilter
+    public Mesh hat; //MeshFilter
+    public Material hairColor; //MeshRenderer
+	public Material face;
+    public Material faceTone;
+
+    //Upper body
+	public Material upperBody_front;
+	public Material upperBody_back;
+    public Material upperBody_main;
+
+    //Arms
+    public Material rightArm_front;
+    public Material rightArm_main;
+    public Material leftArm_front;
+    public Material leftArm_main; 
+
+    //Hands
+    public Material right_hand;
+    public Material left_hand;
+
+    //Hip
+    public Material hip_crotch;
+    public Material hip_front;
+    public Material hip_main;
+
+    //Legs
+    public Material leftleg_front;
+    public Material leftleg_side;
+    public Material leftleg_main;
+    public Material rightleg_front;
+    public Material rightleg_side;
+    public Material rightleg_main;
+
+    //Feet
+    public Material right_foot;
+    public Material left_foot;
+    
 }

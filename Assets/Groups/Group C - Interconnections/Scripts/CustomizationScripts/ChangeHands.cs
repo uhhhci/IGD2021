@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class ChangeHands : MonoBehaviour
 {
+    public enum HandOptions
+    {
+        RighHand,
+        LeftHand
+    }
+
     public SkinnedMeshRenderer rightHand;
     public SkinnedMeshRenderer leftHand;
     
@@ -43,5 +49,30 @@ public class ChangeHands : MonoBehaviour
         rightHand.material = rightHandOptions[currentRightHandOption];
         leftHand.material = leftHandOptions[currentLeftHandOption];
 
-    } 
+    }
+
+    public void Randomize()
+    {
+        //Right hand
+        currentRightHandOption = Random.Range(0, rightHandOptions.Count - 1);
+        rightHand.material = rightHandOptions[currentRightHandOption];
+
+        //Left hand
+        currentLeftHandOption = Random.Range(0, leftHandOptions.Count - 1);
+        leftHand.material = leftHandOptions[currentLeftHandOption];
+
+    }
+
+    public Material GetCurrentSelection(HandOptions handOption)
+    {
+        switch (handOption)
+        {
+            case HandOptions.RighHand:
+                return rightHandOptions[currentRightHandOption];
+            case HandOptions.LeftHand:
+                return leftHandOptions[currentLeftHandOption];
+            default:
+                return leftHandOptions[currentLeftHandOption];
+        }
+    }
 }

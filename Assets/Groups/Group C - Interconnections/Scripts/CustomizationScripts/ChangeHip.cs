@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class ChangeHip : MonoBehaviour
 {
+    public enum HipOptions {
+        HipCrotch,
+        HipFront,
+        HipMain
+    }
+
     public SkinnedMeshRenderer hipCrotch;
     public SkinnedMeshRenderer hipFront;
     public SkinnedMeshRenderer hipMain;
@@ -48,5 +54,36 @@ public class ChangeHip : MonoBehaviour
         hipFront.material = hipFrontOptions[currentHipFrontOption];
         hipMain.material = hipMainOptions[currentHipMainOption];
 
-    } 
+    }
+
+    public void Randomize()
+    {
+        //Hip crotch
+        currentHipCrotchOption = Random.Range(0, hipCrotchOptions.Count - 1);
+        hipCrotch.material = hipCrotchOptions[currentHipCrotchOption];
+
+        //Hip front
+        currentHipFrontOption = Random.Range(0, hipFrontOptions.Count - 1);
+        hipFront.material = hipFrontOptions[currentHipFrontOption];
+
+        //Hip main
+        currentHipMainOption = Random.Range(0, hipMainOptions.Count - 1);
+        hipMain.material = hipMainOptions[currentHipMainOption];
+
+    }
+
+    public Material GetCurrentSelection(HipOptions hipOption)
+    {
+        switch (hipOption)
+        {
+            case HipOptions.HipCrotch:
+                return hipCrotchOptions[currentHipCrotchOption];
+            case HipOptions.HipFront:
+                return hipFrontOptions[currentHipFrontOption];
+            case HipOptions.HipMain:
+                return hipMainOptions[currentHipMainOption];
+            default:
+                return hipMainOptions[currentHipMainOption];
+        }
+    }
 }

@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class ChangeUpperBody : MonoBehaviour
 {
+    public enum UpperBodyOptions
+    {
+        TorsoFront,
+        TorsoBack,
+        TorsoMain
+    }
+
     public SkinnedMeshRenderer torsoFront;
     public SkinnedMeshRenderer torsoBack;
     public SkinnedMeshRenderer torsoMain;
@@ -46,9 +53,36 @@ public class ChangeUpperBody : MonoBehaviour
         torsoFront.material = torsoFrontOptions[currentFrontOption];
         torsoBack.material = torsoBackOptions[currentBackOption];
         torsoMain.material = torsoMainOptions[currentMainOption];
+    }
 
-        
+    public void Randomize()
+    {
+        //Front Torso
+        currentFrontOption = Random.Range(0, torsoFrontOptions.Count - 1);
+        torsoFront.material = torsoFrontOptions[currentFrontOption];
 
+        //Back Torso
+        currentBackOption = Random.Range(0, torsoBackOptions.Count - 1);
+        torsoBack.material = torsoBackOptions[currentBackOption];
 
-    } 
+        //Main Torso
+        currentMainOption = Random.Range(0, torsoMainOptions.Count - 1);
+        torsoMain.material = torsoMainOptions[currentMainOption];
+    }
+
+    public Material GetCurrentSelection(UpperBodyOptions torsoPart)
+    {
+        switch (torsoPart)
+        {
+            case UpperBodyOptions.TorsoFront:
+                return torsoFrontOptions[currentFrontOption];
+            case UpperBodyOptions.TorsoBack:
+                return torsoBackOptions[currentBackOption];
+            case UpperBodyOptions.TorsoMain:
+                return torsoMainOptions[currentMainOption];
+            default:
+                return torsoMainOptions[currentMainOption];
+        }
+    }
+
 }

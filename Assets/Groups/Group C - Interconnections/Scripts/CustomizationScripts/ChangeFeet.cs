@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class ChangeFeet : MonoBehaviour
 {
+    public enum FeetOptions
+    {
+        RightFoot,
+        LeftFoot
+    }
+
     public SkinnedMeshRenderer rightFoot;
     public SkinnedMeshRenderer leftFoot;
     
@@ -43,5 +49,37 @@ public class ChangeFeet : MonoBehaviour
         rightFoot.material = rightFootOptions[currentRightFootOption];
         leftFoot.material = leftFootOptions[currentLeftFootOption];
 
-    } 
+    }
+
+    public void Randomize()
+    {
+
+        int newIndexOption = Random.Range(0, rightFootOptions.Count - 1);
+
+        //Right leg
+        rightFoot.material = rightFootOptions[newIndexOption];
+
+        //Left leg
+        leftFoot.material = leftFootOptions[newIndexOption];
+
+        //Update index
+        currentRightFootOption = newIndexOption;
+        currentLeftFootOption = newIndexOption;
+        
+
+    }
+
+
+    public Material GetCurrentSelection(FeetOptions feetOption)
+    {
+        switch (feetOption)
+        {
+            case FeetOptions.RightFoot:
+                return rightFootOptions[currentRightFootOption];
+            case FeetOptions.LeftFoot:
+                return leftFootOptions[currentLeftFootOption];
+            default:
+                return leftFootOptions[currentLeftFootOption];
+        }
+    }
 }

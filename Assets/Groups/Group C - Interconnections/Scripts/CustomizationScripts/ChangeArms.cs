@@ -2,8 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class ChangeArms : MonoBehaviour
 {
+
+    public enum ArmOptions
+    {
+        RightArmFront,
+        RightArmMain,
+        LeftArmFront,
+        LeftArmMain
+    }
+
     public SkinnedMeshRenderer rightArmFront;
     public SkinnedMeshRenderer rightArmMain;
 
@@ -45,9 +55,6 @@ public class ChangeArms : MonoBehaviour
         
         leftArmFront.material = leftArmFrontOptions[currentLeftArmFrontOption];
         leftArmMain.material = leftArmMainOptions[currentLeftArmMainOption];
-        
-        
-
     }
 
     public void PreviousOption()
@@ -74,11 +81,39 @@ public class ChangeArms : MonoBehaviour
         leftArmFront.material = leftArmFrontOptions[currentLeftArmFrontOption];
         leftArmMain.material = leftArmMainOptions[currentLeftArmMainOption];
 
-    } 
+    }
 
-    /*public void Randomize()
+    public void Randomize()
     {
-        currentOption = Random.Range(0, options.Count - 1);
-        hatShape.mesh = options[currentOption];
-    }*/
+        //Right arm
+        currentRightArmFrontOption = Random.Range(0, rightArmFrontOptions.Count - 1);
+        rightArmFront.material = rightArmFrontOptions[currentRightArmFrontOption];
+
+        currentRightArmMainOption = Random.Range(0, rightArmMainOptions.Count - 1);
+        rightArmMain.material = rightArmMainOptions[currentRightArmMainOption];
+
+        //Left arm
+        currentLeftArmFrontOption = Random.Range(0, leftArmFrontOptions.Count - 1);
+        leftArmFront.material = leftArmFrontOptions[currentLeftArmFrontOption];
+
+        currentLeftArmMainOption = Random.Range(0, leftArmMainOptions.Count - 1);
+        leftArmMain.material = leftArmMainOptions[currentLeftArmMainOption];
+    }
+
+    public Material GetCurrentSelection(ArmOptions armOption)
+    {
+        switch (armOption)
+        {
+            case ArmOptions.RightArmFront:
+                return rightArmFrontOptions[currentRightArmFrontOption];
+            case ArmOptions.RightArmMain:
+                return rightArmMainOptions[currentRightArmMainOption];
+            case ArmOptions.LeftArmFront:
+                return leftArmFrontOptions[currentLeftArmFrontOption];
+            case ArmOptions.LeftArmMain:
+                return leftArmMainOptions[currentLeftArmMainOption];
+            default:
+                return leftArmMainOptions[currentLeftArmMainOption];
+        }
+    }
 }

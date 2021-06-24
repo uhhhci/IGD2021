@@ -27,8 +27,13 @@ public class TestingGame : MiniGame
         //Create list of player inputs from the players in the scene
         var playerInputs = new List<PlayerInput> { myPlayer.GetComponent<PlayerInput>(), secondPlayer.GetComponent<PlayerInput>() };
 
+        //Character customizaation
+        InputManager.Instance.ApplyPlayerCustomization(myPlayer, 1);
+        InputManager.Instance.ApplyPlayerCustomization(secondPlayer, 2);
+
         //This assigns the player input in the order they were given in the array
-        InputManager.Instance.AssignPlayerInput(playerInputs);
+        List<string> ids = new List<string> { "1", "2" };
+        InputManager.Instance.AssignPlayerInput(playerInputs, ids);
 
         PlayerPrefs.SetString("PLAYER1_NAME", "Brenda");
         PlayerPrefs.SetString("PLAYER2_NAME", "Jovanna");
@@ -38,14 +43,14 @@ public class TestingGame : MiniGame
 
         //Different configurations for the final scores and Game Over
         //base.MiniGameFinished(new int []{1,2}, new int []{3,4}, new int []{},new int []{});
-        MiniGameFinished(new int []{3,2,4}, new int []{1}, new int []{},new int []{});
+        //MiniGameFinished(new int []{3,2,4}, new int []{1}, new int []{},new int []{});
       
         PlayerPrefs.SetString("PLAYER1_NAME", "RED");
         PlayerPrefs.SetString("PLAYER2_NAME", "PINK");
         PlayerPrefs.SetString("PLAYER3_NAME", "YELLOW");
         PlayerPrefs.SetString("PLAYER4_NAME", "BLUE");
 
-        base.MiniGameFinished(new int []{1,2}, new int []{3,4}, new int []{},new int []{});
+        //base.MiniGameFinished(new int []{1,2}, new int []{3,4}, new int []{},new int []{});
         //MiniGameFinished(new int []{3,2,4}, new int []{1}, new int []{},new int []{});
         //base.MiniGameFinished(new int []{2}, new int []{4}, new int []{1},new int []{3});
 

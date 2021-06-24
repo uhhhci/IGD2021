@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class ChangeLegs : MonoBehaviour
 {
+    public enum LegsOptions
+    {
+        RightLegFront,
+        RightLegSide,
+        RightLegMain,
+        LeftLegFront,
+        LeftLegSide,
+        LeftLegMain,
+    }
+
     public SkinnedMeshRenderer rightLegFront;
     public SkinnedMeshRenderer rightLegSide;
     public SkinnedMeshRenderer rightLegMain;
@@ -88,9 +98,53 @@ public class ChangeLegs : MonoBehaviour
         leftLegSide.material = leftLegSideOptions[currentLeftLegSideOption];
         leftLegMain.material = leftLegMainOptions[currentLeftLegMainOption];
 
+    }
 
-        
+    public void Randomize()
+    {
+      
+        int newIndexOption = Random.Range(0, rightLegFrontOptions.Count - 1);
 
+        //Right leg
+        rightLegFront.material = rightLegFrontOptions[newIndexOption];
+        rightLegSide.material = rightLegSideOptions[newIndexOption];
+        rightLegMain.material = rightLegMainOptions[newIndexOption];
 
-    } 
+        //Left leg
+        leftLegFront.material = leftLegFrontOptions[newIndexOption];
+        leftLegSide.material = leftLegSideOptions[newIndexOption];
+        leftLegMain.material = leftLegMainOptions[newIndexOption];
+
+        //Update index
+        currentRightLegFrontOption = newIndexOption;
+        currentRightLegSideOption = newIndexOption;
+        currentRightLegMainOption = newIndexOption;
+
+        currentLeftLegFrontOption = newIndexOption;
+        currentLeftLegSideOption = newIndexOption;
+        currentLeftLegMainOption = newIndexOption;
+
+    }
+
+    
+    public Material GetCurrentSelection(LegsOptions legOption)
+    {
+        switch (legOption)
+        {
+            case LegsOptions.RightLegFront:
+                return rightLegFrontOptions[currentRightLegFrontOption];
+            case LegsOptions.RightLegSide:
+                return rightLegSideOptions[currentRightLegSideOption];
+            case LegsOptions.RightLegMain:
+                return rightLegMainOptions[currentRightLegMainOption];
+            case LegsOptions.LeftLegFront:
+                return leftLegSideOptions[currentLeftLegSideOption];
+            case LegsOptions.LeftLegSide:
+                return leftLegSideOptions[currentLeftLegSideOption];
+            case LegsOptions.LeftLegMain:
+                return leftLegMainOptions[currentLeftLegMainOption];
+            default:
+                return leftLegMainOptions[currentLeftLegMainOption];
+        }
+    }
 }
