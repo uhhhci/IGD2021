@@ -22,7 +22,6 @@ using UnityEngine.UI;
 
     public int team1LavaDeath = 0;
     public int team2LavaDeath = 0;
-    public readonly GameObject _finishedGamePrefab;
 
     void Start()
     {

@@ -99,7 +99,7 @@ public class MinifigControllerJ : MonoBehaviour
 
     [Header("Controls")]
     [SerializeField]
-    bool inputEnabled = true;
+    public bool inputEnabled = true;
     [SerializeField, Range(0, 10)]
     int maxJumpsInAir = 1;
 
@@ -178,7 +178,7 @@ public class MinifigControllerJ : MonoBehaviour
 
     float speed;
     float rotateSpeed;
-    Vector3 moveDelta = Vector3.zero;
+    public Vector3 moveDelta = Vector3.zero;
     bool stopSpecial;
     bool cancelSpecial;
 
@@ -193,7 +193,7 @@ public class MinifigControllerJ : MonoBehaviour
     int speedHash = Animator.StringToHash("Speed");
     int rotateSpeedHash = Animator.StringToHash("Rotate Speed");
     int groundedHash = Animator.StringToHash("Grounded");
-    int jumpHash = Animator.StringToHash("Jump");
+    public int jumpHash = Animator.StringToHash("Jump");
     int playSpecialHash = Animator.StringToHash("Play Special");
     public int cancelSpecialHash = Animator.StringToHash("Cancel Special");
     int specialIdHash = Animator.StringToHash("Special Id");
@@ -999,7 +999,7 @@ public class MinifigControllerJ : MonoBehaviour
         //print("OnEastRelease");
     }
 
-    private void OnSouthPress()
+    public void OnSouthPress()
     {
         //print("OnSouthPress");
 
@@ -1025,6 +1025,7 @@ public class MinifigControllerJ : MonoBehaviour
             }
 
             moveDelta.y = jumpSpeed;
+            //PlaySpecialAnimation(SpecialAnimation.Jump);
             animator.SetTrigger(jumpHash);
 
             airborne = true;
