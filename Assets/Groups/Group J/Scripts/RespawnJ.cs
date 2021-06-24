@@ -5,15 +5,9 @@ using UnityEngine;
 public class RespawnJ : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject[] Items;
+    public GameObject Item;
     public GameObject Platform;
-    public Vector3 spawnValue;
-    public float spwanWait;
-    public float spawnMaxWait;
-    public float spawnMinWait;
-    public int startWait;
-    public bool stop;
-    int rndItem;
+
     public float timeRemaining = 90;
     private bool timerIsRunning = false;
 
@@ -22,24 +16,37 @@ public class RespawnJ : MonoBehaviour
 
         // Starts the timer automatically
         timerIsRunning = true;
-        StartCoroutine(WaitSpawner());
+        for (int i = 0; i < 28; i++)
+        {
+            randomSpwanTime.Add((int)Random.Range(1, timeRemaining));
+        }
     }
     List<int> randomSpwanTime = new List<int>();
     // Update is called once per frame
     void Update()
     {
-        spwanWait = Random.Range(spawnMinWait, spawnMaxWait);
-    }
-    IEnumerator WaitSpawner()
-    {
-        yield return new WaitForSeconds(startWait);
-        while (!stop)
+      /*  if (timerIsRunning)
         {
-            rndItem = Random.Range(0, Items.Length);
-            Vector3 spawnPosition = new Vector3(Random.Range(-spawnValue.x, spawnValue.x),1, Random.Range(-spawnValue.z,spawnValue.z));
-            Instantiate(Items[rndItem], spawnPosition+ transform.TransformPoint(0,0,0),gameObject.transform.rotation);
-
-            yield return new WaitForSeconds(spwanWait);
+            if (timeRemaining > 0)
+            {
+                timeRemaining -= Time.deltaTime;
+        
+                if ((int)timeRemaining == 70 || (int)timeRemaining == 85)
+                {
+                    Debug.Log("Respwan");
+                    SpawnObjectAtRandom();
+                }
+             
+            }
         }
+*/
+ 
+    }
+    void SpawnObjectAtRandom()
+    {
+        Vector3 randomPos = Random.insideUnitCircle * (Platform.transform.position.z/2);
+        Instantiate(Item, Platform.transform.position, Platform.transform.rotation);
+     
+    //    Gizmos.DrawWireSphere(this.transform.position, (Platform.transform.position.z / 2));
     }
 }
