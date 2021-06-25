@@ -6,7 +6,6 @@ public class LevelManager : MonoBehaviour
 {
     public GameObject platform;
     public GameObject bridge;
-    public GameObject goal;
     public GameObject barrier;
     public GameObject ground;
     public CraneMovement leftCrane;
@@ -70,6 +69,20 @@ public class LevelManager : MonoBehaviour
                 return upper? leftGoal.GetUpperExtremeX() : leftGoal.GetLowerExtremeX();
             else
                 return upper? 3.5f : 3.5f;
+        }
+
+        public void MoveGoalDownwards(bool left)
+        {
+            if (left)
+            {
+                if (leftGoal)
+                    leftGoal.MoveGoalDownwards();
+            }
+            else
+            {
+                if (rightGoal)
+                    rightGoal.MoveGoalDownwards();
+            }
         }
     }
     
@@ -194,7 +207,7 @@ public class LevelManager : MonoBehaviour
         GoalManager rightGoalManager = rightPlatform.GetComponent<GoalManager>();
         leftGoalManager.MoveGoal(newGoalOffset);
         rightGoalManager.MoveGoal(newGoalOffset);
-        float additionalBridgeLength = 10/(level+10) + 0.125f;
+        float additionalBridgeLength = 10/(level+10) + 0.35f;
         float bridgeLength = (oldLeftGoal - leftGoalManager.GetGoalPosition()).magnitude + additionalBridgeLength - 1;
 
         levels.Add(new Level(newPlatformCenter, leftGoalManager, rightGoalManager, bridgeLength, nextCenterDistance - platform.transform.localScale.x));
@@ -231,5 +244,10 @@ public class LevelManager : MonoBehaviour
         {
             barrier.SetActive(true);
         }
+    }
+
+    public void MoveGoalDownwards(bool left)
+    {
+        levels[currentLevel].MoveGoalDownwards(left);
     }
 }
