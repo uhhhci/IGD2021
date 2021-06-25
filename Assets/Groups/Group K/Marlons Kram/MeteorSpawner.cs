@@ -13,6 +13,7 @@ public class MeteorSpawner : MonoBehaviour
 
     private float _lastSpawn;
     private float _lastRingRadius;
+    private float _rings = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -20,18 +21,18 @@ public class MeteorSpawner : MonoBehaviour
         _lastSpawn = 0;
         _arenaManager = _arena.GetComponent<ArenaController>();
 
-        // for now
         _lastRingRadius = _arenaManager.GetCurrentRingRadius();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Time.time > _lastSpawn + _cooldown)
+        if(Time.time > _lastSpawn + _cooldown && _rings > 1)
         {
-            if(_arenaManager.GetCurrentRingRadius() > _lastRingRadius)
+            if(_arenaManager.GetCurrentRingRadius() < _lastRingRadius)
             {
                 _cooldown *= 2;
+                _rings--;
                 _lastRingRadius = _arenaManager.GetCurrentRingRadius();
             }
 

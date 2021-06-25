@@ -22,6 +22,7 @@ public class PlayerProperties : MonoBehaviour
     // do net set those via inspector; would be overwritten from DecisionPhase anyway
     public WeaponDefinitions.WeaponType weapon;
     public PhaseHandler.RowPosition targetRow;
+    public bool IsAiPlayer;
 
     // if the row position changes, change the max hp accordingly
     public PhaseHandler.RowPosition CurrentRowPosition
@@ -39,6 +40,7 @@ public class PlayerProperties : MonoBehaviour
     {
         maxHp = rowPosition == PhaseHandler.RowPosition.Front ? 100 : 50;
     }
+   
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +54,8 @@ public class PlayerProperties : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var interconnectionsAi = gameObject.transform.parent.transform.parent.GetComponent<InterconnectionsAi>();
+        IsAiPlayer = interconnectionsAi.IsAiPlayer(playerName);
         weapon = decisionPhase.selectedWeapon;
         targetRow = decisionPhase.selectedTargetRow;
         leftHandPosition = transform.parent.Find("Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_L/armUp_L/arm_L/wristTwist_L/wrist_L/hand_L/finger01_L").GetComponent<Transform>().position;

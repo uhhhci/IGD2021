@@ -17,10 +17,7 @@ namespace GroupP {
         
         // Start is called before the first frame update
         void Start()
-        {
-            string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
-            GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
-        }
+        { }
 
         // Update is called once per frame
         void Update()
@@ -56,7 +53,7 @@ namespace GroupP {
             sendKeyPressToKeyPressHandler(KeyType.RIGHT);
         }
 
-        private void sendKeyPressToKeyPressHandler(KeyType type) {
+        public void sendKeyPressToKeyPressHandler(KeyType type) {
             if(remainingWaitTime > 0f) { return; }
             KeyPressHandler.instance.keyPressed(gameObject, type);
         }

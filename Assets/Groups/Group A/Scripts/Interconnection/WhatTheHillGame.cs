@@ -29,11 +29,18 @@ public class WhatTheHillGame : MiniGame
     {
         //Create list of player inputs from the players in the scene
         var playerInputs = new List<PlayerInput>();
-        foreach(GameObject player in Players)
+        foreach (GameObject player in Players)
         {
             playerInputs.Add(player.GetComponent<PlayerInput>());
         }
 
+        PlayerPrefs.SetString("Player3_AI", "true");
+        PlayerPrefs.SetString("Player4_AI", "true");
+
+        Players[0].GetComponent<MinifigControllerWTH>().activateAI(PlayerPrefs.GetString("Player1_AI").Equals("True"));
+        Players[1].GetComponent<MinifigControllerWTH>().activateAI(PlayerPrefs.GetString("Player2_AI").Equals("True"));
+        Players[2].GetComponent<MinifigControllerWTH>().activateAI(PlayerPrefs.GetString("Player3_AI").Equals("True"));
+        Players[3].GetComponent<MinifigControllerWTH>().activateAI(true);
         //This assigns the player input in the order they were given in the array
         InputManager.Instance.AssignPlayerInput(playerInputs);
 
@@ -86,7 +93,6 @@ public class WhatTheHillGame : MiniGame
             }
 
             Debug.Log($"Erster {results[0].ToArray()}, Zweiter {results[1].ToArray()}, Dritter {results[2].ToArray()}, Vierter {results[3].ToArray()}");
-
             //Note this is still work in progress, but ideally you will use it like this
             MiniGameFinished(firstPlace: results[0].ToArray(), secondPlace: results[1].ToArray(), thirdPlace: results[2].ToArray(), fourthPlace: results[3].ToArray());
         }

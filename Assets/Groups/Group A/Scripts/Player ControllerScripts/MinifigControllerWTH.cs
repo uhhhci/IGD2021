@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 
@@ -8,6 +9,7 @@ public class MinifigControllerWTH : MonoBehaviour
 {
     public GameObject Minifig;
     public GameObject RespawnPointsSource;
+    public Animator AIStateMachine;
     public int characterId;
     // Constants.
     const float stickyTime = 0.05f;
@@ -17,6 +19,7 @@ public class MinifigControllerWTH : MonoBehaviour
     const float distanceEpsilon = 0.1f;
     const float angleEpsilon = 0.1f;
 
+    public bool isAi = false;
 
     // Internal classes used to define targets when automatically animating.
     class MoveTarget
@@ -30,6 +33,7 @@ public class MinifigControllerWTH : MonoBehaviour
         public float speedMultiplier;
         public float rotationSpeedMultiplier;
         public Vector3? turnToWhileCompleting;
+        public float maxMoveTime;
     }
 
     class FollowTarget
@@ -57,7 +61,7 @@ public class MinifigControllerWTH : MonoBehaviour
     }
 
     // State used when automatically animating.
-    enum State
+    public enum State
     {
         Idle,
         Moving,
@@ -173,7 +177,7 @@ public class MinifigControllerWTH : MonoBehaviour
     MoveTarget currentMove;
     FollowTarget currentFollowTarget;
     TurnTarget currentTurnTarget;
-    State state;
+    public State state;
     float waitedTime = 0.0f;
 
     float speed;
@@ -215,6 +219,7 @@ public class MinifigControllerWTH : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = Minifig.GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        
 
         // Initialise animation.
         animator.SetBool(groundedHash, true);
@@ -229,8 +234,24 @@ public class MinifigControllerWTH : MonoBehaviour
         string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
         GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
         Respawn();
+
     }
 
+    public void activateAI(bool activate)
+    {
+        if (activate)
+        {
+            AIStateMachine.SetTrigger("AiIsActive");
+        }
+    }
+
+    private NavMeshPath getPath()
+    {
+        Vector3 newPosition = transform.position;
+        newPosition.x += 0.5f;
+        NavMeshPath path = new NavMeshPath();
+        return path;
+    }
     void Update()
     {
         if (exploded)
@@ -335,11 +356,15 @@ public class MinifigControllerWTH : MonoBehaviour
                     {
                         // Stop moving.
                         MoveInDirection(transform.forward, 0.0f, false, 0.0f, 0.0f, 0.0f, false);
+                        SetInputEnabled(true);
                         break;
                     }
                 case State.Moving:
                     {
-                        if (waitedTime > currentMove.moveDelay)
+                        if (currentMove.maxMoveTime != 0f && currentMove.maxMoveTime <= waitedTime)
+                        {
+                            CompleteMove();
+                        } else if (waitedTime > currentMove.moveDelay)
                         {
                             var direction = currentMove.destination - transform.position;
 
@@ -624,7 +649,7 @@ public class MinifigControllerWTH : MonoBehaviour
 
 
     public void MoveTo(Vector3 destination, float minDistance = 0.0f, Action onComplete = null, float onCompleteDelay = 0.0f,
-        float moveDelay = 0.0f, bool cancelSpecial = true, float speedMultiplier = 1.0f, float rotationSpeedMultiplier = 1.0f, Vector3? turnToWhileCompleting = null)
+        float moveDelay = 0.0f, bool cancelSpecial = true, float speedMultiplier = 1.0f, float rotationSpeedMultiplier = 1.0f, Vector3? turnToWhileCompleting = null, float maxMoveTime = 0f)
     {
         MoveTarget move = new MoveTarget()
         {
@@ -636,7 +661,8 @@ public class MinifigControllerWTH : MonoBehaviour
             cancelSpecial = cancelSpecial,
             speedMultiplier = speedMultiplier,
             rotationSpeedMultiplier = rotationSpeedMultiplier,
-            turnToWhileCompleting = turnToWhileCompleting
+            turnToWhileCompleting = turnToWhileCompleting,
+            maxMoveTime = maxMoveTime
         };
 
         moves.Add(move);
@@ -968,6 +994,10 @@ public class MinifigControllerWTH : MonoBehaviour
 
     void Respawn()
     {
+        if(currentMove != null)
+        {
+            CompleteMove();
+        }
         GenerateRings rings = RespawnPointsSource.GetComponent<GenerateRings>();
         Vector3 spawnLocation = rings.getSpawnLocation(characterId);
         playerPoints = Mathf.FloorToInt(playerPoints * pointLossRate);
@@ -1039,10 +1069,22 @@ public class MinifigControllerWTH : MonoBehaviour
         }
         else if(inventory != null)
         {
-            if(inventory is BatPowerUp)
+            SpawnPowerUp();
+        }
+    }
+    public bool hasPowerUp()
+    {
+        return inventory != null;
+    }
+    public void SpawnPowerUp()
+    {
+        if (inventory != null)
+        {
+            if (inventory is BatPowerUp)
             {
                 equipment = SpawnPowerUps.instance.SpawnPlayerEquipment("BaseballBat", this);
-            } else
+            }
+            else
             {
                 inventory.SpawnPowerUp(transform.position);
             }

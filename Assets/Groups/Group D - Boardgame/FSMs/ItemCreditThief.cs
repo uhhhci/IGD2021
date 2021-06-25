@@ -44,10 +44,10 @@ public class ItemCreditThief : FSM
 
         targetStuff = playerBelongings[target];
       
-        loot = (int) (0.2 * maxCredits);
+        loot = (int) (0.5 * maxCredits) + 1;
 
-        if (loot == 0 && targetStuff.creditAmount() > 0) {
-            loot = 1;
+        if (targetStuff.creditAmount() == 0) {
+            loot = 0;
         }
 
         // start state:

@@ -58,6 +58,20 @@ public class LoadingManager : MonoBehaviour
         this.showPicker(gameType, games, selectedGame);
     }
 
+    public void LoadMiniGameTest(MiniGameType miniGameType)
+    {
+
+        int gameType = 0;
+        List<MiniGame> games = null;
+        
+        games = getRandomElements(GameList.TESTING_LIST);
+
+        int selectedGame = Random.Range(0, games.Count);
+        this.nextScene = games[selectedGame].getSceneName();
+
+        this.showPicker(gameType, games, selectedGame);
+    }
+
     private List<MiniGame> getRandomElements(List<MiniGame> games)
     {
         int number = 0;
