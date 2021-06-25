@@ -58,16 +58,18 @@ public class ChangeHip : MonoBehaviour
 
     public void Randomize()
     {
+        int newIndex = Random.Range(0, hipCrotchOptions.Count - 1);
+
         //Hip crotch
-        currentHipCrotchOption = Random.Range(0, hipCrotchOptions.Count - 1);
+        currentHipCrotchOption = newIndex;
         hipCrotch.material = hipCrotchOptions[currentHipCrotchOption];
 
         //Hip front
-        currentHipFrontOption = Random.Range(0, hipFrontOptions.Count - 1);
+        currentHipFrontOption = newIndex;
         hipFront.material = hipFrontOptions[currentHipFrontOption];
 
         //Hip main
-        currentHipMainOption = Random.Range(0, hipMainOptions.Count - 1);
+        currentHipMainOption = newIndex;
         hipMain.material = hipMainOptions[currentHipMainOption];
 
     }

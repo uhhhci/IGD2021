@@ -85,18 +85,19 @@ public class ChangeArms : MonoBehaviour
 
     public void Randomize()
     {
+        int newIndex = Random.Range(0, rightArmFrontOptions.Count - 1);
         //Right arm
-        currentRightArmFrontOption = Random.Range(0, rightArmFrontOptions.Count - 1);
+        currentRightArmFrontOption = newIndex;
         rightArmFront.material = rightArmFrontOptions[currentRightArmFrontOption];
 
-        currentRightArmMainOption = Random.Range(0, rightArmMainOptions.Count - 1);
+        currentRightArmMainOption = newIndex;
         rightArmMain.material = rightArmMainOptions[currentRightArmMainOption];
 
         //Left arm
-        currentLeftArmFrontOption = Random.Range(0, leftArmFrontOptions.Count - 1);
+        currentLeftArmFrontOption = newIndex;
         leftArmFront.material = leftArmFrontOptions[currentLeftArmFrontOption];
 
-        currentLeftArmMainOption = Random.Range(0, leftArmMainOptions.Count - 1);
+        currentLeftArmMainOption = newIndex;
         leftArmMain.material = leftArmMainOptions[currentLeftArmMainOption];
     }
 

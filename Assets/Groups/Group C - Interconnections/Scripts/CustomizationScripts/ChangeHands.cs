@@ -53,12 +53,14 @@ public class ChangeHands : MonoBehaviour
 
     public void Randomize()
     {
+        int newIndex = Random.Range(0, rightHandOptions.Count - 1);
+
         //Right hand
-        currentRightHandOption = Random.Range(0, rightHandOptions.Count - 1);
+        currentRightHandOption = newIndex;
         rightHand.material = rightHandOptions[currentRightHandOption];
 
         //Left hand
-        currentLeftHandOption = Random.Range(0, leftHandOptions.Count - 1);
+        currentLeftHandOption = newIndex;
         leftHand.material = leftHandOptions[currentLeftHandOption];
 
     }
