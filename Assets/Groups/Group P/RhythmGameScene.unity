@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.00011732151, g: 0.0065112514, b: 0.05028625, a: 1}
+  m_IndirectSpecularColor: {r: 0.00011418565, g: 0.006524887, b: 0.050281364, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2471,6 +2471,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5d5f23cf1a64811825cb10a87d81f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  players_colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  players_colors_names:
+  - RED
+  - YELLOW
+  - PINK
+  - BLUE
+  ids_players: 01000000020000000300000004000000
 --- !u!1001 &1122340101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3799,6 +3810,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227870ae020f043cbb47bfce29466447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _randomPicker: {fileID: 1402479294234901553, guid: 4802adaf245a0f443b03527d09a8fc14,
+    type: 3}
 --- !u!4 &1901952165
 Transform:
   m_ObjectHideFlags: 0
@@ -4617,5 +4630,11 @@ PrefabInstance:
       propertyPath: player4
       value: 
       objectReference: {fileID: 1247596735}
+    - target: {fileID: 5804614690480016050, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
+        type: 3}
+      propertyPath: _finishGamePrefab
+      value: 
+      objectReference: {fileID: 8914169427414623133, guid: eb80993c89a63a540bed42b779731471,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dba2f9456a15d942b3c3933ad1e2ecc, type: 3}
