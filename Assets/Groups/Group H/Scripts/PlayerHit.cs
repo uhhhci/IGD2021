@@ -16,6 +16,7 @@ public class PlayerHit : MonoBehaviour
     public GameObject minifigCharacter;
     private bool isHidden;
     private bool invincible;
+    private bool stillAlive;
 
     public Health health; //Calling reduceHealth function from Health script
 
@@ -24,6 +25,7 @@ public class PlayerHit : MonoBehaviour
     {
         isHidden = false;
         invincible = false;
+        stillAlive = true;
     }
 
     void OnCollisionEnter(Collision other)
@@ -36,11 +38,11 @@ public class PlayerHit : MonoBehaviour
 
     void takeDamage()
     {
-        if(!invincible)
+        if(!invincible && stillAlive)
         {
             invincible = true;
             StartCoroutine(EnableInvincibility(invincibleTime));
-            health.reduceHealth();
+            stillAlive = health.reduceHealth();
         }
     }
 
