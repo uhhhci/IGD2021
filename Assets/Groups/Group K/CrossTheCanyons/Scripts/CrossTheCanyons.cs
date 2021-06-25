@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CrossTheCanyons : MiniGame
 {
-    
     public void GameOver(int leftPlayerFinalLevel, int rightPlayerFinalLevel)
     {
         int[] firstPlace;
