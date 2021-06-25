@@ -59,15 +59,17 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 targetPos = target.position + cameraOffset;
-        float remainingDistance = Vector3.Distance(transform.position, targetPos);
-        if (remainingDistance >= deadzone) {
-            flyingTime += Time.deltaTime;
-            transform.position = Vector3.Lerp (startingPos, targetPos, (float) (cameraSpeed * flyingTime / distance));
-            transform.LookAt(target.position);
-        }
-        else {
-            movementDone = true;
+        if (target != null) {
+            Vector3 targetPos = target.position + cameraOffset;
+            float remainingDistance = Vector3.Distance(transform.position, targetPos);
+            if (remainingDistance >= deadzone) {
+                flyingTime += Time.deltaTime;
+                transform.position = Vector3.Lerp (startingPos, targetPos, (float) (cameraSpeed * flyingTime / distance));
+                transform.LookAt(target.position);
+            }
+            else {
+                movementDone = true;
+            }
         }
     }
 }
