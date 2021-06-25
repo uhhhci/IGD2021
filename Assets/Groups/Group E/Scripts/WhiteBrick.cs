@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class GoldenBrick : MonoBehaviour
+public class WhiteBrick : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
@@ -15,7 +15,8 @@ public class GoldenBrick : MonoBehaviour
     public IEnumerator Pickup(Collider player)
     {
         PlayerStats ps = player.GetComponent<PlayerStats>();
-        ps.hasGoldenBrick = true;
+        ps.hasWhiteBrick = true;
+        ps.imageWhiteBrick.enabled = true;
 
         GetComponent<Collider>().enabled = false;
         GetComponent<MeshRenderer>().enabled = false;
