@@ -44,14 +44,14 @@ public class LevelManager : MonoBehaviour
                 if (leftGoal)
                     return leftGoal.GetGoalPosition();
                 else
-                    return new Vector3(2,2.01f,-2);
+                    return new Vector3(2.2f,2.01f,-2);
             }
             else
             {
                 if (rightGoal)
                     return rightGoal.GetGoalPosition();
                 else
-                    return new Vector3(2,2.01f,2);
+                    return new Vector3(2.2f,2.01f,2);
             }
         }
 
@@ -207,7 +207,7 @@ public class LevelManager : MonoBehaviour
         GoalManager rightGoalManager = rightPlatform.GetComponent<GoalManager>();
         leftGoalManager.MoveGoal(newGoalOffset);
         rightGoalManager.MoveGoal(newGoalOffset);
-        float additionalBridgeLength = 10/(level+10) + 0.35f;
+        float additionalBridgeLength = 1.0f / (level + 6.0f) * 6.0f - 0.3f;
         float bridgeLength = (oldLeftGoal - leftGoalManager.GetGoalPosition()).magnitude + additionalBridgeLength - 1;
 
         levels.Add(new Level(newPlatformCenter, leftGoalManager, rightGoalManager, bridgeLength, nextCenterDistance - platform.transform.localScale.x));
