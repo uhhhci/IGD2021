@@ -34,10 +34,10 @@ public class PlayerControllerLobby : MonoBehaviour
 
     private void SavePlayerControlScheme()
     {
-        //If control scheme already added, ignore
+        int playerId = InputManager.Instance.ids_players[0];
 
         //If control scheme still free, save it into PlayerPrefs
-        Tuple<int, int, string> playerScheme = new Tuple<int, int, string>(1, device.deviceId, controlScheme);
+        Tuple<int, int, string> playerScheme = new Tuple<int, int, string>(playerId, device.deviceId, controlScheme);
         InputManager.Instance.AddControlScheme(playerScheme);
     }
 
