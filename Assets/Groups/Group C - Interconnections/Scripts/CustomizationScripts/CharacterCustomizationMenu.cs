@@ -9,8 +9,9 @@ using UnityEngine.InputSystem.Utilities;
 
 public class CharacterCustomizationMenu : MonoBehaviour
 {
-    public GameObject character;
 
+    //Set here player prefab for LobbyPlayer
+    //Can be found in Group C - Interconnections/Prefabs/LobbyPlayer
     public GameObject _menuPlayerPrefab;
 
     private int characterIndex = 1;
@@ -19,7 +20,10 @@ public class CharacterCustomizationMenu : MonoBehaviour
     {
         Button savebutton = GameObject.Find("SaveButton").GetComponent<Button>();
         savebutton.interactable = false;
+
+        //Detect player Inputs
         SpawnKeyboardPlayers();
+        SpawnControllerPlayers();
     }
 
     private void Update()
@@ -52,8 +56,16 @@ public class CharacterCustomizationMenu : MonoBehaviour
         Debug.Log("PLAYER4_AI" + PlayerPrefs.GetString("PLAYER4_AI"));
 
         InputManager.Instance.SavePlayersControlSchemes();
+
+        //For testing purposes this should load TestMinigame
         LoadingManager.Instance.LoadMiniGameTest(MiniGameType.freeForAll);
-        //SceneManager.LoadScene("MiniGameTesting");
+
+        //If you want to test your minigame directly from this scene, in order to test the customization and the inputs from player prefs
+        //You can uncomment this line and put the name of you scene to load it, will be a direct jump but should work for you to test
+        //SceneManager.LoadScene("YOUR_SCENE_NAME");
+
+        //For the real implementation should Load the BoardGame
+        //LoadingManager.Instance.LoadMainBoardGame();
     }
 
     public void SaveButton()
@@ -269,15 +281,19 @@ public class CharacterCustomizationMenu : MonoBehaviour
         PlayerControllerLobby player;
         player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
         player.SetInputDeviceAndControlScheme(controls.KeyboardWASDScheme.name, Keyboard.current);
+        player.transform.localScale = new Vector3(0, 0, 0);
 
         player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
         player.SetInputDeviceAndControlScheme(controls.KeyboardZGHJScheme.name, Keyboard.current);
+        player.transform.localScale = new Vector3(0, 0, 0);
 
         player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
         player.SetInputDeviceAndControlScheme(controls.KeyboardPLÖÄScheme.name, Keyboard.current);
+        player.transform.localScale = new Vector3(0, 0, 0);
 
         player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
         player.SetInputDeviceAndControlScheme(controls.KeyboardNumScheme.name, Keyboard.current);
+        player.transform.localScale = new Vector3(0, 0, 0);
 
 
     }
@@ -293,6 +309,7 @@ public class CharacterCustomizationMenu : MonoBehaviour
         {
             player = PlayerInput.Instantiate(_menuPlayerPrefab).GetComponent<PlayerControllerLobby>();
             player.SetInputDeviceAndControlScheme(controls.GamepadScheme.name, Gamepad.all[i]);
+            player.transform.localScale = new Vector3(0, 0, 0);
 
         }
     }

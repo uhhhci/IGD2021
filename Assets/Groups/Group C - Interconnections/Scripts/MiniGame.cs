@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public enum MiniGameType {
@@ -17,10 +18,23 @@ abstract public class MiniGame : MonoBehaviour
     public abstract MiniGameType getMiniGameType();
 
     //Prefab that shows Game Over and the scores form the players at the end
+    //Please use the Prefab from Group C - Interconnections/Prefabs/FinishGames
     public GameObject _finishGamePrefab;
 
-    public void initializePlayers() {
-        //Set up keys from the InputManager to every player
+    //Optional to use, set ups the inputs and customization form players considering the whole game
+    //SHOULD ONLY BE CALLED WHEN THE WHOLE GAME IS BEING TESTED (Character selection + BoardGame)
+    public void InitializePlayers(List<GameObject> players, List<int> playerIds) {
+
+        for (int i = 0; i < players.Count; i++)
+        {
+            //Character customization
+            InputManager.Instance.ApplyPlayerCustomization(players[i], playerIds[i]);
+
+            //Assign saved player control scheme
+            var playerInput = players[i].GetComponent<PlayerInput>();
+            InputManager.Instance.AssignPlayerInput(playerInput, playerIds[i]);
+        }
+
     }
 
     //We should reference a template scene which will present instrucitons with a simple image and a Text box to fill with the instructions
