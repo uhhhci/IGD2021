@@ -7,6 +7,7 @@ public class ItemD : MonoBehaviour
     public GameObject inventoryPrefab; // the prefab of the item's model/game object which will be displayed in the inventory
     public Type type; // the type of this item
     public int creditPrice; // price of this item in the shop
+    public PlayerAction.Type associatedAction;
     public string description; // a short description of this item and what is does
 
     public enum Type {

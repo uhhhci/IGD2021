@@ -7,6 +7,13 @@ public class KartRacingGame : MiniGame
 
     public List<GameObject> players;
 
+    public static KartRacingGame Instance;
+
+    public void Awake()
+    {
+        Instance = this;
+    }
+
     public override string getDisplayName(){
         return "Kart Racing";
     }
@@ -28,5 +35,23 @@ public class KartRacingGame : MiniGame
         }
         InputManager.Instance.AssignPlayerInput(playerInputs);
         LoadingManager.Instance.LoadMiniGame(MiniGameType.freeForAll);
+    }
+
+    private void Update()
+    {
+    }
+
+    // Sets places and finishes game
+    public void finishGame()
+    {
+        int[] first = { GameManager_E.Instance.firstPlace };
+        int[] second = { GameManager_E.Instance.secondPlace };
+        int[] third = { GameManager_E.Instance.thirdPlace };
+        int[] fourth = { GameManager_E.Instance.fourthPlace };
+
+        Debug.Log("First: " + first[0]);
+        Debug.Log("Second: " + second[0]);
+
+        MiniGameFinished(firstPlace: first, secondPlace: second, thirdPlace: third, fourthPlace: fourth);
     }
 }

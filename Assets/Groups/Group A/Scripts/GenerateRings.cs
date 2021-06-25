@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GenerateRings : MonoBehaviour
 {
@@ -25,7 +26,6 @@ public class GenerateRings : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-
         if (instance == null) instance = this;
         else if (instance != this) Destroy(gameObject);
 
@@ -46,6 +46,11 @@ public class GenerateRings : MonoBehaviour
                 GameObject currentBlock = Instantiate(wallPrefab, position, Quaternion.Euler(0, 360-currentAngle + Random.Range(-offsetAngle, offsetAngle), 0));
                 currentBlock.transform.SetParent(currentRing.transform);
             }
+            currentRing.AddComponent<NavMeshSurface>();
+            currentRing.layer = 19;
+            currentRing.GetComponent<NavMeshSurface>().collectObjects = CollectObjects.Children;
+            currentRing.GetComponent<NavMeshSurface>().BuildNavMesh();
+
             Rings.Add(currentRing);
         }
     }

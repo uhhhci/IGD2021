@@ -59,7 +59,12 @@ public class StudBar : MonoBehaviour
         }
     }
 
-    void Start() {
+    /// whether this player is the true party person
+    public bool isItThisPlayer() {
+        return state == State.WINNER;
+    }
+
+    void Awake() {
         shineFrameTime = shineDuration / studs.Count;
     }
 

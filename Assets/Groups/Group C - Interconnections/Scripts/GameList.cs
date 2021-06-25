@@ -31,6 +31,14 @@ public static class GameList
         new GameManagerJ()
     };
 
+    //For Board Game Testing Purposes
+    public static List<MiniGame> TESTING_LIST = new List<MiniGame>{
+        new TestingGame(),
+        new TestingGame(),
+        new TestingGame()
+
+    };
+
 }
 
 
