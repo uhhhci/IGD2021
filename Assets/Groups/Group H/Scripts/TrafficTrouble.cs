@@ -54,6 +54,7 @@ public class TrafficTrouble : MiniGame
                         firstPlace = new int[] { id + 1 };
                         print("Game Over");
                         print("first place: " + firstPlace[0]);
+                        Destroy(GameObject.Find("CarSpawner"));
                         MiniGameFinished(firstPlace, secondPlace, thirdPlace, fourthPlace);
                         break;
                     }
@@ -64,6 +65,7 @@ public class TrafficTrouble : MiniGame
 
     public void TimeIsOver()
     {
+        Destroy(GameObject.Find("CarSpawner"));
         int maxHealth = 0;
         for (int i = 0; i < 4; i++)
         {

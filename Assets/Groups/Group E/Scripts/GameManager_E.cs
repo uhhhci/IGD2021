@@ -1,24 +1,65 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using UnityEngine;
+using UnityEngine.AI;
 
 public class GameManager_E : MonoBehaviour
 {
-    int totalWinners;
+    int totalWinners = 0;
     public List<Transform> carTransformList;
     public List<Transform> carPositionList;
+    public Transform Checkpoints;
+
+    public int firstPlace;
+    public int secondPlace;
+    public int thirdPlace;
+    public int fourthPlace;
+
+    public static GameManager_E Instance;
+
+    public void Awake()
+    {
+        Instance = this;
+    }
+
     public void countRound(Transform player)
     {
         PlayerStats thePlayer = player.GetComponent<PlayerStats>();
         thePlayer.CountRound();
-        Debug.Log("Player " + player.name + " : Round " + thePlayer.rounds);
 
+        this.setPlaces(thePlayer);
+        //player.GetComponent<CarController>().enabled = false;  
+    }
+
+    // Sets Place if there are not yet set
+    private void setPlaces(PlayerStats thePlayer)
+    {
         if (thePlayer.rounds == 4)
         {
-            //player.GetComponent<CarController>().enabled = false;
-            //totalWinners += 1;
-            Debug.Log("Finished");
+            if (firstPlace == 0)
+            {
+                firstPlace = thePlayer.playerNumber;
+                totalWinners += 1;
+                this.startCounter();
+            } else if(secondPlace == 0)
+            {
+                secondPlace = thePlayer.playerNumber;
+                totalWinners += 1;
+            } else if(thirdPlace == 0)
+            {
+                thirdPlace = thePlayer.playerNumber;
+                totalWinners += 1;
+            } else if(fourthPlace == 0)
+            {
+                fourthPlace = thePlayer.playerNumber;
+            }
         }
+    }
+
+    private void startCounter()
+    {
+        //Debug.Log("Game finished!");
+        TimerCountdown.Instance.startTimer();
     }
 
     public Transform GetPlayerByPosition(int position)
@@ -60,7 +101,30 @@ public class GameManager_E : MonoBehaviour
     private void Start()
     {
         totalWinners = 0;
+        carPositionList = new List<Transform>();
+        InitializeAIPlayer(carTransformList[3]);
+        if (PlayerPrefs.GetString("Player1_AI").Equals("True"))
+        {
+            InitializeAIPlayer(carTransformList[0]);
+        }
+        if (PlayerPrefs.GetString("Player2_AI").Equals("True"))
+        {
+            InitializeAIPlayer(carTransformList[1]);
+        }
+        if (PlayerPrefs.GetString("Player3_AI").Equals("True"))
+        {
+            InitializeAIPlayer(carTransformList[2]);
+        }
+        if (PlayerPrefs.GetString("Player4_AI").Equals("True"))
+        {
+            InitializeAIPlayer(carTransformList[3]);
+        }
 
+    }
+
+    public void finishGame()
+    {
+         KartRacingGame.Instance.finishGame();
     }
 
     private void Update()
@@ -69,9 +133,26 @@ public class GameManager_E : MonoBehaviour
         {
             PlayerStats thePlayer = car.GetComponent<PlayerStats>();
             thePlayer.GetKartPosition(carTransformList);
-            
+
             // some error
-            //carPositionList[thePlayer.GetKartPosition(carTransformList)] = car;
+            //Debug.Log(thePlayer.GetKartPosition(carTransformList));
+            //carPositionList[(thePlayer.GetKartPosition(carTransformList) - 1)] = car;
         }
+
+        //finish game if the players end all rounds
+        if(totalWinners == 4)
+        {
+            this.finishGame();
+        }
+    }
+
+    private void InitializeAIPlayer(Transform car)
+    {
+        NavMeshAgent agent = car.gameObject.AddComponent(typeof(NavMeshAgent)) as NavMeshAgent;
+        agent.speed = 20;
+        agent.acceleration = 15;
+
+        NavAgentScript_E agentScript = car.gameObject.AddComponent(typeof(NavAgentScript_E)) as NavAgentScript_E;
+        agentScript.Checkpoints = Checkpoints;
     }
 }

@@ -19,7 +19,6 @@ public class ItemDatabase : MonoBehaviour
         foreach (ItemD item in allItems) {
             itemDataBase[item.type] = item;
         }        
-
     }
 
     public int getItemCount() {

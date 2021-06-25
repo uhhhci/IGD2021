@@ -19,6 +19,8 @@ namespace Groups.Group_S
         public event Action OnBuildingFinished;
         private bool _buildingFinished;
 
+        private List<int> _rankingList = new List<int>();
+
         #region MiniGame Overrides
 
         public override string getDisplayName()
@@ -46,6 +48,12 @@ namespace Groups.Group_S
         private void Start()
         {
             _buildingFinished = false;
+            
+            // TODO: This is hardcoded. What are we supposed to do?
+            PlayerPrefs.SetString("PLAYER1_NAME", "Brenda");
+            PlayerPrefs.SetString("PLAYER2_NAME", "Jovanna");
+            PlayerPrefs.SetString("PLAYER3_NAME", "Myriem");
+            PlayerPrefs.SetString("PLAYER4_NAME", "Jose");
             
             DeactivateCars();
             ActivateMinifigs();
@@ -107,6 +115,19 @@ namespace Groups.Group_S
             buildingFinishedUI.SetActive(false);
             cameraAnimator.enabled = false;
             ActivateCars();
+        }
+
+        public void KartFinishedRace(Drivable kart)
+        {
+            int kartIndex = playerCars.FindIndex(drivable => drivable == kart) + 1;
+            _rankingList.Add(kartIndex);
+            Debug.Log("Kart finished! " + kartIndex);
+            
+            // All cars finished
+            if (_rankingList.Count == playerCars.Count)
+            {
+                MiniGameFinished(new []{_rankingList[0]}, new int[]{}, new int[]{}, new int[]{});
+            }
         }
     }
 }
