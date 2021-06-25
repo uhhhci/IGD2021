@@ -14,11 +14,11 @@ public class RemoveTrap : FSM
     private TrapControl trap;
     //private int owner;
     private State state;
-    private int player;
-    public RemoveTrap(int triggeringPlayer)
+    private PlayerData playerData;
+    public RemoveTrap(PlayerData triggeringPlayer)
     {
-        trap = (TrapControl) GameObject.FindGameObjectsWithTag("Trap")[0].GetComponent(typeof(TrapControl));
-        player = triggeringPlayer;
+        playerData = triggeringPlayer;
+        trap = (TrapControl) playerData.currentTile().getTrap().GetComponent(typeof(TrapControl));
     }
 
     // Update is called once per frame
@@ -30,7 +30,7 @@ public class RemoveTrap : FSM
                 if (trap.movementCompleted())
                 {
                     state = State.RISING;
-                    trap.moveAbovePlayerTile(player);
+                    trap.moveAbovePlayerTile(playerData);
                     trap.playTriggerAudio();
                 }
                 break;
@@ -44,6 +44,7 @@ public class RemoveTrap : FSM
             case State.HOVERING:
                 if (trap.movementCompleted())
                 {
+                    playerData.currentTile().destroyTrap();
                     state = State.DONE;
                 }
                 break;
