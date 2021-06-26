@@ -17,7 +17,13 @@ public class PlayerStats : MonoBehaviour
     public PowerUp power;
     public bool hasPowerup;
     public bool hasWhiteBrick;
+
     public Image imageWhiteBrick;
+    public Image imagePowerupSpeed;
+    public Image imagePowerupAttack;
+    public Image imagePowerupReverse;
+    public Image imagePowerupShield;
+
     public bool hasShield;
     public ParticleSystem psShield;
     private ParticleSystem psSpeed;
@@ -33,6 +39,10 @@ public class PlayerStats : MonoBehaviour
         hasPowerup = false;
         hasWhiteBrick = false;
         imageWhiteBrick.enabled = false;
+        imagePowerupSpeed.enabled = false;
+        imagePowerupAttack.enabled = false;
+        imagePowerupReverse.enabled = false;
+        imagePowerupShield.enabled = false;
 
         var shield = transform.Find("ShieldSoftBlue");
         var speed = transform.Find("MagicChargeBlue");
@@ -87,10 +97,15 @@ public class PlayerStats : MonoBehaviour
     {
         hasPowerup = false;
         power = null;
-        textPowerup.text = "Powerup: ";
+        //textPowerup.text = "Powerup: ";
         hasWhiteBrick = false;
         imageWhiteBrick.enabled = false;
-    }
+
+        imagePowerupSpeed.enabled = false;
+        imagePowerupAttack.enabled = false;
+        imagePowerupReverse.enabled = false;
+        imagePowerupShield.enabled = false;
+}
 
     public float GetDistance()
     {
