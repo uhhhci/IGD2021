@@ -31,18 +31,21 @@ public class NavAgentScript_E : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        target = triggerZones[NextCheckPoint].transform;
-        agent.SetDestination(target.position);
-        //Debug.Log("Agent position: " + agent.transform.position + "\nAgent steering target: " + agent.steeringTarget);
-        if (agent.steeringTarget.x == target.position.x && agent.steeringTarget.z == target.position.z)
+        if(agent.enabled)
         {
-            Debug.Log(NextCheckPoint);
-            NextCheckPoint = (NextCheckPoint + 1) % triggerZones.Count;
-            //StartCoroutine(WaitSeconds(1));
-        }
-        if(thePlayer.hasPowerup)
-        {
-            StartCoroutine(thePlayer.power.UsePowerup(thePlayer.gameObject));
+            target = triggerZones[NextCheckPoint].transform;
+            agent.SetDestination(target.position);
+            //Debug.Log("Agent position: " + agent.transform.position + "\nAgent steering target: " + agent.steeringTarget);
+            if (agent.steeringTarget.x == target.position.x && agent.steeringTarget.z == target.position.z)
+            {
+                Debug.Log(NextCheckPoint);
+                NextCheckPoint = (NextCheckPoint + 1) % triggerZones.Count;
+                //StartCoroutine(WaitSeconds(1));
+            }
+            if(thePlayer.hasPowerup)
+            {
+                StartCoroutine(thePlayer.power.UsePowerup(thePlayer.gameObject));
+            }
         }
     }
 

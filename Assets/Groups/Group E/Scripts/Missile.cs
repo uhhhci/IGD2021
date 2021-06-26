@@ -41,6 +41,10 @@ public class Missile : MonoBehaviour
             PlayerStats ps = collision.gameObject.GetComponent<PlayerStats>();
             Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
             CarController playerController = collision.gameObject.GetComponent<CarController>();
+            if(collision.gameObject.TryGetComponent(out NavMeshAgent agent))
+            {
+                agent.enabled = false;
+            }
 
             if(ps.hasShield)
             {
