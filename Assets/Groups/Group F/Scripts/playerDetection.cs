@@ -11,7 +11,7 @@ public class playerDetection : MonoBehaviour {
     public AudioSource dyingSound;
     public AudioSource deathSound;
 
-    private float decay = 0.0f; // [0.0, 1.0]
+    public float decay = 0.0f; // [0.0, 1.0]
 
     private PlatformState state = PlatformState.Virgin;
     

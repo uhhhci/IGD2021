@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 1844786309305129705}
   - component: {fileID: 1844786309305129710}
   - component: {fileID: 1844786309305129719}
+  - component: {fileID: 4723093579068209305}
   m_Layer: 0
   m_Name: Block Car
   m_TagString: Untagged
@@ -363,6 +364,18 @@ MonoBehaviour:
       type: {class: Drag, ns: Groups.Group_S.Driving.VehicleStats, asm: Assembly-CSharp}
       data:
         amount: 0.5
+--- !u!114 &4723093579068209305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844786309305129711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 789e1710ddcaedb45b39404c30fbc684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1844786309467883169
 GameObject:
   m_ObjectHideFlags: 0

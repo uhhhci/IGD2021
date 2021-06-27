@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Groups.Group_S.AI;
 using Groups.Group_S.Driving.VehicleStats;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace Groups.Group_S.Driving
 {
-    [RequireComponent(typeof(PlayerInput), typeof(CharacterController)), DisallowMultipleComponent]
+    [RequireComponent(typeof(CharacterController)), DisallowMultipleComponent]
     public class Drivable : MonoBehaviour
     {
         private CharacterController _controller;
@@ -16,8 +17,12 @@ namespace Groups.Group_S.Driving
 
         private void Start()
         {
-            string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
-            GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
+            // set player input if this vehicle is controlled by a player (and not AI)
+            if (GetComponent<PlayerInput>() != null)
+            {
+                string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
+                GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);                
+            }
 
             _controller = GetComponent<CharacterController>();
             _vehicleStats = CollectStats();
@@ -69,6 +74,11 @@ namespace Groups.Group_S.Driving
         private void OnMoveDpad(InputValue value)
         {
             Input = value.Get<Vector2>();
+        }
+        
+        internal void OnAiMove(Vector2 input)
+        {
+            Input = input;
         }
 
         #endregion

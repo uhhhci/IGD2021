@@ -7,6 +7,7 @@ public class Enemy_G : MonoBehaviour
     public GameObject Explosion;
     public int HitPoints;
     public HealthBar HealthBar;
+    public Enums.DestroyType CanBeDestroyedBy;
 
     public GameObject[] DropPowerUps;
     [Range(0.0f, 1.0f)]
@@ -50,19 +51,30 @@ public class Enemy_G : MonoBehaviour
 
         if (other.GetComponent<Attack>() != null)
         {
-            HealthSystem.Damage(other.GetComponent<Attack>().Damage);
-            if(other.tag == "Bullet")
+            Collider otherCollider = other;
+            
+            if(otherCollider.tag == "Bullet")
             {
-                if (other.GetComponent<CollisionExplosion>() != null)
+                if (otherCollider.GetComponent<CollisionExplosion>() != null)
                 {
-                    Instantiate(other.GetComponent<CollisionExplosion>().Explosion, other.transform.position, other.transform.rotation);
+                    Instantiate(otherCollider.GetComponent<CollisionExplosion>().Explosion, otherCollider.transform.position, otherCollider.transform.rotation);
+                    //if color is not the same we return, so no dmg to the enemy
+                    if(CanBeDestroyedBy != Enums.DestroyType.All)
+                    {
+                        if(otherCollider.GetComponent<CollisionExplosion>().Type != CanBeDestroyedBy)
+                        {
+                            Destroy(otherCollider.gameObject);
+                            return;
+                        }
+                    }
                 }
 
-                Destroy(other.gameObject);
+                Destroy(otherCollider.gameObject);
             }
+            HealthSystem.Damage(otherCollider.GetComponent<Attack>().Damage);
         }
         //on death
-        if(Explosion != null && HealthSystem.GetHealth() == 0)
+        if (Explosion != null && HealthSystem.GetHealth() == 0)
         {
             Instantiate(Explosion, transform.position, transform.rotation);
             if (Random.Range(0f, 1f) <= DropChance)

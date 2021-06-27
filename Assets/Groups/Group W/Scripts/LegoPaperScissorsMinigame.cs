@@ -11,20 +11,11 @@ public class LegoPaperScissorsMinigame : MiniGame
     List<PlayerProperties> players;
     public static PhaseHandler.Phase phase;
 
-    public override string getDisplayName()
-    {
-        return "Lego Paper Scissors";
-    }
+    public override string getDisplayName() => "LegoPaperScissors";
 
-    public override MiniGameType getMiniGameType()
-    {
-        return MiniGameType.teamVsTeam;
-    }
+    public override MiniGameType getMiniGameType() => MiniGameType.teamVsTeam;
 
-    public override string getSceneName()
-    {
-        return "Main";
-    }
+    public override string getSceneName() => "LegoPaperScissors";
 
     public void GetWinners()
     {
@@ -32,7 +23,6 @@ public class LegoPaperScissorsMinigame : MiniGame
         {
             print("end phase!");
             PhaseHandler.Team leadingTeam = PhaseHandler.leadingTeam;
-
 
             int[] firstPlaceIndices = players.Select((v, i) => new { v, i })
                     .Where(x => x.v.team == leadingTeam)
@@ -51,14 +41,7 @@ public class LegoPaperScissorsMinigame : MiniGame
     // Start is called before the first frame update
     void Start()
     {
-        playerInputs = new List<PlayerInput>();
-        foreach (Transform child in transform)
-        {
-            playerInputs.Add(child.GetComponent<PlayerInput>());
-        }
 
-        // assigns the player input in the order they were given in the array
-        InputManager.Instance.AssignPlayerInput(playerInputs);
     }
 
     void Update()

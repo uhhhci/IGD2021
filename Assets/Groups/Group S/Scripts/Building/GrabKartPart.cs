@@ -32,16 +32,28 @@ namespace Groups.Group_S
             }
         }
 
-        void OnEastPress()
-        {
-            // Drop old object
-            if (_grabbed != null)
-            {
+
+        void OnEastPress() {
+            if (_grabbed != null) {
+                //Drop old part
+                DropPart();
+            } else {
+                //Grab new part
+                GrabPart();
+            }
+        }
+
+        public void DropPart() {
+            if (_grabbed != null) {
                 _grabbed.transform.parent = null;
                 _grabbed = null;
             }
-            // Grab new object
-            else if (_grabbable != null)
+        }
+
+        public void GrabPart()
+        {
+
+            if (_grabbable != null && _grabbed == null)
             {
                 _grabbed = _grabbable;
                 _grabbable.transform.parent = transform;
