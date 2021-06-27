@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEditor;
 using UnityEngine;
 
@@ -24,3 +26,5 @@ namespace Groups.Group_S.Driving
         }
     }
 }
+
+#endif

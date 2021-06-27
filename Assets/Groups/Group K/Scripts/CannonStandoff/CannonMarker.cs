@@ -9,14 +9,8 @@ public class CannonMarker : MonoBehaviour {
 	
 	public float speed = 3.0f;
 	
-	private void SwitchInput() {
-		string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
-		
-		GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);
-	}
-	
 	void Start() {
-		SwitchInput();
+		;
 	}
 	
 	void Update() {
@@ -26,12 +20,8 @@ public class CannonMarker : MonoBehaviour {
 		transform.Translate(movementHorizontal, movementVertical, 0.0f);
 	}
 	
-	private void OnMove(InputValue value) {
-		movement = value.Get<Vector2>().normalized;
-	}
-	
-	private void OnMoveDpad(InputValue value) {
-		movement = value.Get<Vector2>().normalized;
+	public void Move(Vector2 movement) {
+		this.movement = movement.normalized;
 	}
 	
 }

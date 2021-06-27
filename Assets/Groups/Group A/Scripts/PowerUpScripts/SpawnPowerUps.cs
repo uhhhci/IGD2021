@@ -43,19 +43,21 @@ public class SpawnPowerUps : MonoBehaviour
             Vector3 spawnLocation = rings.getSpawnLocation(randomRing: true);
             spawnLocation.y += 2;
             GameObject pickablePowerUp = pickablePowerUps[Random.Range(0, pickablePowerUps.Count)];
-            Instantiate(pickablePowerUp, spawnLocation, Quaternion.Euler(0, 0, 0));
+            GameObject spawnedPickablePowerUp = Instantiate(pickablePowerUp, spawnLocation, Quaternion.Euler(0, 0, 0));
+            spawnedPickablePowerUp.transform.SetParent(this.gameObject.transform);
         }
     }
 
     private void spawnEquipment()
     {
         Vector3 spawnLocation = new Vector3(0, 5, 0);
-        Instantiate(pickableEquipment, spawnLocation, Quaternion.Euler(0, 0, 0));
+        GameObject spawnedEquipment= Instantiate(pickableEquipment, spawnLocation, Quaternion.Euler(0, 0, 0));
+        spawnedEquipment.transform.SetParent(this.gameObject.transform);
     }
 
     public GameObject SpawnPlayerEquipment(string powerUpIdentifier, MinifigControllerWTH player)
     {
-        string path = @"Minifig Character/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_R/armUp_R/arm_R/wristTwist_R/wrist_R/hand_R/BatSnap";
+        string path = @"Minifig Character WTH/jointScaleOffset_grp/Joint_grp/detachSpine/spine01/spine02/spine03/spine04/spine05/spine06/shoulder_R/armUp_R/arm_R/wristTwist_R/wrist_R/hand_R/BatSnap";
         //Transform batLock = player.transform.Find(path);
         GameObject powerUpPrefab = spawnablePowerUps.Find(prefab => prefab.name == powerUpIdentifier);
         GameObject bat = Instantiate(powerUpPrefab);
