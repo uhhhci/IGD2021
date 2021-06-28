@@ -27,10 +27,10 @@ public class CarController : MonoBehaviour
     private bool handbrake = false;
     private bool controlEnabled = true;
 
-    public float maxAcceleration = 5.0f;
+    public float maxAcceleration = 70.0f;
     public float turnSensitivity = 0.9f;
     public float maxSteerAngle = 40.0f;
-    public float maxVelocity = 10.0f;
+    public float maxVelocity = 55.0f;
     public List<Wheel> wheels;
     public Vector3 centerOfMass;
     public Vector3 wheelRotationOffset;
@@ -106,12 +106,16 @@ public class CarController : MonoBehaviour
         {
             if(fastGrounds.Contains(raycastHit.collider.gameObject))
             {
-                SetWheelsSidewaysStiffnessTo(0.9f);
-                SetWheelsForwardStiffnessTo(3f);
+                SetWheelsSidewaysStiffnessTo(2f);
+                SetWheelsForwardStiffnessTo(2f);
+                maxAcceleration = 70.0f;
+                maxVelocity = 55.0f;
             } else
             {
-                SetWheelsSidewaysStiffnessTo(0.4f);
-                SetWheelsForwardStiffnessTo(0.4f);
+                SetWheelsSidewaysStiffnessTo(0.5f);
+                SetWheelsForwardStiffnessTo(0.2f);
+                maxAcceleration = 10.0f;
+                maxVelocity = 25.0f;
             }
         }
     }

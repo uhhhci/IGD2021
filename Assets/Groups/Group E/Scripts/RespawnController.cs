@@ -21,7 +21,7 @@ public class RespawnController : MonoBehaviour
         {
             if (validGrounds.Contains(raycastHit.collider.gameObject))
             {
-                if(positionTime > 0.5f)
+                if(positionTime > 1.5f)
                 {
                     lastPosition = transform.position;
                     lastRotation = transform.rotation;
