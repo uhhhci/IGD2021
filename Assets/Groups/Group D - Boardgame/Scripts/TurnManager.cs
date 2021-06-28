@@ -110,9 +110,9 @@ public class TurnManager : MonoBehaviour
         else if (currentState == TurnState.ACCEPTING_INPUT && isAI() && actionPoints > 0) {
             takeActionAI();
         }
-        else if (currentState == TurnState.ACCEPTING_INPUT && actionPoints <= 0) {
-            applyTileEffect();
-        }
+        // else if (currentState == TurnState.ACCEPTING_INPUT && actionPoints <= 0) {
+        //     applyTileEffect();
+        // }
         else if (currentState == TurnState.EXECUTING_ACTION && (currentActionFSM == null || currentActionFSM.update()) && playerBelongings[activePlayer].animationsAreDone()) {
             currentActionFSM = null;
             if (!updateTruePartyState())
@@ -137,10 +137,9 @@ public class TurnManager : MonoBehaviour
                     currentState = TurnState.ACCEPTING_INPUT;
                 }
             }
-            
         }
-        else if (currentState == TurnState.APPLYING_TILE_EFFECT && currentActionFSM.update()) {
-            if (!updateTruePartyState()) {    
+        else if (currentState == TurnState.APPLYING_TILE_EFFECT && currentActionFSM.update() && playerBelongings[activePlayer].animationsAreDone()) {
+            if (!updateTruePartyState()) {   
                 currentState = TurnState.TURN_ENDED;
                 currentActionFSM = null;
             }
@@ -263,16 +262,6 @@ public class TurnManager : MonoBehaviour
         return action.requiredAP <= actionPoints && action.requiredCredits <= playerBelongings[activePlayer].creditAmount();
     }
 
-    private void finishAction() {
-        if (actionPoints <= 0) {
-            // turn is over!
-            applyTileEffect();
-            return;
-        }
-
-        currentState = TurnState.ACCEPTING_INPUT;
-    }
-
     private void applyTileEffect() {
         currentState = TurnState.APPLYING_TILE_EFFECT;
         
@@ -284,17 +273,52 @@ public class TurnManager : MonoBehaviour
                 currentActionFSM = new TileLoseCoins(playerBelongings[activePlayer]);
                 break;
             case Tile.TileType.RANDOM_EVENT:
-                currentActionFSM = new TileRandomEvent();
-                Debug.Log("Standing on a purple tile");
+                currentActionFSM = getPurpleTileAction();
                 break;
             case Tile.TileType.MASTER_HAND:
-                currentActionFSM = new TileMasterHand();
-                Debug.Log("Standing on an orange tile");
+                currentActionFSM = getOrangeTileAction();
                 break;
             case Tile.TileType.START:
                 // do nothing -> skip to next state
                 currentState = TurnState.TURN_ENDED;
                 break;
+        }
+    }
+
+    private FSM getPurpleTileAction() {
+        float selection = UnityEngine.Random.Range(0, 10); 
+        
+        if (selection >= 6) {
+            // receive some coins/credits
+            return new TileGainCoins(playerBelongings[activePlayer]);
+        }
+        else if (selection >= 2) {
+            // give the player a few APs and extend their turn
+            actionPoints += 3;
+            currentState = TurnState.EXECUTING_ACTION;
+            return new TileRandomGiveAP();
+        } else {
+            // receive a random item
+            ItemD.Type selectedItem = itemDB.getItem((int) UnityEngine.Random.Range(0, itemDB.getItemCount()-0.1f)).type;
+            return new TileRandomGiveItem(playerBelongings[activePlayer], selectedItem);
+        }
+    }
+
+    private FSM getOrangeTileAction() {
+        float selection = UnityEngine.Random.Range(0, 3); 
+        
+        if (selection >= 2) {
+            // lose a few coins
+            return new TileLoseCoins(playerBelongings[activePlayer]);
+        }
+        else if (selection >= 1 && !playerData[activePlayer].currentTile().hasTrap()) {
+            // place a trap on the players tile
+            GameObject trapObject = trapSpawner.spawnTrap(trapSpawner.transform.position);
+            playerData[activePlayer].currentTile().setTrap(true, trapObject, -1); // invalid player number -> dangerous to all players
+            return new SetTrap(playerData[activePlayer],players[activePlayer].transform,trapObject);
+        } else {
+            // relocate the golden brick
+            return new TileMasterHand(brickManager, camera);
         }
     }
 
@@ -386,14 +410,13 @@ public class TurnManager : MonoBehaviour
     }
 
     private void loadMinigame() {
-        // TODO: this is a dummy implementation
         int team1 = 0;
         int team2 = 0;
 
         playerData.ForEach((data) => {
             Tile.TileType t = data.currentTile().type;
 
-            if (t == Tile.TileType.GAIN_COINS || t == Tile.TileType.RANDOM_EVENT) {
+            if (t == Tile.TileType.LOSE_COINS || t == Tile.TileType.RANDOM_EVENT) {
                 team1++;
             }
             else {
@@ -424,6 +447,10 @@ public class TurnManager : MonoBehaviour
             return;
         }
 
+        
+        currentState = TurnState.EXECUTING_ACTION;
+                currentActionFSM = null;
+
         switch (action.type) {
             case PlayerAction.Type.END_TURN:
                 actionPoints = 0;
@@ -432,28 +459,22 @@ public class TurnManager : MonoBehaviour
                 playerBelongings[activePlayer].addGoldenBrick();
                 players[activePlayer].PlayPickupSound();
                 brickManager.relocate();
-                currentActionFSM = null;
                 break;
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
                 // item is "used" -> remove it from the inventory
                 playerBelongings[activePlayer].removeItem(ItemD.Type.CREDIT_THIEF);
-                currentState = TurnState.EXECUTING_ACTION;
                 currentActionFSM = new ItemCreditThief(camera, activePlayer, playerBelongings);
                 break;
             case PlayerAction.Type.SET_TRAP:
                 GameObject trapObject = trapSpawner.spawnTrap(trapSpawner.transform.position);
                 playerData[activePlayer].currentTile().setTrap(true, trapObject, activePlayer);
-                currentState = TurnState.EXECUTING_ACTION;
                 currentActionFSM = new SetTrap(playerData[activePlayer],players[activePlayer].transform,trapObject);
                 playerBelongings[activePlayer].removeItem(ItemD.Type.TRAP);
                 break;
             case PlayerAction.Type.BUY_AP:
-                currentState = TurnState.EXECUTING_ACTION;
-                currentActionFSM = null;
                 break;
             case PlayerAction.Type.SHOP:
                 currentState = TurnState.SHOWING_SHOP;
-                currentActionFSM = null;
                 itemShop.open();
                 break;
 
@@ -732,11 +753,7 @@ public class TurnManager : MonoBehaviour
         else {
             Debug.Log("Returning from a minigame!");
 
-            // a minigame just ended, show the scoreboard
-            
             currentState = TurnState.SCOREBOARD;
-
-            // TODO: is the scoreboard implemented by group C or by us?
 
             // restore the last state
             // ======================
