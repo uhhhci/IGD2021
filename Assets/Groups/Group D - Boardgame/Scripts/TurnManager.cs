@@ -457,7 +457,6 @@ public class TurnManager : MonoBehaviour
                 break;
             case PlayerAction.Type.BUY_GOLDEN_BRICK:
                 playerBelongings[activePlayer].addGoldenBrick();
-                players[activePlayer].PlayPickupSound();
                 brickManager.relocate();
                 break;
             case PlayerAction.Type.ITEM_CREDIT_THIEF:
@@ -792,7 +791,7 @@ public class TurnManager : MonoBehaviour
             // restore player data and belongings except the tiles/positions, this was done above
             for (int i = 0; i < 4; i++) {
                 foreach (ItemD.Type item in StatePreserver.Instance.playerStates[i].items) {
-                    playerBelongings[i].addItem(item);
+                    playerBelongings[i].restoreItem(item);
                 }
 
                 playerBelongings[i].restore(StatePreserver.Instance.playerStates[i].credits, StatePreserver.Instance.playerStates[i].bricks);
