@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &6592332621969300599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666485390700112213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4784a55a1fd31b549b19d647df9b12b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 0}
+  firePoint: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &6785397718972689670
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,6 +316,7 @@ MonoBehaviour:
   lookRadius: 5
   players: []
   obstacle: {fileID: 0}
+  ownTeam: 0
 --- !u!195 &1806776424461721919
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -330,10 +346,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2978740457091137356}
     m_Modifications:
+    - target: {fileID: 321846012832530514, guid: 4991669ebb88a0f45b4f00ab705aea7d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 321846012832530514, guid: 4991669ebb88a0f45b4f00ab705aea7d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 321846012832530514, guid: 4991669ebb88a0f45b4f00ab705aea7d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.05
+      objectReference: {fileID: 0}
     - target: {fileID: 3396648646272746391, guid: 4991669ebb88a0f45b4f00ab705aea7d,
         type: 3}
       propertyPath: m_Name
       value: Minifig Character J
+      objectReference: {fileID: 0}
+    - target: {fileID: 5147594744140374146, guid: 4991669ebb88a0f45b4f00ab705aea7d,
+        type: 3}
+      propertyPath: m_Name
+      value: projectile
       objectReference: {fileID: 0}
     - target: {fileID: 6367911877577183709, guid: 4991669ebb88a0f45b4f00ab705aea7d,
         type: 3}

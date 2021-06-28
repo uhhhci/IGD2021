@@ -128,7 +128,7 @@ public class GameTimer : MonoBehaviour
             {
                 Transform child = allChildren[rdm];
                 allChildrenBoolean[rdm] = false;
-                child.gameObject.SetActive(false);
+                Destroy(child.gameObject);
             }
             else
             {
