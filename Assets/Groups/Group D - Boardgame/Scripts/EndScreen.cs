@@ -54,6 +54,20 @@ public class EndScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (playerStats[0] != null) {
+            fillInRealData();
+        }
+        else {
+            // TODO: for debug and demonstration only
+            // (so that you don't have to load this scene from the Boardgame scene each time)
+            fillInDummyData();
+        }
+       
+
+        Invoke("EndGame", endDelay);
+    }
+
+    private void fillInRealData() {
         player1CreditDisplay.text = playerStats[0].credits.ToString();
         player2CreditDisplay.text = playerStats[1].credits.ToString();
         player3CreditDisplay.text = playerStats[2].credits.ToString();
@@ -102,8 +116,23 @@ public class EndScreen : MonoBehaviour
                    break;
             }
         }
+    }
 
-        Invoke("EndGame", endDelay);
+    private void fillInDummyData() {
+        player1CreditDisplay.text = "10";
+        player2CreditDisplay.text = "2";
+        player3CreditDisplay.text = "0";
+        player4CreditDisplay.text = "123";
+
+        player1BrickDisplay.text = "0";
+        player2BrickDisplay.text = "3";
+        player3BrickDisplay.text = "12";
+        player4BrickDisplay.text = "1";
+
+        player1PlacementDisplay.text = "4";
+        player2PlacementDisplay.text = "2";
+        player3PlacementDisplay.text = "1";
+        player4PlacementDisplay.text = "3";
     }
 
     // Update is called once per frame
@@ -113,6 +142,6 @@ public class EndScreen : MonoBehaviour
     }
 
     void EndGame() {
-
+        // TODO: return to main menu
     }
 }
