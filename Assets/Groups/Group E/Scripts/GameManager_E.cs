@@ -106,6 +106,12 @@ public class GameManager_E : MonoBehaviour
         //InitializeAIPlayer(carTransformList[1]);
         //InitializeAIPlayer(carTransformList[2]);
         InitializeAIPlayer(carTransformList[3]);
+        
+
+    }
+
+    public void CreateAI()
+    {
         if (PlayerPrefs.GetString("Player1_AI").Equals("True"))
         {
             InitializeAIPlayer(carTransformList[0]);
@@ -122,7 +128,6 @@ public class GameManager_E : MonoBehaviour
         {
             InitializeAIPlayer(carTransformList[3]);
         }
-
     }
 
     public void finishGame()
