@@ -109,4 +109,44 @@ public class Tile : MonoBehaviour
     {
         return trapObject;
     }
+
+    /// returns whether the two values are approximately equal
+    private bool approx(float value, float otherValue) {
+        return (value >= (otherValue-0.1)) && (value <= (otherValue+0.1));
+    }
+
+    void Start() {
+        // automatically detect neighbors
+        up = null;
+        down = null;
+        left = null;
+        right = null;
+
+        if (type == TileType.START) {
+            detectNeighbor(3f); // larger threshold because the start tile is larger
+        } else {
+            detectNeighbor(2f);
+        }
+    }
+
+    private void detectNeighbor(float distanceThreshold) {
+         foreach (GameObject t in GameObject.FindGameObjectsWithTag("Tile")) { 
+            Tile tile = t.GetComponent(typeof(Tile)) as Tile;
+
+            if (tile.type != TileType.START) {
+                float diffX = tile.transform.position.x - transform.position.x;
+                float diffZ = tile.transform.position.z - transform.position.z;
+
+                if ( approx(diffX, distanceThreshold) && approx(diffZ, 0f) ) {
+                    down = tile;
+                } else if ( approx(diffX, -distanceThreshold) && approx(diffZ, 0f) ) {
+                    up = tile;
+                } else if ( approx(diffX, 0f) && approx(diffZ, distanceThreshold) ) {
+                    right = tile;
+                } else if ( approx(diffX, 0f) && approx(diffZ, -distanceThreshold) ) {
+                    left = tile;
+                }
+            }
+        }
+    }
 }
