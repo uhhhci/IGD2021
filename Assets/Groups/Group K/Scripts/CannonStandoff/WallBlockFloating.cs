@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallBlockMoving : MonoBehaviour {
+public class WallBlockFloating : MonoBehaviour {
 	
 	private Rigidbody rigidbody;
 	
