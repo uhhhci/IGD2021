@@ -74,7 +74,7 @@ namespace GroupP {
             
             InputManager.Instance.AssignPlayerInput(playerInputs);
 
-            LoadingManager.Instance.LoadMiniGame(getMiniGameType());
+            //LoadingManager.Instance.LoadMiniGame(getMiniGameType());
             
             
             _instance = this;
@@ -110,7 +110,7 @@ namespace GroupP {
                 });
 
                 // TODO check double places
-                List<List<int>> places = new List<List<int>>(4);
+                List<List<int>> places = new List<List<int>>();
                 for(int i=0;i<4;++i) {
                     places[i] = new List<int>();
                 }

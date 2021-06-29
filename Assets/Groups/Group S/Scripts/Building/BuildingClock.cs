@@ -29,7 +29,7 @@ namespace Groups.Group_S
             }
             else
             {
-                timerDisplay.text = "Times up!";
+                timerDisplay.text = "";
                 _gameManager.FinishBuilding();
             }
         }
