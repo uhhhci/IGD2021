@@ -16,14 +16,59 @@ public class PlayerStats : MonoBehaviour
     private static int LAP_VALUE = 1000000;
     public PowerUp power;
     public bool hasPowerup;
-    public bool hasGoldenBrick;
+    public bool hasWhiteBrick;
+    public Image imageWhiteBrick;
+    public bool hasShield;
+    public ParticleSystem psShield;
+    private ParticleSystem psSpeed;
+    public GameObject myVFX;
+    public AudioSource audioShield;
+    private ParticleSystem.EmissionModule emmision;
+    public int playerNumber;
 
     // Start is called before the first frame update
     void Start()
     {
         rounds = 0;
         hasPowerup = false;
-        hasGoldenBrick = false;
+        hasWhiteBrick = false;
+        imageWhiteBrick.enabled = false;
+
+        var shield = transform.Find("ShieldSoftBlue");
+        var speed = transform.Find("MagicChargeBlue");
+        psShield = shield.GetComponent<ParticleSystem>();
+        audioShield = shield.GetComponent<AudioSource>();
+        emmision = psShield.emission;
+        psSpeed = speed.GetComponent<ParticleSystem>();
+    }
+
+    public void StartShield()
+    {
+        psShield.Play();        
+        emmision.enabled = true;
+        audioShield.Play();
+    }
+
+    public void StopShield()
+    {
+        emmision.enabled = false;
+        psShield.Stop();
+    }
+
+    public void StartSpeed()
+    {
+        psSpeed.Play();
+    }
+
+    public void StopSpeed()
+    {
+        psSpeed.Stop();
+    }
+
+    public IEnumerator SlowRemoveShield()
+    {
+        yield return new WaitForSeconds(1);
+        hasShield = false;
     }
 
     public void CountRound()
@@ -43,7 +88,8 @@ public class PlayerStats : MonoBehaviour
         hasPowerup = false;
         power = null;
         textPowerup.text = "Powerup: ";
-        hasGoldenBrick = false;
+        hasWhiteBrick = false;
+        imageWhiteBrick.enabled = false;
     }
 
     public float GetDistance()

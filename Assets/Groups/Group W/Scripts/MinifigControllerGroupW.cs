@@ -38,19 +38,36 @@ public class MinifigControllerGroupW : MinifigController
     // e.g. R
     private void OnNorthPress()
     {
-        print("selected FrontRow");
-        decisionPhase.PlayActionPhaseAnimation();
-        decisionPhase.ChangeTargetRow(PhaseHandler.RowPosition.Front);
+        var targetPlayer = actionPhase.GetTargetPlayer(PhaseHandler.RowPosition.Front);
+        if (actionPhase.CanPlayerAttack(targetPlayer))
+        {
+            print("selected FrontRow");
+            decisionPhase.PlayChangeTargetRowAnimation(actionPhase.CanPlayerAttack(targetPlayer));
+            decisionPhase.ChangeTargetRow(PhaseHandler.RowPosition.Front);
+        }
+        else
+        {
+            print("wanted to select FrontRow, but the target is invalid");
+        }
+
     }
 
     // e.g. F
     private void OnWestPress()
-    {
-        print("selected BackRow");
-        decisionPhase.PlayActionPhaseAnimation();
-        decisionPhase.ChangeTargetRow(PhaseHandler.RowPosition.Back);
-    }
+    { 
+        var targetPlayer = actionPhase.GetTargetPlayer(PhaseHandler.RowPosition.Back);
 
+        if (actionPhase.CanPlayerAttack(targetPlayer))
+        {
+            print("selected BackRow");
+            decisionPhase.PlayChangeTargetRowAnimation(actionPhase.CanPlayerAttack(targetPlayer));
+            decisionPhase.ChangeTargetRow(PhaseHandler.RowPosition.Back);
+        }
+        else
+        {
+            print("wanted to select FrontRow, but the target is invalid");
+        }
+    }
 
     // just to prevent the prints from MinifigController
     private void OnSouthRelease()

@@ -10,7 +10,7 @@ public class Shockwave : MonoBehaviour
 
     private List<string> _alreadyHit;
     private List<string> _currHits;
-    private float _currRadius;
+    public float _currRadius;
 
     // Start is called before the first frame update
     void Start()
@@ -50,11 +50,5 @@ public class Shockwave : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(transform.position, _currRadius);
     }
 }

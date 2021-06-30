@@ -58,13 +58,16 @@ public class Meteor : MonoBehaviour
     {
         if(collision.collider.CompareTag("Player"))
         {
-            // for now eliminate players
-            collision.collider.GetComponent<RBCharacterController>().Explode();
+            collision.collider.GetComponent<RBCharacterController>().Explode(transform.position);
+            Destroy(gameObject);
         }
         else if(collision.collider.CompareTag("K_Ground"))
         {
-            Debug.Log("HitGround");
             Instantiate(_Shockwave, transform.position, Quaternion.identity, null);
+            Destroy(gameObject);
+        }
+        else
+        {
             Destroy(gameObject);
         }
     }

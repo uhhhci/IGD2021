@@ -19,9 +19,9 @@ public class WeaponSystem : MonoBehaviour
     private AudioSource SoundEffect;
     private float FireRateCounter;
     private float TimeCounter = 0.0f;
-    private int Level;
+    public int Level;
     private bool LevelSet = false;
-
+    private float Cooldown;
     private void Awake()
     {
         SoundEffect = GetComponent<AudioSource>();
@@ -46,9 +46,25 @@ public class WeaponSystem : MonoBehaviour
 
     public void Fire(string Tag)
     {
-        if (Tag == "Enemy") Level = 1;
+        if (Tag == "Boundary") Level = 1;
+
+        /*
+        if (Tag == "Player") {
+            Cooldown = (FireRate / (Level * 0.5f));
+        }
+        else
+        {
+        */
+        float threshold = 0.075f;
+        if((FireRate / Level) > threshold)
+        {
+            //update cooldown
+            Cooldown = FireRate / Level;
+        }
         
-        if(FireRateCounter >= FireRate / Level)
+        
+
+        if (FireRateCounter >= Cooldown)
         {
             FireRateCounter = 0;
             
@@ -62,7 +78,10 @@ public class WeaponSystem : MonoBehaviour
             }
             else Debug.Log("No AudioSource on the WeaponSystem.");
         }
-        
+    }
 
+    public float GetCooldown()
+    {
+        return Cooldown;
     }
 }

@@ -52,7 +52,7 @@ namespace GroupP {
             deltaBeatS = 1 / tempo;
             counter = 0;
 
-            for(int i=0;i<theSong.GetComponent<Song>().totalNumberOfBeats;++i) {
+            for(int i=5;i<theSong.GetComponent<Song>().totalNumberOfBeats;++i) {
                 if(UnityEngine.Random.Range(0.0f, 1.0f) < 1.0f-pNext) { 
                     increaseP(0.1f);
                     continue;
