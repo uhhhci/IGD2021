@@ -51,7 +51,7 @@ public class MoveToMiddleBehaviour : StateMachineBehaviour
                 {
                     Vector3 jumpGoal = currentPath.corners[2];
                     playerController.MoveTo(jumpGoal);
-                    playerController.AddForce(new Vector3(0, 15, 0));
+                    playerController.AddForce(new Vector3(0, playerController.jumpSpeed, 0));
                 }
             }
             if (playerController.hasPowerUp())
