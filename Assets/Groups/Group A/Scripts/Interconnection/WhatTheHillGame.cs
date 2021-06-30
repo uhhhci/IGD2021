@@ -38,8 +38,8 @@ public class WhatTheHillGame : MiniGame
         PlayerPrefs.SetString("Player4_AI", "true");
 
         Players[0].GetComponent<MinifigControllerWTH>().activateAI(PlayerPrefs.GetString("Player1_AI").Equals("True"));
-        Players[1].GetComponent<MinifigControllerWTH>().activateAI(PlayerPrefs.GetString("Player2_AI").Equals("True"));
-        Players[2].GetComponent<MinifigControllerWTH>().activateAI(PlayerPrefs.GetString("Player3_AI").Equals("True"));
+        Players[1].GetComponent<MinifigControllerWTH>().activateAI(true);
+        Players[2].GetComponent<MinifigControllerWTH>().activateAI(true);
         Players[3].GetComponent<MinifigControllerWTH>().activateAI(true);
         //This assigns the player input in the order they were given in the array
         InputManager.Instance.AssignPlayerInput(playerInputs);

@@ -322,16 +322,7 @@ public class MinifigControllerWTH : MonoBehaviour
             // Calculate move delta.
             moveDelta = new Vector3(directSpeed.x , moveDelta.y, directSpeed.z);
 
-            // Apply external Force 
-            if(Mathf.Abs(externalForce.x) > 0f || Mathf.Abs(externalForce.z) > 0f)
-            {
-                externalForce.x *= drag;
-                externalForce.z *= drag;
-                if (Mathf.Abs( externalForce.x) < 0.005f) externalForce.x = 0f;
-                if (Mathf.Abs(externalForce.z) < 0.005f) externalForce.z = 0f;
-                moveDelta.z += externalForce.z;
-                moveDelta.x += externalForce.x;
-            }
+
 
             // Check if player is grounded.
             if (!airborne)
@@ -525,6 +516,17 @@ public class MinifigControllerWTH : MonoBehaviour
                         break;
                     }
             }
+        }
+
+        // Apply external Force 
+        if (Mathf.Abs(externalForce.x) > 0f || Mathf.Abs(externalForce.z) > 0f)
+        {
+            externalForce.x *= drag;
+            externalForce.z *= drag;
+            if (Mathf.Abs(externalForce.x) < 0.005f) externalForce.x = 0f;
+            if (Mathf.Abs(externalForce.z) < 0.005f) externalForce.z = 0f;
+            moveDelta.z += externalForce.z;
+            moveDelta.x += externalForce.x;
         }
 
         // Handle external motion.
@@ -763,7 +765,7 @@ public class MinifigControllerWTH : MonoBehaviour
             MinifigControllerWTH hitCharacterController = hit.collider.GetComponentInParent<MinifigControllerWTH>();
             hitCharacterController.AddForce(pushDir);
         }
-        if (hit.collider.tag == "floor") 
+        if (hit.collider.tag == "Respawn") 
         {
             Respawn();
         }
