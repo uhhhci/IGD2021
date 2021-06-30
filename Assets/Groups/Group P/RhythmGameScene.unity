@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.00011418565, g: 0.006524887, b: 0.050281364, a: 1}
+  m_IndirectSpecularColor: {r: 0.00011732151, g: 0.0065112514, b: 0.05028625, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -955,8 +955,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music: {fileID: 0}
-  beatsPerMinute: 120
-  totalNumberOfBeats: 500
+  beatsPerMinute: 160
+  totalNumberOfBeats: 430
   offset: 16.92
 --- !u!82 &253824010
 AudioSource:
@@ -1483,7 +1483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music: {fileID: 0}
   beatsPerMinute: 138
-  totalNumberOfBeats: 400
+  totalNumberOfBeats: 320
   offset: 0
 --- !u!82 &548664553
 AudioSource:
@@ -2193,7 +2193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music: {fileID: 0}
   beatsPerMinute: 120
-  totalNumberOfBeats: 250
+  totalNumberOfBeats: 60
   offset: 30
 --- !u!82 &1034653281
 AudioSource:
@@ -2889,7 +2889,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music: {fileID: 0}
   beatsPerMinute: 200
-  totalNumberOfBeats: 500
+  totalNumberOfBeats: 550
   offset: 0
 --- !u!82 &1371189944
 AudioSource:
@@ -4608,7 +4608,7 @@ PrefabInstance:
     - target: {fileID: 5804614690480016050, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
         type: 3}
       propertyPath: songIndex
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5804614690480016050, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
         type: 3}
