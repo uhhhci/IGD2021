@@ -5,6 +5,8 @@ using UnityEngine;
 public class playercollision : MonoBehaviour
 {
     MinifigController player;
+    public AudioSource playSoundGravity;
+    public AudioSource playSoundSpeed;
 
     private void Start()
     {
@@ -24,12 +26,14 @@ public class playercollision : MonoBehaviour
         {
             PickUp(pickup);
             player.gravity /= 2;
+            playSoundGravity.Play();
         }
 
         if (pickup.tag == "HighSpeed")
         {
             PickUp(pickup);
             player.maxForwardSpeed *= 2;
+            playSoundSpeed.Play();
         }
 
         
