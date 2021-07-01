@@ -8,6 +8,21 @@ public class WallBlock : MonoBehaviour {
 	private bool scored;
 	
 	public float timeToLiveAfterScore = 3.0f;
+	public Material[] materials;
+	
+	private void changeMaterial() {
+		if (materials == null || materials.Length == 0) {
+			return;
+		}
+		
+		Renderer[] children = GetComponentsInChildren<Renderer>();
+		int i = Random.Range(0, materials.Length);
+		Material mat = materials[i];
+		
+		foreach (Renderer c in children) {
+			c.material = mat;
+		}
+	}
 	
 	void Start() {
 		GameObject manager = GameObject.Find("GameManager");
@@ -15,6 +30,8 @@ public class WallBlock : MonoBehaviour {
 		if (manager != null) {
 			game = manager.GetComponent<CannonStandoff>();
 		}
+		
+		changeMaterial();
 	}
 	
 	void Update() {
