@@ -112,7 +112,7 @@ namespace GroupP {
                 // TODO check double places
                 List<List<int>> places = new List<List<int>>();
                 for(int i=0;i<4;++i) {
-                    places[i] = new List<int>();
+                    places.Add(new List<int>());
                 }
                 places[0].Add(scores[3].Item1);
                 
