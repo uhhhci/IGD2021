@@ -11,12 +11,12 @@ public static class GameList
     public static List<MiniGame> FREE_FOR_ALL_LIST = new List<MiniGame>{
         new GriddyGame(),
         new MiniGame_Meteorfall(),
-        new SmashGameR(),
-        new RhythmGame(),        
+        new SmashGameR(),       
         new KartRacingGame(),
         new TrafficTrouble(),
         new PlattiGame(),
         new Groups.Group_S.PartKartMiniGame(),
+        new GroupP.GameManager()
     };
 
     public static List<MiniGame> SINGLE_VS_TEAM_LIST = new List<MiniGame>{

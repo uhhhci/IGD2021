@@ -56,6 +56,7 @@ namespace GroupP {
             }
             if(gameObject.GetComponent<Note>().special) {
                 gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
+                transform.localEulerAngles = transform.localEulerAngles + new Vector3(0f, 0f, 90f);
             }
             else if(gameObject.GetComponent<Note>().bad) {
                 gameObject.GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f);

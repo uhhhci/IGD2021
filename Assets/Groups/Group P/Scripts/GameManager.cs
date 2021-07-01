@@ -54,9 +54,9 @@ namespace GroupP {
         void Start()
         {
             player1.GetComponent<Player>().isAI = PlayerPrefs.GetString("Player1_AI").Equals("True");
-            player2.GetComponent<Player>().isAI = PlayerPrefs.GetString("Player2_AI").Equals("True");
-            player3.GetComponent<Player>().isAI = true; //PlayerPrefs.GetString("Player3_AI").Equals("True");
-            player4.GetComponent<Player>().isAI = true;//PlayerPrefs.GetString("Player4_AI").Equals("True"); //TODO revert
+            player2.GetComponent<Player>().isAI = true;//PlayerPrefs.GetString("Player2_AI").Equals("True");
+            player3.GetComponent<Player>().isAI = true;//PlayerPrefs.GetString("Player3_AI").Equals("True");
+            player4.GetComponent<Player>().isAI = true;//PlayerPrefs.GetString("Player4_AI").Equals("True"); 
 
             var playerInputs = new List<PlayerInput>();
             if(!player1.GetComponent<Player>().isAI) {
