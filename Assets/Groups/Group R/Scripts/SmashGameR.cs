@@ -22,6 +22,10 @@ public class SmashGameR : MiniGame
     public Vector3 secondPos;
     public Vector3 thirdPos;
     public Vector3 fourthPos;
+    public AIAgentR AI1;
+    public AIAgentR AI2;
+    public AIAgentR AI3;
+    public AIAgentR AI4;
 
     public Countdown countdown;
     public int gameDuration;
@@ -57,6 +61,15 @@ public class SmashGameR : MiniGame
 
         //This assigns the player input in the order they were given in the array
         InputManager.Instance.AssignPlayerInput(playerInputs);
+
+        AI1.gameObject.SetActive(PlayerPrefs.GetString("Player1_AI").Equals("True"));
+        AI1.SetId(1);
+        AI2.gameObject.SetActive(PlayerPrefs.GetString("Player2_AI").Equals("True"));
+        AI2.SetId(2);
+        AI3.gameObject.SetActive(PlayerPrefs.GetString("Player3_AI").Equals("True"));
+        AI3.SetId(3);
+        AI4.gameObject.SetActive(PlayerPrefs.GetString("Player4_AI").Equals("True"));
+        AI4.SetId(4);
 
         endTime = Time.time + gameDuration + 3;
         countdown.StartCountDown(1);
@@ -191,5 +204,20 @@ public class SmashGameR : MiniGame
             MiniGameFinished(firstPlace: first, secondPlace: second, thirdPlace: third, fourthPlace: fourth);
         }
 
+    }
+
+    public (int[],bool[]) getGameState(){
+        int[] playerPlatforms = {player1.getPlatform(),
+        player2.getPlatform(),
+        player3.getPlatform(),
+        player4.getPlatform()};
+
+        bool[] playerDied = {player1.died,player2.died,player3.died,player4.died};
+
+        return (playerPlatforms,playerDied);
+    }
+
+    public OurMinifigController getPlayer(int id){
+        return players[id];
     }
 }

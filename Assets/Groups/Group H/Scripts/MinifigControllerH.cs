@@ -230,12 +230,42 @@ public class MinifigControllerH : MonoBehaviour
             return;
         }
 
-        // possible fix for clipping and falling through the floor
-        if ( gameObject.transform.position.y < 0)
+        // FixPosition();
+
+        // Possible fix for clipping out of bounce and falling through the floor
+        if (gameObject.transform.position.y < 0)
         {
             float x = gameObject.transform.position.x;
             float y = 0.01f;
             float z = gameObject.transform.position.z;
+            TeleportTo(new Vector3(x, y, z));
+        }
+        if (gameObject.transform.position.x > 5)
+        {
+            float x = 4.99f;
+            float y = gameObject.transform.position.y;
+            float z = gameObject.transform.position.z;
+            TeleportTo(new Vector3(x, y, z));
+        }
+        if (gameObject.transform.position.x < -5)
+        {
+            float x = -4.99f;
+            float y = gameObject.transform.position.y;
+            float z = gameObject.transform.position.z;
+            TeleportTo(new Vector3(x, y, z));
+        }
+        if (gameObject.transform.position.z > 5)
+        {
+            float x = gameObject.transform.position.x;
+            float y = gameObject.transform.position.y;
+            float z = 4.99f;
+            TeleportTo(new Vector3(x, y, z));
+        }
+        if (gameObject.transform.position.z < -5)
+        {
+            float x = gameObject.transform.position.x;
+            float y = gameObject.transform.position.y;
+            float z = -4.99f;
             TeleportTo(new Vector3(x, y, z));
         }
 
@@ -853,7 +883,6 @@ public class MinifigControllerH : MonoBehaviour
         // Disable input if not idle.
         if (state != State.Idle)
         {
-            Debug.Log(state);
             inputEnabled = false;
         }
         else
@@ -978,7 +1007,7 @@ public class MinifigControllerH : MonoBehaviour
     private void OnEastPress()
     {
         print("OnEastPress");
-        grabber.Grab();
+        Grab();
 
     }
 
@@ -1030,10 +1059,7 @@ public class MinifigControllerH : MonoBehaviour
     private void OnWestPress()
     {
         print("OnWestPress");
-        animator.SetBool(playSpecialHash, true);
-        animator.SetInteger(specialIdHash, (int)SpecialAnimation.KickRightFoot);
-        audioSource.PlayOneShot(kickAudioClip);
-        kicker.Kick();
+        Kick();
     }
 
     private void OnWestRelease()
@@ -1042,6 +1068,19 @@ public class MinifigControllerH : MonoBehaviour
     }
 
     #endregion
+
+    public void Kick()
+    {
+        animator.SetBool(playSpecialHash, true);
+        animator.SetInteger(specialIdHash, (int)SpecialAnimation.KickRightFoot);
+        audioSource.PlayOneShot(kickAudioClip);
+        kicker.Kick();
+    }
+
+    public void Grab()
+    {
+        grabber.Grab();
+    }
 }
 
 

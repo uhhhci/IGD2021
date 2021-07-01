@@ -29,13 +29,15 @@ public class GameStatsGeneral : MonoBehaviour
             timeLeft = PhaseHandler.timeLeft;
             leadingTeam = PhaseHandler.leadingTeam;
             title = $"{phase} Phase";
-            descriptionTextMesh.text = $"Total time: {PhaseHandler.passedGameSeconds.ToString("F0")} / {PhaseHandler.maxGameSeconds.ToString("F0")} \nRound {roundCount};\n{leadingTeam} is leading.\n{description}";
+
+        // TODO time left should be set via interconnections group instead of here
+        descriptionTextMesh.text = $"Time left: {(PhaseHandler.maxGameSeconds - PhaseHandler.passedGameSeconds).ToString("F0")} \nRound {roundCount}\n{leadingTeam} is leading.\n{description}";
 
 
             if (phase == PhaseHandler.Phase.End)
             {
                 string roundWord = roundCount == 1 ? "round" : "rounds";
                 descriptionTextMesh.text = $"Total time: {PhaseHandler.passedGameSeconds.ToString("F0")}\nGame ended after {roundCount} {roundWord}.\nTeam {leadingTeam} won!";
-        }
+            }
     }
 }
