@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Groups.Group_S.Driving
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(Drivable))]
     public class DrivableEditor : Editor
     {
@@ -28,3 +29,4 @@ namespace Groups.Group_S.Driving
 }
 
 #endif
+

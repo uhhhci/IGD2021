@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace Groups.Group_S.Driving.VehicleStats
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(VehicleStatProvider))]
     public class VehicleStatEditor : Editor
     {
