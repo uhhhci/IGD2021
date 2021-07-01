@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &340280044151655173
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6819313656136191464}
+  m_Layer: 9
+  m_Name: Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6819313656136191464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340280044151655173}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2010829096044962199}
+  m_Father: {fileID: 5825757511163967092}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2856742833348502590
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,6 +64,7 @@ Transform:
   m_LocalScale: {x: 0.33, y: 0.33, z: 0.33}
   m_Children:
   - {fileID: 6382563092601689977}
+  - {fileID: 6819313656136191464}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90.00001, z: 0}
@@ -48,7 +80,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -208,7 +240,7 @@ MonoBehaviour:
   _moveForce: 40
   _seperationForce: 5
   _jumpForce: 15
-  _hitForce: 20
+  _hitForce: 25
   _mashLimit: 5
   GRAVITY: -20
   _meteorKnockbackMultiplier: 1.5
@@ -220,6 +252,9 @@ MonoBehaviour:
   _smoothStep: 0.15
   maxRotateSpeed: 400
   Minifig: {fileID: 3454090209628931379}
+  _stunnedParticles: {fileID: 2012797619328593785}
+  _outParticles: {fileID: 6625890837487076880, guid: b6fa851fb95283843b69a5d1f1be8d49,
+    type: 3}
   stepAudioClips: []
   jumpAudioClip: {fileID: 8300000, guid: 542490ca55814441981ef88f5d1f2dc6, type: 3}
   doubleJumpAudioClip: {fileID: 8300000, guid: 542490ca55814441981ef88f5d1f2dc6, type: 3}
@@ -326,4 +361,90 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6367911877577183709, guid: 97ae038d837a3a74484d0cbc8733ad2d,
     type: 3}
   m_PrefabInstance: {fileID: 57479496536704676}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7981577866360290300
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6819313656136191464}
+    m_Modifications:
+    - target: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8442742982189470853, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_Name
+      value: StunnedCirclingStarsSimple
+      objectReference: {fileID: 0}
+    - target: {fileID: 8442742982189470853, guid: bc69613bf49897340afd7cf2db760bd4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bc69613bf49897340afd7cf2db760bd4, type: 3}
+--- !u!1 &2012797619328593785 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8442742982189470853, guid: bc69613bf49897340afd7cf2db760bd4,
+    type: 3}
+  m_PrefabInstance: {fileID: 7981577866360290300}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2010829096044962199 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8440771199394503275, guid: bc69613bf49897340afd7cf2db760bd4,
+    type: 3}
+  m_PrefabInstance: {fileID: 7981577866360290300}
   m_PrefabAsset: {fileID: 0}

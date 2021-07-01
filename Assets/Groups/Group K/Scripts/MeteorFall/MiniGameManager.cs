@@ -103,7 +103,7 @@ public class MiniGameManager : MonoBehaviour
     {
         Debug.Log("Its a Draw!");
         int[] placeholder = new int[4] { 0, 1, 2, 3 };
-        _minigame.MiniGameFinished(placeholder, new int[0], new int[0], new int[0]);
+        StartCoroutine(DeclareWinner(placeholder, new int[0], new int[0], new int[0]));
     }
 
     public void WinGame(int index)
@@ -111,7 +111,7 @@ public class MiniGameManager : MonoBehaviour
         Debug.Log("Player " + index + " Wins the Game!");
         int[] numbers = { 0, 1, 2, 3};
         numbers = numbers.Where(val => val != index).ToArray();
-        _minigame.MiniGameFinished(new int[1] { index }, numbers, new int[0], new int[0]);
+        StartCoroutine(DeclareWinner(new int[1] { index }, numbers, new int[0], new int[0]));
     }
 
     public void AssignAI(bool p1, bool p2, bool p3, bool p4)
@@ -132,5 +132,13 @@ public class MiniGameManager : MonoBehaviour
         {
             _player4.AddComponent<MeteorFallAI>();
         }
+    }
+
+    IEnumerator DeclareWinner(int[] p1, int[] p2, int[] p3, int[] p4)
+    {
+        Debug.Log("Before wait");
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("Finished");
+        _minigame.MiniGameFinished(p1, p2, p3, p4);
     }
 }

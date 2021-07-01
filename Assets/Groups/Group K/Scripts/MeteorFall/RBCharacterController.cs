@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class RBCharacterController : MonoBehaviour
 {
+    #region Fields
     [SerializeField] private bool inputEnabled = true;
     [SerializeField] private float _moveForce = 10.0f;
     [SerializeField] private float _seperationForce = 5.0f;
@@ -23,6 +24,9 @@ public class RBCharacterController : MonoBehaviour
 
     [Range(0, 500)] public float maxRotateSpeed = 150f;
     public GameObject Minifig;
+
+    [SerializeField] private GameObject _stunnedParticles;
+    [SerializeField] private GameObject _outParticles;
 
     [Header("Audio")]
 
@@ -128,6 +132,7 @@ public class RBCharacterController : MonoBehaviour
         WalkBackwards = 48,
         Wave = 49
     }
+    #endregion
 
     private void Awake()
     {
@@ -151,6 +156,7 @@ public class RBCharacterController : MonoBehaviour
             isStunned = false;
             inputEnabled = true;
             stopSpecial = true;
+            _stunnedParticles.SetActive(false);
         }
 
         if(inputEnabled)
@@ -332,6 +338,8 @@ public class RBCharacterController : MonoBehaviour
     public void Die()
     {
         inputEnabled = false;
+        GameObject part = Instantiate(_outParticles, transform.position, Quaternion.identity, null);
+        Destroy(part, 4.0f);
         gameObject.SetActive(false);
     }
 
@@ -348,6 +356,7 @@ public class RBCharacterController : MonoBehaviour
             inputEnabled = false;
             mashCounter = _mashLimit;
             PlaySpecialAnimation(SpecialAnimation.Crawl);
+            _stunnedParticles.SetActive(true);
         }
     }
 
