@@ -369,8 +369,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5d5f23cf1a64811825cb10a87d81f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _menuPlayerPrefab: {fileID: 5329118978466406802, guid: d8e8c7299b9c148a28d8b562f743facd,
-    type: 3}
+  players_colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  players_colors_names:
+  - RED
+  - YELLOW
+  - PINK
+  - BLUE
+  ids_players: 01000000020000000300000004000000
 --- !u!1001 &325007319
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -516,6 +525,16 @@ PrefabInstance:
         type: 3}
       propertyPath: AI
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3443581095330509844, guid: bdd25538a80fd3b41a3336f1499460e9,
+        type: 3}
+      propertyPath: SlowRate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -3443581095330509844, guid: bdd25538a80fd3b41a3336f1499460e9,
+        type: 3}
+      propertyPath: SlowDuration
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 229162745, guid: bdd25538a80fd3b41a3336f1499460e9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1309,7 +1328,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 27c187635984143fa9d617450369ecb6, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c0699977c41646744962b58f548397af, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.228
   m_Pitch: 1
@@ -1317,7 +1336,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 55
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1408,7 +1427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeCounter: {fileID: 174242417}
-  GametimeMinutes: 10
+  GametimeMinutes: 3
   FirstThird: green
   SecondThird: yellow
   ThirdThird: red
