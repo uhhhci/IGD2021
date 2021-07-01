@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5d5f23cf1a64811825cb10a87d81f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _menuPlayerPrefab: {fileID: 722604870696496883, guid: ba6dca5006325334e83731e45cd27222,
+  _menuPlayerPrefab: {fileID: 5329118978466406802, guid: d8e8c7299b9c148a28d8b562f743facd,
     type: 3}
 --- !u!1001 &325007319
 PrefabInstance:
@@ -1480,7 +1480,7 @@ PrefabInstance:
     - target: {fileID: 6994892155872413563, guid: 7b81370d7eb36504d93ae2132dede8d1,
         type: 3}
       propertyPath: AI
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8080492922341379048, guid: 7b81370d7eb36504d93ae2132dede8d1,
         type: 3}
@@ -2409,6 +2409,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7636031510744933830, guid: bab19c8a4ad8b244cb451991745bf370,
+        type: 3}
+      propertyPath: AI
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8272799859832125963, guid: bab19c8a4ad8b244cb451991745bf370,
         type: 3}

@@ -87,6 +87,7 @@ namespace GroupP {
                 
                 KeyPressHandler.instance.registerNote(this);
                 collision = true;
+                Debug.Log("ENTER" + Time.time);
             }
         }
 
@@ -95,6 +96,7 @@ namespace GroupP {
                 KeyPressHandler.instance.deregisterNote(this);
                 
                 Destroy(gameObject, 0.05f);
+                Debug.Log("Exit" + Time.time);
             }
         }
 

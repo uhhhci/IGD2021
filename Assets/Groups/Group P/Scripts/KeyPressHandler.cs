@@ -51,6 +51,9 @@ namespace GroupP {
                 playerStat.hasHitNotes.Add(false);
             }
             currentNotes.Add(note);
+            foreach(var playerStat in playerStats) {
+                playerStat.player.GetComponent<Player>().addNote(note);
+            }
         }
 
         public void deregisterNote(Note note) {
@@ -61,8 +64,10 @@ namespace GroupP {
                     playerStat.player.GetComponent<Score>().Missed();
                 }
                 playerStat.hasHitNotes.RemoveAt(index);
+                playerStat.player.GetComponent<Player>().removeNote(note);
             }
             currentNotes.Remove(note);
+        
         }
 
         /**
