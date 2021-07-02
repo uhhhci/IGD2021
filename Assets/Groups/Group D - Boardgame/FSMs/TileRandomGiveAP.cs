@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class TileRandomGiveAP : FSM
 {
-    public TileRandomGiveAP() {
+    private AudioClip gainAPAudioClip;
+    private AudioSource audioSource;
+
+    public TileRandomGiveAP(AudioSource audio, AudioClip clip) {
+        audioSource = audio;
+        gainAPAudioClip = clip;
+
+        audioSource.PlayOneShot(gainAPAudioClip);
     }
 
     override public bool update() {

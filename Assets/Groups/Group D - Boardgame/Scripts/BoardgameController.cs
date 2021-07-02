@@ -1007,7 +1007,7 @@ public class BoardgameController : MonoBehaviour
     /// returns whether any (movement) animation was completed
     public bool animationDone() {
         // TODO: extend to support animations other than moving around
-        return !airborne && animationCompleted;
+        return animationCompleted;
     }
 
     

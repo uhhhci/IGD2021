@@ -68,8 +68,18 @@ public class TurnManager : MonoBehaviour
 
     public TrapSpawner trapSpawner;
 
+    
+    public AudioClip gainAPAudioClip;
+    public AudioClip relocateBrickAudioClip;
+    public AudioClip truePartyAudioClip;
+    public AudioClip endTurnAudioClip;
+    public AudioClip buyAPAudioClip;
+    
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start() {
+        audioSource = GetComponent<AudioSource>();
         restoreGameState();
         // moveToDie();
 
@@ -215,6 +225,8 @@ public class TurnManager : MonoBehaviour
                         playerBelongings[j].setIsTruePartyPerson(j == truePartyPerson);
                     }
 
+                    audioSource.PlayOneShot(truePartyAudioClip);
+
                     currentActionFSM = new BecomingTruePartyPerson();
                     return true;
                 }
@@ -296,7 +308,7 @@ public class TurnManager : MonoBehaviour
             // give the player a few APs and extend their turn
             actionPoints += 3;
             currentState = TurnState.EXECUTING_ACTION;
-            return new TileRandomGiveAP();
+            return new TileRandomGiveAP(audioSource, gainAPAudioClip);
         } else {
             // receive a random item
             ItemD.Type selectedItem = itemDB.getItem((int) UnityEngine.Random.Range(0, itemDB.getItemCount()-0.1f)).type;
@@ -318,7 +330,7 @@ public class TurnManager : MonoBehaviour
             return new SetTrap(playerData[activePlayer],players[activePlayer].transform,trapObject);
         } else {
             // relocate the golden brick
-            return new TileMasterHand(brickManager, camera);
+            return new TileMasterHand(brickManager, camera, audioSource, relocateBrickAudioClip);
         }
     }
 
@@ -454,6 +466,7 @@ public class TurnManager : MonoBehaviour
         switch (action.type) {
             case PlayerAction.Type.END_TURN:
                 actionPoints = 0;
+                audioSource.PlayOneShot(endTurnAudioClip);
                 break;
             case PlayerAction.Type.BUY_GOLDEN_BRICK:
                 playerBelongings[activePlayer].addGoldenBrick();
@@ -471,6 +484,7 @@ public class TurnManager : MonoBehaviour
                 playerBelongings[activePlayer].removeItem(ItemD.Type.TRAP);
                 break;
             case PlayerAction.Type.BUY_AP:
+                audioSource.PlayOneShot(buyAPAudioClip);
                 break;
             case PlayerAction.Type.SHOP:
                 currentState = TurnState.SHOWING_SHOP;

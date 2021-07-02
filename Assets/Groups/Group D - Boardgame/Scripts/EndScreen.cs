@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EndScreen : MonoBehaviour
 {
@@ -142,6 +143,7 @@ public class EndScreen : MonoBehaviour
     }
 
     void EndGame() {
-        // TODO: return to main menu
+        // return to the character selection
+        SceneManager.LoadScene("Customization");
     }
 }
