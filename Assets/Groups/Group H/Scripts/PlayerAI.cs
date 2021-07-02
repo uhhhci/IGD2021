@@ -45,7 +45,7 @@ public class PlayerAI : MonoBehaviour
     {
         
 
-        if (state == State.Idle)
+        if (controller.returnState() == MinifigControllerH.State.Idle)
         {
             cleanSafePlaces();
             GameObject car = FindCar();
@@ -87,14 +87,13 @@ public class PlayerAI : MonoBehaviour
             }
 
             // else move to random location
-            if (state == State.Idle)
+            if (controller.returnState() == MinifigControllerH.State.Idle)
             {
                 state = State.MovingRandomly;
                 MoveRandomly();
             }
 
             // wait to start next action
-            StartCoroutine(Wait());
         }
     }
 
@@ -127,6 +126,7 @@ public class PlayerAI : MonoBehaviour
 
     private GameObject FindCar()
     {
+        Debug.Log("FindCar");
         GameObject[] sceneObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         List<GameObject> result = new List<GameObject>();
         GameObject car = null;
@@ -139,6 +139,7 @@ public class PlayerAI : MonoBehaviour
         }
         if (car != null && ((car.transform.rotation.y / 90) % 2) == 0) // x is important lane
         {
+            Debug.Log("X Important");
             int x_car = (int)car.transform.position.x;
             for (int x = Mathf.Max(-5, x_car - 1); x <= Mathf.Min(5, x_car + 1); x++)
             {
@@ -155,6 +156,7 @@ public class PlayerAI : MonoBehaviour
         }
         else if (car != null && ((car.transform.rotation.y / 90) % 2) == 1) // z is important lane
         {
+            Debug.Log("Z Important");
             int z_car = (int)car.transform.position.z;
             for (int z = Mathf.Max(-5, z_car - 1); z <= Mathf.Min(5, z_car + 1); z++)
             {
@@ -169,7 +171,7 @@ public class PlayerAI : MonoBehaviour
                 return car;
             }
         }
-        return null;
+        return car;
     }
 
     private GameObject FindBomb()
@@ -251,7 +253,7 @@ public class PlayerAI : MonoBehaviour
             z = Random.Range(-5, 5);
         }
         while (!isSafePlace(x, z));
-
+        Debug.Log("Moving");
         Vector3 destination = new Vector3(x, 0.1f, z);
         MoveTo(destination);
     }

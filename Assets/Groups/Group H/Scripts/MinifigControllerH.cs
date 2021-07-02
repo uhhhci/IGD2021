@@ -55,7 +55,7 @@ public class MinifigControllerH : MonoBehaviour
     }
 
     // State used when automatically animating.
-    enum State
+    public enum State
     {
         Idle,
         Moving,
@@ -172,7 +172,7 @@ public class MinifigControllerH : MonoBehaviour
     MoveTarget currentMove;
     FollowTarget currentFollowTarget;
     TurnTarget currentTurnTarget;
-    State state;
+    public State state;
     float waitedTime = 0.0f;
 
     float speed;
@@ -1080,6 +1080,11 @@ public class MinifigControllerH : MonoBehaviour
     public void Grab()
     {
         grabber.Grab();
+    }
+
+    public State returnState()
+    {
+        return state;
     }
 }
 
