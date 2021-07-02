@@ -28,9 +28,18 @@ public class MiniGameManager : MonoBehaviour
     public float AI_MeteorTolerance = 3.0f;
 
     private MiniGame _minigame;
+    private bool gameEnded;
+    private int currPlace;
+    private List<int>[] placings;
+    private bool[] lastActive;
 
     private void Awake()
     {
+        gameEnded = false;
+        currPlace = 0;
+        placings = new List<int>[] { new List<int>(), new List<int>(), new List<int>(), new List<int>() };
+        lastActive = new bool[4] { true, true, true, true };
+
         _minigame = transform.GetComponent<MiniGame_Meteorfall>();
 
         List<PlayerInput> playerInputs = new List<PlayerInput>(4)
@@ -70,48 +79,47 @@ public class MiniGameManager : MonoBehaviour
         bool aB3 = _player3.activeSelf;
         bool aB4 = _player4.activeSelf;
 
-        if (aB1 && !(aB2 || aB3 || aB4))
-        {
-            WinGame(0);
-        }
-        else if (aB2 && !(aB1 || aB3 || aB4))
-        {
-            WinGame(1);
-        }
-        else if (aB3 && !(aB1 || aB2 || aB4))
-        {
-            WinGame(2);
-        }
-        else if (aB4 && !(aB2 || aB3 || aB1))
-        {
-            WinGame(3);
-        }
-        else if(!(aB1 || aB2 || aB3 || aB4))
-        {
-            List<GameObject> winners = new List<GameObject>();
+        bool[] currActive = new bool[4] { aB1, aB2, aB3, aB4 };
 
-            if (aB1) { winners.Add(_player1); };
-            if (aB2) { winners.Add(_player2); };
-            if (aB3) { winners.Add(_player3); };
-            if (aB4) { winners.Add(_player4); };
-
-            GameDraw(winners);
+        bool placed = false;
+        int numAlive = 0;
+        if(!gameEnded)
+        {
+            for (int ind = 0; ind < currActive.Length; ind++)
+            {
+                if (currActive[ind])
+                {
+                    numAlive++;
+                }
+                if (!currActive[ind] && lastActive[ind])
+                {
+                    placings[currPlace].Add(ind + 1);
+                    placed = true;
+                }
+            }
+            if (placed)
+            {
+                currPlace++;
+            }
         }
+        
+        if(!gameEnded && numAlive <= 1)
+        {
+            EndGame();
+            gameEnded = true;
+        }
+        
+        lastActive = new bool[4] { aB1, aB2, aB3, aB4 };
     }
 
-    public void GameDraw(List<GameObject> winners)
+    private void EndGame()
     {
-        Debug.Log("Its a Draw!");
-        int[] placeholder = new int[4] { 0, 1, 2, 3 };
-        StartCoroutine(DeclareWinner(placeholder, new int[0], new int[0], new int[0]));
-    }
-
-    public void WinGame(int index)
-    {
-        Debug.Log("Player " + index + " Wins the Game!");
-        int[] numbers = { 0, 1, 2, 3};
-        numbers = numbers.Where(val => val != index).ToArray();
-        StartCoroutine(DeclareWinner(new int[1] { index }, numbers, new int[0], new int[0]));
+        int[][] places = new int[4][];
+        for(int ind = 0; ind < placings.Length; ind++)
+        {
+            places[ind] = placings[placings.Length - 1 - ind].ToArray();
+        }
+        StartCoroutine(DeclareWinner(places[0], places[1], places[2], places[3]));
     }
 
     public void AssignAI(bool p1, bool p2, bool p3, bool p4)
@@ -136,9 +144,7 @@ public class MiniGameManager : MonoBehaviour
 
     IEnumerator DeclareWinner(int[] p1, int[] p2, int[] p3, int[] p4)
     {
-        Debug.Log("Before wait");
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("Finished");
         _minigame.MiniGameFinished(p1, p2, p3, p4);
     }
 }

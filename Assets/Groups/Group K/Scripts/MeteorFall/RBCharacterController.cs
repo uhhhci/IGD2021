@@ -382,7 +382,7 @@ public class RBCharacterController : MonoBehaviour
                 Helper_StepRaycast(lowerCoord, higherCoord, -norm, 0.1f);
             }
         }
-        if(collision.collider.CompareTag("Player"))
+        if(collision.collider.CompareTag("Player") || collision.collider.CompareTag("K_Prop"))
         {
             Vector3 dir = transform.position - collision.collider.transform.position;
             _rb.AddForce(dir * _seperationForce, ForceMode.Impulse);
