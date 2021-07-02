@@ -6,9 +6,11 @@ public class WallBlock : MonoBehaviour {
 	
 	private CannonStandoff game;
 	private bool scored;
+	private AudioSource audio;
 	
 	public float timeToLiveAfterScore = 3.0f;
 	public Material[] materials;
+	public AudioClip[] collisionSounds;
 	
 	private void changeMaterial() {
 		if (materials == null || materials.Length == 0) {
@@ -32,6 +34,8 @@ public class WallBlock : MonoBehaviour {
 		}
 		
 		changeMaterial();
+		
+		audio = GetComponent<AudioSource>();
 	}
 	
 	void Update() {
@@ -57,6 +61,14 @@ public class WallBlock : MonoBehaviour {
 			}
 			
 			Destroy(gameObject, timeToLiveAfterScore);
+		}
+		
+		if (audio != null && collisionSounds != null && collisionSounds.Length > 0) {
+			int i = Random.Range(0, collisionSounds.Length);
+			AudioClip sound = collisionSounds[i];
+			float volume = Mathf.Min(collision.relativeVelocity.magnitude / 100.0f, 0.5f);
+			
+			audio.PlayOneShot(sound, volume);
 		}
 	}
 	

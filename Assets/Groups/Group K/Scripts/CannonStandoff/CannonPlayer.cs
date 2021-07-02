@@ -21,6 +21,7 @@ public class CannonPlayer : MonoBehaviour {
 	public GameObject bullet = null;
 	public float bulletSpeed = 15.0f;
 	public float cooldown = 1.0f;
+	public AudioSource audio;
 	
 	/* AI */
 	public int maxAttemptedShots = 5;
@@ -98,6 +99,8 @@ public class CannonPlayer : MonoBehaviour {
 			if (aiControlled) {
 				attemptedShots++;
 			}
+			
+			audio.Play();
 		}
 	}
 	
@@ -108,6 +111,7 @@ public class CannonPlayer : MonoBehaviour {
 		
 		cannon = transform.Find("Cannon").gameObject;
 		lastShotTimer = cooldown;
+		audio = GetComponent<AudioSource>();
 	}
 	
 	void Update() {
