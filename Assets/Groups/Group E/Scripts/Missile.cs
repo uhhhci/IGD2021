@@ -58,6 +58,11 @@ public class Missile : MonoBehaviour
 
             AnimateExplosion(gameObject.transform);
             Destroy();
+
+            if (agent != null)
+            {
+                agent.enabled = true;
+            }
         } 
     }
 

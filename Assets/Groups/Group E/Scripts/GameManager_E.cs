@@ -102,12 +102,6 @@ public class GameManager_E : MonoBehaviour
     {
         totalWinners = 0;
         carPositionList = new List<Transform>();
-        //InitializeAIPlayer(carTransformList[0]);
-        //InitializeAIPlayer(carTransformList[1]);
-        //InitializeAIPlayer(carTransformList[2]);
-        InitializeAIPlayer(carTransformList[3]);
-        
-
     }
 
     public void CreateAI()
