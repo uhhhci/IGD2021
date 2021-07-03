@@ -74,6 +74,7 @@ public class TurnManager : MonoBehaviour
     public AudioClip truePartyAudioClip;
     public AudioClip endTurnAudioClip;
     public AudioClip buyAPAudioClip;
+    public AudioClip ambientMusic;
     
     private AudioSource audioSource;
 
@@ -81,6 +82,10 @@ public class TurnManager : MonoBehaviour
     void Start() {
         audioSource = GetComponent<AudioSource>();
         restoreGameState();
+        audioSource.loop = true;
+        audioSource.volume = 0.4f;
+        audioSource.clip = ambientMusic;
+        audioSource.Play();
         // moveToDie();
 
         if (useTestMinigames) {
