@@ -26,6 +26,10 @@ public class CannonPlayer : MonoBehaviour {
 	/* AI */
 	public int maxAttemptedShots = 5;
 	
+	public GameObject Cannon {
+		get { return transform.Find("Cannon").gameObject; }
+	}
+	
 	private void SwitchInput() {
 		string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
 		
@@ -109,7 +113,7 @@ public class CannonPlayer : MonoBehaviour {
 			SwitchInput();
 		}
 		
-		cannon = transform.Find("Cannon").gameObject;
+		cannon = Cannon;
 		lastShotTimer = cooldown;
 		audio = GetComponent<AudioSource>();
 	}

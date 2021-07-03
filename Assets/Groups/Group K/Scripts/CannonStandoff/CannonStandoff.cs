@@ -11,8 +11,41 @@ public class CannonStandoff : MiniGame {
 	
 	public CannonPlayer p1, p2, p3, p4;
 	public GameObject[] wallTypes;
+	public Material pRed, pGreen, pBlue, pPink;
 	
-	private void SpawnWall() {
+	private void SetPlayerColor(CannonPlayer player, string color) {
+		GameObject cannon = player.Cannon;
+		Renderer[] parts = cannon.GetComponentsInChildren<Renderer>();
+		Material mat = pRed;
+		
+		if (color.Equals("RED")) {
+			mat = pRed;
+		} else if (color.Equals("GREEN")) {
+			mat = pGreen;
+		} else if (color.Equals("BLUE")) {
+			mat = pBlue;
+		} else if (color.Equals("PINK")) {
+			mat = pPink;
+		}
+		
+		foreach (Renderer c in parts) {
+			c.material = mat;
+		}
+	}
+	
+	private void InitPlayerColors() {
+		string colorP1 = PlayerPrefs.GetString("PLAYER1_NAME");
+		string colorP2 = PlayerPrefs.GetString("PLAYER2_NAME");
+		string colorP3 = PlayerPrefs.GetString("PLAYER3_NAME");
+		string colorP4 = PlayerPrefs.GetString("PLAYER4_NAME");
+		
+		SetPlayerColor(p1, "RED");
+		SetPlayerColor(p2, "GREEN");
+		SetPlayerColor(p3, "BLUE");
+		SetPlayerColor(p4, "PINK");
+	}
+	
+	private void InitWall() {
 		if (wallTypes != null && wallTypes.Length > 0) {
 			int i = Random.Range(0, wallTypes.Length);
 			GameObject wall = wallTypes[i];
@@ -48,62 +81,37 @@ public class CannonStandoff : MiniGame {
 		}
 	}
 	
+	private void SetAi(CannonPlayer player, bool ai) {
+		if (ai) {
+			PlayerInput input = player.GetComponent<PlayerInput>();
+			PlayerInput inputMarker = player.marker.GetComponent<PlayerInput>();
+			
+			Destroy(input);
+			Destroy(inputMarker);
+			
+			player.SetAiControlled(true);
+			player.SetWall(activeWall);
+		}
+	}
+	
 	private void InitAi() {
 		bool aiP1 = PlayerPrefs.GetString("Player1_AI").Equals("True");
 		bool aiP2 = PlayerPrefs.GetString("Player2_AI").Equals("True");
 		bool aiP3 = PlayerPrefs.GetString("Player3_AI").Equals("True");
 		bool aiP4 = PlayerPrefs.GetString("Player4_AI").Equals("True");
 		
-		if (aiP1) {
-			PlayerInput input = p1.GetComponent<PlayerInput>();
-			PlayerInput inputMarker = p1.marker.GetComponent<PlayerInput>();
-			
-			Destroy(input);
-			Destroy(inputMarker);
-			
-			p1.SetAiControlled(true);
-			p1.SetWall(activeWall);
-		}
-		
-		if (aiP2) {
-			PlayerInput input = p2.GetComponent<PlayerInput>();
-			PlayerInput inputMarker = p2.marker.GetComponent<PlayerInput>();
-			
-			Destroy(input);
-			Destroy(inputMarker);
-			
-			p2.SetAiControlled(true);
-			p2.SetWall(activeWall);
-		}
-		
-		if (aiP3) {
-			PlayerInput input = p3.GetComponent<PlayerInput>();
-			PlayerInput inputMarker = p3.marker.GetComponent<PlayerInput>();
-			
-			Destroy(input);
-			Destroy(inputMarker);
-			
-			p3.SetAiControlled(true);
-			p3.SetWall(activeWall);
-		}
-		
-		if (aiP4) {
-			PlayerInput input = p4.GetComponent<PlayerInput>();
-			PlayerInput inputMarker = p4.marker.GetComponent<PlayerInput>();
-			
-			Destroy(input);
-			Destroy(inputMarker);
-			
-			p4.SetAiControlled(true);
-			p4.SetWall(activeWall);
-		}
+		SetAi(p1, aiP1);
+		SetAi(p2, aiP2);
+		SetAi(p3, aiP3);
+		SetAi(p4, aiP4);
 	}
 	
 	void Start() {
 		running = true;
 		
-		SpawnWall();
+		InitWall();
 		InitAi();
+		InitPlayerColors();
 	}
 	
 	void Update() {
