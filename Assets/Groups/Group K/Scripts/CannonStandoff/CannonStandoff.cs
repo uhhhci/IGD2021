@@ -54,33 +54,6 @@ public class CannonStandoff : MiniGame {
 		}
 	}
 	
-	private void CheckEndOfGame() {
-		if (!running) {
-			return;
-		}
-		
-		int remainingBlocks = activeWall.GetComponentsInChildren<Transform>().Length - 1;
-		int[] firstPlace, secondPlace;
-		int[] empty = {};
-		
-		if (remainingBlocks == 0) {
-			if (scoreSolo > scoreTeam) {
-				firstPlace = new int[]{1};
-				secondPlace = new int[]{2, 3, 4};
-			} else if (scoreTeam > scoreSolo) {
-				firstPlace = new int[]{2, 3, 4};
-				secondPlace = new int[]{1};
-			} else {
-				firstPlace = new int[]{1, 2, 3, 4};
-				secondPlace = empty;
-			}
-			
-			MiniGameFinished(firstPlace, secondPlace, empty, empty);
-			
-			running = false;
-		}
-	}
-	
 	private void SetAi(CannonPlayer player, bool ai) {
 		if (ai) {
 			PlayerInput input = player.GetComponent<PlayerInput>();
@@ -104,6 +77,33 @@ public class CannonStandoff : MiniGame {
 		SetAi(p2, aiP2);
 		SetAi(p3, aiP3);
 		SetAi(p4, aiP4);
+	}
+	
+	private void CheckEndOfGame() {
+		if (!running) {
+			return;
+		}
+		
+		int remainingBlocks = activeWall.GetComponentsInChildren<WallBlock>().Length;
+		int[] firstPlace, secondPlace;
+		int[] empty = {};
+		
+		if (remainingBlocks == 0) {
+			if (scoreSolo > scoreTeam) {
+				firstPlace = new int[]{1};
+				secondPlace = new int[]{2, 3, 4};
+			} else if (scoreTeam > scoreSolo) {
+				firstPlace = new int[]{2, 3, 4};
+				secondPlace = new int[]{1};
+			} else {
+				firstPlace = new int[]{1, 2, 3, 4};
+				secondPlace = empty;
+			}
+			
+			MiniGameFinished(firstPlace, secondPlace, empty, empty);
+			
+			running = false;
+		}
 	}
 	
 	void Start() {

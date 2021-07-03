@@ -50,6 +50,8 @@ public class CannonPlayer : MonoBehaviour {
 			int blockCount = blocks.Count;
 			
 			if (blockCount == 0) {
+				marker.Move(Vector2.zero);
+				
 				return;
 			}
 			
