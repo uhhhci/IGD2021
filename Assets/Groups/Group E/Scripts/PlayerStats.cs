@@ -30,6 +30,7 @@ public class PlayerStats : MonoBehaviour
     private ParticleSystem psReverseSteer;
     public GameObject myVFX;
     public AudioSource audioShield;
+    public AudioSource audioReverseSteer;
     private ParticleSystem.EmissionModule emmision;
     public int playerNumber;
 
@@ -51,6 +52,7 @@ public class PlayerStats : MonoBehaviour
         psReverseSteer = reverseSteer.GetComponent<ParticleSystem>();
         psShield = shield.GetComponent<ParticleSystem>();
         audioShield = shield.GetComponent<AudioSource>();
+        audioReverseSteer = reverseSteer.GetComponent<AudioSource>();
         emmision = psShield.emission;
         psSpeed = speed.GetComponent<ParticleSystem>();
     }
@@ -58,11 +60,13 @@ public class PlayerStats : MonoBehaviour
     public void StartReverseSteer()
     {
         psReverseSteer.Play();
+        audioReverseSteer.Play();
     }
 
     public void StopReverseSteer()
     {
         psReverseSteer.Stop();
+        audioReverseSteer.Stop();
     }
 
     public void StartShield()
