@@ -27,6 +27,7 @@ public class PlayerStats : MonoBehaviour
     public bool hasShield;
     public ParticleSystem psShield;
     private ParticleSystem psSpeed;
+    private ParticleSystem psReverseSteer;
     public GameObject myVFX;
     public AudioSource audioShield;
     private ParticleSystem.EmissionModule emmision;
@@ -46,10 +47,22 @@ public class PlayerStats : MonoBehaviour
 
         var shield = transform.Find("ShieldSoftBlue");
         var speed = transform.Find("MagicChargeBlue");
+        var reverseSteer = transform.Find("ReversedWheelsEffect");
+        psReverseSteer = reverseSteer.GetComponent<ParticleSystem>();
         psShield = shield.GetComponent<ParticleSystem>();
         audioShield = shield.GetComponent<AudioSource>();
         emmision = psShield.emission;
         psSpeed = speed.GetComponent<ParticleSystem>();
+    }
+
+    public void StartReverseSteer()
+    {
+        psReverseSteer.Play();
+    }
+
+    public void StopReverseSteer()
+    {
+        psReverseSteer.Stop();
     }
 
     public void StartShield()

@@ -32,6 +32,7 @@ public class PowerupReverseSteer : PowerUp
         PlayerStats tps = targetPlayer.GetComponent<PlayerStats>();
         if(!tps.hasShield)
         {
+            tps.StartReverseSteer();
             targetCarController.steeringReversed = true;
             tps.hasShield = false;
             tps.StopShield();
@@ -46,6 +47,7 @@ public class PowerupReverseSteer : PowerUp
         }
 
         targetCarController.steeringReversed = false;
+        tps.StopReverseSteer();
     }
 
 }
