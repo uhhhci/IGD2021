@@ -31,10 +31,16 @@ public class StartCountdown : MonoBehaviour
         countDown.GetComponent<Text>().text = "1";
         countDown.SetActive(true);
 
+        yield return new WaitForSeconds(1f);
+        countDown.SetActive(false);
+        countDown.GetComponent<Text>().text = "";
+        countDown.SetActive(true);
+
         GameObject.Find("Kart WASD").GetComponent<CarController>().EnableControl();
         GameObject.Find("Kart ZGHJ").GetComponent<CarController>().EnableControl();
         GameObject.Find("Kart PLÖA").GetComponent<CarController>().EnableControl();
         GameObject.Find("Kart Num").GetComponent<CarController>().EnableControl();
+        GameManager_E.Instance.CreateAI();
     }
 
     // Update is called once per frame
