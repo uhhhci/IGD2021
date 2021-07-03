@@ -88,17 +88,5 @@ namespace GroupP
         {
             faceAnim.PlayAnimation(MinifigFaceAnimationController.FaceAnimation.Cool, 0.5f);
         }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SpecialKey();
-            }
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                BadKey();
-            }
-        }
     }
 }
