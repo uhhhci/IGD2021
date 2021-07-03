@@ -14,8 +14,6 @@ public class CannonStandoff : MiniGame {
 	public Material pRed, pGreen, pBlue, pPink;
 	
 	private void SetPlayerColor(CannonPlayer player, string color) {
-		GameObject cannon = player.Cannon;
-		Renderer[] parts = cannon.GetComponentsInChildren<Renderer>();
 		Material mat = pRed;
 		
 		if (color.Equals("RED")) {
@@ -28,9 +26,7 @@ public class CannonStandoff : MiniGame {
 			mat = pPink;
 		}
 		
-		foreach (Renderer c in parts) {
-			c.material = mat;
-		}
+		player.Color = mat;
 	}
 	
 	private void InitPlayerColors() {
@@ -39,10 +35,10 @@ public class CannonStandoff : MiniGame {
 		string colorP3 = PlayerPrefs.GetString("PLAYER3_NAME");
 		string colorP4 = PlayerPrefs.GetString("PLAYER4_NAME");
 		
-		SetPlayerColor(p1, "RED");
-		SetPlayerColor(p2, "GREEN");
-		SetPlayerColor(p3, "BLUE");
-		SetPlayerColor(p4, "PINK");
+		SetPlayerColor(p1, colorP1);
+		SetPlayerColor(p2, colorP2);
+		SetPlayerColor(p3, colorP3);
+		SetPlayerColor(p4, colorP4);
 	}
 	
 	private void InitWall() {

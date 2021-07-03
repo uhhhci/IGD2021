@@ -9,6 +9,7 @@ public class CannonPlayer : MonoBehaviour {
 	private GameObject cannon;
 	private bool shooting;
 	private float lastShotTimer;
+	private Material color;
 	
 	/* AI */
 	private bool aiControlled;
@@ -28,6 +29,19 @@ public class CannonPlayer : MonoBehaviour {
 	
 	public GameObject Cannon {
 		get { return transform.Find("Cannon").gameObject; }
+	}
+	
+	public Material Color {
+		get { return color; }
+		set {
+			Renderer[] parts = Cannon.GetComponentsInChildren<Renderer>();
+			
+			foreach (Renderer c in parts) {
+				c.material = value;
+			}
+			
+			color = value;
+		}
 	}
 	
 	private void SwitchInput() {
@@ -97,8 +111,10 @@ public class CannonPlayer : MonoBehaviour {
 			Vector3 spawnPoint = cannon.transform.position + cannon.transform.forward;
 			GameObject instance = Instantiate(bullet, spawnPoint, Quaternion.identity);
 			Rigidbody rb = instance.GetComponent<Rigidbody>();
+			Renderer renderer = instance.GetComponent<Renderer>();
 			
 			rb.velocity = cannon.transform.forward * bulletSpeed;
+			renderer.material = color;
 			shooting = false;
 			lastShotTimer = 0.0f;
 			
