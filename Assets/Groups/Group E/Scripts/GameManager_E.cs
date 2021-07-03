@@ -102,6 +102,44 @@ public class GameManager_E : MonoBehaviour
     {
         totalWinners = 0;
         carPositionList = new List<Transform>();
+        setKartColors();
+    }
+
+    public void setKartColors()
+    {
+        // TODO: Grab real colors
+        // RED = Color.red
+        // GREEN = Color.green
+        // BLUE = Color.blue
+        // PINK = Color.magenta
+
+        setKartColor(carTransformList[0], Color.yellow);
+        setKartColor(carTransformList[1], Color.red);
+        setKartColor(carTransformList[2], Color.magenta);
+        setKartColor(carTransformList[3], Color.cyan);
+    }
+
+    public void setKartColor(Transform kartTransform, Color color)
+    {
+        Transform kartMesh = kartTransform.Find("Model").Find("kart_color_v2").Find("Main");
+        var block = new MaterialPropertyBlock();
+        block.SetColor("_BaseColor", color);
+
+        kartMesh.Find("front").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("fillerbrick").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("body l").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("body l.001").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("Cylinder").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("side bumper l").Find("Cube.004").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("side bumper r").Find("Cube.003").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("spoiler").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("test 1x2 doorrail.002").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("test 1x2 doorrail.002").Find("test 1x2 plate.001").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("test 1x2 doorrail.002").Find("test 1x2 plate.004").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("test 1x2 doorrail.003").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("test 1x2 doorrail.003").Find("test 1x2 plate.005").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("test 1x2 doorrail.003").Find("test 1x2 plate.006").GetComponent<MeshRenderer>().SetPropertyBlock(block);
+        kartMesh.Find("test 1x2 plate.010").GetComponent<MeshRenderer>().SetPropertyBlock(block);
     }
 
     public void CreateAI()
