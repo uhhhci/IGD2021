@@ -25,7 +25,7 @@ public class CarController : MonoBehaviour
     private Rigidbody rb;
     private bool backwards = false;
     private bool handbrake = false;
-    private bool controlEnabled = true;
+    private bool controlEnabled = false;
 
     public float maxAcceleration = 70.0f;
     public float turnSensitivity = 0.9f;
@@ -46,6 +46,11 @@ public class CarController : MonoBehaviour
     public void DisableControl()
     {
         controlEnabled = false;
+    }
+
+    public void EnableControl()
+    {
+        controlEnabled = true;
     }
 
     public void StopCar()
