@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 public class EndCharacterAssigner : MonoBehaviour
 {
@@ -10,10 +12,12 @@ public class EndCharacterAssigner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Assigning player customizations");
         for (int i = 0; i < 4; i++) {
-            InputManager.Instance.ApplyPlayerCustomization(hudCharacters[i], i+1);
+            if (!PlayerPrefs.GetString("PLAYER" + (i+1).ToString() + "_AI").Equals("True")) {
+                // skip AIs
+                InputManager.Instance.ApplyPlayerCustomization(hudCharacters[i], i+1);
+            }
         }
-
-        
     }
 }

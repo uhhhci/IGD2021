@@ -17,8 +17,14 @@ public class InputAssigner : MonoBehaviour
         InputManager.Instance.AssignPlayerInput(players);
 
         for (int i = 0; i < 4; i++) {
-            InputManager.Instance.ApplyPlayerCustomization(characters[i], i+1);
-            InputManager.Instance.ApplyPlayerCustomization(hudCharacters[i], i+1);
+            if (!PlayerPrefs.GetString("PLAYER" + (i+1).ToString() + "_AI").Equals("True")) {
+                // skip AIs
+                InputManager.Instance.ApplyPlayerCustomization(characters[i], i+1);
+                InputManager.Instance.ApplyPlayerCustomization(hudCharacters[i], i+1);
+            }
+            else {
+                Debug.Log("AI detected");
+            }
         }
 
         

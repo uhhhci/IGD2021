@@ -105,9 +105,34 @@ public class TurnManager : MonoBehaviour
         }
     }
 
+    private bool firstFrame = true;
+
     // Update is called once per frame
     void Update()
     {
+        if (firstFrame) {
+            firstFrame = false;
+            if (StatePreserver.Instance.gameStarted) {
+                // spawn the first golden brick in the first round (no previous minigame)
+                // this is called in the update method and not in Start() because the tiles
+                // build their neighborhood relation during the Start() phase
+                // however, relocate() recalculate the paths to the brick for the AIs which requires
+                // a complete and correct tile neighborhood relation.
+                brickManager.relocate();
+            }
+            else {
+                // restore golden brick location, this is done here for the same reason as the initial spawn
+                foreach (GameObject t in GameObject.FindGameObjectsWithTag("Tile")) { // for each tile
+                    Tile tile = (t.GetComponent(typeof(Tile)) as Tile);
+
+                    if (t.transform.position.x == StatePreserver.Instance.boardState.brickTile.x && 
+                        t.transform.position.z == StatePreserver.Instance.boardState.brickTile.z) {
+
+                        brickManager.restore(tile, t.transform);
+                    }
+                }
+            }
+        }
 
         if (currentState == TurnState.MOVING_CAM_TO_DIE && camera.movementCompleted()) {
             rollDie();
@@ -164,9 +189,10 @@ public class TurnManager : MonoBehaviour
         }
         else if (currentState == TurnState.SCOREBOARD) {
             for (int i = 0; i < 4; i++) {
-                int place = PlayerPrefs.GetInt("PLAYER" + i.ToString() + "_PLACE");
-
-                playerBelongings[i].addCreditAmount(4 - place + 1);
+                int place = PlayerPrefs.GetInt("PLAYER" + (i+1).ToString() + "_PLACE");
+                // place: {1,2,3,4} -> credits {3,2,1,0}
+                int reward = 4 - place;
+                playerBelongings[i].addCreditAmount(reward);
             }
 
             currentState = TurnState.SCOREBOARD_END;
@@ -203,7 +229,7 @@ public class TurnManager : MonoBehaviour
         activePlayer = 0;
         round++;
 
-        if (round >= numberOfRounds) {
+        if (round > numberOfRounds) {
             endGame();
         } 
         else {
@@ -213,7 +239,7 @@ public class TurnManager : MonoBehaviour
 
     /// returns whether the current player is an AI
     private bool isAI() {
-        return PlayerPrefs.GetString("Player" + (activePlayer+1).ToString() + "_AI").Equals("True");
+        return PlayerPrefs.GetString("PLAYER" + (activePlayer+1).ToString() + "_AI").Equals("True");
     }
 
     // call this method whenever an FSM ended which might modify the credit amounts of players
@@ -222,20 +248,43 @@ public class TurnManager : MonoBehaviour
     private bool updateTruePartyState() {
         if (truePartyPerson == -1) {
             // there is no true party person yet
+
+            // algorithm: the player with the most credits becomes the true party person
+            // break ties randomly
+            List<int> candidates = new List<int>();
+            int currentMax = truePartyThreshold; // candidates must have at least X credits to become the true party person
+
             for (int i = 0; i < 4; i++) {
-                if (playerBelongings[i].creditAmount() >= truePartyThreshold) {
-                    truePartyPerson = i;
-
-                    for (int j = 0; j < 4; j++) {
-                        playerBelongings[j].setIsTruePartyPerson(j == truePartyPerson);
-                    }
-
-                    audioSource.PlayOneShot(truePartyAudioClip);
-
-                    currentActionFSM = new BecomingTruePartyPerson();
-                    return true;
+                if (playerBelongings[i].creditAmount() > currentMax) {
+                    // all previous candidates are no longer candidates, because this player has more credits
+                    candidates.Clear();
+                    currentMax = playerBelongings[i].creditAmount();
+                }
+                
+                if (playerBelongings[i].creditAmount() == currentMax) {
+                    // this player is a candidate for the true party person
+                    candidates.Add(i);
                 }
             }
+
+            // candidates contains all player numbers which have more than truePartyThreshold credits and more credits than all other players
+            // all candidates have
+
+            if (candidates.Count > 0) {
+                // there is at least one candidate
+                int randomIndex = (int) UnityEngine.Random.Range(0, candidates.Count - 0.01f); // inclusive range
+                truePartyPerson = candidates[randomIndex];
+
+                for (int j = 0; j < 4; j++) {
+                    playerBelongings[j].setIsTruePartyPerson(j == truePartyPerson);
+                }
+
+                audioSource.PlayOneShot(truePartyAudioClip);
+
+                currentActionFSM = new BecomingTruePartyPerson();
+                return true;
+            }
+            // else: no candidates
         }
         return false;
     }
@@ -328,7 +377,7 @@ public class TurnManager : MonoBehaviour
             // lose a few coins
             return new TileLoseCoins(playerBelongings[activePlayer]);
         }
-        else if (selection >= 1 && !playerData[activePlayer].currentTile().hasTrap()) {
+        else if (selection >= 1 && currentTileHasNoTrap()) {
             // place a trap on the players tile
             GameObject trapObject = trapSpawner.spawnTrap(trapSpawner.transform.position);
             playerData[activePlayer].currentTile().setTrap(true, trapObject, -1); // invalid player number -> dangerous to all players
@@ -372,7 +421,7 @@ public class TurnManager : MonoBehaviour
             EndScreen.playerStats[i] = new EndScreen.PlayerStats(i, playerBelongings[i].goldenBricks(), playerBelongings[i].creditAmount());
         }
 
-        SceneManager.LoadScene("Groups/Group D - Boardgame/Scenes/EndScreen");
+        SceneManager.LoadSceneAsync("Groups/Group D - Boardgame/Scenes/EndScreen");
     }
 
     private void startNewTurn() {
@@ -783,12 +832,6 @@ public class TurnManager : MonoBehaviour
             // restore the tiles, i.e. golden brick, trap and player locations
             foreach (GameObject t in GameObject.FindGameObjectsWithTag("Tile")) { // for each tile
                 Tile tile = (t.GetComponent(typeof(Tile)) as Tile);
-
-                if (t.transform.position.x == StatePreserver.Instance.boardState.brickTile.x && 
-                    t.transform.position.z == StatePreserver.Instance.boardState.brickTile.z) {
-
-                    brickManager.restore(tile, t.transform);
-                }
 
                 foreach (StatePreserver.TrapState savedTrap in StatePreserver.Instance.boardState.trapTiles){
                     if (t.transform.position.x == savedTrap.x && t.transform.position.z == savedTrap.z){

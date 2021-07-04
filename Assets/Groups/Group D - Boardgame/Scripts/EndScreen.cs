@@ -55,31 +55,21 @@ public class EndScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (playerStats[0] != null) {
-            fillInRealData();
-        }
-        else {
-            // TODO: for debug and demonstration only
-            // (so that you don't have to load this scene from the Boardgame scene each time)
-            fillInDummyData();
-        }
-       
+        fillInRealData();
 
         Invoke("EndGame", endDelay);
     }
 
     private void fillInRealData() {
-        player1CreditDisplay.text = playerStats[0].credits.ToString();
-        player2CreditDisplay.text = playerStats[1].credits.ToString();
-        player3CreditDisplay.text = playerStats[2].credits.ToString();
-        player4CreditDisplay.text = playerStats[3].credits.ToString();
-
-        player1BrickDisplay.text = playerStats[0].bricks.ToString();
-        player2BrickDisplay.text = playerStats[1].bricks.ToString();
-        player3BrickDisplay.text = playerStats[2].bricks.ToString();
-        player4BrickDisplay.text = playerStats[3].bricks.ToString();
+        for (int i = 0; i < 4; i++) {
+            Debug.Log("playerStats[" + i.ToString() + "] = " + playerStats[i].bricks.ToString() + " bricks and " + playerStats[i].credits.ToString() + " credits");
+        }
 
         Array.Sort(playerStats);
+
+        for (int i = 0; i < 4; i++) {
+            Debug.Log("playerStats[" + i.ToString() + "] = " + playerStats[i].bricks.ToString() + " bricks and " + playerStats[i].credits.ToString() + " credits");
+        }
 
         int lastBrickCount = playerStats[3].bricks;
         int lastCreditCount = playerStats[3].credits;
@@ -97,23 +87,34 @@ public class EndScreen : MonoBehaviour
             }
             // else: tie between the players
 
+
             lastBrickCount = playerStats[i].bricks;
             lastCreditCount = playerStats[i].credits;
 
             string rank = lastRank.ToString();
 
+            Debug.Log("Player " + playerStats[i].playerNumber.ToString() + " is on place " + rank + " with " + lastBrickCount.ToString() + " bricks and " + lastCreditCount.ToString() + " credits");
+            
             switch (playerStats[i].playerNumber) {
                 case 0:
                    player1PlacementDisplay.text = rank; 
+                   player1CreditDisplay.text = lastCreditCount.ToString();
+                   player1BrickDisplay.text = lastBrickCount.ToString();
                    break;
                 case 1:
                    player2PlacementDisplay.text = rank; 
+                   player2CreditDisplay.text = lastCreditCount.ToString();
+                   player2BrickDisplay.text = lastBrickCount.ToString();
                    break;
                 case 2:
                    player3PlacementDisplay.text = rank; 
+                   player3CreditDisplay.text = lastCreditCount.ToString();
+                   player3BrickDisplay.text = lastBrickCount.ToString();
                    break;
                 case 3:
                    player4PlacementDisplay.text = rank; 
+                   player4CreditDisplay.text = lastCreditCount.ToString();
+                   player4BrickDisplay.text = lastBrickCount.ToString();
                    break;
             }
         }
