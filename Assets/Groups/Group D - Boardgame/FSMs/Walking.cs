@@ -24,9 +24,10 @@ public class Walking : FSM
         if (time > 2.0f) {
             // rare bug: movement does not finish correctly. The cause could not be identified over several weeks.
             Debug.Log("Movement bug occurred!");
-            // attempted workaround: do the movement again
+            // attempted workaround: 
             time = 0.0f;
-            activeController.MoveToTile(target);
+            activeController.ClearMoves(); // remove the previous move command
+            activeController.MoveToTile(target); // try againg
 
 
         }
