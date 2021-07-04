@@ -25,7 +25,7 @@ public class GriddyGame : MiniGame {
 
     public int gridoffset;
 
-    public float decaySpeed = 0.2f;
+    public float decaySpeed = 1f;//0.2f;
 
 
     private float death_depth;
@@ -34,6 +34,7 @@ public class GriddyGame : MiniGame {
     private List<GameObject> platforms = new List<GameObject>();
     private List<GameObject> dead_players = new List<GameObject>();
     private List<GameObject> players = new List<GameObject>();
+    private Dictionary<GameObject, AiState> aiStates = new Dictionary<GameObject, AiState>();
 
 
     public override string getDisplayName() {
@@ -51,11 +52,11 @@ public class GriddyGame : MiniGame {
         death_depth = -4 * height - 10;
 
         Debug.Log($"death_depth = {death_depth}");
-        
+
         platforms.Clear();
-        for (int x=0;x<length1;x++) {
-            for (int z=0;z<length2;z++) {
-                for (int curh=0;curh<height;curh++) {
+        for (int x = 0; x < length1; x++) {
+            for (int z = 0; z < length2; z++) {
+                for (int curh = 0; curh < height; curh++) {
                     var platform = Instantiate(pEnliS, position: new Vector3(x * xoffset - gridoffset, -1 * yoffset * curh, z * zoffset - gridoffset), rotation: transform.rotation);
                     platforms.Add(platform);
 
@@ -89,15 +90,14 @@ public class GriddyGame : MiniGame {
             .Where(p => p.transform.position.y < death_depth)
             .ToList()
             .ForEach(dead_players.Add);
-        
+
         return dead_players.ToList();
     }
 
 
     private int GameObject2Int(GameObject obj) => players.IndexOf(obj) + 1;
 
-    private void EndGame()
-    {
+    private void EndGame() {
         if (gameEnded) {
             return;
         }
@@ -113,15 +113,12 @@ public class GriddyGame : MiniGame {
 
         //Note this is still work in progress, but ideally you will use it like this
         MiniGameFinished(
-            firstPlace: first, 
-            secondPlace: second, 
-            thirdPlace: third, 
+            firstPlace: first,
+            secondPlace: second,
+            thirdPlace: third,
             fourthPlace: fourth
         );
     }
-
-
-    private DateTime _lastFollow = DateTime.Now;
 
     void Update() {
         BlackDeath();
@@ -129,48 +126,49 @@ public class GriddyGame : MiniGame {
         if (dead_players.Count() >= 4) {
             EndGame();
         }
-        if ((DateTime.Now - _lastFollow).TotalSeconds > 0.4) {
-            _lastFollow = DateTime.Now;
-            foreach (var aiPlayer in GetAiPlayers()) {
-                var goalCandidates = MinBy(platforms
-                    .Where(p => Vector3.Distance(p.transform.position, aiPlayer.transform.position) < 5f)
-                    .GroupBy(p => (int)(p.GetComponent<playerDetection>().decay * 10f)),
-                        group => group.Key).ToList();
-
-                var aiRotation = aiPlayer.transform.rotation;
-
-                var goalPlatform = goalCandidates[new System.Random().Next() % goalCandidates.Count];
-                //.MinBy(p => p.GetComponent<playerDetection>().decay);
-                //var goalPlatform = MinBy(goalCandidates, p => p.GetComponent<playerDetection>().decay);
-
-                //var goalVector = goalPlatform.transform.position - aiPlayer.transform.position;
-                aiPlayer.GetComponent<MinifigController>().MoveTo(goalPlatform.transform.position);
+        foreach (var aiPlayer in GetAiPlayers()) {
+            // determine platforms which have the most health points
+            if (aiStates.TryGetValue(aiPlayer, out var lastState)) {
+                var goalDistance = Vector2.Distance
+                (
+                    new Vector2(lastState.GoalPosition.x, lastState.GoalPosition.z),
+                    new Vector2(aiPlayer.transform.position.x, aiPlayer.transform.position.z)
+                );
+                if (goalDistance > 0.5 && 2.0 > Math.Abs(lastState.CurrentPosition.y - aiPlayer.transform.position.y))
+                    continue;
             }
-        }
-    }
 
+            float DistanceToPlayer(GameObject p) =>
+                Math.Max(
+                    Math.Abs(p.transform.position.y - aiPlayer.transform.position.y),
+                    Math.Max(
+                        Math.Abs(p.transform.position.x - aiPlayer.transform.position.x),
+                        Math.Abs(p.transform.position.z - aiPlayer.transform.position.z)
+                    )
+                );
 
-    public TSource MinBy<TSource, TKey>(IEnumerable<TSource> source,
-    Func<TSource, TKey> selector) {
-        if (source == null) throw new ArgumentNullException("source");
-        if (selector == null) throw new ArgumentNullException("selector");
-        var comparer = Comparer<TKey>.Default;
+            var neighboringPlatforms = platforms
+                .Where(p => DistanceToPlayer(p) < 3.25f)
+                .ToList();
 
-        using (var sourceIterator = source.GetEnumerator()) {
-            if (!sourceIterator.MoveNext()) {
-                throw new InvalidOperationException("Sequence contains no elements");
-            }
-            var min = sourceIterator.Current;
-            var minKey = selector(min);
-            while (sourceIterator.MoveNext()) {
-                var candidate = sourceIterator.Current;
-                var candidateProjected = selector(candidate);
-                if (comparer.Compare(candidateProjected, minKey) < 0) {
-                    min = candidate;
-                    minKey = candidateProjected;
-                }
-            }
-            return min;
+            var goalCandidates = neighboringPlatforms
+                .OrderBy(p => p.GetComponent<playerDetection>().decay)
+                .Take((int)Math.Ceiling(neighboringPlatforms.Count * 0.25))
+                .ToList();
+
+            if (!goalCandidates.Any())
+                continue;
+            var goalPlatform = goalCandidates[new System.Random().Next() % goalCandidates.Count];
+            var goalPosition = new Vector3(
+                x: goalPlatform.transform.position.x + (float)(new System.Random().NextDouble() * 0.4 - 0.2),
+                y: aiPlayer.transform.position.y,
+                z: goalPlatform.transform.position.z + (float)(new System.Random().NextDouble() * 0.4 - 0.2)
+            );
+            aiPlayer.GetComponent<MinifigController>().MoveTo(goalPosition);
+            aiStates[aiPlayer] = new AiState {
+                GoalPosition = goalPosition,
+                CurrentPosition = aiPlayer.transform.position
+            };
         }
     }
 
@@ -179,11 +177,11 @@ public class GriddyGame : MiniGame {
         if (PlayerPrefs.GetString("Player1_AI").Equals("True"))
             aiPlayers.Add(player1);
         //if (PlayerPrefs.GetString("Player2_AI").Equals("True"))
-            aiPlayers.Add(player2);
+        aiPlayers.Add(player2);
         //if (PlayerPrefs.GetString("Player3_AI").Equals("True"))
-            aiPlayers.Add(player3);
+        aiPlayers.Add(player3);
         //if (PlayerPrefs.GetString("Player4_AI").Equals("True"))
-            aiPlayers.Add(player4);
+        aiPlayers.Add(player4);
 
         return aiPlayers;
     }

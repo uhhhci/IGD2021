@@ -33,7 +33,7 @@ public class playerDetection : MonoBehaviour {
 
             var myDelta = Time.deltaTime * decaySpeed;
             decay += myDelta;
-            Debug.Log(decay);
+            //Debug.Log(decay);
 
             var fallingDistance = myDelta * 2.0f * (float)Mathf.Pow(decay, 3.0f);
             this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - fallingDistance, this.transform.position.z);
