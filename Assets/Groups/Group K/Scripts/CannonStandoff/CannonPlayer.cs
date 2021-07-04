@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
+using UnityEngine.UI;
 
 public class CannonPlayer : MonoBehaviour {
 	
@@ -35,10 +36,13 @@ public class CannonPlayer : MonoBehaviour {
 		get { return color; }
 		set {
 			Renderer[] parts = Cannon.GetComponentsInChildren<Renderer>();
+			Image crosshair = marker.GetComponent<Image>();
 			
 			foreach (Renderer c in parts) {
 				c.material = value;
 			}
+			
+			crosshair.color = value.color;
 			
 			color = value;
 		}

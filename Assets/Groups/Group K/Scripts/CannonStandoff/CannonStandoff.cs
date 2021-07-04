@@ -96,9 +96,9 @@ public class CannonStandoff : MiniGame {
 				secondPlace = empty;
 			}
 			
-			MiniGameFinished(firstPlace, secondPlace, empty, empty);
-			
 			running = false;
+			
+			MiniGameFinished(firstPlace, secondPlace, empty, empty);
 		}
 	}
 	
