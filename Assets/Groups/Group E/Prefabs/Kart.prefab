@@ -26990,6 +26990,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7566994460382068254}
   - component: {fileID: 7566994460382068255}
+  - component: {fileID: 7397945163086840868}
   m_Layer: 0
   m_Name: kart_color_v2
   m_TagString: Untagged
@@ -27029,6 +27030,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!136 &7397945163086840868
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7566994460382068225}
+  m_Material: {fileID: 13400000, guid: 019747864f28cbd4c961941ddc604bc7, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.0030404574
+  m_Height: 0.013297682
+  m_Direction: 2
+  m_Center: {x: -3.1506522e-14, y: 0.0030557625, z: 0.00022142411}
 --- !u!1 &7566994460431131515
 GameObject:
   m_ObjectHideFlags: 0
