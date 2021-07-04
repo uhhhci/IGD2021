@@ -64,7 +64,7 @@ public class MiniGameManager : MonoBehaviour
         player3_AI = true;
         player4_AI = true;
         player2_AI = true;
-        player1_AI = true;
+        player1_AI = false;
         AssignAI(player1_AI, player2_AI, player3_AI, player4_AI);
 
         //InputManager.Instance.AssignPlayerInput(playerInputs); // Stops execution of this monobehaviour in absence of playerprefs

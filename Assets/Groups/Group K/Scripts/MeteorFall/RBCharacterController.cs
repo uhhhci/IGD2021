@@ -158,6 +158,10 @@ public class RBCharacterController : MonoBehaviour
             stopSpecial = true;
             _stunnedParticles.SetActive(false);
         }
+        if(!isStunned && Time.time > kickTime)
+        {
+            stopSpecial = true;
+        }
 
         if(inputEnabled)
         {
@@ -165,6 +169,7 @@ public class RBCharacterController : MonoBehaviour
             {
                 _rb.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
                 isJumping = false;
+                stopSpecial = false;
             }
             if(!hasMoved || moveDelta > _moveThreshold)
             {
@@ -254,6 +259,7 @@ public class RBCharacterController : MonoBehaviour
         {
             _rb.AddForce(new Vector3(0, GRAVITY, 0));
             groundedTransform = null;
+            stopSpecial = false;
         }
 
         // If becoming grounded by this Move

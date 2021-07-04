@@ -37,9 +37,9 @@ public class ArenaController : MonoBehaviour
 
     public void ResetArena()
     {
-        _outerLayer.transform.position = transform.position;
-        _middleLayer.transform.position = transform.position;
-        _innerLayer.transform.position = transform.position;
+        _outerLayer.transform.position = new Vector3(transform.position.x, 0.626f, transform.position.z);
+        _middleLayer.transform.position = new Vector3(transform.position.x, 0.623f, transform.position.z); ;
+        _innerLayer.transform.position = new Vector3(transform.position.x, 0.62f, transform.position.z); ;
         isRunning = false;
     }
 
@@ -59,20 +59,21 @@ public class ArenaController : MonoBehaviour
         }
     }
 
-    public float GetCurrentRingRadius()
+    public float GetCurrentRingRadius() 
     {
+        // I am deeply sorry for the magic numbers, but the old method doesn't work with the new platform model
         float currTime = _startTime + Time.time;
         if (currTime > _startTime + _middleFall)
         {
-            return _innerLayer.localScale.x / 2 - 0.5f;
+            return 3 / 2 - 0.5f;
         }
         else if (currTime > _startTime + _outerFall)
         {
-            return _middleLayer.localScale.x / 2 - 0.5f;
+            return 10 / 2 - 0.5f;
         }
         else
         {
-            return _outerLayer.localScale.x / 2 - 0.5f;
+            return 15 / 2 - 0.5f;
         }
     }
 
