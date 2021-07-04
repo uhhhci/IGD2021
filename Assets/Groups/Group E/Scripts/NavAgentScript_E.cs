@@ -49,6 +49,15 @@ public class NavAgentScript_E : MonoBehaviour
     }
     }
 
+    public IEnumerator DisableAgentTemp()
+    {
+        Debug.Log("Test");
+        agent.enabled = false;
+        yield return new WaitForSeconds(3f);
+        Debug.Log("Test2");
+        agent.enabled = true;
+    }
+
     public IEnumerator WaitSeconds(int seconds)
     {
         yield return new WaitForSeconds(seconds);
