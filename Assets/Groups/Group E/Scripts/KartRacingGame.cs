@@ -9,6 +9,8 @@ public class KartRacingGame : MiniGame
 
     public static KartRacingGame Instance;
 
+    public bool gameFinished = false;
+
     public void Awake()
     {
         Instance = this;
@@ -49,9 +51,16 @@ public class KartRacingGame : MiniGame
         int[] third = { GameManager_E.Instance.thirdPlace };
         int[] fourth = { GameManager_E.Instance.fourthPlace };
 
-        Debug.Log("First: " + first[0]);
-        Debug.Log("Second: " + second[0]);
+        this.disableSplitScreen();
 
         MiniGameFinished(firstPlace: first, secondPlace: second, thirdPlace: third, fourthPlace: fourth);
+    }
+
+    private void disableSplitScreen()
+    {
+        GameObject.Find("Camera WASD").SetActive(false);
+        GameObject.Find("Camera ZGHJ").SetActive(false);
+        GameObject.Find("Camera PLÖA").SetActive(false);
+        GameObject.Find("Camera Num").SetActive(false);
     }
 }
