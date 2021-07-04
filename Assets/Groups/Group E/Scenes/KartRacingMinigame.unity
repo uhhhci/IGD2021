@@ -16126,6 +16126,14 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1051370366, guid: dc2b33f518b9f1f4e8179bbe16c7e954, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1051370366, guid: dc2b33f518b9f1f4e8179bbe16c7e954, type: 3}
+      propertyPath: m_Radius
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 6704776015284694937, guid: dc2b33f518b9f1f4e8179bbe16c7e954,
         type: 3}
       propertyPath: m_Speed
@@ -16209,7 +16217,12 @@ PrefabInstance:
     - target: {fileID: 8949071886246481627, guid: dc2b33f518b9f1f4e8179bbe16c7e954,
         type: 3}
       propertyPath: m_Radius
-      value: 1.5
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949071886246481627, guid: dc2b33f518b9f1f4e8179bbe16c7e954,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8949071886461998295, guid: dc2b33f518b9f1f4e8179bbe16c7e954,
         type: 3}
