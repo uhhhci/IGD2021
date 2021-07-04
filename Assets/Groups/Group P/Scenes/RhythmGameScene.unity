@@ -1483,7 +1483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music: {fileID: 0}
   beatsPerMinute: 138
-  totalNumberOfBeats: 235
+  totalNumberOfBeats: 224
   offset: 28.26
 --- !u!82 &548664553
 AudioSource:
@@ -1605,7 +1605,7 @@ PrefabInstance:
     - target: {fileID: 70292193334677109, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: m_Name
-      value: Player Minifig KeyboardNum
+      value: Player 1
       objectReference: {fileID: 0}
     - target: {fileID: 629297074304548042, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -2457,7 +2457,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1078156040
 MonoBehaviour:
@@ -3677,7 +3677,7 @@ PrefabInstance:
     - target: {fileID: 70292193334677109, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: m_Name
-      value: "Player Minifig PL\xD6\xC4"
+      value: Player 4
       objectReference: {fileID: 0}
     - target: {fileID: 629297074304548042, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -3727,7 +3727,7 @@ PrefabInstance:
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -3836,7 +3836,7 @@ PrefabInstance:
     - target: {fileID: 70292193334677109, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: m_Name
-      value: Player Minifig WASD
+      value: Player 3
       objectReference: {fileID: 0}
     - target: {fileID: 629297074304548042, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -3887,7 +3887,7 @@ PrefabInstance:
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -4158,7 +4158,7 @@ PrefabInstance:
     - target: {fileID: 70292193334677109, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: m_Name
-      value: Player Minifig ZGHJ
+      value: Player 2
       objectReference: {fileID: 0}
     - target: {fileID: 629297074304548042, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -4213,7 +4213,7 @@ PrefabInstance:
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8612489488774388799, guid: 356ec582802257d42acd4723ce219f58,
         type: 3}
@@ -4518,7 +4518,7 @@ PrefabInstance:
     - target: {fileID: 5567866087916152828, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5567866087916152828, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
         type: 3}
@@ -4608,13 +4608,13 @@ PrefabInstance:
     - target: {fileID: 5804614690480016050, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
         type: 3}
       propertyPath: songIndex
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5804614690480016050, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
         type: 3}
       propertyPath: player1
       value: 
-      objectReference: {fileID: 1254834988}
+      objectReference: {fileID: 1247596735}
     - target: {fileID: 5804614690480016050, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
         type: 3}
       propertyPath: player2
@@ -4624,12 +4624,12 @@ PrefabInstance:
         type: 3}
       propertyPath: player3
       value: 
-      objectReference: {fileID: 1420768631}
+      objectReference: {fileID: 1254834988}
     - target: {fileID: 5804614690480016050, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
         type: 3}
       propertyPath: player4
       value: 
-      objectReference: {fileID: 1247596735}
+      objectReference: {fileID: 1420768631}
     - target: {fileID: 5804614690480016050, guid: 7dba2f9456a15d942b3c3933ad1e2ecc,
         type: 3}
       propertyPath: _finishGamePrefab

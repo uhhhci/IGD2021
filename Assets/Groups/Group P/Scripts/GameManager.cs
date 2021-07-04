@@ -53,29 +53,36 @@ namespace GroupP {
         // Start is called before the first frame update
         void Start()
         {
+            PlayerPrefs.SetString("PLAYER1_NAME", "1");
+            PlayerPrefs.SetString("PLAYER2_NAME", "2");
+            PlayerPrefs.SetString("PLAYER3_NAME", "3");
+            PlayerPrefs.SetString("PLAYER4_NAME", "4");
+
+
             player1.GetComponent<Player>().isAI = PlayerPrefs.GetString("Player1_AI").Equals("True");
-            player2.GetComponent<Player>().isAI = true;//PlayerPrefs.GetString("Player2_AI").Equals("True");
-            player3.GetComponent<Player>().isAI = true;//PlayerPrefs.GetString("Player3_AI").Equals("True");
-            player4.GetComponent<Player>().isAI = true;//PlayerPrefs.GetString("Player4_AI").Equals("True"); 
+            player2.GetComponent<Player>().isAI = PlayerPrefs.GetString("Player2_AI").Equals("True");
+            player3.GetComponent<Player>().isAI = PlayerPrefs.GetString("Player3_AI").Equals("True");
+            player4.GetComponent<Player>().isAI = PlayerPrefs.GetString("Player4_AI").Equals("True"); 
 
             var playerInputs = new List<PlayerInput>();
             if(!player1.GetComponent<Player>().isAI) {
                 playerInputs.Add(player1.GetComponent<PlayerInput>());
+                InputManager.Instance.ApplyPlayerCustomization(player1, 1);
             }
             if(!player2.GetComponent<Player>().isAI) {
                 playerInputs.Add(player2.GetComponent<PlayerInput>());
+                InputManager.Instance.ApplyPlayerCustomization(player2, 2);
             }
             if(!player3.GetComponent<Player>().isAI) {
                 playerInputs.Add(player3.GetComponent<PlayerInput>());
+                InputManager.Instance.ApplyPlayerCustomization(player3, 3);
             }
             if(!player4.GetComponent<Player>().isAI) {
                 playerInputs.Add(player4.GetComponent<PlayerInput>());
+                InputManager.Instance.ApplyPlayerCustomization(player4, 4);
             }
             
-            InputManager.Instance.AssignPlayerInput(playerInputs);
-
-            //LoadingManager.Instance.LoadMiniGame(getMiniGameType());
-            
+            InputManager.Instance.AssignPlayerInput(playerInputs, new List<string> { "1", "2", "3", "4"});
             
             _instance = this;
             // DANCE
@@ -104,9 +111,10 @@ namespace GroupP {
                 scores.Add((3, player3.GetComponent<Score>().score));
                 scores.Add((4, player4.GetComponent<Score>().score));
 
+                // Highest score first
                 scores.Sort(delegate ((int, int) p1, (int, int) p2) 
                 {
-                    return p1.Item2.CompareTo(p2.Item2);
+                    return p2.Item2.CompareTo(p1.Item2);
                 });
 
                 // TODO check double places
@@ -114,14 +122,25 @@ namespace GroupP {
                 for(int i=0;i<4;++i) {
                     places.Add(new List<int>());
                 }
-                places[0].Add(scores[3].Item1);
                 
+                // First score is always first rank
+                places[0].Add(scores[0].Item1);
+                
+                // distribute remaining scores into the respective arrays by comparing
+                // score[i] to score[i-1]
                 int lastPlace = 0;
-                for(int i=2;i >= 0; --i) {
-                    if(scores[i].Item1 < scores[i+1].Item1) {
+                for(int i=1;i < 4; ++i) {
+                    if(scores[i].Item2 < scores[i-1].Item2) {
                         lastPlace++;
                     }
-                    places[lastPlace].Add(i);
+                    places[lastPlace].Add(scores[i].Item1);
+                }
+
+                for(int i = 0; i < 4 ; ++i) {
+                    Debug.Log("place " + i+1);
+                    foreach(var n in places[i]) {
+                        Debug.Log(n);
+                    }
                 }
 
                 MiniGameFinished(
