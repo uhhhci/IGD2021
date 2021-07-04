@@ -13,5 +13,6 @@ public class Respawn : MonoBehaviour
         MinifigController otherController = (MinifigController)other.gameObject.GetComponent("MinifigController");
         otherController.TeleportTo(RespawnPointWSAD.transform.position);
         playSoundRespawn.Play();
+        
     }
 }
