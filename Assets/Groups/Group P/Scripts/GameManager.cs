@@ -53,11 +53,6 @@ namespace GroupP {
         // Start is called before the first frame update
         void Start()
         {
-            PlayerPrefs.SetString("PLAYER1_NAME", "1");
-            PlayerPrefs.SetString("PLAYER2_NAME", "2");
-            PlayerPrefs.SetString("PLAYER3_NAME", "3");
-            PlayerPrefs.SetString("PLAYER4_NAME", "4");
-
 
             player1.GetComponent<Player>().isAI = PlayerPrefs.GetString("Player1_AI").Equals("True");
             player2.GetComponent<Player>().isAI = PlayerPrefs.GetString("Player2_AI").Equals("True");
