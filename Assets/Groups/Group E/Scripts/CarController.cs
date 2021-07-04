@@ -111,7 +111,7 @@ public class CarController : MonoBehaviour
         {
             if(fastGrounds.Contains(raycastHit.collider.gameObject))
             {
-                SetWheelsSidewaysStiffnessTo(2f);
+                SetWheelsSidewaysStiffnessTo(1f);
                 SetWheelsForwardStiffnessTo(2f);
                 maxAcceleration = 70.0f;
                 maxVelocity = 55.0f;
