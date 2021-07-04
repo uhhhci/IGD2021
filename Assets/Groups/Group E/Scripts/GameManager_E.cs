@@ -189,8 +189,8 @@ public class GameManager_E : MonoBehaviour
     private void InitializeAIPlayer(Transform car)
     {
         NavMeshAgent agent = car.gameObject.AddComponent(typeof(NavMeshAgent)) as NavMeshAgent;
-        agent.speed = 20;
-        agent.acceleration = 15;
+        agent.speed = 21;
+        agent.acceleration = 13;
         agent.stoppingDistance = 10;
 
         NavAgentScript_E agentScript = car.gameObject.AddComponent(typeof(NavAgentScript_E)) as NavAgentScript_E;
