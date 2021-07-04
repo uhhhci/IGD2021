@@ -10,6 +10,7 @@ public class CannonPlayer : MonoBehaviour {
 	private bool shooting;
 	private float lastShotTimer;
 	private Material color;
+	private AudioSource audio;
 	
 	/* AI */
 	private bool aiControlled;
@@ -22,7 +23,6 @@ public class CannonPlayer : MonoBehaviour {
 	public GameObject bullet = null;
 	public float bulletSpeed = 15.0f;
 	public float cooldown = 1.0f;
-	public AudioSource audio;
 	
 	/* AI */
 	public int maxAttemptedShots = 5;
