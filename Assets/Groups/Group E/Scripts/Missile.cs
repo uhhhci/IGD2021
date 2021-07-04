@@ -52,14 +52,18 @@ public class Missile : MonoBehaviour
                 ps.StopShield();
             } else
             {
-                playerRb.AddExplosionForce(1200f, gameObject.transform.position, 3.0f);
-                playerController.StopCar();
+                if(agent == null)
+                {
+                    playerRb.AddExplosionForce(1200f, gameObject.transform.position, 3.0f);
+                    playerController.StopCar();
+                }
+
             }
 
             AnimateExplosion(gameObject.transform);
             Destroy();
 
-            if (agent != null)
+            if(agent != null)
             {
                 agent.enabled = true;
             }

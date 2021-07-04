@@ -31,14 +31,13 @@ public class NavAgentScript_E : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(agent.enabled)
+        if(agent.enabled && agent.isOnNavMesh)
         {
         target = triggerZones[NextCheckPoint].transform;
         agent.SetDestination(target.position);
         //Debug.Log("Agent position: " + agent.transform.position + "\nAgent steering target: " + agent.steeringTarget);
         if (agent.steeringTarget.x == target.position.x && agent.steeringTarget.z == target.position.z)
         {
-            Debug.Log(NextCheckPoint);
             NextCheckPoint = (NextCheckPoint + 1) % triggerZones.Count;
             //StartCoroutine(WaitSeconds(1));
         }
@@ -51,10 +50,8 @@ public class NavAgentScript_E : MonoBehaviour
 
     public IEnumerator DisableAgentTemp()
     {
-        Debug.Log("Test");
         agent.enabled = false;
         yield return new WaitForSeconds(3f);
-        Debug.Log("Test2");
         agent.enabled = true;
     }
 
