@@ -17,7 +17,7 @@ public class RespawnController : MonoBehaviour
     {
         RaycastHit raycastHit;
         Vector3 raycastStart = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
-        if (Physics.Raycast(raycastStart, Vector3.down, out raycastHit, 40.0f))
+        if (Physics.Raycast(raycastStart, transform.up * -1, out raycastHit, 40.0f))
         {
             if (validGrounds.Contains(raycastHit.collider.gameObject))
             {
@@ -39,6 +39,9 @@ public class RespawnController : MonoBehaviour
                 offTrackTime += Time.deltaTime;
              
             }
+        } else
+        {
+            offTrackTime += Time.deltaTime;
         }
 
         
