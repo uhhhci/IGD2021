@@ -182,7 +182,7 @@ public class CarController : MonoBehaviour
     {
         foreach (Wheel wheel in wheels)
         {
-            Debug.Log("Speed: " + (rb.velocity.magnitude * 3.6f) + " km/h");
+            //Debug.Log("Speed: " + (rb.velocity.magnitude * 3.6f) + " km/h");
             if (controlEnabled)
             {
                 // driving forwards --> accelerate

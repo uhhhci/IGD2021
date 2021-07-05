@@ -17,6 +17,7 @@ public class PlayerStats : MonoBehaviour
     public PowerUp power;
     public bool hasPowerup;
     public bool hasWhiteBrick;
+    private bool hasFinished;
 
     public Image imageWhiteBrick;
     public Image imagePowerupSpeed;
@@ -40,6 +41,7 @@ public class PlayerStats : MonoBehaviour
         rounds = 0;
         hasPowerup = false;
         hasWhiteBrick = false;
+        hasFinished = false;
         imageWhiteBrick.enabled = false;
         imagePowerupSpeed.enabled = false;
         imagePowerupAttack.enabled = false;
@@ -55,6 +57,8 @@ public class PlayerStats : MonoBehaviour
         audioReverseSteer = reverseSteer.GetComponent<AudioSource>();
         emmision = psShield.emission;
         psSpeed = speed.GetComponent<ParticleSystem>();
+
+        int position;
     }
 
     public void StartReverseSteer()
@@ -107,6 +111,14 @@ public class PlayerStats : MonoBehaviour
         } else
         {
             textRounds.text = "You finished!";
+            hasFinished = true;
+            CarController carController = this.GetComponent<CarController>();
+            carController.DisableControl();
+
+            if (this.TryGetComponent(out NavAgentScript_E agent))
+            {
+                agent.DisableAgentFinish();
+            }
         }
     }
 
@@ -132,19 +144,23 @@ public class PlayerStats : MonoBehaviour
 
     public int GetKartPosition(List<Transform> carTransformList)
     {
-        float distance = GetDistance();
-        int position = 1;
-        //Debug.Log("Distance Cart: " + distance);
-        foreach (Transform car in carTransformList)
+        if(!hasFinished)
         {
-            PlayerStats thePlayer = car.GetComponent<PlayerStats>();
-            if (thePlayer.GetDistance() > distance)
+            float distance = GetDistance();
+            position = 1;
+            //Debug.Log("Distance Cart: " + distance);
+            foreach (Transform car in carTransformList)
             {
-                position++;
+                PlayerStats thePlayer = car.GetComponent<PlayerStats>();
+                if (thePlayer.GetDistance() > distance)
+                {
+                    position++;
+                }
             }
+            //Debug.Log("Position: " + position);
+            textPosition.text = "Position: " + position + "/4";
+            return position;
         }
-        //Debug.Log("Position: " + position);
-        textPosition.text = "Position: " + position + "/4";
         return position;
     }
 }

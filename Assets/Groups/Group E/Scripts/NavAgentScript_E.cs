@@ -11,10 +11,12 @@ public class NavAgentScript_E : MonoBehaviour
     NavMeshAgent agent;
     private int NextCheckPoint;
     PlayerStats thePlayer;
+    Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        thePlayer = this.GetComponent<PlayerStats>();        
+        thePlayer = this.GetComponent<PlayerStats>();
+        rb = this.GetComponent<Rigidbody>();
 
         triggerZones = new List<TriggerZone>();
         foreach (Transform checkpointSingleTransform in Checkpoints)
@@ -33,19 +35,24 @@ public class NavAgentScript_E : MonoBehaviour
     {
         if(agent.enabled && agent.isOnNavMesh)
         {
-        target = triggerZones[NextCheckPoint].transform;
-        agent.SetDestination(target.position);
-        //Debug.Log("Agent position: " + agent.transform.position + "\nAgent steering target: " + agent.steeringTarget);
-        if (agent.steeringTarget.x == target.position.x && agent.steeringTarget.z == target.position.z)
-        {
-            NextCheckPoint = (NextCheckPoint + 1) % triggerZones.Count;
-            //StartCoroutine(WaitSeconds(1));
-        }
-        if(thePlayer.hasPowerup)
-        {
-            StartCoroutine(thePlayer.power.UsePowerup(thePlayer.gameObject));
+            target = triggerZones[NextCheckPoint].transform;
+            agent.SetDestination(target.position);
+            //Debug.Log("Agent position: " + agent.transform.position + "\nAgent steering target: " + agent.steeringTarget);
+            if (agent.steeringTarget.x == target.position.x && agent.steeringTarget.z == target.position.z)
+            {
+                NextCheckPoint = (NextCheckPoint + 1) % triggerZones.Count;
+                //StartCoroutine(WaitSeconds(1));
+            }
+            if(thePlayer.hasPowerup)
+            {
+                StartCoroutine(thePlayer.power.UsePowerup(thePlayer.gameObject));
+            }
         }
     }
+
+    public void DisableAgent()
+    {
+        agent.enabled = false;
     }
 
     public void DisableAgentTemp()
@@ -57,5 +64,10 @@ public class NavAgentScript_E : MonoBehaviour
     private void EnableAgent()
     {
         agent.enabled = true;
+    }
+
+    public void DisableAgentFinish()
+    {
+        Invoke("DisableAgent", 1.5f);
     }
 }
