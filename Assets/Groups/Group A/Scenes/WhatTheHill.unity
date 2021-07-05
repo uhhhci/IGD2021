@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.24574013, g: 0.5653239, b: 0.86652875, a: 1}
+  m_IndirectSpecularColor: {r: 0.24573775, g: 0.5653007, b: 0.8632721, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -924,9 +924,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 193292910}
-  - component: {fileID: 193292909}
   - component: {fileID: 193292908}
-  - component: {fileID: 193292907}
   m_Layer: 0
   m_Name: WTHGameManger
   m_TagString: Untagged
@@ -934,19 +932,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &193292907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 193292906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 227870ae020f043cbb47bfce29466447, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _randomPicker: {fileID: 0}
 --- !u!114 &193292908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -967,29 +952,6 @@ MonoBehaviour:
   - {fileID: 543783103}
   - {fileID: 1578968294}
   myGameEndingCondition: 0
---- !u!114 &193292909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 193292906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf5d5f23cf1a64811825cb10a87d81f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  players_colors:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  - {r: 1, g: 0, b: 1, a: 1}
-  - {r: 0, g: 0, b: 1, a: 1}
-  players_colors_names:
-  - RED
-  - YELLOW
-  - PINK
-  - BLUE
-  ids_players: 01000000020000000300000004000000
 --- !u!4 &193292910
 Transform:
   m_ObjectHideFlags: 0
@@ -1002,7 +964,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &217320895
 PrefabInstance:
@@ -2160,6 +2122,11 @@ PrefabInstance:
       propertyPath: m_DefaultControlScheme
       value: KeyboardNum
       objectReference: {fileID: 0}
+    - target: {fileID: 1639799324016619032, guid: 2c2bcf3b7062ea04f8ca6ec22a413225,
+        type: 3}
+      propertyPath: m_Name
+      value: Minifig Character
+      objectReference: {fileID: 0}
     - target: {fileID: 2141080080830424671, guid: 2c2bcf3b7062ea04f8ca6ec22a413225,
         type: 3}
       propertyPath: Controller
@@ -3286,6 +3253,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_DefaultControlScheme
       value: KeyboardZGHJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639799324016619032, guid: 2c2bcf3b7062ea04f8ca6ec22a413225,
+        type: 3}
+      propertyPath: m_Name
+      value: Minifig Character
       objectReference: {fileID: 0}
     - target: {fileID: 2141080080830424671, guid: 2c2bcf3b7062ea04f8ca6ec22a413225,
         type: 3}
@@ -4774,6 +4746,7 @@ MonoBehaviour:
   rotate: 1
   rotationSpeed: 3
   ringToRotate: 1
+  maxLinkDistance: 5
   i: 0
 --- !u!4 &968045325
 Transform:
@@ -4941,6 +4914,104 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 06956517364c3694598ff8af2db46bbf, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60d3688bc6832bf45ac9ea2bf1c8ab03, type: 3}
+--- !u!1 &1001131095
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1001131097}
+  - component: {fileID: 1001131096}
+  m_Layer: 0
+  m_Name: WTHInputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1001131096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001131095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf5d5f23cf1a64811825cb10a87d81f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players_colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  players_colors_names:
+  - RED
+  - YELLOW
+  - PINK
+  - BLUE
+  ids_players: 01000000020000000300000004000000
+--- !u!4 &1001131097
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001131095}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -10.926788, y: -21.051018, z: -4.4019384}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1013903900
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1013903902}
+  - component: {fileID: 1013903901}
+  m_Layer: 0
+  m_Name: WTHLoadingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1013903901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013903900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227870ae020f043cbb47bfce29466447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _randomPicker: {fileID: 0}
+--- !u!4 &1013903902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013903900}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -10.926788, y: -21.051018, z: -4.4019384}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1036290693
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6750,6 +6821,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_DefaultControlScheme
       value: "KeyboardPL\xD6\xC4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639799324016619032, guid: 2c2bcf3b7062ea04f8ca6ec22a413225,
+        type: 3}
+      propertyPath: m_Name
+      value: Minifig Character
       objectReference: {fileID: 0}
     - target: {fileID: 2141080080830424671, guid: 2c2bcf3b7062ea04f8ca6ec22a413225,
         type: 3}
@@ -9127,6 +9203,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player Controller_WTH_WASD
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639799324016619032, guid: 2c2bcf3b7062ea04f8ca6ec22a413225,
+        type: 3}
+      propertyPath: m_Name
+      value: Minifig Character
       objectReference: {fileID: 0}
     - target: {fileID: 5028702893213655728, guid: 2c2bcf3b7062ea04f8ca6ec22a413225,
         type: 3}
