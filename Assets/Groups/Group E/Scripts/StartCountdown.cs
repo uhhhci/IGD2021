@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,10 +7,11 @@ public class StartCountdown : MonoBehaviour
 
     public GameObject countDown;
 
-    // Start is called before the first frame update
-    void Start()
+   public void StartToCount()
     {
-        StartCoroutine(CountDownRoutine());     
+        Debug.Log("start to count");
+        countDown.SetActive(true);
+        StartCoroutine(CountDownRoutine());
     }
 
     IEnumerator CountDownRoutine()
