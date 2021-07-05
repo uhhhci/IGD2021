@@ -32,19 +32,17 @@ public class WhatTheHillGame : MiniGame
         int i = 1;
         foreach (GameObject player in Players)
         {
+            bool isAi = PlayerPrefs.GetString("PLAYER" + i + "_AI").Equals("True");
+            Players[i - 1].GetComponent<MinifigControllerWTH>().activateAI(isAi);
+            if (isAi)
+            {
+                InputManager.Instance.ApplyPlayerCustomization(player, i);
+            }
             playerInputs.Add(player.GetComponent<PlayerInput>());
-            InputManager.Instance.ApplyPlayerCustomization(player, i);
             i++;
         }
 
 
-        PlayerPrefs.SetString("Player3_AI", "true");
-        PlayerPrefs.SetString("Player4_AI", "true");
-
-        Players[0].GetComponent<MinifigControllerWTH>().activateAI(PlayerPrefs.GetString("Player1_AI").Equals("True"));
-        Players[1].GetComponent<MinifigControllerWTH>().activateAI(true);
-        Players[2].GetComponent<MinifigControllerWTH>().activateAI(true);
-        Players[3].GetComponent<MinifigControllerWTH>().activateAI(true);
         //This assigns the player input in the order they were given in the array
         InputManager.Instance.AssignPlayerInput(playerInputs);
 
