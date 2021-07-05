@@ -107,16 +107,60 @@ public class GameManager_E : MonoBehaviour
 
     public void setKartColors()
     {
-        // TODO: Grab real colors
-        // RED = Color.red
-        // GREEN = Color.green
-        // BLUE = Color.blue
-        // PINK = Color.magenta
+        if (PlayerPrefs.GetString("PLAYER1_NAME").Equals("True"))
+        {
+            setKartColor(carTransformList[0], mapColorValue(PlayerPrefs.GetString("PLAYER1_NAME")));
+        } else
+        {
+            setKartColor(carTransformList[0], Color.yellow);
+        }
+        if (PlayerPrefs.GetString("PLAYER2_NAME").Equals("True"))
+        {
+            setKartColor(carTransformList[1], mapColorValue(PlayerPrefs.GetString("PLAYER2_NAME")));
+        }
+        else
+        {
+            setKartColor(carTransformList[1], Color.white);
+        }
+        if (PlayerPrefs.GetString("PLAYER3_NAME").Equals("True"))
+        {
+            setKartColor(carTransformList[2], mapColorValue(PlayerPrefs.GetString("PLAYER3_NAME")));
+        } 
+        else
+        {
+            setKartColor(carTransformList[2], Color.gray);
+        }
+        if (PlayerPrefs.GetString("PLAYER4_NAME").Equals("True"))
+        {
+            setKartColor(carTransformList[3], mapColorValue(PlayerPrefs.GetString("PLAYER4_NAME")));
+        }
+        else
+        {
+            setKartColor(carTransformList[3], Color.cyan);
+        }
+    }
 
-        setKartColor(carTransformList[0], Color.yellow);
-        setKartColor(carTransformList[1], Color.red);
-        setKartColor(carTransformList[2], Color.magenta);
-        setKartColor(carTransformList[3], Color.cyan);
+    private Color mapColorValue(string color)
+    {
+        if (color.ToUpper().Equals("RED"))
+        {
+            return Color.red;
+        }
+        if (color.ToUpper().Equals("GREEN"))
+        {
+            return Color.green;
+        }
+        if (color.ToUpper().Equals("BLUE"))
+        {
+            return Color.blue;
+        }
+        if (color.ToUpper().Equals("PINK"))
+        {
+            return Color.magenta;
+        } else
+        {
+            return Color.white;
+        }
     }
 
     public void setKartColor(Transform kartTransform, Color color)
