@@ -11,23 +11,22 @@ public class InterconnectionsAi : MonoBehaviour
         // goes through all players in the order which is also used to get the input,
         // such that we know which player is the first, second and so on
         // then searches for the correct string variable set by the interconnections group
-        for (int index = 1; index <= 4; index++)
+        if(players.Count == 4)
         {
-            var player = players[index -1];
-
-            // TODO this is just for demo purposes and should be removed after presentation
-            if(playerName == "PLÖÄ")
+            for (int index = 1; index <= 4; index++)
             {
-                // print("demo! PLÖÄ is an AI now");
-                return true;
+                var player = players[index - 1];
+                // print($"player name: {player.playerName}");
+
+                if (playerName == player.playerName)
+                {
+                    bool isAi = PlayerPrefs.GetString($"Player{index}_AI").Equals("True");
+                    // print($"player at index {index} ({playerName}) isAi? {isAi}");
+                    return isAi;
+                }
             }
 
-            if(playerName == player.playerName)
-            {
-                bool isAi = PlayerPrefs.GetString($"Player{index}_AI").Equals("True");
-                // print($"player at index {index} ({playerName}) isAi? {isAi}");
-                return isAi;
-            }
+            return false;
         }
 
         return false;
@@ -36,7 +35,7 @@ public class InterconnectionsAi : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        players = PhaseHandler.players;
     }
 
     // Update is called once per frame
