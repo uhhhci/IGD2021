@@ -15,9 +15,9 @@ public class GoldenBrickManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!restored) {
-            relocate();
-        }
+        // if (!restored) {
+        //     relocate();
+        // }
     }
 
     public void relocate() {
