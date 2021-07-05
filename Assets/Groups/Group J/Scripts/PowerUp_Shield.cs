@@ -15,9 +15,9 @@ public class PowerUp_Shield : MonoBehaviour
     {
         //player.getcomponent.punchable = false??
         // und wenn einmal gepunched dann shild zerstören?
-        CreateShield(shieldPrefab,controller);
+        var shield  =CreateShield(shieldPrefab,controller);
         yield return new WaitForSeconds(secondsToUse);
-        Destroy(shieldPrefab);
+        Destroy(shield);
 
     }
 
