@@ -6,7 +6,7 @@ public static class GameList
     public static List<string> GAMES = new List<string> {"Free for All","One vs Three","Two vs Two"};
 
     //Board Group: change the name of the scene if required
-    public const string MAIN_BOARD_SCENE = "BoardScene";
+    public const string MAIN_BOARD_SCENE = "Boardgame";
 
     public static List<MiniGame> FREE_FOR_ALL_LIST = new List<MiniGame>{
         new GriddyGame(),
@@ -28,6 +28,14 @@ public static class GameList
         new CrossTheCanyons(),
         new LegoPaperScissorsMinigame(),
         new GameManagerJ()
+    };
+
+    //For Board Game Testing Purposes
+    public static List<MiniGame> TESTING_LIST = new List<MiniGame>{
+        new TestingGame(),
+        new TestingGame(),
+        new TestingGame()
+
     };
 
 }

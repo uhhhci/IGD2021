@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 414312059314857237}
   m_Layer: 0
   m_Name: Bolt_Enemy
-  m_TagString: Enemy
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,6 +95,7 @@ MonoBehaviour:
   Explosion: {fileID: 0}
   HitPoints: 0
   HealthBar: {fileID: 0}
+  CanBeDestroyedBy: 0
   DropPowerUps: []
   DropChance: 0
 --- !u!114 &-9048575715989600955
@@ -124,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Explosion: {fileID: 8357219018962010681, guid: 14c7c9664bdd56d49ba1409bc05f4e03,
     type: 3}
+  Type: 0
 --- !u!1 &1426405225796097886
 GameObject:
   m_ObjectHideFlags: 0

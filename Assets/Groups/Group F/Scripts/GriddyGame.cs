@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
@@ -30,7 +31,7 @@ public class GriddyGame : MiniGame {
     private float death_depth;
 
     private bool gameEnded = false;
-    private List<GameObject> _platforms = new List<GameObject>();
+    private List<GameObject> platforms = new List<GameObject>();
     private List<GameObject> dead_players = new List<GameObject>();
     private List<GameObject> players = new List<GameObject>();
 
@@ -50,12 +51,13 @@ public class GriddyGame : MiniGame {
         death_depth = -4 * height - 10;
 
         Debug.Log($"death_depth = {death_depth}");
-
+        
+        platforms.Clear();
         for (int x=0;x<length1;x++) {
             for (int z=0;z<length2;z++) {
                 for (int curh=0;curh<height;curh++) {
                     var platform = Instantiate(pEnliS, position: new Vector3(x * xoffset - gridoffset, -1 * yoffset * curh, z * zoffset - gridoffset), rotation: transform.rotation);
-                    _platforms.Add(platform);
+                    platforms.Add(platform);
 
                     var playerDetection = platform.GetComponent<playerDetection>();
                     playerDetection.bc = platform.GetComponent<BoxCollider>();
@@ -117,11 +119,72 @@ public class GriddyGame : MiniGame {
             fourthPlace: fourth
         );
     }
+
+
+    private DateTime _lastFollow = DateTime.Now;
+
     void Update() {
         BlackDeath();
 
         if (dead_players.Count() >= 4) {
             EndGame();
         }
+        if ((DateTime.Now - _lastFollow).TotalSeconds > 0.4) {
+            _lastFollow = DateTime.Now;
+            foreach (var aiPlayer in GetAiPlayers()) {
+                var goalCandidates = MinBy(platforms
+                    .Where(p => Vector3.Distance(p.transform.position, aiPlayer.transform.position) < 5f)
+                    .GroupBy(p => (int)(p.GetComponent<playerDetection>().decay * 10f)),
+                        group => group.Key).ToList();
+
+                var aiRotation = aiPlayer.transform.rotation;
+
+                var goalPlatform = goalCandidates[new System.Random().Next() % goalCandidates.Count];
+                //.MinBy(p => p.GetComponent<playerDetection>().decay);
+                //var goalPlatform = MinBy(goalCandidates, p => p.GetComponent<playerDetection>().decay);
+
+                //var goalVector = goalPlatform.transform.position - aiPlayer.transform.position;
+                aiPlayer.GetComponent<MinifigController>().MoveTo(goalPlatform.transform.position);
+            }
+        }
+    }
+
+
+    public TSource MinBy<TSource, TKey>(IEnumerable<TSource> source,
+    Func<TSource, TKey> selector) {
+        if (source == null) throw new ArgumentNullException("source");
+        if (selector == null) throw new ArgumentNullException("selector");
+        var comparer = Comparer<TKey>.Default;
+
+        using (var sourceIterator = source.GetEnumerator()) {
+            if (!sourceIterator.MoveNext()) {
+                throw new InvalidOperationException("Sequence contains no elements");
+            }
+            var min = sourceIterator.Current;
+            var minKey = selector(min);
+            while (sourceIterator.MoveNext()) {
+                var candidate = sourceIterator.Current;
+                var candidateProjected = selector(candidate);
+                if (comparer.Compare(candidateProjected, minKey) < 0) {
+                    min = candidate;
+                    minKey = candidateProjected;
+                }
+            }
+            return min;
+        }
+    }
+
+    private List<GameObject> GetAiPlayers() {
+        var aiPlayers = new List<GameObject>();
+        if (PlayerPrefs.GetString("Player1_AI").Equals("True"))
+            aiPlayers.Add(player1);
+        //if (PlayerPrefs.GetString("Player2_AI").Equals("True"))
+            aiPlayers.Add(player2);
+        //if (PlayerPrefs.GetString("Player3_AI").Equals("True"))
+            aiPlayers.Add(player3);
+        //if (PlayerPrefs.GetString("Player4_AI").Equals("True"))
+            aiPlayers.Add(player4);
+
+        return aiPlayers;
     }
 }
