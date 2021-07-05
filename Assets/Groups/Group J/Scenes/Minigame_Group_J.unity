@@ -431,6 +431,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1996493853}
     m_Modifications:
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2567111423183708694, guid: 4bc441e2b990e93449b2b7b68c4756ce,
         type: 3}
       propertyPath: m_Name
@@ -490,6 +530,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc441e2b990e93449b2b7b68c4756ce, type: 3}
@@ -912,12 +972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1845437484}
---- !u!4 &163415814 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2978740457091137356, guid: 1688c980c86ebf44aa383880e00d822d,
-    type: 3}
-  m_PrefabInstance: {fileID: 337109119}
-  m_PrefabAsset: {fileID: 0}
+  fireballCount: 0
 --- !u!1 &179598381 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3384051847428870620, guid: fd21741674a7dba49aa25def3eca81f9,
@@ -1117,6 +1172,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 157466522}
     m_Modifications:
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2567111423183708694, guid: 4bc441e2b990e93449b2b7b68c4756ce,
         type: 3}
       propertyPath: m_Name
@@ -1176,6 +1271,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc441e2b990e93449b2b7b68c4756ce, type: 3}
@@ -1717,6 +1832,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 3014733515802919082, guid: 1688c980c86ebf44aa383880e00d822d,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3017530239875340912, guid: 1688c980c86ebf44aa383880e00d822d,
         type: 3}
       propertyPath: m_Layer
@@ -2032,6 +2152,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 6592332621969300599, guid: 1688c980c86ebf44aa383880e00d822d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6620722567515587733, guid: 1688c980c86ebf44aa383880e00d822d,
         type: 3}
       propertyPath: m_Layer
@@ -2345,6 +2470,36 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!1 &410184824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 410184825}
+  m_Layer: 8
+  m_Name: Projectile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &410184825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410184824}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.132, y: 2.38, z: 2.08}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 862318332}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &435900547 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7846227815284527778, guid: 7cd92f673c976f94c9cc991e6fe12526,
@@ -3005,12 +3160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1767260892}
---- !u!4 &738528308 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2978740457091137356, guid: 1688c980c86ebf44aa383880e00d822d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1423121910}
-  m_PrefabAsset: {fileID: 0}
+  fireballCount: 0
 --- !u!1001 &750184062
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3018,6 +3168,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 725832536}
     m_Modifications:
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2567111423183708694, guid: 4bc441e2b990e93449b2b7b68c4756ce,
         type: 3}
       propertyPath: m_Name
@@ -3077,6 +3267,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc441e2b990e93449b2b7b68c4756ce, type: 3}
@@ -3651,6 +3861,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 493dbf0a19647be46b4c2090e6aed27a, type: 3}
 --- !u!1 &847653311 stripped
@@ -3738,6 +3988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1849830506}
+  fireballCount: 10
 --- !u!4 &862318332 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2978740457091137356, guid: 1688c980c86ebf44aa383880e00d822d,
@@ -3758,7 +4009,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 876769999877101452, guid: 2126cb9233ef9004793a0a113951e20b,
     type: 3}
-  firePoint: {fileID: 929113942}
+  firePoint: {fileID: 410184825}
   player: {fileID: 862318322}
 --- !u!4 &872210740 stripped
 Transform:
@@ -3976,12 +4227,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!4 &929113942 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2480331253598825104, guid: 1688c980c86ebf44aa383880e00d822d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1252311950}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &935931715 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2403667560535424293, guid: 7cd92f673c976f94c9cc991e6fe12526,
@@ -4232,6 +4477,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 550227954}
     m_Modifications:
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2567111423183708694, guid: 4bc441e2b990e93449b2b7b68c4756ce,
         type: 3}
       propertyPath: m_Name
@@ -4291,6 +4576,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc441e2b990e93449b2b7b68c4756ce, type: 3}
@@ -4593,6 +4898,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1785540655}
     m_Modifications:
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2567111423183708694, guid: 4bc441e2b990e93449b2b7b68c4756ce,
         type: 3}
       propertyPath: m_Name
@@ -4652,6 +4997,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc441e2b990e93449b2b7b68c4756ce, type: 3}
@@ -5152,6 +5517,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.y
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014733515802919082, guid: 1688c980c86ebf44aa383880e00d822d,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3017530239875340912, guid: 1688c980c86ebf44aa383880e00d822d,
         type: 3}
@@ -6433,6 +6803,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 3014733515802919082, guid: 1688c980c86ebf44aa383880e00d822d,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3017530239875340912, guid: 1688c980c86ebf44aa383880e00d822d,
         type: 3}
       propertyPath: m_Layer
@@ -6747,6 +7122,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6592332621969300599, guid: 1688c980c86ebf44aa383880e00d822d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6620722567515587733, guid: 1688c980c86ebf44aa383880e00d822d,
         type: 3}
@@ -7157,85 +7537,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1747358712}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1491104553
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1491104554}
-  - component: {fileID: 1491104558}
-  - component: {fileID: 1491104557}
-  m_Layer: 0
-  m_Name: PlayerIndicator
-  m_TagString: Item
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1491104554
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491104553}
-  m_LocalRotation: {x: -0, y: -0.7071057, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: 0.27, y: 5.87, z: 0.05}
-  m_LocalScale: {x: 0.42424247, y: 1.4242424, z: 0.42424247}
-  m_Children: []
-  m_Father: {fileID: 738528308}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1491104557
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491104553}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 0b9105a754b32584ca020ab5d9c9cb29, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1491104558
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1491104553}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1500661085 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8504234731573751004, guid: 7cd92f673c976f94c9cc991e6fe12526,
@@ -7276,6 +7577,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 753199158}
     m_Modifications:
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2567111423183708694, guid: 4bc441e2b990e93449b2b7b68c4756ce,
         type: 3}
       propertyPath: m_Name
@@ -7335,6 +7676,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc441e2b990e93449b2b7b68c4756ce, type: 3}
@@ -7489,6 +7850,11 @@ PrefabInstance:
       propertyPath: inputEnabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2224181050674729241, guid: 1688c980c86ebf44aa383880e00d822d,
+        type: 3}
+      propertyPath: punchable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -2193288208039751258, guid: 1688c980c86ebf44aa383880e00d822d,
         type: 3}
       propertyPath: lookRadius
@@ -7604,6 +7970,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3014733515802919082, guid: 1688c980c86ebf44aa383880e00d822d,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3193311293996516437, guid: 1688c980c86ebf44aa383880e00d822d,
         type: 3}
       propertyPath: m_Enabled
@@ -7612,7 +7983,7 @@ PrefabInstance:
     - target: {fileID: 3193311293996516437, guid: 1688c980c86ebf44aa383880e00d822d,
         type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3193311293996516437, guid: 1688c980c86ebf44aa383880e00d822d,
         type: 3}
@@ -7663,6 +8034,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_DefaultControlScheme
       value: AI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6592332621969300599, guid: 1688c980c86ebf44aa383880e00d822d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6785397718972689670, guid: 1688c980c86ebf44aa383880e00d822d,
         type: 3}
@@ -7726,6 +8102,56 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1377580945}
     m_Modifications:
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708693, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: RotationModule.x.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708693, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: RotationModule.y.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2567111423183708694, guid: 4bc441e2b990e93449b2b7b68c4756ce,
         type: 3}
       propertyPath: m_Name
@@ -7785,6 +8211,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc441e2b990e93449b2b7b68c4756ce, type: 3}
@@ -7891,6 +8337,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 783235268}
     m_Modifications:
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2567111423183708694, guid: 4bc441e2b990e93449b2b7b68c4756ce,
         type: 3}
       propertyPath: m_Name
@@ -7950,6 +8436,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc441e2b990e93449b2b7b68c4756ce, type: 3}
@@ -9770,6 +10276,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 85686314}
     m_Modifications:
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2567111423183708694, guid: 4bc441e2b990e93449b2b7b68c4756ce,
         type: 3}
       propertyPath: m_Name
@@ -9829,6 +10375,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc441e2b990e93449b2b7b68c4756ce, type: 3}
@@ -10176,6 +10742,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 493dbf0a19647be46b4c2090e6aed27a, type: 3}
 --- !u!1 &1802295678 stripped
@@ -10218,6 +10824,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1544733343}
     m_Modifications:
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2567111423183708694, guid: 4bc441e2b990e93449b2b7b68c4756ce,
         type: 3}
       propertyPath: m_Name
@@ -10278,6 +10924,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc441e2b990e93449b2b7b68c4756ce, type: 3}
 --- !u!1001 &1825166889
@@ -10287,6 +10953,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 806535833}
     m_Modifications:
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111421129836752, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423183708692, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2567111423183708694, guid: 4bc441e2b990e93449b2b7b68c4756ce,
         type: 3}
       propertyPath: m_Name
@@ -10347,87 +11053,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567111423204306962, guid: 4bc441e2b990e93449b2b7b68c4756ce,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc441e2b990e93449b2b7b68c4756ce, type: 3}
---- !u!1 &1825669941
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1825669942}
-  - component: {fileID: 1825669946}
-  - component: {fileID: 1825669945}
-  m_Layer: 0
-  m_Name: PlayerIndicator
-  m_TagString: Item
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1825669942
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1825669941}
-  m_LocalRotation: {x: -0, y: -0.7071057, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: -0.15, y: 5.87, z: 0.05}
-  m_LocalScale: {x: 0.42424244, y: 1.4242424, z: 0.42424244}
-  m_Children: []
-  m_Father: {fileID: 1949707994}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1825669945
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1825669941}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a986da0ff7e399843bf463b8a571c9af, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1825669946
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1825669941}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1835835730 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2567111423183708695, guid: 4bc441e2b990e93449b2b7b68c4756ce,
@@ -10537,6 +11184,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 493dbf0a19647be46b4c2090e6aed27a, type: 3}
 --- !u!1 &1852291475 stripped
@@ -10584,85 +11271,6 @@ Rigidbody:
     type: 3}
   m_PrefabInstance: {fileID: 322317718}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1900621087
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1900621088}
-  - component: {fileID: 1900621092}
-  - component: {fileID: 1900621091}
-  m_Layer: 0
-  m_Name: PlayerIndicator
-  m_TagString: Item
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1900621088
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900621087}
-  m_LocalRotation: {x: -0, y: -0.7071057, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: 0.54, y: 5.87, z: 0.05}
-  m_LocalScale: {x: 0.42424244, y: 1.4242424, z: 0.42424244}
-  m_Children: []
-  m_Father: {fileID: 163415814}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1900621091
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900621087}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 0b9105a754b32584ca020ab5d9c9cb29, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1900621092
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900621087}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &1904261976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10730,6 +11338,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737844770, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1745108990737849358, guid: 493dbf0a19647be46b4c2090e6aed27a,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 493dbf0a19647be46b4c2090e6aed27a, type: 3}
 --- !u!1 &1949707984 stripped
@@ -10751,12 +11399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1838537737}
---- !u!4 &1949707994 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2978740457091137356, guid: 1688c980c86ebf44aa383880e00d822d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1581632656}
-  m_PrefabAsset: {fileID: 0}
+  fireballCount: 0
 --- !u!1 &1953864844 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4461532650845648618, guid: 7cd92f673c976f94c9cc991e6fe12526,
@@ -11278,6 +11921,96 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 876769999138864790, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999138864790, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999138864790, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999138864790, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999184915600, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999184915600, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999184915600, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999184915600, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999230748244, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999230748244, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999230748244, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999230748244, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999877101448, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 1.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999877101448, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999877101448, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999877101448, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999877101448, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 876769999877101448, guid: 2126cb9233ef9004793a0a113951e20b,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.77
+      objectReference: {fileID: 0}
     - target: {fileID: 876769999877101452, guid: 2126cb9233ef9004793a0a113951e20b,
         type: 3}
       propertyPath: m_Name

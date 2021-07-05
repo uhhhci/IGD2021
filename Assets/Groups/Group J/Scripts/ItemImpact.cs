@@ -5,17 +5,20 @@ using UnityEngine;
 public class ItemImpact : MonoBehaviour
 {
     private bool collided;
-    private void OnCollisionEnter(Collision collision)
+
+    public void OnTriggerStay(Collider other)
     {
-        if (collision.gameObject.tag != ("Obstacle") && collision.gameObject.tag != ("Item") && !collided)
+        Debug.Log("collison fireball");
+        if (other.gameObject.tag != ("Obstacle") && other.gameObject.tag != ("Item") && !collided)
         {
+            Debug.Log("collison player");
             collided = true;
-            if (collision.gameObject.tag == "Player" )
+            if (other.gameObject.tag == "Player")
             {
                 Debug.Log("Hit target");
-               collision.gameObject.GetComponent<AIController>().AddImpact(this.transform.forward * 45);
+                other.gameObject.GetComponent<AIController>().AddImpact(this.transform.forward * 45);
             }
             Destroy(gameObject);
-        } 
+        }
     }
-}
+    }

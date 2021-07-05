@@ -7,6 +7,7 @@ public class JPlayerStats : MonoBehaviour
     public MinifigControllerJ player;
     PowerUp_Speed powerUpSpeed;
     PowerUp_Fireball powerUpFireball;
+    public int fireballCount = 0;
    
     private void Update()
     {
@@ -21,10 +22,11 @@ public class JPlayerStats : MonoBehaviour
                StartCoroutine( powerUpSpeed.ApplyPowerUp(player));
                 break;
             case PowerUpType.Shield:
-                powerUpFireball = new PowerUp_Fireball();
-                StartCoroutine(powerUpFireball.ApplyPowerUp(player));
                 break;
             case PowerUpType.Fireball:
+                Debug.Log("Add Fireballs");
+                powerUpFireball = new PowerUp_Fireball();
+                powerUpFireball.ApplyPowerUp(player);
                 break;
             default:
                 break;

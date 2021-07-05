@@ -113,13 +113,13 @@ public class AIController : MonoBehaviour
                 {
                     Debug.Log("Jump");
                     controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Jump);
-                    Physics.IgnoreLayerCollision(gameObject.layer, 21, true);
+                    Physics.IgnoreLayerCollision(gameObject.layer, 21, true);// TryUseFireball();
                 }
 
                 if (distance <= agent.stoppingDistance && ! this.animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
                 {
                     Debug.Log("Punch");
-                    controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Punch);
+                    controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Punch); //TryUseFireball();
                 }           
             }
         }
@@ -133,10 +133,18 @@ public class AIController : MonoBehaviour
         if(controllerJ.punchable == true)
         {
             controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Punch, explosion);
-            controllerJ.punchable = false;
+            TryUseFireball();
+            controllerJ.punchable = false; 
         }
     }
-
+    public void TryUseFireball()
+    {
+        Debug.Log("Try use fireball");
+        if (gameObject.GetComponent<JPlayerStats>().fireballCount > 0)
+        {
+            gameObject.GetComponent<ShootFireball>().Shoot();
+        }
+    }
     public void AddImpact(Vector3 force)
     {
         var dir = force.normalized;
@@ -149,6 +157,7 @@ public class AIController : MonoBehaviour
         {
             Debug.Log("trigger");
             other.gameObject.GetComponent<AIController>().AddImpact(this.transform.forward * hitForce);
+           // TryUseFireball();
             audio.clip = explosion;
             audio.Play();
         }
