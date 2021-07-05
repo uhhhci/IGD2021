@@ -20,6 +20,7 @@ public class LoadingManager : MonoBehaviour
 
     public float transitionTime = 1f;
 
+    //Provide Prefab LevelLoader
     public GameObject levelLoader;
 
     //this method is just for testing, it must be removed at the end.
