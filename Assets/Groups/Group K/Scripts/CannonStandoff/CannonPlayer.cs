@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
+using UnityEngine.UI;
 
 public class CannonPlayer : MonoBehaviour {
 	
@@ -10,6 +11,7 @@ public class CannonPlayer : MonoBehaviour {
 	private bool shooting;
 	private float lastShotTimer;
 	private Material color;
+	private AudioSource audio;
 	
 	/* AI */
 	private bool aiControlled;
@@ -22,7 +24,6 @@ public class CannonPlayer : MonoBehaviour {
 	public GameObject bullet = null;
 	public float bulletSpeed = 15.0f;
 	public float cooldown = 1.0f;
-	public AudioSource audio;
 	
 	/* AI */
 	public int maxAttemptedShots = 5;
@@ -35,10 +36,13 @@ public class CannonPlayer : MonoBehaviour {
 		get { return color; }
 		set {
 			Renderer[] parts = Cannon.GetComponentsInChildren<Renderer>();
+			Image crosshair = marker.GetComponent<Image>();
 			
 			foreach (Renderer c in parts) {
 				c.material = value;
 			}
+			
+			crosshair.color = value.color;
 			
 			color = value;
 		}

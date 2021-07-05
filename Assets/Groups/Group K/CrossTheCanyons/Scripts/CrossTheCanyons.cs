@@ -21,9 +21,9 @@ public class CrossTheCanyons : MiniGame
         else
         {
             firstPlace = new int[] {0,1,2,3};
-            secondPlace = null;
+            secondPlace = new int[] {};
         }
-        MiniGameFinished(firstPlace, secondPlace, null, null);
+        MiniGameFinished(firstPlace, secondPlace, new int[] {}, new int[] {});
     }
 
     public override string getDisplayName()
