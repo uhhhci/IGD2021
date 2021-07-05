@@ -158,11 +158,16 @@ public class RBCharacterController : MonoBehaviour
             stopSpecial = true;
             _stunnedParticles.SetActive(false);
         }
-        if(!isStunned && Time.time > kickTime)
+        else if (isStunned)
+        {
+            PlaySpecialAnimation(SpecialAnimation.Crawl);
+        }
+
+        if (!isStunned && Time.time > kickTime)
         {
             stopSpecial = true;
         }
-
+        
         if(inputEnabled)
         {
             if(isJumping)
