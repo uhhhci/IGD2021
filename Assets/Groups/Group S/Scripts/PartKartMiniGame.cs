@@ -120,13 +120,16 @@ namespace Groups.Group_S
         public void KartFinishedRace(Drivable kart)
         {
             int kartIndex = playerCars.FindIndex(drivable => drivable == kart) + 1;
-            _rankingList.Add(kartIndex);
-            Debug.Log("Kart finished! " + kartIndex);
-            
+            if (!_rankingList.Contains(kartIndex))
+            {
+                _rankingList.Add(kartIndex);
+                Debug.Log("Kart finished! " + kartIndex);
+            }
+
             // All cars finished
             if (_rankingList.Count == playerCars.Count)
             {
-                MiniGameFinished(new []{_rankingList[0]}, new int[]{}, new int[]{}, new int[]{});
+                MiniGameFinished(new []{_rankingList[0]}, new int[]{_rankingList[1]}, new int[]{_rankingList[2]}, new int[]{_rankingList[3]});
             }
         }
     }
