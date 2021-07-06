@@ -37,7 +37,7 @@ public class InterconnectionsAssignment : MonoBehaviour
         for (int index = 1; index <= playerInputs.Count; index++)
         {
             // assigns the player input in the order they were given in the array
-            //  InputManager.Instance.AssignPlayerInput(playerInputs, playerIdsStrings);
+            // InputManager.Instance.AssignPlayerInput(playerInputs, playerIdsStrings);
 
             var interconnectionsAi = gameObject.GetComponent<InterconnectionsAi>();
             var playerName = playerInputs[index - 1].transform.Find("LegoPaperScissors").GetComponent<PlayerProperties>().playerName;
@@ -46,6 +46,7 @@ public class InterconnectionsAssignment : MonoBehaviour
 
             var IsAiPlayer = interconnectionsAi.IsAiPlayer(playerName);
             print($"isAiPlayer is: {IsAiPlayer}");
+            print($"playerInputs.Count: {playerInputs.Count}");
 
             //if (!IsAiPlayer)
             //{
