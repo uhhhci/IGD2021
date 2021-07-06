@@ -84,7 +84,8 @@ public class GriddyGame : MiniGame {
 
     }
 
-    private List<GameObject> BlackDeath() {
+    private List<GameObject> BlackDeath()
+    {
         players
             .Where(p => !dead_players.Contains(p))
             .Where(p => p.transform.position.y < death_depth)
@@ -97,7 +98,8 @@ public class GriddyGame : MiniGame {
 
     private int GameObject2Int(GameObject obj) => players.IndexOf(obj) + 1;
 
-    private void EndGame() {
+    private void EndGame()
+    {
         if (gameEnded) {
             return;
         }
@@ -120,13 +122,17 @@ public class GriddyGame : MiniGame {
         );
     }
 
-    void Update() {
+    void Update()
+    {
+        platforms.Where(p => p != null).ToList();
+
         BlackDeath();
 
         if (dead_players.Count() >= 4) {
             EndGame();
         }
-        foreach (var aiPlayer in GetAiPlayers()) {
+        foreach (var aiPlayer in GetAiPlayers())
+        {
             // determine platforms which have the most health points
             if (aiStates.TryGetValue(aiPlayer, out var lastState)) {
                 var goalDistance = Vector2.Distance
