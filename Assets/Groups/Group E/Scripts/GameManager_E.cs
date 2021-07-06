@@ -204,8 +204,6 @@ public class GameManager_E : MonoBehaviour
         {
             InitializeAIPlayer(carTransformList[3]);
         }
-
-        InitializeAIPlayer(carTransformList[1]);
     }
 
     public void finishGame()
