@@ -85,8 +85,9 @@ public class playerDetection : MonoBehaviour {
         }
 
         var col = new Color(1.0f, 0.0f, 0.0f, 1.0f);
-
+        this.meshRenderer.material.shader = Shader.Find("HDRenderPipeline/LitTessellation");
         this.meshRenderer.material.SetColor("_Color", col);
+        this.meshRenderer.material.SetColor("_BaseColor", col);
 
         var myDelta = Time.deltaTime * decaySpeed;
         decay += myDelta;
