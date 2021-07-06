@@ -14,8 +14,10 @@ public class Pulse : MonoBehaviour
     private static bool playing = false;
 
     private bool started = false;
+    private bool lastPulseWasScaleUp = false;
 
     private float timeAtLastPulse = 0;
+    private float timeAtNextPulse = 0;
 
     float before, after;
 
@@ -52,40 +54,28 @@ public class Pulse : MonoBehaviour
         if(!started && playing) {
             timeAtLastPulse = Time.time;
             started = true;
-            StartCoroutine("pulsate");
+            //StartCoroutine("pulsate");
+            timeAtLastPulse = Time.time;
+            timeAtNextPulse = timeAtLastPulse + songOffset;
         }
         if(started && !playing) {
             playing = false;
         }
-    }
+        if(started && playing) {
+            float now = Time.time;
+            if(now < timeAtNextPulse) { return; }
 
-    private IEnumerator pulsate() {
-        yield return new WaitForSeconds(songOffset);
-        StartCoroutine("onePulse");
-    }
+            if(lastPulseWasScaleUp) {
+                scaleDown();
+            } else {
+                scaleUp();
+            }
+            lastPulseWasScaleUp = !lastPulseWasScaleUp;
 
-    private IEnumerator onePulse() {
-        float now = Time.time;
-        float next = 1f / beatsPerSecond / 2f;
-        if(now - timeAtLastPulse > next) {
-            next = next - (now - timeAtLastPulse - next);
+            timeAtLastPulse = timeAtNextPulse;
+
+            timeAtNextPulse = timeAtLastPulse + 1f / beatsPerSecond / 2f; 
         }
-        timeAtLastPulse = now;
-        scaleUp();
-        
-        yield return new WaitForSeconds(next);
-
-        now = Time.time;
-        next = 1f / beatsPerSecond / 2f;
-        if(now - timeAtLastPulse > next) {
-            next = next - (now - timeAtLastPulse - next);
-        }
-        timeAtLastPulse = now;
-
-        scaleDown();
-
-        yield return new WaitForSeconds(1f / beatsPerSecond / 2f);
-        if (started && playing) {StartCoroutine("onePulse"); }
     }
 
     private void scaleUp() {
