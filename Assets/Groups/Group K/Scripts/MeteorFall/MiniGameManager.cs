@@ -51,10 +51,10 @@ public class MiniGameManager : MonoBehaviour
         };
         List<string> ids = new List<string>(4)
         {
-            "0",
             "1",
             "2",
-            "3"
+            "3",
+            "4"
         };
 
         bool player1_AI = PlayerPrefs.GetString("PLAYER1_AI").Equals("True");
@@ -65,16 +65,22 @@ public class MiniGameManager : MonoBehaviour
         AssignAI(player1_AI, player2_AI, player3_AI, player4_AI);
 
         //InputManager.Instance.AssignPlayerInput(playerInputs); // Stops execution of this monobehaviour in absence of playerprefs
-        InputManager.Instance.AssignPlayerInput(playerInputs, ids); // Right Version when Playerprefs work correctly
-        Debug.Log("After input");
+        //InputManager.Instance.AssignPlayerInput(playerInputs, ids); // Right Version when Playerprefs work correctly
+        for(int ind = 0; ind < playerInputs.Count; ind++)
+        {
+            if(!aiList[ind])
+            {
+                InputManager.Instance.AssignPlayerInput(playerInputs[ind], ind+1);
+            }
+        }
+        
         for(int ind = 0; ind < aiList.Length; ind++)
         {
             if(!aiList[ind])
             {
-                InputManager.Instance.ApplyPlayerCustomization(playerInputs[ind].gameObject, ind);
+                InputManager.Instance.ApplyPlayerCustomization(playerInputs[ind].gameObject, ind+1);
             }
         }
-        Debug.Log("After customization");
     }
 
     // Update is called once per frame

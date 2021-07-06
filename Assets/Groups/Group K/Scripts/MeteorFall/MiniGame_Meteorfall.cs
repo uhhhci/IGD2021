@@ -16,6 +16,6 @@ public class MiniGame_Meteorfall : MiniGame
 
     public override string getSceneName()
     {
-        return "K_Meteorfall";
+        return "KMeteorfall";
     }
 }

@@ -62,7 +62,7 @@ public class ArenaController : MonoBehaviour
     public float GetCurrentRingRadius() 
     {
         // I am deeply sorry for the magic numbers, but the old method doesn't work with the new platform model
-        float currTime = _startTime + Time.time;
+        float currTime = Time.time;
         if (currTime > _startTime + _middleFall)
         {
             return 3 / 2 - 0.5f;
@@ -82,7 +82,7 @@ public class ArenaController : MonoBehaviour
     {
         if(isRunning)
         {
-            float currTime = _startTime + Time.time;
+            float currTime = Time.time;
             if(currTime > _startTime + _innerFall)
             {
                 SinkRing(_innerLayer);

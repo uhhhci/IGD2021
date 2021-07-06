@@ -38,8 +38,7 @@ public class MeteorSpawner : MonoBehaviour
 
             Vector2 p = GetSpawnPoint(_arenaManager.GetCurrentRingRadius());
             Vector3 spawnPoint = transform.position + new Vector3(p.x, 0, p.y);
-
-            Instantiate(_meteor, spawnPoint, Quaternion.identity, null);
+            Instantiate(_meteor, spawnPoint, Quaternion.identity, transform);
             _lastSpawn = Time.time;
         }
     }
