@@ -8,7 +8,6 @@ public class playerDetection : MonoBehaviour {
     public float decaySpeed = 0.2f;
     public float spawnProtection = 0.0f;
     public AudioSource dyingSound;
-    public AudioSource deathSound;
 
     public float decay = 0.0f; // [0.0, 1.0]
 
@@ -34,7 +33,11 @@ public class playerDetection : MonoBehaviour {
         if (!col.collider.CompareTag("Player")) return;
         if (platformTouched) return;
         platformTouched = true;
-        dyingSound.Play(0);
+        
+        if (dyingSound != null)
+        {
+            dyingSound.Play(0);
+        }
     }
 
     private void Update()

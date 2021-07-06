@@ -124,7 +124,7 @@ public class GriddyGame : MiniGame {
 
     void Update()
     {
-        platforms.Where(p => p != null).ToList();
+        platforms = platforms.Where(p => p != null).ToList();
 
         BlackDeath();
 
