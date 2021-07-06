@@ -10,6 +10,8 @@ public class playercollision : MonoBehaviour
     public AudioSource playSoundSpeed;
     public int currentHealth = 100;
 
+    private bool finished = false;
+
     private void Start()
     {
         player = (MinifigController)this.GetComponent("MinifigController");
@@ -71,7 +73,16 @@ public class playercollision : MonoBehaviour
             playSoundSpeed.Play();
         }
 
+        if (pickup.tag == "Finish")
+        {
+            // Do NOT use PickUp() here!!!
+            finished = true;
+        }
 
+    }
+    public float getZPos()
+    {
+        return transform.position.z;
     }
 
     private void PickUp(GameObject pickup)

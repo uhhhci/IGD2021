@@ -1,5 +1,10 @@
-﻿public class PlattiGame : MiniGame
+﻿using UnityEngine;
+using System.Collections.Generic;
+
+public class PlattiGame : MiniGame
 {
+    public List<playercollision> players;
+
     public override string getDisplayName()
     {
         return "RunBrickRun";
@@ -12,16 +17,22 @@
 
     public override string getSceneName()
     {
-        return "Assets/Groups/Group I/Scenes/RunBrickRun";
+        return "RunBrickRun";
     }
 
     void Start()
     {
-
+        testelele();
     }
 
     void Update()
     {
 
+    }
+
+    public void testelele()
+    {
+        float pos = players[0].getZPos();
+        Debug.Log("z pos 0: " + pos);
     }
 }
