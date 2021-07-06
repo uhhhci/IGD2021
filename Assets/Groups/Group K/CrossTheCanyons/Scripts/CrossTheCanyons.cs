@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CrossTheCanyons : MiniGame
 {
+    public InputManagerCTC inputManagerCTC;
     public void GameOver(int leftPlayerFinalLevel, int rightPlayerFinalLevel)
     {
         int[] firstPlace;
@@ -38,5 +39,10 @@ public class CrossTheCanyons : MiniGame
     public override MiniGameType getMiniGameType()
     {
         return MiniGameType.teamVsTeam;
+    }
+
+    void Start() 
+    {
+        inputManagerCTC.InitAIstatus();
     }
 }
