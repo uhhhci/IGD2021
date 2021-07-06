@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Groups.Group_S.AI;
 using Groups.Group_S.Building;
 using Groups.Group_S.Driving;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
@@ -13,11 +15,18 @@ namespace Groups.Group_S
     {
         public GameObject buildingFinishedUI;
         public Animator cameraAnimator;
+        public InputActionAsset controllers;
         [Header("Player controlled Objects")] public List<MinifigControllerGroupS> playerMinifigs;
         public List<Drivable> playerCars;
 
+        [Header("AI Driver Settings")] public Transform[] aiDriverWaypoints;
+        public float aiDriverWaypointThreshold = 1.5f;
+        public float aiDriverSteeringThreshold = 0.1f;
+
         public event Action OnBuildingFinished;
         private bool _buildingFinished;
+
+        private bool[] _playerIsAI = new bool[4];
 
         private List<int> _rankingList = new List<int>();
 
@@ -48,22 +57,26 @@ namespace Groups.Group_S
         private void Start()
         {
             _buildingFinished = false;
-            
-            // TODO: This is hardcoded. What are we supposed to do?
-            PlayerPrefs.SetString("PLAYER1_NAME", "Brenda");
-            PlayerPrefs.SetString("PLAYER2_NAME", "Jovanna");
-            PlayerPrefs.SetString("PLAYER3_NAME", "Myriem");
-            PlayerPrefs.SetString("PLAYER4_NAME", "Jose");
-            
+
+            _playerIsAI[0] = PlayerPrefs.GetString(InputManager.PLAYER_1_AI).Equals("True");
+            _playerIsAI[1] = PlayerPrefs.GetString(InputManager.PLAYER_2_AI).Equals("True");
+            _playerIsAI[2] = PlayerPrefs.GetString(InputManager.PLAYER_3_AI).Equals("True");
+            _playerIsAI[3] = PlayerPrefs.GetString(InputManager.PLAYER_4_AI).Equals("True");
+
             DeactivateCars();
             ActivateMinifigs();
         }
 
         private void ActivateMinifigs()
         {
-            foreach (var minifig in playerMinifigs)
+            for (int i = 0; i < playerMinifigs.Count; i++)
             {
+                var minifig = playerMinifigs[i];
                 minifig.gameObject.SetActive(true);
+                if (!_playerIsAI[i])
+                {
+                    minifig.gameObject.GetComponent<AiPlayer>().enabled = false;
+                }
             }
             InputManager.Instance.AssignPlayerInput(playerMinifigs
                 .Select(i => i.GetComponent<PlayerInput>())
@@ -80,13 +93,35 @@ namespace Groups.Group_S
 
         private void ActivateCars()
         {
+            for (int i = 0; i < playerCars.Count; i++)
+            {
+                var car = playerCars[i];
+                car.gameObject.SetActive(true);
+                
+                if (_playerIsAI[i])
+                {
+                    var aiDriver = car.gameObject.AddComponent<AiDriver>();
+                    aiDriver.waypoints = aiDriverWaypoints;
+                    aiDriver.steeringThreshold = aiDriverSteeringThreshold;
+                    aiDriver.waypointThreshold = aiDriverWaypointThreshold;
+                    
+                    var navMeshAgent = car.GetComponent<NavMeshAgent>();
+                    navMeshAgent.speed = 100;
+                    navMeshAgent.angularSpeed = 120;
+                    navMeshAgent.acceleration = 100;
+
+                    car.GetComponent<PlayerInput>().enabled = false;
+                }
+            }
+            
+            InputManager.Instance.AssignPlayerInput(playerCars
+                .Select(i => i.gameObject.GetComponent<PlayerInput>())
+                .ToList());
+            
             foreach (var car in playerCars)
             {
-                car.gameObject.SetActive(true);
+                car.InitializeDrivable();
             }
-            InputManager.Instance.AssignPlayerInput(playerCars
-                .Select(i => i.GetComponent<PlayerInput>())
-                .ToList());
         }
 
         private void DeactivateCars()

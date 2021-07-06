@@ -15,17 +15,19 @@ namespace Groups.Group_S.Driving
         private VehicleStat[] _vehicleStats;
         internal Vector3 LastSpeed;
 
-        private void Start()
+        public void InitializeDrivable()
         {
             // set player input if this vehicle is controlled by a player (and not AI)
             if (GetComponent<PlayerInput>() != null)
             {
                 string controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
-                GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);                
+                //GetComponent<PlayerInput>().SwitchCurrentControlScheme(controlScheme, Keyboard.current);                
             }
 
             _controller = GetComponent<CharacterController>();
             _vehicleStats = CollectStats();
+            Debug.Log(_vehicleStats);
+            Debug.Log(_vehicleStats.Length);
 
             LastSpeed = Vector3.zero;
         }
