@@ -23,6 +23,8 @@ namespace GroupP {
 
         float beatsPerMinute;
 
+        bool stoppedDancing;
+
         public float getBpmOfActiveSong() {
             return songs[songIndex].GetComponent<Song>().beatsPerMinute;
         }
@@ -54,25 +56,31 @@ namespace GroupP {
         void Start()
         {
 
-            player1.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER1_AI").Equals("True");
-            player2.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER2_AI").Equals("True");
-            player3.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER3_AI").Equals("True");
-            player4.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER4_AI").Equals("True"); 
+            player1.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER1_AI", "False").Equals("True");
+            player2.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER2_AI", "False").Equals("True");
+            player3.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER3_AI", "False").Equals("True");
+            player4.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER4_AI", "False").Equals("True");
+
+            stoppedDancing = false;
 
             var playerInputs = new List<PlayerInput>();
             if(!player1.GetComponent<Player>().isAI) {
+                Debug.Log("In AI-if 1");
                 playerInputs.Add(player1.GetComponent<PlayerInput>());
                 InputManager.Instance.ApplyPlayerCustomization(player1, 1);
             }
             if(!player2.GetComponent<Player>().isAI) {
+                Debug.Log("In AI-if 2");
                 playerInputs.Add(player2.GetComponent<PlayerInput>());
                 InputManager.Instance.ApplyPlayerCustomization(player2, 2);
             }
             if(!player3.GetComponent<Player>().isAI) {
+                Debug.Log("In AI-if 3");
                 playerInputs.Add(player3.GetComponent<PlayerInput>());
                 InputManager.Instance.ApplyPlayerCustomization(player3, 3);
             }
             if(!player4.GetComponent<Player>().isAI) {
+                Debug.Log("In AI-if 4");
                 playerInputs.Add(player4.GetComponent<PlayerInput>());
                 InputManager.Instance.ApplyPlayerCustomization(player4, 4);
             }
@@ -112,7 +120,6 @@ namespace GroupP {
                     return p2.Item2.CompareTo(p1.Item2);
                 });
 
-                // TODO check double places
                 List<List<int>> places = new List<List<int>>();
                 for(int i=0;i<4;++i) {
                     places.Add(new List<int>());
@@ -137,7 +144,11 @@ namespace GroupP {
                         Debug.Log(n);
                     }
                 }
-
+                if (!stoppedDancing)
+                {
+                    GameEventSystem.current.StopDance();
+                    stoppedDancing = true;
+                }
                 MiniGameFinished(
                     firstPlace: places[0].ToArray(), 
                     secondPlace: places[1].ToArray(),
