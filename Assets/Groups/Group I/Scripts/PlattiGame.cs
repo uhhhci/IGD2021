@@ -1,13 +1,8 @@
 ﻿public class PlattiGame : MiniGame
 {
-
     public override string getDisplayName()
     {
-        return "Platti Game";
-    }
-    public override string getSceneName()
-    {
-        return "platti";
+        return "RunBrickRun";
     }
 
     public override MiniGameType getMiniGameType()
@@ -15,8 +10,18 @@
         return MiniGameType.freeForAll;
     }
 
-    private void Start()
+    public override string getSceneName()
     {
-        // todo
+        return "Assets/Groups/Group I/Scenes/RunBrickRun";
+    }
+
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
     }
 }
