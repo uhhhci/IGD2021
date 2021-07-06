@@ -8,6 +8,7 @@ public class playercollision : MonoBehaviour
     MinifigController player;
     public AudioSource playSoundGravity;
     public AudioSource playSoundSpeed;
+    public AudioSource playSoundHealth;
     public int currentHealth = 100;
 
     private bool finished = false;
@@ -63,13 +64,13 @@ public class playercollision : MonoBehaviour
         {
             PickUp(pickup);
             HealthUp();
-            playSoundSpeed.Play();
+            playSoundHealth.Play();
         }
 
         if (pickup.tag == "Respawn")
         {
             HealthDown();
-            playSoundSpeed.Play();
+            
         }
 
         if (pickup.tag == "Finish")
