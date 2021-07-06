@@ -36,11 +36,13 @@ public class WhatTheHillGame : MiniGame
             Players[i - 1].GetComponent<MinifigControllerWTH>().activateAI(isAi);
             if (!isAi)
             {
-                InputManager.Instance.ApplyPlayerCustomization(player, i);
+               // InputManager.Instance.ApplyPlayerCustomization(player, i);
             }
 
             playerInputs.Add(player.GetComponent<PlayerInput>());
-           
+            Players[1].GetComponent<MinifigControllerWTH>().activateAI(true);
+            Players[2].GetComponent<MinifigControllerWTH>().activateAI(true);
+            Players[3].GetComponent<MinifigControllerWTH>().activateAI(true);
 
             i++;
         }

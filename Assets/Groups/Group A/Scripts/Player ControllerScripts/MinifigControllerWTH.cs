@@ -1075,6 +1075,21 @@ public class MinifigControllerWTH : MonoBehaviour
             SpawnPowerUp();
         }
     }
+    public void HitWithBat()
+    {
+        if (equipment != null)
+        {
+            animator.SetTrigger(punchHash);
+        }
+        else if (inventory != null)
+        {
+            SpawnPowerUp();
+        }
+    }
+    public bool hasEquipment()
+    {
+        return equipment != null || inventory != null;
+    }
     public bool hasPowerUp()
     {
         return inventory != null;
