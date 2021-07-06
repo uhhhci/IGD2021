@@ -33,9 +33,9 @@ public class PlayerAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!PlayerPrefs.GetString("Player" + ownID + "_AI").Equals("True"))
+        if (!PlayerPrefs.GetString("PLAYER" + ownID + "_AI").Equals("True"))
         {
-            // Destroy(this);
+            Destroy(this);
         }
         state = State.Idle;
     }
@@ -43,8 +43,6 @@ public class PlayerAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-
         if (controller.returnState() == MinifigControllerH.State.Idle)
         {
             cleanSafePlaces();
