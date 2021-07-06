@@ -20,7 +20,7 @@ public class InterconnectionsAi : MonoBehaviour
 
                 if (playerName == player.playerName)
                 {
-                    bool isAi = PlayerPrefs.GetString($"Player{index}_AI").Equals("True");
+                    bool isAi = PlayerPrefs.GetString($"PLAYER{index}_AI").Equals("True");
                     // print($"player at index {index} ({playerName}) isAi? {isAi}");
                     return isAi;
                 }
