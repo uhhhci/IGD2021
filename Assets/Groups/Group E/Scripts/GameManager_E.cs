@@ -107,14 +107,14 @@ public class GameManager_E : MonoBehaviour
 
     public void setKartColors()
     {
-        if (PlayerPrefs.GetString("PLAYER1_NAME").Equals("True"))
+        if (PlayerPrefs.GetString("PLAYER1_NAME") != null)
         {
             setKartColor(carTransformList[0], mapColorValue(PlayerPrefs.GetString("PLAYER1_NAME")));
         } else
         {
             setKartColor(carTransformList[0], Color.yellow);
         }
-        if (PlayerPrefs.GetString("PLAYER2_NAME").Equals("True"))
+        if (PlayerPrefs.GetString("PLAYER2_NAME") != null)
         {
             setKartColor(carTransformList[1], mapColorValue(PlayerPrefs.GetString("PLAYER2_NAME")));
         }
@@ -122,7 +122,7 @@ public class GameManager_E : MonoBehaviour
         {
             setKartColor(carTransformList[1], Color.white);
         }
-        if (PlayerPrefs.GetString("PLAYER3_NAME").Equals("True"))
+        if (PlayerPrefs.GetString("PLAYER3_NAME") != null)
         {
             setKartColor(carTransformList[2], mapColorValue(PlayerPrefs.GetString("PLAYER3_NAME")));
         } 
@@ -130,7 +130,7 @@ public class GameManager_E : MonoBehaviour
         {
             setKartColor(carTransformList[2], Color.gray);
         }
-        if (PlayerPrefs.GetString("PLAYER4_NAME").Equals("True"))
+        if (PlayerPrefs.GetString("PLAYER4_NAME") != null)
         {
             setKartColor(carTransformList[3], mapColorValue(PlayerPrefs.GetString("PLAYER4_NAME")));
         }

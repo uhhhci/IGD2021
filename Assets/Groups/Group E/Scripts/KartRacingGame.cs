@@ -30,13 +30,49 @@ public class KartRacingGame : MiniGame
 
     private void Start()
     {
-        List<PlayerInput> playerInputs = new List<PlayerInput>();
+        // for local testing
+        /**List<PlayerInput> playerInputs = new List<PlayerInput>();
         foreach(GameObject player in players)
         {
             playerInputs.Add(player.GetComponent<PlayerInput>());
         }
         InputManager.Instance.AssignPlayerInput(playerInputs);
-        LoadingManager.Instance.LoadMiniGame(MiniGameType.freeForAll);
+    */
+
+
+        //Create List of corresponding player ids, in this case we only have two players
+        //The order of the ids and players should match
+
+        List<int> playerIds = new List<int>();
+        List<GameObject> nonAiPlayers = new List<GameObject>();
+
+        if (PlayerPrefs.GetString("PLAYER1_AI").Equals("False"))
+        {
+            playerIds.Add(1);
+            nonAiPlayers.Add(players[0]);
+        }
+
+        if (PlayerPrefs.GetString("PLAYER2_AI").Equals("False"))
+        {
+            playerIds.Add(2);
+            nonAiPlayers.Add(players[1]);
+        }
+
+        if (PlayerPrefs.GetString("PLAYER3_AI").Equals("False"))
+        {
+            playerIds.Add(3);
+            nonAiPlayers.Add(players[2]);
+        }
+
+        if (PlayerPrefs.GetString("PLAYER4_AI").Equals("False"))
+        {
+            playerIds.Add(4);
+            nonAiPlayers.Add(players[3]);
+        }
+
+
+        //Call the provided method from the MiniGame class
+        InitializePlayers(nonAiPlayers, playerIds);
     }
 
     private void Update()
