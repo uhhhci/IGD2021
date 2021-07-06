@@ -27,10 +27,16 @@ public class AIController : MonoBehaviour
     private Transform obstacleTransform;
     private CollisionDetector collisionDetector;
     public int ownTeam;
- 
+
+    public float wanderRadius;
+    public float wanderTimer;
+    private float timer;
+    private Rigidbody rb;
+
     // Start is called before the first frame update
     void Start()
     {
+        rb = this.GetComponent<Rigidbody>();
         collisionDetector = this.GetComponent<CollisionDetector>();
 
         if(collisionDetector.isTeam1 == true)
@@ -62,6 +68,21 @@ public class AIController : MonoBehaviour
             controllerJ.enabled = false;
         }
         agent = GetComponent<NavMeshAgent>();
+
+        timer = wanderTimer;
+    }
+
+    public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
+    {
+        Vector3 randDirection = Random.insideUnitSphere * dist;
+
+        randDirection += origin;
+
+        NavMeshHit navHit;
+
+        NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
+
+        return navHit.position;
     }
 
     // Update is called once per frame
@@ -75,8 +96,24 @@ public class AIController : MonoBehaviour
             }
         }
 
-        if (controlScheme == "AI" && players.Count != 0)
+        if (controlScheme == "AI")
         {
+            timer += Time.deltaTime;
+            controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Walk);
+
+            if (timer >= wanderTimer)
+            {
+                Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+                agent.SetDestination(newPos);
+                timer = 0;
+            }
+
+            if (rb.IsSleeping())
+            {
+                controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Idle_Light);
+                Debug.Log("sleeping");
+            }
+
             foreach (GameObject player in players)
             {
                 if (! player.activeSelf)
@@ -104,7 +141,7 @@ public class AIController : MonoBehaviour
             float distance = Vector3.Distance(tMin.position, transform.position);
             float distanceObstacle = Vector3.Distance(obstacleTransform.position, transform.position);
 
-            if (distance <= lookRadius)
+            if (distance <= lookRadius && players.Count != 0)
             {
                 agent.SetDestination(tMin.position);
                 controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Walk);
