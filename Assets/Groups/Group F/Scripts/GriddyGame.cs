@@ -41,7 +41,7 @@ public class GriddyGame : MiniGame {
         return "Griddy Battle";
     }
     public override string getSceneName() {
-        return "GriddyBattle";
+        return "GriddyBattle2";
     }
 
     public override MiniGameType getMiniGameType() {
