@@ -61,7 +61,11 @@ public class GameTimer : MonoBehaviour
                 {
                     if (timerPlate < 0)
                     {
-                        plateDistruction(0);
+                        Transform platepart = plateDistruction(0);
+                        if (platepart != null)
+                        {
+                            StartCoroutine(DestroyPlatformComponent(platepart));
+                        }
                         timerPlate = maxTimeUntilPlateDestruction;
                         nextRandomDestructionTime = true;
 
@@ -98,7 +102,7 @@ public class GameTimer : MonoBehaviour
     }
 
     //This method is using itself. The loop will stop looping after 10 iterations!
-    void plateDistruction(int count)
+    Transform plateDistruction(int count)
     {
         try
         {
@@ -128,7 +132,7 @@ public class GameTimer : MonoBehaviour
             {
                 Transform child = allChildren[rdm];
                 allChildrenBoolean[rdm] = false;
-                Destroy(child.gameObject);
+                return child;
             }
             else
             {
@@ -138,12 +142,24 @@ public class GameTimer : MonoBehaviour
                 }
             }
 
-
+            return null;
         }
-
-        catch { }
+        
+        catch { return null; }
     }
 
+    IEnumerator DestroyPlatformComponent(Transform component)
+    {
+        Debug.Log("start destroy");
+        component.gameObject.transform.Rotate(Vector3.right * (110 * Time.deltaTime));
+        component.gameObject.transform.position += (transform.up* (110 * Time.deltaTime));
+        Physics.IgnoreLayerCollision(component.gameObject.layer,21,true);
+        Debug.Log("Destroy: "+ Time.deltaTime);
+       // component.transform.position -= transform.up * (5 * 1);
+        yield return new WaitForSeconds(5);
+        Debug.Log("destroyed component");
+        Destroy(component.gameObject);
+    }
 
 
 }
