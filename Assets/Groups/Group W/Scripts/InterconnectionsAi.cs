@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class InterconnectionsAi : MonoBehaviour
 {
@@ -8,15 +9,16 @@ public class InterconnectionsAi : MonoBehaviour
 
     public bool IsAiPlayer(string playerName)
     {
+        // print($"InterconnectionsAi was asked for IsAiPlayer with playerName: {playerName}");
         // goes through all players in the order which is also used to get the input,
         // such that we know which player is the first, second and so on
         // then searches for the correct string variable set by the interconnections group
-        if(players.Count == 4)
+
+        try
         {
             for (int index = 1; index <= 4; index++)
             {
                 var player = players[index - 1];
-                // print($"player name: {player.playerName}");
 
                 if (playerName == player.playerName)
                 {
@@ -26,10 +28,18 @@ public class InterconnectionsAi : MonoBehaviour
                 }
             }
 
+            print($"could not find matching player for name {playerName} while calling IsAiPlayer");
             return false;
         }
 
-        return false;
+        catch(Exception e)
+        {
+            // ugly ik, but I could not find out why this fails for the first time its called
+            // probably a faulty initialization order, but there is no time left for debugging
+            // so I decided to just catch this, gets called every frame anyways
+            print("expected first call failure in IsAiPlayer");
+            return false;
+        }
     }
 
     // Start is called before the first frame update

@@ -85,7 +85,6 @@ public class TestingGame : MiniGame
         //You pass the player reference, as well as its corresponding id
         InputManager.Instance.ApplyPlayerCustomization(myPlayer, 1);
         InputManager.Instance.ApplyPlayerCustomization(secondPlayer, 2);
-
     }
 
     //Example method of how to initialize you character for local testing
