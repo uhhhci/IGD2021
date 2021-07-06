@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class PlattiGame : MiniGame
 {
-    public List<playercollision> players;
+    public List<GameObject> players;
 
     public override string getDisplayName()
     {
@@ -22,6 +22,10 @@ public class PlattiGame : MiniGame
 
     void Start()
     {
+        List<int> playerIds = new List<int> { 1, 2, 3, 4 };
+        // Comment in for global testing
+        //InitializePlayers(players, playerIds);
+
         testelele();
     }
 
@@ -32,7 +36,7 @@ public class PlattiGame : MiniGame
 
     public void testelele()
     {
-        float pos = players[0].getZPos();
+        float pos = ((playercollision) players[0].GetComponent("playercollision")).getZPos();
         Debug.Log("z pos 0: " + pos);
     }
 }
