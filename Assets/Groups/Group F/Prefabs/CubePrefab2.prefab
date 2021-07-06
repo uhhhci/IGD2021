@@ -646,8 +646,8 @@ GameObject:
   - component: {fileID: 2746241261044679546}
   - component: {fileID: 2420159908920016552}
   - component: {fileID: -5107484479254817058}
-  - component: {fileID: -7656885942780894178}
   - component: {fileID: -5907825719595989108}
+  - component: {fileID: 6367460585035881082}
   m_Layer: 0
   m_Name: CubePrefab2
   m_TagString: Untagged
@@ -703,22 +703,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 3
---- !u!114 &-7656885942780894178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3267162848406968768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1142978b5c918e43859290cbfedcada, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  decaySpeed: 0.2
-  spawnProtection: 0
-  dyingSound: {fileID: 0}
-  decay: 0
 --- !u!23 &-5907825719595989108
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -758,6 +742,22 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &6367460585035881082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3267162848406968768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13e90e25aba15a047930ada0ecc6c1ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decaySpeed: 0.2
+  spawnProtection: 0
+  dyingSound: {fileID: 0}
+  decay: 0
 --- !u!1 &3380637504140028169
 GameObject:
   m_ObjectHideFlags: 0
