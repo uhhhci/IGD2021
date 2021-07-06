@@ -242,6 +242,7 @@ public class MinifigControllerWTH : MonoBehaviour
         if (activate)
         {
             AIStateMachine.SetTrigger("AiIsActive");
+            isAi = activate;
         }
     }
 
@@ -260,7 +261,7 @@ public class MinifigControllerWTH : MonoBehaviour
         }
 
         // Handle input.
-        if (inputEnabled)
+        if (inputEnabled && !isAi)
         {
             // Calculate direct speed and speed.
             var right = Vector3.right;
@@ -1073,6 +1074,21 @@ public class MinifigControllerWTH : MonoBehaviour
         {
             SpawnPowerUp();
         }
+    }
+    public void HitWithBat()
+    {
+        if (equipment != null)
+        {
+            animator.SetTrigger(punchHash);
+        }
+        else if (inventory != null)
+        {
+            SpawnPowerUp();
+        }
+    }
+    public bool hasEquipment()
+    {
+        return equipment != null || inventory != null;
     }
     public bool hasPowerUp()
     {
