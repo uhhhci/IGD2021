@@ -13,7 +13,7 @@ public class playercollision : MonoBehaviour
     private void Start()
     {
         player = (MinifigController)this.GetComponent("MinifigController");
-        //HealtSystem of Player 
+        //HealtSystem of Player
         HealthSystemI healthSystem = new HealthSystemI(100);
         currentHealth = 100;
     }
@@ -46,14 +46,14 @@ public class playercollision : MonoBehaviour
         if (pickup.tag == "LowGravity")
         {
             PickUp(pickup);
-            player.gravity /= 2;
+            player.gravity *= 0.9f;
             playSoundGravity.Play();
         }
 
         if (pickup.tag == "HighSpeed")
         {
             PickUp(pickup);
-            player.maxForwardSpeed *= 2;
+            player.maxForwardSpeed += 0.75f;
             playSoundSpeed.Play();
         }
 
@@ -66,7 +66,7 @@ public class playercollision : MonoBehaviour
 
         if (pickup.tag == "Respawn")
         {
-            
+
             HealthDown();
             playSoundSpeed.Play();
         }
