@@ -5,5 +5,5 @@ using UnityEngine;
 public class CollisionExplosion : MonoBehaviour
 {
     public GameObject Explosion;
-
+    public Enums.DestroyType Type;
 }

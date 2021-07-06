@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.UI;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -851,11 +851,17 @@ public class OurMinifigController : MonoBehaviour
 
     private void OnMoveDpad(InputValue value)
     {
+        Vector2 input = value.Get<Vector2>();
+        // First value is movement on z-axis, second is whether to jump or not.
+        input.Normalize();
+        RightLeftJump(input);
+    }
+
+    public void RightLeftJump(Vector2 input) 
+    {
         if (!inputEnabled)
             return;
-        Vector2 input = value.Get<Vector2>();
-        input.Normalize();
-        if(input[1]>0){
+        if (input[1]>0){
             //W
             // Check if player is jumping.
             if (!airborne || jumpsInAir > 0)
@@ -915,7 +921,13 @@ public class OurMinifigController : MonoBehaviour
         print("OnEastRelease");
     }
 
+
     private void OnSouthPress()
+    {
+        Attack();
+    }
+
+    public void Attack()
     {
         if (!inputEnabled)
         {
@@ -929,13 +941,21 @@ public class OurMinifigController : MonoBehaviour
                 animator.SetTrigger(throwHash);
             else if (itemType == "sword")
                 animator.SetTrigger(swordHash);
+            else if (itemType== "gun"){
+                animator.SetTrigger(swordHash);
+                castARay(item.strength,1000.0f);
+            }
         }
+        castARay(strength,hitRange);
+    }
+
+    private void castARay(int damageToInduce, float rayDistance){
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, hitRange))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, rayDistance))
         {
             if(hit.collider.tag == "Player"){
                 OurMinifigController hit_player = hit.collider.gameObject.GetComponent<OurMinifigController>();
-                hit_player.damage += strength;
+                hit_player.damage += damageToInduce;
                 Vector3 hit_direction = hit_player.transform.position - transform.position;
                 hit_direction.x = 0f; // do not change x position
                 hit_direction.y += 1f; // make the hit player fly slightly upwards
@@ -1010,6 +1030,8 @@ public class OurMinifigController : MonoBehaviour
 
     public void fix()
     {
+        if (!hasItem)
+            return;
         SetInputEnabled(false);
         float yrot = transform.rotation.eulerAngles.y;
         if (yrot < 90 || yrot > 270)
@@ -1021,6 +1043,8 @@ public class OurMinifigController : MonoBehaviour
 
     public void release()
     {
+        if (!hasItem)
+            return;
         SetInputEnabled(true);
         item.isActive = false;
         usedItem();
@@ -1028,6 +1052,8 @@ public class OurMinifigController : MonoBehaviour
 
     public void setHitting(bool hitting)
     {
+        if (!hasItem)
+            return;
         isHitting = hitting;
         if (hitting)
         {
@@ -1049,5 +1075,12 @@ public class OurMinifigController : MonoBehaviour
             hasItem = false;
             item = null;
         }
+    }
+
+    public int getPlatform(){
+        if(transform.position.z < -8.5) return 0;
+        if(transform.position.z > 8.4) return 2;
+        if(transform.position.y > 3) return 3;
+        return 1;
     }
 }

@@ -11,6 +11,8 @@ public class PlayerDisplay : MonoBehaviour
     public TurnAnimationBrick brick;    // golden brick in the HUD
     public StudBar trueParyBar;         // the bar used to display true party progress
 
+    public BoardgameController controller; // this player's controller
+
     public List<Transform> inventorySlots; // 3 inventory slots
 
     public ItemDatabase itemDB; // the item data base
@@ -40,12 +42,6 @@ public class PlayerDisplay : MonoBehaviour
         STOP,           // the desired amount has been added/removed
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -67,6 +63,11 @@ public class PlayerDisplay : MonoBehaviour
         trueParyBar.setStateTaken(isItThisPlayer);
     }
 
+    /// whether this player is the true party person
+    public bool isTruePartyPerson() {
+       return trueParyBar.isItThisPlayer();
+    }
+
     /// updates the true party meter of this player
     /// pass a value between 0 and 1, 0 is an empty meter, 1 a full one
     public void updateTruePartyMeter(float newRatio) {
@@ -78,18 +79,51 @@ public class PlayerDisplay : MonoBehaviour
     public void addItem(ItemD.Type itemType) {
         ItemD item = itemDB.getItem(itemType);
         if (items.Count < 3) {
+            controller.PlayPickupItemSound();
             itemObjects.Add(Instantiate(item.inventoryPrefab, inventorySlots[items.Count]));
             items.Add(itemType);
         }
     }
 
-    // whether the player's inventory contains the given item
+    // adds the given item to this player's inventory
+    // this method should only be used when restoring a previous game state
+    // after a minigame
+    public void restoreItem(ItemD.Type itemType) {
+        ItemD item = itemDB.getItem(itemType);
+        itemObjects.Add(Instantiate(item.inventoryPrefab, inventorySlots[items.Count]));
+        items.Add(itemType);
+    }
+
+    /// whether the player's inventory contains the given item
     public bool hasItem(ItemD.Type itemType) {
         return items.Contains(itemType);
     }
 
+    /// whether the player has still space for one item
     public bool hasSpaceForAnItem() {
         return items.Count < 3;
+    }
+
+    /// whether the player has at least one item
+    public bool hasAnItem() {
+        return items.Count > 0;
+    }
+
+    /// returns the first item the player currently has
+    /// ensure that he hasAnItem() before calling this method
+    public ItemD.Type getFirstItem() {
+        return items[0];
+    }
+
+    /// returns all items this player currently has
+    public List<ItemD.Type> getItems() {
+        List<ItemD.Type> res = new List<ItemD.Type>();
+
+        foreach (ItemD.Type item in items) {
+            res.Add(item);
+        }
+
+        return res;
     }
 
     // removes the given item from this player's inventory
@@ -131,6 +165,7 @@ public class PlayerDisplay : MonoBehaviour
     public void addGoldenBrick() {
         bricksToAdd++;
         brickAnimationState = GainingAnimation.START_GAINING;
+        controller.PlayPickupBrickSound();
     }
 
     /// returns the number of credits this player currently has
@@ -143,6 +178,12 @@ public class PlayerDisplay : MonoBehaviour
         return bricks;
     }
 
+    // this method is used to restore a previous state after a minigame
+    public void restore(int numberOfCredits, int numberOfBricks) {
+        credits = numberOfCredits;
+        bricks = numberOfBricks;
+    }
+
     private void animateCreditBobbing() {
         creditClock += Time.deltaTime;
 
@@ -151,12 +192,14 @@ public class PlayerDisplay : MonoBehaviour
                 credit.setBobbing(true);
                 creditsToAdd--;
                 credits++;
+                controller.PlayGainCreditSound();
                 creditAnimationState = GainingAnimation.BOBBING;
                 break;
             case GainingAnimation.START_LOSING:
                 credit.setBobbing(true);
                 creditsToAdd++;
                 credits--;
+                controller.PlayLoseCreditSound();
                 creditAnimationState = GainingAnimation.BOBBING;
                 break;
             case GainingAnimation.BOBBING:

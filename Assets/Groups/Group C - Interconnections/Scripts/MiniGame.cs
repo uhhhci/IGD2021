@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public enum MiniGameType {
@@ -17,10 +18,23 @@ abstract public class MiniGame : MonoBehaviour
     public abstract MiniGameType getMiniGameType();
 
     //Prefab that shows Game Over and the scores form the players at the end
+    //Please use the Prefab from Group C - Interconnections/Prefabs/FinishGames
     public GameObject _finishGamePrefab;
 
-    public void initializePlayers() {
-        //Set up keys from the InputManager to every player
+    //Optional to use, set ups the inputs and customization form players considering the whole game
+    //SHOULD ONLY BE CALLED WHEN THE WHOLE GAME IS BEING TESTED (Character selection + BoardGame)
+    public void InitializePlayers(List<GameObject> players, List<int> playerIds) {
+
+        for (int i = 0; i < players.Count; i++)
+        {
+            //Character customization
+            InputManager.Instance.ApplyPlayerCustomization(players[i], playerIds[i]);
+
+            //Assign saved player control scheme
+            var playerInput = players[i].GetComponent<PlayerInput>();
+            InputManager.Instance.AssignPlayerInput(playerInput, playerIds[i]);
+        }
+
     }
 
     //We should reference a template scene which will present instrucitons with a simple image and a Text box to fill with the instructions
@@ -31,6 +45,26 @@ abstract public class MiniGame : MonoBehaviour
     //Saves results in PlayerPrefs
     public void MiniGameFinished(int[] firstPlace, int[] secondPlace, int[] thirdPlace, int[] fourthPlace) {
          StartCoroutine(MiniGameFinishedTransition(firstPlace, secondPlace, thirdPlace, fourthPlace));
+    }
+
+    private Color ApplyColor(string color_name){
+        if (color_name.Equals("RED")){
+            return Color.red;
+        }
+
+        if (color_name.Equals("PINK")){
+            return Color.magenta;
+        }
+
+        if (color_name.Equals("YELLOW")){
+            return Color.yellow;
+        }
+
+        if (color_name.Equals("BLUE")){
+            return Color.blue;
+        }
+
+        return Color.black;
     }
 
     public IEnumerator MiniGameFinishedTransition(int[] firstPlace, int[] secondPlace, int[] thirdPlace, int[] fourthPlace){
@@ -110,24 +144,36 @@ abstract public class MiniGame : MonoBehaviour
                 Debug.Log("PLAYER"+firstPlace[0].ToString()+"_NAME");
 
                 name1.text = PlayerPrefs.GetString("PLAYER"+firstPlace[0].ToString()+"_NAME");
+                name1.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+firstPlace[0].ToString()+"_NAME"));
                 name2.text = PlayerPrefs.GetString("PLAYER"+firstPlace[1].ToString()+"_NAME");
+                name2.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+firstPlace[1].ToString()+"_NAME"));
                 name3.text = PlayerPrefs.GetString("PLAYER"+secondPlace[0].ToString()+"_NAME");
+                name3.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+secondPlace[0].ToString()+"_NAME"));
                 name4.text = PlayerPrefs.GetString("PLAYER"+secondPlace[1].ToString()+"_NAME");
+                name4.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+secondPlace[1].ToString()+"_NAME"));
             } else{
                 second_place.text = "1st";
                 third_place.text = "1st";
                 fourth_place.text = "2nd";
 
                 name1.text = PlayerPrefs.GetString("PLAYER"+firstPlace[0].ToString()+"_NAME");
+                name1.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+firstPlace[0].ToString()+"_NAME"));
                 name2.text = PlayerPrefs.GetString("PLAYER"+firstPlace[1].ToString()+"_NAME");
+                name2.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+firstPlace[1].ToString()+"_NAME"));
                 name3.text = PlayerPrefs.GetString("PLAYER"+firstPlace[2].ToString()+"_NAME");
+                name3.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+firstPlace[2].ToString()+"_NAME"));
                 name4.text = PlayerPrefs.GetString("PLAYER"+secondPlace[0].ToString()+"_NAME");
+                name4.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+secondPlace[0].ToString()+"_NAME"));
             }
         } else{
                 name1.text = PlayerPrefs.GetString("PLAYER"+firstPlace[0].ToString()+"_NAME");
+                name1.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+firstPlace[0].ToString()+"_NAME"));
                 name2.text = PlayerPrefs.GetString("PLAYER"+secondPlace[0].ToString()+"_NAME");
+                name2.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+secondPlace[0].ToString()+"_NAME"));
                 name3.text = PlayerPrefs.GetString("PLAYER"+thirdPlace[0].ToString()+"_NAME");
+                name3.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+thirdPlace[0].ToString()+"_NAME"));
                 name4.text = PlayerPrefs.GetString("PLAYER"+fourthPlace[0].ToString()+"_NAME");
+                name4.color = ApplyColor(PlayerPrefs.GetString("PLAYER"+fourthPlace[0].ToString()+"_NAME"));
         }
 
         

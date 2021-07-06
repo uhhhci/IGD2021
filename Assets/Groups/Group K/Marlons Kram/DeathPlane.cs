@@ -8,7 +8,7 @@ public class DeathPlane : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            collision.collider.GetComponent<RBCharacterController>().Explode();
+            collision.collider.GetComponent<RBCharacterController>().Die();
         }
     }
 

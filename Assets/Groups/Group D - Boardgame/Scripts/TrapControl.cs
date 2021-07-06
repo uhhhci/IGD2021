@@ -5,8 +5,6 @@ using UnityEngine;
 public class TrapControl : MonoBehaviour
 {
     private Vector3 offset = new Vector3(0f, 0.51f, 0f);    // hovering offset from players 
-    public Transform[] players;                     // transforms of all four players, in order
-    public PlayerData[] playerDatas;
     public float deadzone = 0.1f;                   // distance to target position where a movement is considered to be completed
     private float speed = 25.0f;                      // how many units the trap can move per second
 
@@ -29,15 +27,15 @@ public class TrapControl : MonoBehaviour
         flyingTime = 0.0;
         distance = Vector3.Distance(startingPos, targetPos);
     }
-
-    public void moveToPlayerTile(int player)
+    
+    public void moveToPlayerTile(PlayerData data)
     {
-        setNewTarget(playerDatas[player].currentTile().getPosition() + offset);
+        setNewTarget(data.currentTile().getPosition() + offset);
     }
 
-    public void moveAbovePlayerTile(int player)
+    public void moveAbovePlayerTile(PlayerData data)
     {
-        Vector3 hoverposition = new Vector3(playerDatas[player].currentTile().getPosition().x,loiterPoint.y,playerDatas[player].currentTile().getPosition().z);
+        Vector3 hoverposition = new Vector3(data.currentTile().getPosition().x,loiterPoint.y,data.currentTile().getPosition().z);
         setNewTarget(hoverposition);
     }
     
@@ -78,6 +76,11 @@ public class TrapControl : MonoBehaviour
         {
             movementDone = true;
         }
+    }
+
+    // this method is used to restore a previous state after a minigame
+    public void restore(Vector3 location) {
+        transform.position = location;
     }
 
     public void playDropAudio()

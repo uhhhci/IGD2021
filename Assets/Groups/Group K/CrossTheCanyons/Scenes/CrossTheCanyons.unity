@@ -150,8 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9f19f7b05aab664e9e3e36e59fe8d52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platform: {fileID: 3194950219840539982, guid: 0281f335eafb9dc42b9264f5cbbe6f0d,
-    type: 3}
+  platform: {fileID: 899780542457236745, guid: 6296df55dd965de42b3cb6965dd9006e, type: 3}
   bridge: {fileID: 3641746025473973107, guid: d2204ce1fa250c14fad19abe14bcc233, type: 3}
   goal: {fileID: 658903763398495588, guid: 9f147b2c92f884e4eb8d176639d679f6, type: 3}
   barrier: {fileID: 4685626332541284248, guid: 4f195ebed2cb20b49ab2fc88e16485ca, type: 3}
@@ -309,6 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227870ae020f043cbb47bfce29466447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _randomPicker: {fileID: 0}
 --- !u!1001 &617538642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -733,6 +733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5d5f23cf1a64811825cb10a87d81f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _menuPlayerPrefab: {fileID: 0}
 --- !u!114 &1078156041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -749,6 +750,50 @@ MonoBehaviour:
   player2: {fileID: 1958957896}
   player3: {fileID: 2120546461}
   player4: {fileID: 1330172502}
+--- !u!1 &1214831357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1214831359}
+  - component: {fileID: 1214831358}
+  m_Layer: 0
+  m_Name: BotController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1214831358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214831357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 784d60b002498a94ead060dc47af79b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelManager: {fileID: 112256763}
+--- !u!4 &1214831359
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214831357}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.1772113, y: 1.3116162, z: -0.3124126}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1244445781
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -948,6 +993,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae70263c888005b44a4c2ba0f52e1188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManagerCTC: {fileID: 1078156041}
+  botController: {fileID: 1214831358}
+  playerID: 4
+  leftPlayer: 0
 --- !u!114 &1330172502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,7 +1219,7 @@ PrefabInstance:
     - target: {fileID: 3194950219840539981, guid: 0281f335eafb9dc42b9264f5cbbe6f0d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.5
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 3194950219840539981, guid: 0281f335eafb9dc42b9264f5cbbe6f0d,
         type: 3}
@@ -1452,6 +1501,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0683b2e909546dd4387a00ccd022a70b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManagerCTC: {fileID: 1078156041}
+  botController: {fileID: 1214831358}
+  playerID: 1
+  leftPlayer: 1
 --- !u!4 &1757552370
 Transform:
   m_ObjectHideFlags: 0
@@ -1547,6 +1600,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0479cde6599e8ec4c935b6eac7c34644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _finishGamePrefab: {fileID: 8914169427414623133, guid: eb80993c89a63a540bed42b779731471,
+    type: 3}
 --- !u!1 &1958957894
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,6 +1632,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae70263c888005b44a4c2ba0f52e1188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManagerCTC: {fileID: 1078156041}
+  botController: {fileID: 1214831358}
+  playerID: 2
+  leftPlayer: 1
 --- !u!114 &1958957896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1745,6 +1804,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0683b2e909546dd4387a00ccd022a70b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManagerCTC: {fileID: 1078156041}
+  botController: {fileID: 1214831358}
+  playerID: 3
+  leftPlayer: 0
 --- !u!114 &2120546461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1810,7 +1873,7 @@ PrefabInstance:
     - target: {fileID: 3194950219840539981, guid: 0281f335eafb9dc42b9264f5cbbe6f0d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3194950219840539981, guid: 0281f335eafb9dc42b9264f5cbbe6f0d,
         type: 3}
