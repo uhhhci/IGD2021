@@ -18,6 +18,7 @@ public class GameTimer : MonoBehaviour
     private bool nextRandomDestructionTime = true;
     private GameManagerJ gameplayManager;
 
+
     void Awake()
     {
         gameplayManager = GameObject.FindObjectOfType<GameManagerJ>();
@@ -53,7 +54,7 @@ public class GameTimer : MonoBehaviour
     {
         if (timerIsRunning)
         {
-            if (timeRemaining > 0)
+           if (timeRemaining > 0)
             {
                 timeRemaining -= Time.deltaTime;
                 DisplayTime(timeRemaining);
@@ -64,7 +65,7 @@ public class GameTimer : MonoBehaviour
                         Transform platepart = plateDistruction(0);
                         if (platepart != null)
                         {
-                            StartCoroutine(DestroyPlatformComponent(platepart));
+                            StartCoroutine(DestroyPlatformComponent(platepart,5));
                         }
                         timerPlate = maxTimeUntilPlateDestruction;
                         nextRandomDestructionTime = true;
@@ -148,15 +149,21 @@ public class GameTimer : MonoBehaviour
         catch { return null; }
     }
 
-    IEnumerator DestroyPlatformComponent(Transform component)
+    IEnumerator DestroyPlatformComponent(Transform component, float seconds)
     {
         Debug.Log("start destroy");
-        component.gameObject.transform.Rotate(Vector3.right * (110 * Time.deltaTime));
-        component.gameObject.transform.position += (transform.up* (110 * Time.deltaTime));
-        Physics.IgnoreLayerCollision(component.gameObject.layer,21,true);
-        Debug.Log("Destroy: "+ Time.deltaTime);
-       // component.transform.position -= transform.up * (5 * 1);
-        yield return new WaitForSeconds(5);
+        float elapsedTime = 0;
+        while (elapsedTime < seconds) 
+        {
+            elapsedTime += Time.deltaTime;
+            component.gameObject.transform.Rotate(Vector3.right * (5 * Time.deltaTime));
+            component.gameObject.transform.position += (Vector3.down* (Time.deltaTime/5));
+            Physics.IgnoreLayerCollision(component.gameObject.layer,21,true);
+            Debug.Log("Destroy: "+ Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+            // component.transform.position -= transform.up * (5 * 1);
+        } 
+        
         Debug.Log("destroyed component");
         Destroy(component.gameObject);
     }
