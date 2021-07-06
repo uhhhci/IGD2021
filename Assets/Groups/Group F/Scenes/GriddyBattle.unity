@@ -164,9 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4ab11806c9ac544b4ca76f680dfb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 6424653503789240065, guid: 5ac47a3956bf84b4aa9781d857d5f527,
-    type: 3}
-  speed: 20
 --- !u!1 &110662429
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,9 +340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4ab11806c9ac544b4ca76f680dfb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 6424653503789240065, guid: 5ac47a3956bf84b4aa9781d857d5f527,
-    type: 3}
-  speed: 20
 --- !u!1 &473983952
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,8 +666,9 @@ AudioSource:
   m_GameObject: {fileID: 711910919}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b9509e2ffb546024e9a67a62d45cfdab, type: 3}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 6d7ae59fbc3ba58418b1f5dd5a9b7af1,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: b9cd586a9a3868e499bdd5d1f7c118a5, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1295,8 +1290,9 @@ AudioSource:
   m_GameObject: {fileID: 935379777}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b9509e2ffb546024e9a67a62d45cfdab, type: 3}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 6d7ae59fbc3ba58418b1f5dd5a9b7af1,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: b9cd586a9a3868e499bdd5d1f7c118a5, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1451,9 +1447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4ab11806c9ac544b4ca76f680dfb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 6424653503789240065, guid: 5ac47a3956bf84b4aa9781d857d5f527,
-    type: 3}
-  speed: 20
 --- !u!4 &1003622336 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8ba9885a04de79944b3ce5d25958acbc,
@@ -2505,9 +2498,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4ab11806c9ac544b4ca76f680dfb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 6424653503789240065, guid: 5ac47a3956bf84b4aa9781d857d5f527,
-    type: 3}
-  speed: 20
 --- !u!1001 &2015640629
 PrefabInstance:
   m_ObjectHideFlags: 0

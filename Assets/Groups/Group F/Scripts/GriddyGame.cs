@@ -168,7 +168,8 @@ public class GriddyGame : MiniGame {
                 );
 
             var neighboringPlatforms = platforms
-                .Where(p => DistanceToPlayer(p) < 3.25f)
+                //.Where(p => DistanceToPlayer(p) < 3.25f)
+                .Where(p => DistanceToPlayer(p) < 5f)
                 .ToList()
                 .Shuffle();
 
@@ -181,25 +182,12 @@ public class GriddyGame : MiniGame {
                 continue;
             var goalPlatform = goalCandidates[new System.Random().Next() % goalCandidates.Count];
             var goalPosition = new Vector3(
-                x: goalPlatform.transform.position.x + (float)(new System.Random().NextDouble() * 0.4 - 0.2),
+                x: goalPlatform.transform.position.x + (float)(new System.Random().NextDouble() * 0.2 - 0.1),
                 y: aiPlayer.transform.position.y,
-                z: goalPlatform.transform.position.z + (float)(new System.Random().NextDouble() * 0.4 - 0.2)
+                z: goalPlatform.transform.position.z + (float)(new System.Random().NextDouble() * 0.2 - 0.1)
             );
-            if(goalPosition == null)
-            {
-                Debug.Log("no goal pos");
-                continue;
-            }
             
-            var minicfg = aiPlayer.GetComponent<MinifigController>();
-
-            if (minicfg == null)
-            {
-                Debug.Log("no minicfg");
-                continue;
-            }
-            
-            aiPlayer.GetComponent<MinifigController>().MoveTo(goalPosition);
+            aiPlayer.GetComponent<MinifigControllerF>().MoveTo(goalPosition);
             aiStates[aiPlayer] = new AiState {
                 GoalPosition = goalPosition,
                 CurrentPosition = aiPlayer.transform.position

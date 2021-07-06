@@ -1001,7 +1001,7 @@ public class MinifigControllerF : MonoBehaviour
     private void OnWestPress()
     {
         Rigidbody instantiatedProjectile = Instantiate(projectile, transform.position, transform.rotation) as Rigidbody;
-        instantiatedProjectile.velocity = transform.TransformDirection(new Vector3(0, 0, speed));
+        instantiatedProjectile.velocity = transform.TransformDirection(new Vector3(0, 0, 50));
     }
 
     private void OnWestRelease()
