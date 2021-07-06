@@ -2,14 +2,15 @@
 
 public class playerDetection : MonoBehaviour {
 
-    public Rigidbody rb;
-    public BoxCollider bc;
-    public MeshRenderer mr;
     public float decaySpeed = 0.2f;
     public float spawnProtection = 0.0f;
     public AudioSource dyingSound;
 
     public float decay = 0.0f; // [0.0, 1.0]
+
+    private Rigidbody rb;
+    private BoxCollider bc;
+    private MeshRenderer mr;
 
     private bool platformTouched = false;
     private bool triedKill = false;
@@ -17,6 +18,9 @@ public class playerDetection : MonoBehaviour {
     void Awake()
     {
         spawnProtection = Time.time + 5.0f;
+        this.bc = this.GetComponent<BoxCollider>();
+        this.mr = this.GetComponent<MeshRenderer>();
+        this.rb = this.GetComponent<Rigidbody>();
     }
 
     bool IsSpawnProtected()
@@ -65,7 +69,7 @@ public class playerDetection : MonoBehaviour {
         }
 
 
-        this.GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+        this.GetComponent<MeshRenderer>().material.color = new Color(255.0f, 0.0f, 0.0f, 0.0f);
 
         var myDelta = Time.deltaTime * decaySpeed;
         decay += myDelta;

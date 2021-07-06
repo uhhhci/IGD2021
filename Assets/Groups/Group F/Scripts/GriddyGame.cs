@@ -53,6 +53,9 @@ public class GriddyGame : MiniGame {
         var platform = Instantiate(pEnliS, position: new Vector3(x * xoffset - gridoffset, -1 * yoffset * h, z * zoffset - gridoffset), rotation: transform.rotation);
         platforms.Add(platform);
 
+        var playerDetection = platform.GetComponent<playerDetection>();
+        playerDetection.decaySpeed = decaySpeed;
+
         return platform;
     }
     private void Start() {
