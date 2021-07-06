@@ -59,9 +59,9 @@ namespace Groups.Group_S
             _buildingFinished = false;
 
             _playerIsAI[0] = PlayerPrefs.GetString(InputManager.PLAYER_1_AI).Equals("True");
-            _playerIsAI[1] = PlayerPrefs.GetString(InputManager.PLAYER_2_AI).Equals("True");
-            _playerIsAI[2] = PlayerPrefs.GetString(InputManager.PLAYER_3_AI).Equals("True");
-            _playerIsAI[3] = PlayerPrefs.GetString(InputManager.PLAYER_4_AI).Equals("True");
+            _playerIsAI[1] = true; //PlayerPrefs.GetString(InputManager.PLAYER_2_AI).Equals("True");
+            _playerIsAI[2] = true; //PlayerPrefs.GetString(InputManager.PLAYER_3_AI).Equals("True");
+            _playerIsAI[3] = true; //PlayerPrefs.GetString(InputManager.PLAYER_4_AI).Equals("True");
 
             DeactivateCars();
             ActivateMinifigs();
@@ -113,15 +113,15 @@ namespace Groups.Group_S
                     car.GetComponent<PlayerInput>().enabled = false;
                 }
             }
-            
-            InputManager.Instance.AssignPlayerInput(playerCars
-                .Select(i => i.gameObject.GetComponent<PlayerInput>())
-                .ToList());
-            
+
             foreach (var car in playerCars)
             {
                 car.InitializeDrivable();
             }
+            
+            InputManager.Instance.AssignPlayerInput(playerCars
+                .Select(i => i.gameObject.GetComponent<PlayerInput>())
+                .ToList());
         }
 
         private void DeactivateCars()
