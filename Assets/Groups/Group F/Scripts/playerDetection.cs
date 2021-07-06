@@ -83,8 +83,10 @@ public class playerDetection : MonoBehaviour {
         }
 
         var sinceTouched = Time.time - platformTouchedTime;
-        var frac = sinceTouched / 10;
-        var col = new Color(frac * 1.0f, 0.0f, 0.0f);
+        sinceTouched = sinceTouched / 3.0f;
+
+
+        var col = new Color(sinceTouched * 1.0f, 0.0f, 0.0f);
         
         this.meshRenderer.material.SetColor("_Color", col);
         this.meshRenderer.material.SetColor("_BaseColor", col);
