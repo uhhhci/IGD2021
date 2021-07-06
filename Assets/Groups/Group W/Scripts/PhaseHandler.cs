@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -111,6 +112,7 @@ public class PhaseHandler : MonoBehaviour
         leadingTeam = (Team)leadingTeamIndex;
     }
 
+
     // Update is called once per frame
     void Update()
     {
@@ -163,6 +165,8 @@ public class PhaseHandler : MonoBehaviour
                         if (equippingPlayerIndex < havePlayersEquippedWeapons.Count && !havePlayersEquippedWeapons[equippingPlayerIndex])
                         {
                             ActionPhase actionPhase = player.GetComponent<ActionPhase>();
+                            DecisionPhase decisionPhase = player.GetComponent<DecisionPhase>();
+
                             actionPhase.ChangeLeftHandWeapon(player.rowPosition, player.weapon);
                             havePlayersEquippedWeapons[equippingPlayerIndex] = true;
                             equippingPlayerIndex++;

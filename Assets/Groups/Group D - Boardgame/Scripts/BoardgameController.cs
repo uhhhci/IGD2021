@@ -95,6 +95,9 @@ public class BoardgameController : MonoBehaviour
     public AudioClip landAudioClip;
     public AudioClip explodeAudioClip;
     public AudioClip receiveItemAudioClip;
+    public AudioClip receiveBrickAudioClip;
+    public AudioClip receiveCreditAudioClip;
+    public AudioClip loseCreditAudioClip;
 
     [Header("Controls")]
     [SerializeField]
@@ -573,9 +576,24 @@ public class BoardgameController : MonoBehaviour
         inputEnabledCached = enabled; // also overwrite the cached value
     }
 
-    public void PlayPickupSound()
+    public void PlayPickupBrickSound()
+    {
+        audioSource.PlayOneShot(receiveBrickAudioClip);
+    }
+
+    public void PlayPickupItemSound()
     {
         audioSource.PlayOneShot(receiveItemAudioClip);
+    }
+
+    public void PlayGainCreditSound()
+    {
+        audioSource.PlayOneShot(receiveCreditAudioClip);
+    }
+
+    public void PlayLoseCreditSound()
+    {
+        audioSource.PlayOneShot(loseCreditAudioClip);
     }
 
     public void PlaySpecialAnimation(SpecialAnimation animation, AudioClip specialAudioClip = null, Action<bool> onSpecialComplete = null)
@@ -989,8 +1007,14 @@ public class BoardgameController : MonoBehaviour
     /// returns whether any (movement) animation was completed
     public bool animationDone() {
         // TODO: extend to support animations other than moving around
-        return !airborne && animationCompleted;
+        return animationCompleted;
     }
+
+    
+    public Vector3 getPlayerPosition() {
+        return transform.position;
+    }
+
 
     #endregion
 }

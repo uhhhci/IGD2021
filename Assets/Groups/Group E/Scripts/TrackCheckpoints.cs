@@ -40,7 +40,7 @@ public class TrackCheckpoints : MonoBehaviour
         {
             //Debug.Log("---------------Correct------------------------");
             nextCheckpointSingleIndexList[carTransformList.IndexOf(carTransform)] = (nextCheckpointSingleIndex + 1) % triggerZones.Count;
-            Debug.Log(nextCheckpointSingleIndex);
+            //Debug.Log(nextCheckpointSingleIndex);
             if(nextCheckpointSingleIndex == 0)
             {
                 gameManager.countRound(carTransform);

@@ -32,6 +32,7 @@ GameObject:
   - component: {fileID: -6220251526473426468}
   - component: {fileID: 3228778136329532822}
   - component: {fileID: 6776377133075310417}
+  - component: {fileID: 6943488984303928087}
   m_Layer: 0
   m_Name: Minifig Controller
   m_TagString: Player
@@ -331,6 +332,21 @@ MonoBehaviour:
   emptyHeart: {fileID: 21300000, guid: 55e00bb1db3a7be448911f5b270a5e15, type: 3}
   ownID: 0
   gameManager: {fileID: 0}
+--- !u!114 &6943488984303928087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3344814360938523938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4449eb107f646d4cbf7c3d63f748b74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 5560795514181553838}
+  viewingDistance: 5
+  dangerViewingDistance: 15
 --- !u!1001 &649133815285714872
 PrefabInstance:
   m_ObjectHideFlags: 0

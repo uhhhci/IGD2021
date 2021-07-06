@@ -1,10 +1,16 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerupItem : MonoBehaviour
 {
-    public GameManager_E gameManager;
+    private GameManager_E gameManager;
+    private MissileManager missileManager;
+
+    private void Start()
+    {
+        gameManager = FindObjectOfType<GameManager_E>();
+        missileManager = FindObjectOfType<MissileManager>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,8 +22,7 @@ public class PowerupItem : MonoBehaviour
 
     public IEnumerator Pickup(Collider player)
     {
-        PowerUp[] powerupsArr = { new PowerupShield(), new PowerupSpeed(), new PowerupReverseSteer(gameManager) };
-        //PowerUp[] powerupsArr = { new PowerupReverseSteer(gameManager) };
+        PowerUp[] powerupsArr = { new PowerupShield(), new PowerupSpeed(), new PowerupReverseSteer(gameManager), new PowerupAttack(missileManager, gameManager) };
 
         int rnd = Random.Range(0, powerupsArr.Length);
         PowerUp powerup = powerupsArr[rnd];
