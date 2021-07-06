@@ -147,7 +147,13 @@ public class GriddyGame : MiniGame {
                     new Vector2(lastState.GoalPosition.x, lastState.GoalPosition.z),
                     new Vector2(aiPlayer.transform.position.x, aiPlayer.transform.position.z)
                 );
-                if (goalDistance > 0.5 && 2.0 > Math.Abs(lastState.CurrentPosition.y - aiPlayer.transform.position.y))
+                var currDistance = Vector2.Distance
+                (
+                    new Vector2(lastState.CurrentPosition.x, lastState.CurrentPosition.z),
+                    new Vector2(aiPlayer.transform.position.x, aiPlayer.transform.position.z)
+                );
+                Debug.Log($"{DateTime.Now} -> {currDistance / Time.deltaTime}");
+                if (currDistance / Time.deltaTime > 2.0 && goalDistance > 0.25 && 2.0 > Math.Abs(lastState.CurrentPosition.y - aiPlayer.transform.position.y))
                     continue;
             }
 
@@ -162,7 +168,8 @@ public class GriddyGame : MiniGame {
 
             var neighboringPlatforms = platforms
                 .Where(p => DistanceToPlayer(p) < 3.25f)
-                .ToList();
+                .ToList()
+                .Shuffle();
 
             var goalCandidates = neighboringPlatforms
                 .OrderBy(p => p.GetComponent<playerDetection>().decay)
