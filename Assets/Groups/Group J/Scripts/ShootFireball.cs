@@ -26,7 +26,6 @@ public class ShootFireball : MonoBehaviour
 
     public void Shoot()
     {
-        Debug.Log("shhhooooooooot");
         if (player.gameObject.GetComponent<JPlayerStats>().fireballCount > 0)
         {
             player.gameObject.GetComponent<JPlayerStats>().fireballCount--;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemImpact : MonoBehaviour
 {
     private bool collided;
+    public GameObject explosionEffect;
 
     public void OnTriggerStay(Collider other)
     {
@@ -15,6 +16,7 @@ public class ItemImpact : MonoBehaviour
             Debug.Log("Hit target");
             other.gameObject.GetComponent<AIController>().AddImpact(this.transform.forward * 45);
             collided = true;
+            Instantiate(explosionEffect, new Vector3(other.transform.position.x, other.transform.position.y + 1, other.transform.position.z), transform.rotation);
             Destroy(gameObject);
         }
     }
