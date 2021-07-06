@@ -7,7 +7,7 @@ public class playerDetection : MonoBehaviour {
     public BoxCollider bc;
     public MeshRenderer mr;
     public float decaySpeed = 0.2f;
-
+    public float spawnProtection = 0.0f;
     public AudioSource dyingSound;
     public AudioSource deathSound;
 
@@ -15,7 +15,22 @@ public class playerDetection : MonoBehaviour {
 
     private PlatformState state = PlatformState.Virgin;
     
-    void OnCollisionStay(Collision col) {
+    void Awake()
+    {
+        spawnProtection = Time.time + 5.0f;
+    }
+
+    bool IsSpawnProtected()
+    {
+        return spawnProtection == 0.0f || spawnProtection >= Time.time;
+    }
+
+    void OnCollisionStay(Collision col)
+    {
+        if (IsSpawnProtected()) {
+            return;
+        }
+
         if (!col.collider.CompareTag("Player")) return;
         if (state == PlatformState.Dead) return;
 
@@ -25,9 +40,16 @@ public class playerDetection : MonoBehaviour {
         }
     }
 
-    private void Update() {
+    private void Update()
+    {
+        if (IsSpawnProtected()) {
+            return;
+        }
+
         if (rb.IsSleeping())
+        {
             rb.WakeUp();
+        }
 
         if (state == PlatformState.Dying) {
 
@@ -45,7 +67,8 @@ public class playerDetection : MonoBehaviour {
         SetStateDependentPhysics();
     }
 
-    void CalculateNewState() {
+    void CalculateNewState()
+    {
         if (state == PlatformState.Dying && decay >= 1.0) {
             state = PlatformState.Dead;
             dyingSound.Stop();
@@ -53,7 +76,12 @@ public class playerDetection : MonoBehaviour {
         }
     }
 
-    void SetStateDependentColor() {
+    void SetStateDependentColor()
+    {
+        if (IsSpawnProtected()) {
+            return;
+        }
+
         switch (state) {
             case PlatformState.Virgin:
                 this.GetComponent<MeshRenderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 1.0f);
@@ -70,7 +98,8 @@ public class playerDetection : MonoBehaviour {
         }
     }
 
-    void SetStateDependentPhysics() {
+    void SetStateDependentPhysics()
+    {
         var isAlive = state != PlatformState.Dead;
         bc.enabled = isAlive;
         mr.enabled = isAlive;
