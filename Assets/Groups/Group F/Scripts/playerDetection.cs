@@ -19,9 +19,25 @@ public class playerDetection : MonoBehaviour {
     {
         spawnProtection = Time.time + 5.0f;
         this.boxCollider = this.GetComponent<BoxCollider>();
-        this.meshRenderer = this.GetComponent<MeshRenderer>();
+
+        MeshRenderer meshRenderer = null;
+        var meshRenderers = FindObjectsOfType(typeof(MeshRenderer)) as MeshRenderer[];
+
+        foreach(var renderer in meshRenderers)
+        {
+            if (renderer.name == "Shell")
+            {
+                meshRenderer = renderer;
+                Debug.Log("found shell");
+                Debug.Log(meshRenderer);
+                break;
+            }
+        }
+
+        this.meshRenderer = meshRenderer;
         this.rigidBody = this.GetComponent<Rigidbody>();
     }
+
 
     bool IsSpawnProtected()
     {
