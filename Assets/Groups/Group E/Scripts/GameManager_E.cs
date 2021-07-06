@@ -189,9 +189,6 @@ public class GameManager_E : MonoBehaviour
 
     public void CreateAI()
     {
-        InitializeAIPlayer(carTransformList[1]);
-        InitializeAIPlayer(carTransformList[2]);
-        InitializeAIPlayer(carTransformList[3]);
         if (PlayerPrefs.GetString("PLAYER1_AI").Equals("True"))
         {
             InitializeAIPlayer(carTransformList[0]);
