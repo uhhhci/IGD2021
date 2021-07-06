@@ -15,7 +15,7 @@ public class DefendMiddleBehaviour : StateMachineBehaviour
     private GameObject pickUpContainer;
     private GameObject ringMoveArrows;
     private bool hasBat = false;
-    public float timeSinceLastHit = 2f;
+    public float timeSinceLastHit = 0f;
     public float timeSinceLastMove = 6f;
     List<Vector3> goals = new List<Vector3>() { new Vector3(0, 0, 0) };
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -55,6 +55,7 @@ public class DefendMiddleBehaviour : StateMachineBehaviour
                         playerController.MoveTo(currentPath.corners[1]);
                     }
                 }
+                timeSinceLastHit = 0f;
 
             } else
             {
@@ -81,7 +82,7 @@ public class DefendMiddleBehaviour : StateMachineBehaviour
             } else
             {
                 playerController.HitWithBat();
-                timeSinceLastHit = 2f;
+                timeSinceLastHit = 1f;
             }
         } 
         timeSinceLastMove -= Time.deltaTime;
