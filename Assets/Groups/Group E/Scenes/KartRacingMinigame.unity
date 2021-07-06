@@ -163,6 +163,11 @@ PrefabInstance:
       propertyPath: m_FontData.m_Alignment
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 607692874672979238, guid: 08c7891c47dc61d4e88326bb76067b74,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1621764757472190365, guid: 08c7891c47dc61d4e88326bb76067b74,
         type: 3}
       propertyPath: m_Color.r
@@ -14653,6 +14658,11 @@ PrefabInstance:
       propertyPath: m_FontData.m_Alignment
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 607692874672979238, guid: 08c7891c47dc61d4e88326bb76067b74,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1621764757472190365, guid: 08c7891c47dc61d4e88326bb76067b74,
         type: 3}
       propertyPath: m_Color.r
@@ -16386,6 +16396,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FontData.m_Alignment
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 607692874672979238, guid: 08c7891c47dc61d4e88326bb76067b74,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1621764757472190365, guid: 08c7891c47dc61d4e88326bb76067b74,
         type: 3}
@@ -20115,6 +20130,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 607692874672979238, guid: 08c7891c47dc61d4e88326bb76067b74,
+        type: 3}
+      propertyPath: m_Pitch
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 607692874672979238, guid: 08c7891c47dc61d4e88326bb76067b74,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2271449081312173169, guid: 08c7891c47dc61d4e88326bb76067b74,
         type: 3}
       propertyPath: m_Carve
@@ -20128,7 +20153,7 @@ PrefabInstance:
     - target: {fileID: 3157337896616711903, guid: 08c7891c47dc61d4e88326bb76067b74,
         type: 3}
       propertyPath: m_Volume
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3818762181038596435, guid: 08c7891c47dc61d4e88326bb76067b74,
         type: 3}
@@ -20168,7 +20193,7 @@ PrefabInstance:
     - target: {fileID: 5277669073660611305, guid: 08c7891c47dc61d4e88326bb76067b74,
         type: 3}
       propertyPath: m_Volume
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7566994459412580024, guid: 08c7891c47dc61d4e88326bb76067b74,
         type: 3}

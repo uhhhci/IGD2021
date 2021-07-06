@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 using System.Collections;
+using UnityEngine.AI;
 
 public enum Axle
 {
@@ -43,6 +44,8 @@ public class CarController : MonoBehaviour
     public float AddedGravity { get; private set; } = 1.0f;
     public float CoastingDrag { get; private set; } = 7.0f;
 
+    private AudioSource engineSound;
+
     public void DisableControl()
     {
         controlEnabled = false;
@@ -68,6 +71,7 @@ public class CarController : MonoBehaviour
     {
         if(!stopped)
         {
+            PlayEngineSound();
             CheckDrivingDirection(rb);
             ChangeGroundDependentSpeed();
             CheckGroundContact();
@@ -78,11 +82,34 @@ public class CarController : MonoBehaviour
         ApplyDownForce();
     }
 
+    private void PlayEngineSound()
+    {
+        if (TryGetComponent(out NavMeshAgent agent))
+        {
+            float newPitch = agent.velocity.magnitude / agent.speed * +1;
+            if (newPitch >= 2.5f)
+            {
+                newPitch = 2.5f;
+            }
+            engineSound.pitch = newPitch;
+        } else
+        {
+            float newPitch = engineSound.pitch = rb.velocity.magnitude / maxVelocity + 1;
+            if (newPitch >= 2.5f)
+            {
+                newPitch = 2.5f;
+            }
+            engineSound.pitch = newPitch;
+        }
+
+        
+    }
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = centerOfMass;
+        engineSound = GetComponent<AudioSource>();
     }
 
     void Update()
