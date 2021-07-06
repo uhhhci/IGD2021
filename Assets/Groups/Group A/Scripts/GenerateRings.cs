@@ -16,7 +16,7 @@ public class GenerateRings : MonoBehaviour
     public float yLevel = 0;
     public float randomCapProb = 0.1f;
     public float offsetRotation = 5f, offsetRadius = 1f, offsetAngle = 5f, offsetHeight = 0.1f;
-    public bool rotate = true;
+    public bool rotate = false;
     public float rotationSpeed = 3f;
     public int ringToRotate = 1;
     public float maxLinkDistance = 5f;

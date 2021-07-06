@@ -17,6 +17,7 @@ public class DefendMiddleBehaviour : StateMachineBehaviour
     private bool hasBat = false;
     public float timeSinceLastHit = 2f;
     public float timeSinceLastMove = 6f;
+    List<Vector3> goals = new List<Vector3>() { new Vector3(0, 0, 0) };
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -27,6 +28,10 @@ public class DefendMiddleBehaviour : StateMachineBehaviour
         game = GameObject.Find("WTHGameManger").GetComponent<WhatTheHillGame>();
         pickUpContainer = GameObject.Find("PowerUpSpawner");
         ringMoveArrows = GameObject.Find("RingMoveArrows");
+        foreach (Transform arrow in ringMoveArrows.transform)
+        {
+            goals.Add(arrow.position);
+        }
     }
 
 
@@ -34,10 +39,11 @@ public class DefendMiddleBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("IsInMiddle", isPlayerInMiddle(player.transform.position));
+        hasBat = playerController.hasEquipment();
         if (timeSinceLastMove < 0 && playerController.state == MinifigControllerWTH.State.Idle)
         {
             Transform target = powerUpInRange(player.transform.position);
-            if( target != null)
+            if (target != null)
             {
                 //go to pickup bat and use it
                 currentPath = new NavMeshPath();
@@ -49,12 +55,12 @@ public class DefendMiddleBehaviour : StateMachineBehaviour
                         playerController.MoveTo(currentPath.corners[1]);
                     }
                 }
-                
+
             } else
             {
-                Transform arrow = ringMoveArrows.transform.GetChild(Random.Range(0, ringMoveArrows.transform.childCount));
+                int goalIndex = Random.Range(0, goals.Count);
                 currentPath = new NavMeshPath();
-                NavMesh.CalculatePath(player.transform.position, arrow.position, NavMesh.AllAreas, currentPath);
+                NavMesh.CalculatePath(player.transform.position, goals[goalIndex], NavMesh.AllAreas, currentPath);
                 if (currentPath.corners.Length >= 2)
                 {
                     if (Vector3.Distance(player.transform.position, currentPath.corners[1]) > 0.5f)
@@ -64,7 +70,7 @@ public class DefendMiddleBehaviour : StateMachineBehaviour
                 }
             }
             timeSinceLastMove = 6f;
-            hasBat = playerController.hasEquipment();
+            
         }
         else if (playerInRange(player.transform.position) && hasBat)
         {
@@ -76,7 +82,6 @@ public class DefendMiddleBehaviour : StateMachineBehaviour
             {
                 playerController.HitWithBat();
                 timeSinceLastHit = 2f;
-                hasBat = playerController.hasEquipment();
             }
         } 
         timeSinceLastMove -= Time.deltaTime;
