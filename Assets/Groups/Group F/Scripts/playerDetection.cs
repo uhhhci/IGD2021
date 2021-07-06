@@ -83,7 +83,6 @@ public class playerDetection : MonoBehaviour {
         }
 
         var sinceTouched = Time.time - platformTouchedTime;
-        sinceTouched = sinceTouched / 3.0f;
 
 
         var col = new Color(sinceTouched * 1.0f, 0.0f, 0.0f);
