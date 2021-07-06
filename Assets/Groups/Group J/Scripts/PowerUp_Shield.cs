@@ -7,7 +7,8 @@ public class PowerUp_Shield : MonoBehaviour
     private float secondsToUse = 10;
     public void RemovePowerUp(MinifigControllerJ controller)
     {
-     
+        controller.punchable = true;
+        Physics.IgnoreLayerCollision(controller.gameObject.layer, 21, false);
         Debug.Log("Removed shied");
     }
 
@@ -16,8 +17,11 @@ public class PowerUp_Shield : MonoBehaviour
         //player.getcomponent.punchable = false??
         // und wenn einmal gepunched dann shild zerstören?
         var shield  =CreateShield(shieldPrefab,controller);
+        controller.punchable = false;
+        Physics.IgnoreLayerCollision(controller.gameObject.layer, 21, true);
         yield return new WaitForSeconds(secondsToUse);
         Destroy(shield);
+        RemovePowerUp(controller);
 
     }
 

@@ -13,18 +13,21 @@ public class PowerUp_Speed : MonoBehaviour
     {
         controller.maxForwardSpeed = initalPlayerSpeed;
         controller.acceleration = initalPlayerAcceleration;
+        controller.gameObject.GetComponent<JPlayerStats>().powerUpSpeed_IsActive = false;
         Debug.Log("Removed");
     }
 
     public IEnumerator ApplyPowerUp(MinifigControllerJ controller)
     {
-        initalPlayerAcceleration = controller.acceleration;
-        initalPlayerSpeed = controller.maxForwardSpeed;
-        controller.maxForwardSpeed *= 2;
-        controller.acceleration *= 2;
-
-        yield return new WaitForSeconds(secondsToUse);
-        RemovePowerUp(controller);
-
+        if (!controller.gameObject.GetComponent<JPlayerStats>().powerUpSpeed_IsActive)
+        {
+            initalPlayerAcceleration = controller.acceleration;
+            initalPlayerSpeed = controller.maxForwardSpeed;
+            controller.maxForwardSpeed *= 2;
+            controller.acceleration *= 2;
+            controller.gameObject.GetComponent<JPlayerStats>().powerUpSpeed_IsActive = true;
+            yield return new WaitForSeconds(secondsToUse);
+            RemovePowerUp(controller);
+        }
     }
 }

@@ -10,7 +10,7 @@ public class JPlayerStats : MonoBehaviour
     PowerUp_Shield powerUpShield;
     public GameObject shield;
     public int fireballCount = 0;
-   
+    public bool powerUpSpeed_IsActive = false;
     private void Update()
     {
         
