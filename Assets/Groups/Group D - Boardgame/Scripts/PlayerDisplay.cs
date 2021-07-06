@@ -11,6 +11,8 @@ public class PlayerDisplay : MonoBehaviour
     public TurnAnimationBrick brick;    // golden brick in the HUD
     public StudBar trueParyBar;         // the bar used to display true party progress
 
+    public BoardgameController controller; // this player's controller
+
     public List<Transform> inventorySlots; // 3 inventory slots
 
     public ItemDatabase itemDB; // the item data base
@@ -77,9 +79,19 @@ public class PlayerDisplay : MonoBehaviour
     public void addItem(ItemD.Type itemType) {
         ItemD item = itemDB.getItem(itemType);
         if (items.Count < 3) {
+            controller.PlayPickupItemSound();
             itemObjects.Add(Instantiate(item.inventoryPrefab, inventorySlots[items.Count]));
             items.Add(itemType);
         }
+    }
+
+    // adds the given item to this player's inventory
+    // this method should only be used when restoring a previous game state
+    // after a minigame
+    public void restoreItem(ItemD.Type itemType) {
+        ItemD item = itemDB.getItem(itemType);
+        itemObjects.Add(Instantiate(item.inventoryPrefab, inventorySlots[items.Count]));
+        items.Add(itemType);
     }
 
     /// whether the player's inventory contains the given item
@@ -153,6 +165,7 @@ public class PlayerDisplay : MonoBehaviour
     public void addGoldenBrick() {
         bricksToAdd++;
         brickAnimationState = GainingAnimation.START_GAINING;
+        controller.PlayPickupBrickSound();
     }
 
     /// returns the number of credits this player currently has
@@ -179,12 +192,14 @@ public class PlayerDisplay : MonoBehaviour
                 credit.setBobbing(true);
                 creditsToAdd--;
                 credits++;
+                controller.PlayGainCreditSound();
                 creditAnimationState = GainingAnimation.BOBBING;
                 break;
             case GainingAnimation.START_LOSING:
                 credit.setBobbing(true);
                 creditsToAdd++;
                 credits--;
+                controller.PlayLoseCreditSound();
                 creditAnimationState = GainingAnimation.BOBBING;
                 break;
             case GainingAnimation.BOBBING:
