@@ -63,7 +63,7 @@ namespace GroupP {
         void Start()
         {
 
-            player1.GetComponent<Player>().isAI = false;//PlayerPrefs.GetString("PLAYER1_AI", "False").Equals("True");
+            player1.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER1_AI", "False").Equals("True");
             player2.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER2_AI", "False").Equals("True");
             player3.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER3_AI", "False").Equals("True");
             player4.GetComponent<Player>().isAI = PlayerPrefs.GetString("PLAYER4_AI", "False").Equals("True");
@@ -74,22 +74,22 @@ namespace GroupP {
             if(!player1.GetComponent<Player>().isAI) {
                 Debug.Log("In AI-if 1");
                 playerInputs.Add(player1.GetComponent<PlayerInput>());
-                //InputManager.Instance.ApplyPlayerCustomization(player1, 1);
+                InputManager.Instance.ApplyPlayerCustomization(player1, 1);
             }
             if(!player2.GetComponent<Player>().isAI) {
                 Debug.Log("In AI-if 2");
                 playerInputs.Add(player2.GetComponent<PlayerInput>());
-                //InputManager.Instance.ApplyPlayerCustomization(player2, 2);
+                InputManager.Instance.ApplyPlayerCustomization(player2, 2);
             }
             if(!player3.GetComponent<Player>().isAI) {
                 Debug.Log("In AI-if 3");
                 playerInputs.Add(player3.GetComponent<PlayerInput>());
-                //InputManager.Instance.ApplyPlayerCustomization(player3, 3);
+                InputManager.Instance.ApplyPlayerCustomization(player3, 3);
             }
             if(!player4.GetComponent<Player>().isAI) {
                 Debug.Log("In AI-if 4");
                 playerInputs.Add(player4.GetComponent<PlayerInput>());
-                //InputManager.Instance.ApplyPlayerCustomization(player4, 4);
+                InputManager.Instance.ApplyPlayerCustomization(player4, 4);
             }
             
             InputManager.Instance.AssignPlayerInput(playerInputs, new List<string> { "1", "2", "3", "4"});

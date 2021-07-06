@@ -50,7 +50,7 @@ public class Pulse : MonoBehaviour
     void Update()
     {
         if(!started && playing) {
-            timeAtLastPulse = Time.time + songOffset;
+            timeAtLastPulse = Time.time;
             started = true;
             StartCoroutine("pulsate");
         }
@@ -74,7 +74,6 @@ public class Pulse : MonoBehaviour
         scaleUp();
         
         yield return new WaitForSeconds(next);
-        scaleDown();
 
         now = Time.time;
         next = 1f / beatsPerSecond / 2f;
@@ -82,8 +81,9 @@ public class Pulse : MonoBehaviour
             next = next - (now - timeAtLastPulse - next);
         }
         timeAtLastPulse = now;
-        
-        
+
+        scaleDown();
+
         yield return new WaitForSeconds(1f / beatsPerSecond / 2f);
         if (started && playing) {StartCoroutine("onePulse"); }
     }
