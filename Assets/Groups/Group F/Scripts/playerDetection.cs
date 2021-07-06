@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
 
 public class playerDetection : MonoBehaviour {
 
@@ -11,6 +13,7 @@ public class playerDetection : MonoBehaviour {
     private Rigidbody rigidBody;
     private BoxCollider boxCollider;
     private MeshRenderer meshRenderer;
+    private List<MeshRenderer> meshRendererOfKnobs;
 
     private float platformTouchedTime;
     private bool triedKill = false;
@@ -21,16 +24,16 @@ public class playerDetection : MonoBehaviour {
         this.boxCollider = this.GetComponent<BoxCollider>();
 
         var meshRenderers = FindObjectsOfType(typeof(MeshRenderer)) as MeshRenderer[];
-
-        foreach(var renderer in meshRenderers)
+        this.meshRendererOfKnobs = new List<MeshRenderer>();
+        foreach (var renderer in meshRenderers)
         {
-            if (renderer.name == "Shell")
-            {
+            if (renderer.name == "Shell" && this.meshRenderer == null)
                 this.meshRenderer = renderer;
+            if (renderer.name.Contains("knob") && this.meshRendererOfKnobs.Count < 16) 
+                this.meshRendererOfKnobs.Add(renderer);
+            if (this.meshRenderer != null && this.meshRendererOfKnobs.Count >= 16)
                 break;
-            }
         }
-
         this.rigidBody = this.GetComponent<Rigidbody>();
     }
 
@@ -87,10 +90,13 @@ public class playerDetection : MonoBehaviour {
         
         this.meshRenderer.material.SetColor("_Color", col);
         this.meshRenderer.material.SetColor("_BaseColor", col);
+        foreach (var mr in this.meshRendererOfKnobs) {
+            mr.material.SetColor("_Color", col);
+            mr.material.SetColor("_BaseColor", col);
+        }
 
         var myDelta = Time.deltaTime * decaySpeed;
         decay += myDelta;
-        //Debug.Log(decay);
 
         var fallingDistance = myDelta * 2.0f * (float)Mathf.Pow(decay, 3.0f);
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - fallingDistance, this.transform.position.z);

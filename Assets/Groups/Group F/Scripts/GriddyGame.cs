@@ -152,7 +152,6 @@ public class GriddyGame : MiniGame {
                     new Vector2(lastState.CurrentPosition.x, lastState.CurrentPosition.z),
                     new Vector2(aiPlayer.transform.position.x, aiPlayer.transform.position.z)
                 );
-                Debug.Log($"{DateTime.Now} -> {currDistance / Time.deltaTime}");
                 if (currDistance / Time.deltaTime > 2.0 && goalDistance > 0.25 && 2.0 > Math.Abs(lastState.CurrentPosition.y - aiPlayer.transform.position.y))
                     continue;
             }
