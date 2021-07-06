@@ -20,6 +20,8 @@ public class bulletImpuls : MonoBehaviour
     {
         if (!col.collider.CompareTag("Player")) return;
         var rb = col.gameObject.GetComponent<Rigidbody>();
-        //rb.AddForce();
+
+        rb.AddForce(new Vector3(3.0f,3.0f,3.0f));
+        Destroy(this);
     }
 }
