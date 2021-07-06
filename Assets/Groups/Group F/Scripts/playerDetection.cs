@@ -12,7 +12,7 @@ public class playerDetection : MonoBehaviour {
     private BoxCollider boxCollider;
     private MeshRenderer meshRenderer;
 
-    private bool platformTouched = false;
+    private float platformTouchedTime;
     private bool triedKill = false;
 
     void Awake()
@@ -27,8 +27,6 @@ public class playerDetection : MonoBehaviour {
             if (renderer.name == "Shell")
             {
                 this.meshRenderer = renderer;
-                Debug.Log("found shell");
-                Debug.Log(meshRenderer);
                 break;
             }
         }
@@ -49,8 +47,8 @@ public class playerDetection : MonoBehaviour {
         }
 
         if (!col.collider.CompareTag("Player")) return;
-        if (platformTouched) return;
-        platformTouched = true;
+        if (platformTouchedTime > 0) return;
+        platformTouchedTime = Time.time;
         
         if (dyingSound != null)
         {
@@ -65,7 +63,7 @@ public class playerDetection : MonoBehaviour {
             return;
         }
         
-        if (!platformTouched)
+        if (platformTouchedTime  <= 0)
         {
             return;
         }
@@ -82,9 +80,13 @@ public class playerDetection : MonoBehaviour {
             rigidBody.WakeUp();
         }
 
-        var col = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+        var sinceTouched = Time.time - platformTouchedTime;
 
+
+        var col = new Color(sinceTouched * 1.0f, 0.0f, 0.0f);
+        
         this.meshRenderer.material.SetColor("_Color", col);
+        this.meshRenderer.material.SetColor("_BaseColor", col);
 
         var myDelta = Time.deltaTime * decaySpeed;
         decay += myDelta;
