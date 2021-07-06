@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class GameManager_E : MonoBehaviour
 {
-    int totalWinners = 0;
+    public int totalWinners = 0;
     public List<Transform> carTransformList;
     public List<Transform> carPositionList;
     public Transform Checkpoints;
@@ -52,6 +52,7 @@ public class GameManager_E : MonoBehaviour
             } else if(fourthPlace == 0)
             {
                 fourthPlace = thePlayer.playerNumber;
+                totalWinners += 1;
             }
         }
     }
@@ -188,6 +189,9 @@ public class GameManager_E : MonoBehaviour
 
     public void CreateAI()
     {
+        InitializeAIPlayer(carTransformList[1]);
+        InitializeAIPlayer(carTransformList[2]);
+        InitializeAIPlayer(carTransformList[3]);
         if (PlayerPrefs.GetString("PLAYER1_AI").Equals("True"))
         {
             InitializeAIPlayer(carTransformList[0]);
@@ -224,10 +228,10 @@ public class GameManager_E : MonoBehaviour
         }
 
         //finish game if the players end all rounds
-        if(totalWinners == 4)
-        {
-            this.finishGame();
-        }
+        //if(totalWinners == 4)
+        //{
+        //    this.finishGame();
+        //}
     }
 
     private void InitializeAIPlayer(Transform car)
