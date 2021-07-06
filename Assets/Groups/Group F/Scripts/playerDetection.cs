@@ -8,9 +8,9 @@ public class playerDetection : MonoBehaviour {
 
     public float decay = 0.0f; // [0.0, 1.0]
 
-    private Rigidbody rb;
-    private BoxCollider bc;
-    private MeshRenderer mr;
+    private Rigidbody rigidBody;
+    private BoxCollider boxCollider;
+    private MeshRenderer meshRenderer;
 
     private bool platformTouched = false;
     private bool triedKill = false;
@@ -18,9 +18,9 @@ public class playerDetection : MonoBehaviour {
     void Awake()
     {
         spawnProtection = Time.time + 5.0f;
-        this.bc = this.GetComponent<BoxCollider>();
-        this.mr = this.GetComponent<MeshRenderer>();
-        this.rb = this.GetComponent<Rigidbody>();
+        this.boxCollider = this.GetComponent<BoxCollider>();
+        this.meshRenderer = this.GetComponent<MeshRenderer>();
+        this.rigidBody = this.GetComponent<Rigidbody>();
     }
 
     bool IsSpawnProtected()
@@ -63,13 +63,14 @@ public class playerDetection : MonoBehaviour {
         }
 
 
-        if (rb.IsSleeping())
+        if (rigidBody.IsSleeping())
         {
-            rb.WakeUp();
+            rigidBody.WakeUp();
         }
 
+        var col = new Color(255.0f, 0.0f, 0.0f, 255.0f);
 
-        this.GetComponent<MeshRenderer>().material.color = new Color(255.0f, 0.0f, 0.0f, 0.0f);
+        this.meshRenderer.material.SetColor("_Color", col);
 
         var myDelta = Time.deltaTime * decaySpeed;
         decay += myDelta;
