@@ -34,7 +34,7 @@ namespace GroupP {
         }
 
         public override string getDisplayName() {
-        return "Rhythm Game";
+            return "Dance Party";
         }
 
         public override string getSceneName()  {
