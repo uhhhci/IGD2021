@@ -98,6 +98,6 @@ public class KartRacingGame : MiniGame
         GameObject.Find("Camera ZGHJ").SetActive(false);
         GameObject.Find("Camera PLÖA").SetActive(false);
         GameObject.Find("Camera Num").SetActive(false);
-        GameObject.Find("Main Camera").SetActive(true);
+        GameObject.Find("Main Camera").GetComponent<Camera>().enabled = true;
     }
 }
