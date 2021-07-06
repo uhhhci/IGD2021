@@ -76,6 +76,7 @@ namespace Groups.Group_S
                 if (!_playerIsAI[i])
                 {
                     minifig.gameObject.GetComponent<AiPlayer>().enabled = false;
+                    InputManager.Instance.ApplyPlayerCustomization(minifig.gameObject, i+1);
                 }
             }
             InputManager.Instance.AssignPlayerInput(playerMinifigs
