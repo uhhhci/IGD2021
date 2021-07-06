@@ -102,7 +102,12 @@ Im Folgenden finden sich TODOs und DONEs.
 		* Zusammenbasteln einer hübschen Umgebung
 			* Boden
 			* Himmel / Decke
-			* Objekte (z.B. Bäume, Gebäude etc.)
+		* Objekte (z.B. Bäume, Gebäude etc.)
 		* Beleuchtung
 		* HP-Balken Grün/Rot
 
+* Music included in this project:
+Wuxia2_Orchestra by PeriTune | http://peritune.com
+Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+Music promoted by https://www.chosic.com/
