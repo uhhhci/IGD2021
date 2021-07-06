@@ -48,6 +48,13 @@ public class GriddyGame : MiniGame {
         return MiniGameType.freeForAll;
     }
 
+    private GameObject CreatePlatform(int x, int z, int h)
+    {
+        var platform = Instantiate(pEnliS, position: new Vector3(x * xoffset - gridoffset, -1 * yoffset * h, z * zoffset - gridoffset), rotation: transform.rotation);
+        platforms.Add(platform);
+
+        return platform;
+    }
     private void Start() {
         death_depth = -4 * height - 10;
 
@@ -57,18 +64,11 @@ public class GriddyGame : MiniGame {
         for (int x = 0; x < length1; x++) {
             for (int z = 0; z < length2; z++) {
                 for (int curh = 0; curh < height; curh++) {
-                    var platform = Instantiate(pEnliS, position: new Vector3(x * xoffset - gridoffset, -1 * yoffset * curh, z * zoffset - gridoffset), rotation: transform.rotation);
+                    var platform = CreatePlatform(x, z, curh);
                     platforms.Add(platform);
-
-                    var playerDetection = platform.GetComponent<playerDetection>();
-                    playerDetection.bc = platform.GetComponent<BoxCollider>();
-                    playerDetection.mr = platform.GetComponent<MeshRenderer>();
-                    playerDetection.rb = platform.GetComponent<Rigidbody>();
-                    playerDetection.decaySpeed = decaySpeed;
                 }
             }
         }
-
 
         //Create list of player inputs from the players in the scene
         players = new List<GameObject> {
@@ -84,7 +84,7 @@ public class GriddyGame : MiniGame {
 
     }
 
-    private List<GameObject> BlackDeath()
+    private List<GameObject> CheckGameover()
     {
         players
             .Where(p => !dead_players.Contains(p))
@@ -92,15 +92,22 @@ public class GriddyGame : MiniGame {
             .ToList()
             .ForEach(dead_players.Add);
 
+
+        if (dead_players.Count() >= 4)
+        {
+            GameOver();
+        }
+
         return dead_players.ToList();
     }
 
 
     private int GameObject2Int(GameObject obj) => players.IndexOf(obj) + 1;
 
-    private void EndGame()
+    private void GameOver()
     {
-        if (gameEnded) {
+        if (gameEnded)
+        {
             return;
         }
         Debug.Log("GAME END");
@@ -126,11 +133,8 @@ public class GriddyGame : MiniGame {
     {
         platforms = platforms.Where(p => p != null).ToList();
 
-        BlackDeath();
+        CheckGameover();
 
-        if (dead_players.Count() >= 4) {
-            EndGame();
-        }
         foreach (var aiPlayer in GetAiPlayers())
         {
             // determine platforms which have the most health points
