@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 using System.Collections;
+using UnityEngine.AI;
 
 public enum Axle
 {
@@ -27,6 +28,7 @@ public class CarController : MonoBehaviour
     private bool handbrake = false;
     private bool controlEnabled = false;
 
+    private AudioSource engineSound;
     public float maxAcceleration = 70.0f;
     public float turnSensitivity = 0.9f;
     public float maxSteerAngle = 30.0f;
@@ -68,6 +70,7 @@ public class CarController : MonoBehaviour
     {
         if(!stopped)
         {
+            PlayEngineSound();
             CheckDrivingDirection(rb);
             ChangeGroundDependentSpeed();
             CheckGroundContact();
@@ -81,6 +84,7 @@ public class CarController : MonoBehaviour
 
     void Start()
     {
+        engineSound = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = centerOfMass;
     }
@@ -357,6 +361,30 @@ private void OnMove(InputValue value)
         {
             StartCoroutine(ps.power.UsePowerup(ps.gameObject));
         }
+    }
+
+    private void PlayEngineSound()
+    {
+        if (TryGetComponent(out NavMeshAgent agent))
+        {
+            float newPitch = agent.velocity.magnitude / agent.speed * +1;
+            if (newPitch >= 2.5f)
+            {
+                newPitch = 2.5f;
+            }
+            engineSound.pitch = newPitch;
+        }
+        else
+        {
+            float newPitch = engineSound.pitch = rb.velocity.magnitude / maxVelocity + 1;
+            if (newPitch >= 2.5f)
+            {
+                newPitch = 2.5f;
+            }
+            engineSound.pitch = newPitch;
+        }
+
+
     }
 
     private void OnEastRelease()
