@@ -526,22 +526,22 @@ public class MinifigControllerWTH : MonoBehaviour
 
             if (externalForce.x > 0)
             {
-                externalForce.x -= drag;
+                externalForce.x -= drag * Time.deltaTime;
             }
             else
             {
-                externalForce.x += drag;
+                externalForce.x += drag * Time.deltaTime;
             }
             if (externalForce.z > 0)
             {
-                externalForce.z -= drag;
+                externalForce.z -= drag * Time.deltaTime;
             }
             else
             {
-                externalForce.z += drag;
+                externalForce.z += drag * Time.deltaTime;
             }
-            if (Mathf.Abs(externalForce.x) < drag) externalForce.x = 0f;
-            if (Mathf.Abs(externalForce.z) < drag) externalForce.z = 0f;
+            if (Mathf.Abs(externalForce.x) < drag * Time.deltaTime) externalForce.x = 0f;
+            if (Mathf.Abs(externalForce.z) < drag * Time.deltaTime) externalForce.z = 0f;
             moveDelta.z += externalForce.z;
             moveDelta.x += externalForce.x;
         }
@@ -1025,6 +1025,8 @@ public class MinifigControllerWTH : MonoBehaviour
             Destroy(equipment);
            // equipment = null;
         }
+        externalForce = new Vector3(0, 0, 0);
+        inventory = null;
     }
 
     public void AddPoints(int points)
