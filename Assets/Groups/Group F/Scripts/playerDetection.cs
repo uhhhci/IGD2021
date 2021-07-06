@@ -46,6 +46,11 @@ public class playerDetection : MonoBehaviour {
         {
             return;
         }
+        
+        if (!platformTouched)
+        {
+            return;
+        }
 
         if (!triedKill)
         {
@@ -53,16 +58,13 @@ public class playerDetection : MonoBehaviour {
             Destroy(gameObject, 3);
         }
 
+
         if (rb.IsSleeping())
         {
             rb.WakeUp();
         }
 
-        
-        if (!platformTouched)
-        {
-            return;
-        }
+
         this.GetComponent<MeshRenderer>().material.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 
         var myDelta = Time.deltaTime * decaySpeed;
