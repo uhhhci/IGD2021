@@ -206,12 +206,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputEnabled: 1
   _moveForce: 40
+  _seperationForce: 5
   _jumpForce: 15
   _hitForce: 20
   _mashLimit: 5
   GRAVITY: -20
+  _meteorKnockbackMultiplier: 1.5
+  _moveThreshold: 0.015
   _kickRange: 0.5
+  _kickCooldown: 0.2
   _distToGround: 0.05
+  _stepHeight: 0.3
+  _smoothStep: 0.15
   maxRotateSpeed: 400
   Minifig: {fileID: 3454090209628931379}
   stepAudioClips: []
@@ -219,6 +225,21 @@ MonoBehaviour:
   doubleJumpAudioClip: {fileID: 8300000, guid: 542490ca55814441981ef88f5d1f2dc6, type: 3}
   landAudioClip: {fileID: 8300000, guid: a12caccc734354aa09f7d2a412925ac2, type: 3}
   explodeAudioClip: {fileID: 8300000, guid: b9b607b06267c4394b07c19523c455f1, type: 3}
+  _moveDirection: {x: 0, y: 0}
+  isStunned: 0
+--- !u!114 &5027448768115710066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3454090209628931379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3150e5d9b0621948a5aed74a9a92f7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Controller: {fileID: 2497084354484150488}
 --- !u!1001 &57479496536704676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -231,6 +252,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Minifig Character
       objectReference: {fileID: 0}
+    - target: {fileID: 4467856664629852824, guid: 97ae038d837a3a74484d0cbc8733ad2d,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 6854df59f90734c489e3ad37b79f829a, type: 2}
     - target: {fileID: 6367911877577183709, guid: 97ae038d837a3a74484d0cbc8733ad2d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -286,7 +312,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6837884902066694121, guid: 97ae038d837a3a74484d0cbc8733ad2d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 97ae038d837a3a74484d0cbc8733ad2d, type: 3}
 --- !u!1 &3454090209628931379 stripped
 GameObject:

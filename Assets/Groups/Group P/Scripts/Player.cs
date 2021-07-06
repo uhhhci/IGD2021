@@ -18,44 +18,55 @@ namespace GroupP {
             public Boolean missed;
         }
 
+        public bool isAI = true;
+
         private bool missed;
 
-        private Dictionary<KeyType, NoteInfo> notes = new Dictionary<KeyType, NoteInfo>();
+        private List<Note> notes = new List<Note>();
 
-        void Awake() {
-            
-        }
         // Start is called before the first frame update
         void Start()
         {
             KeyPressHandler.instance.registerPlayer(this.gameObject);
-
-            foreach(var keyType in Enum.GetValues(typeof(KeyType)))  {
-                notes.Add((KeyType)keyType, null);
-            }
-            missed = false;
         }
 
         public void addNote(Note note) {
-            if(notes[note.key] != null) return;
+            notes.Add(note);
+            if(isAI) {
+                float std = 15f;
+                float rnd = getNormalRandomNumber(0f, std);
+                float speed = GameManager.instance.getBpmOfActiveSong();
 
-            notes[note.key] = new NoteInfo(note);
+                float hitTime = (note.transform.localPosition.x - rnd) / speed;
+                Debug.Log(rnd + " " + hitTime);
+                
+                float callProbability = 1.0f;
+                if(note.bad) {
+                    callProbability = UnityEngine.Random.Range(0f, 1f);
+                }
+
+                if(callProbability > 0.7) {
+                    StartCoroutine(callKeyPressMethod(hitTime, note.key));
+                }
+            }
+        }
+
+        System.Collections.IEnumerator callKeyPressMethod(float delay, KeyType keyType) {
+            yield return new WaitForSeconds(delay);
+            gameObject.GetComponent<Controller>().sendKeyPressToKeyPressHandler(keyType);
         }
 
         public void removeNote(Note note) {
-            
+            notes.Remove(note);
         }
 
-        public void keyPressed(KeyType keyType) {
-            
-            if(notes[keyType] == null) {
-                missed = true;
-                return;
-            }
-            if(!notes[keyType].hit) {
-                notes[keyType].hit = true;
-                notes[keyType].hitQuality = notes[keyType].note.hitQuality;
-            }
+        public float getNormalRandomNumber(float mean, float stdDev) {
+            float u1 = UnityEngine.Random.Range(0.0001f, 1f); 
+            float u2 = UnityEngine.Random.Range(0.0001f, 1f);
+            double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2); //random normal(0,1)
+            double randNormal = mean + stdDev * randStdNormal; //random normal(mean,stdDev^2)
+
+            return (float)randNormal;
         }
     }
 }
