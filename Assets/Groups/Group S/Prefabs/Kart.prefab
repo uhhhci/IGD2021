@@ -343,7 +343,7 @@ MonoBehaviour:
     00000001:
       type: {class: MaxSpeed, ns: Groups.Group_S.Driving.VehicleStats, asm: Assembly-CSharp}
       data:
-        maxForward: 15
+        maxForward: 12.5
         maxBackward: 5
     00000002:
       type: {class: Drag, ns: Groups.Group_S.Driving.VehicleStats, asm: Assembly-CSharp}
@@ -505,7 +505,7 @@ MonoBehaviour:
     00000000:
       type: {class: Acceleration, ns: Groups.Group_S.Driving.VehicleStats, asm: Assembly-CSharp}
       data:
-        amount: 15
+        amount: 10
 --- !u!1 &7756305448404276587
 GameObject:
   m_ObjectHideFlags: 0

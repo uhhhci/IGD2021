@@ -957,6 +957,11 @@ PrefabInstance:
       propertyPath: m_DefaultControlScheme
       value: "KeyboardPL\xD6\xC4"
       objectReference: {fileID: 0}
+    - target: {fileID: 7756305447578048556, guid: c6b289b608a546a4188a3f34d9f3bad3,
+        type: 3}
+      propertyPath: vehicleStats.Array.data[1].maxForward
+      value: 12.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7756305447578048559, guid: c6b289b608a546a4188a3f34d9f3bad3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1578,7 +1583,7 @@ PrefabInstance:
     - target: {fileID: 2332941078103759654, guid: 404fddd0ee2b0ce4a88bc177d4159eb6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.2
+      value: -36.9
       objectReference: {fileID: 0}
     - target: {fileID: 2332941078103759654, guid: 404fddd0ee2b0ce4a88bc177d4159eb6,
         type: 3}
@@ -1638,6 +1643,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_DefaultControlScheme
       value: KeyboardNum
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756305447578048556, guid: c6b289b608a546a4188a3f34d9f3bad3,
+        type: 3}
+      propertyPath: vehicleStats.Array.data[1].maxForward
+      value: 12.5
       objectReference: {fileID: 0}
     - target: {fileID: 7756305447578048559, guid: c6b289b608a546a4188a3f34d9f3bad3,
         type: 3}
@@ -3958,7 +3968,7 @@ PrefabInstance:
     - target: {fileID: 4182448590249930862, guid: c75d9f34eaf7261ef95bf7dd85d628dd,
         type: 3}
       propertyPath: maxBuildingTime
-      value: 5
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 4182448590249930864, guid: c75d9f34eaf7261ef95bf7dd85d628dd,
         type: 3}
@@ -5054,6 +5064,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_DefaultControlScheme
       value: KeyboardZGHJ
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756305447578048556, guid: c6b289b608a546a4188a3f34d9f3bad3,
+        type: 3}
+      propertyPath: vehicleStats.Array.data[1].maxForward
+      value: 12.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756305447578048556, guid: c6b289b608a546a4188a3f34d9f3bad3,
+        type: 3}
+      propertyPath: vehicleStats.Array.data[1]
+      value: Assembly-CSharp Groups.Group_S.Driving.VehicleStats.Drag
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756305447578048556, guid: c6b289b608a546a4188a3f34d9f3bad3,
+        type: 3}
+      propertyPath: vehicleStats.Array.data[1].amount
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756305447578048556, guid: c6b289b608a546a4188a3f34d9f3bad3,
+        type: 3}
+      propertyPath: vehicleStats.Array.data[2]
+      value: Assembly-CSharp Groups.Group_S.Driving.VehicleStats.MaxSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756305447578048556, guid: c6b289b608a546a4188a3f34d9f3bad3,
+        type: 3}
+      propertyPath: vehicleStats.Array.data[2].maxForward
+      value: 12.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7756305447578048556, guid: c6b289b608a546a4188a3f34d9f3bad3,
+        type: 3}
+      propertyPath: vehicleStats.Array.data[2].maxBackward
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7756305447578048559, guid: c6b289b608a546a4188a3f34d9f3bad3,
         type: 3}
@@ -7113,7 +7153,7 @@ PrefabInstance:
     - target: {fileID: 2332941078103759654, guid: 404fddd0ee2b0ce4a88bc177d4159eb6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 79.3
+      value: 28.1
       objectReference: {fileID: 0}
     - target: {fileID: 2332941078103759654, guid: 404fddd0ee2b0ce4a88bc177d4159eb6,
         type: 3}
@@ -7123,22 +7163,22 @@ PrefabInstance:
     - target: {fileID: 2332941078103759654, guid: 404fddd0ee2b0ce4a88bc177d4159eb6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20.6
+      value: 32.7
       objectReference: {fileID: 0}
     - target: {fileID: 2332941078103759654, guid: 404fddd0ee2b0ce4a88bc177d4159eb6,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2332941078103759654, guid: 404fddd0ee2b0ce4a88bc177d4159eb6,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2332941078103759654, guid: 404fddd0ee2b0ce4a88bc177d4159eb6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2332941078103759654, guid: 404fddd0ee2b0ce4a88bc177d4159eb6,
         type: 3}
