@@ -10,17 +10,17 @@ public class CrossTheCanyons : MiniGame
         int[] secondPlace;
         if (leftPlayerFinalLevel > rightPlayerFinalLevel)
         {
-            firstPlace = new int[] {0,1};
-            secondPlace = new int[] {2,3};
+            firstPlace = new int[] {1,2};
+            secondPlace = new int[] {3,4};
         }
         else if (rightPlayerFinalLevel > leftPlayerFinalLevel)
         {
-            firstPlace = new int[] {2,3};
-            secondPlace = new int[] {0,1};
+            firstPlace = new int[] {3,4};
+            secondPlace = new int[] {1,2};
         }
         else
         {
-            firstPlace = new int[] {0,1,2,3};
+            firstPlace = new int[] {1,2,3,4};
             secondPlace = new int[] {};
         }
         MiniGameFinished(firstPlace, secondPlace, new int[] {}, new int[] {});
