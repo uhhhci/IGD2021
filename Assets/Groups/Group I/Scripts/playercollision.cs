@@ -86,6 +86,11 @@ public class playercollision : MonoBehaviour
         return transform.position.z;
     }
 
+    public bool hasFinished()
+    {
+        return finished;
+    }
+
     private void PickUp(GameObject pickup)
     {
         Debug.Log("Picked up: " + pickup.tag);
