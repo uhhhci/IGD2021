@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class bulletImpuls : MonoBehaviour
 {
@@ -19,9 +17,10 @@ public class bulletImpuls : MonoBehaviour
     void OnCollisionEnter(Collision col)
     {
         if (!col.collider.CompareTag("Player")) return;
-        var rb = col.gameObject.GetComponent<Rigidbody>();
 
-        rb.AddForce(new Vector3(3000.0f,3000.0f,3000.0f));
+        var rb = col.gameObject.GetComponent<Rigidbody>();
+        var thisRb = this.GetComponent<Rigidbody>();
+        rb.AddForce(thisRb.velocity, ForceMode.VelocityChange);
         Destroy(this);
     }
 }
