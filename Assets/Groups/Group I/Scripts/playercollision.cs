@@ -40,10 +40,10 @@ public class playercollision : MonoBehaviour
     {
         GameObject pickup = col.gameObject;
 
-        if (pickup.tag == "ItemCollect")
-        {
-            PickUp(pickup);
-        }
+        //if (pickup.tag == "ItemCollect")
+        //{
+        //    PickUp(pickup);
+        //}
 
         if (pickup.tag == "LowGravity")
         {
@@ -68,7 +68,6 @@ public class playercollision : MonoBehaviour
 
         if (pickup.tag == "Respawn")
         {
-
             HealthDown();
             playSoundSpeed.Play();
         }
@@ -77,6 +76,7 @@ public class playercollision : MonoBehaviour
         {
             // Do NOT use PickUp() here!!!
             finished = true;
+            Debug.Log(this.name + " finished!");
         }
 
     }
