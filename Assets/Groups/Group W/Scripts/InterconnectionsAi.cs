@@ -5,7 +5,6 @@ using System;
 
 public class InterconnectionsAi : MonoBehaviour
 {
-
     public bool IsAiPlayer(string playerName)
     {
         // goes through all players in the order which is also used to get the input,

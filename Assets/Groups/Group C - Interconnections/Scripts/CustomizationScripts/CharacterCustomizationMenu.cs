@@ -62,7 +62,7 @@ public class CharacterCustomizationMenu : MonoBehaviour
 
         //If you want to test your minigame directly from this scene, in order to test the customization and the inputs from player prefs
         //You can uncomment this line and put the name of you scene to load it, will be a direct jump but should work for you to test
-        //SceneManager.LoadScene("YOUR_SCENE_NAME");
+        SceneManager.LoadScene("LegoPaperScissors");
 
         //For the real implementation should Load the BoardGame
         //LoadingManager.Instance.LoadMainBoardGame();

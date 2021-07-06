@@ -35,7 +35,6 @@ public static class GameList
         new TestingGame(),
         new TestingGame(),
         new TestingGame()
-
     };
 
 }
