@@ -715,13 +715,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1142978b5c918e43859290cbfedcada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: -5107484479254817058}
-  bc: {fileID: 2420159908920016552}
-  mr: {fileID: -5907825719595989108}
   decaySpeed: 0.2
   spawnProtection: 0
   dyingSound: {fileID: 0}
-  deathSound: {fileID: 0}
   decay: 0
 --- !u!23 &-5907825719595989108
 MeshRenderer:
@@ -738,7 +734,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 47ea3b24da91f8746911aacf2a3f4bda, type: 2}

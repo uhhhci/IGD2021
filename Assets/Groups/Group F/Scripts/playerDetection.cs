@@ -68,7 +68,7 @@ public class playerDetection : MonoBehaviour {
             rigidBody.WakeUp();
         }
 
-        var col = new Color(255.0f, 0.0f, 0.0f, 255.0f);
+        var col = new Color(1.0f, 0.0f, 0.0f, 1.0f);
 
         this.meshRenderer.material.SetColor("_Color", col);
 
