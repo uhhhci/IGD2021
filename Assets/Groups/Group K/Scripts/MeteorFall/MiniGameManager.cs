@@ -57,18 +57,24 @@ public class MiniGameManager : MonoBehaviour
             "3"
         };
 
-        bool player1_AI = PlayerPrefs.GetString("Player1_AI").Equals("True");
-        bool player2_AI = PlayerPrefs.GetString("Player2_AI").Equals("True");
-        bool player3_AI = PlayerPrefs.GetString("Player3_AI").Equals("True");
-        bool player4_AI = PlayerPrefs.GetString("Player4_AI").Equals("True");
-        player3_AI = true;
-        player4_AI = true;
-        player2_AI = true;
-        player1_AI = true;
+        bool player1_AI = PlayerPrefs.GetString("PLAYER1_AI").Equals("True");
+        bool player2_AI = PlayerPrefs.GetString("PLAYER2_AI").Equals("True");
+        bool player3_AI = PlayerPrefs.GetString("PLAYER3_AI").Equals("True");
+        bool player4_AI = PlayerPrefs.GetString("PLAYER4_AI").Equals("True");
+        bool[] aiList = new bool[] { player1_AI, player2_AI, player3_AI, player4_AI };
         AssignAI(player1_AI, player2_AI, player3_AI, player4_AI);
 
         //InputManager.Instance.AssignPlayerInput(playerInputs); // Stops execution of this monobehaviour in absence of playerprefs
-        //InputManager.Instance.AssignPlayerInput(playerInputs, ids); // Right Version when Playerprefs work correctly
+        InputManager.Instance.AssignPlayerInput(playerInputs, ids); // Right Version when Playerprefs work correctly
+        Debug.Log("After input");
+        for(int ind = 0; ind < aiList.Length; ind++)
+        {
+            if(!aiList[ind])
+            {
+                InputManager.Instance.ApplyPlayerCustomization(playerInputs[ind].gameObject, ind);
+            }
+        }
+        Debug.Log("After customization");
     }
 
     // Update is called once per frame
