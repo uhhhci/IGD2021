@@ -111,7 +111,7 @@ public class AIController : MonoBehaviour
             if (rb.IsSleeping())
             {
                 controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Idle_Light);
-                Debug.Log("sleeping");
+                //Debug.Log("sleeping");
             }
 
             foreach (GameObject player in players)

@@ -159,7 +159,7 @@ public class GameTimer : MonoBehaviour
             component.gameObject.transform.Rotate(Vector3.right * (5 * Time.deltaTime));
             component.gameObject.transform.position += (Vector3.down* (Time.deltaTime/5));
             Physics.IgnoreLayerCollision(component.gameObject.layer,21,true);
-            Debug.Log("Destroy: "+ Time.deltaTime);
+            //Debug.Log("Destroy: "+ Time.deltaTime);
             yield return new WaitForEndOfFrame();
             // component.transform.position -= transform.up * (5 * 1);
         } 
