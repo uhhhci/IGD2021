@@ -89,7 +89,7 @@ public class MinifigControllerWTH : MonoBehaviour
     public float jumpSpeed = 20f;
     public float gravity = 40f;
     public float pushSpeed = 20f;
-    public float drag = 0.93f;
+    public float drag = 0.5f;
     public float pointLossRate = 0.75f;
     private Vector2 _movement = new Vector2();
     [Header("Audio")]
@@ -520,16 +520,32 @@ public class MinifigControllerWTH : MonoBehaviour
         }
 
         // Apply external Force 
-        if (Mathf.Abs(externalForce.x) > 0f || Mathf.Abs(externalForce.z) > 0f)
+        if (Mathf.Abs(externalForce.x) > 0.3f || Mathf.Abs(externalForce.z) > 0.3f)
         {
-            externalForce.x *= drag;
-            externalForce.z *= drag;
-            if (Mathf.Abs(externalForce.x) < 0.005f) externalForce.x = 0f;
-            if (Mathf.Abs(externalForce.z) < 0.005f) externalForce.z = 0f;
+
+
+            if (externalForce.x > 0)
+            {
+                externalForce.x -= drag;
+            }
+            else
+            {
+                externalForce.x += drag;
+            }
+            if (externalForce.z > 0)
+            {
+                externalForce.z -= drag;
+            }
+            else
+            {
+                externalForce.z += drag;
+            }
+            if (Mathf.Abs(externalForce.x) < drag) externalForce.x = 0f;
+            if (Mathf.Abs(externalForce.z) < drag) externalForce.z = 0f;
             moveDelta.z += externalForce.z;
             moveDelta.x += externalForce.x;
+            Debug.Log($"x: {moveDelta.x} y: {moveDelta.y} z: {moveDelta.z} Spieler: {characterId}");
         }
-
         // Handle external motion.
         externalMotion = Vector3.zero;
         externalRotation = 0.0f;

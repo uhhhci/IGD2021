@@ -112,7 +112,7 @@ public class GenerateRings : MonoBehaviour
 
        Transform block = ring.transform.GetChild(blockNo);
         Vector3 spawnLocation = block.position;
-        spawnLocation.y += 2;
+        spawnLocation.y += 4;
         return spawnLocation;
     }
 
