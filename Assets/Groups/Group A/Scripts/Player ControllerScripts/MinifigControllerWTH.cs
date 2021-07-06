@@ -544,7 +544,6 @@ public class MinifigControllerWTH : MonoBehaviour
             if (Mathf.Abs(externalForce.z) < drag) externalForce.z = 0f;
             moveDelta.z += externalForce.z;
             moveDelta.x += externalForce.x;
-            Debug.Log($"x: {moveDelta.x} y: {moveDelta.y} z: {moveDelta.z} Spieler: {characterId}");
         }
         // Handle external motion.
         externalMotion = Vector3.zero;
