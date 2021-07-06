@@ -9,15 +9,12 @@ public class ItemImpact : MonoBehaviour
     public void OnTriggerStay(Collider other)
     {
         Debug.Log("collison fireball");
-        if (other.gameObject.tag != ("Obstacle") && other.gameObject.tag != ("Item") && !collided)
+        if (other.gameObject.tag == "Player")
         {
-            Debug.Log("collison player");
+ 
+            Debug.Log("Hit target");
+            other.gameObject.GetComponent<AIController>().AddImpact(this.transform.forward * 45);
             collided = true;
-            if (other.gameObject.tag == "Player")
-            {
-                Debug.Log("Hit target");
-                other.gameObject.GetComponent<AIController>().AddImpact(this.transform.forward * 45);
-            }
             Destroy(gameObject);
         }
     }

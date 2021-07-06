@@ -6,6 +6,8 @@ public enum PowerUpType { Speed, Shield, Fireball}
 public class MainPowerUp : MonoBehaviour
 {
     public PowerUpType PowerUpType;
+    public GameObject pickUpEffect;
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -28,9 +30,9 @@ public class MainPowerUp : MonoBehaviour
     {
         MinifigControllerJ controller = player.GetComponent<MinifigControllerJ>();
         controller.GetComponent<JPlayerStats>().AddPowerUp(PowerUpType);
+        Instantiate(pickUpEffect, new Vector3(player.transform.position.x, player.transform.position.y + 1, player.transform.position.z), transform.rotation);
         Destroy(this.gameObject);
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {
