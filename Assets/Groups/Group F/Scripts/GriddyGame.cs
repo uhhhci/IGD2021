@@ -80,6 +80,8 @@ public class GriddyGame : MiniGame {
             player3,
             player4
         };
+
+        
         var playerInputs = players.Select(p => p.GetComponent<PlayerInput>()).ToList();
 
         //This assigns the player input in the order they were given in the array
@@ -183,6 +185,20 @@ public class GriddyGame : MiniGame {
                 y: aiPlayer.transform.position.y,
                 z: goalPlatform.transform.position.z + (float)(new System.Random().NextDouble() * 0.4 - 0.2)
             );
+            if(goalPosition == null)
+            {
+                Debug.Log("no goal pos");
+                continue;
+            }
+            
+            var minicfg = aiPlayer.GetComponent<MinifigController>();
+
+            if (minicfg == null)
+            {
+                Debug.Log("no minicfg");
+                continue;
+            }
+            
             aiPlayer.GetComponent<MinifigController>().MoveTo(goalPosition);
             aiStates[aiPlayer] = new AiState {
                 GoalPosition = goalPosition,
