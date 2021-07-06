@@ -117,10 +117,17 @@ public class LoadingManager : MonoBehaviour
     {
 
         // Create prefab
-        var myLevelLoader = Instantiate(levelLoader);
-        Animator transition = myLevelLoader.transform.Find("Crossfade").GetComponent<Animator>();
+        try
+        {
+            var myLevelLoader = Instantiate(levelLoader);
+            Animator transition = myLevelLoader.transform.Find("Crossfade").GetComponent<Animator>();
 
-        transition.SetTrigger("Start");
+            transition.SetTrigger("Start");
+        } catch (System.Exception e)
+        {
+            print("Level Loader Prefab was not provided: " + e);
+        }
+        
 
         yield return new WaitForSeconds(transitionTime);
 
