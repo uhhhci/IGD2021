@@ -35,10 +35,10 @@ public class CannonStandoff : MiniGame {
 		string colorP3 = PlayerPrefs.GetString("PLAYER3_NAME");
 		string colorP4 = PlayerPrefs.GetString("PLAYER4_NAME");
 		
-		SetPlayerColor(p1, "RED");
-		SetPlayerColor(p2, "GREEN");
-		SetPlayerColor(p3, "BLUE");
-		SetPlayerColor(p4, "PINK");
+		SetPlayerColor(p1, colorP1);
+		SetPlayerColor(p2, colorP2);
+		SetPlayerColor(p3, colorP3);
+		SetPlayerColor(p4, colorP4);
 	}
 	
 	private void InitWall() {
@@ -69,10 +69,10 @@ public class CannonStandoff : MiniGame {
 		bool aiP3 = PlayerPrefs.GetString("Player3_AI").Equals("True");
 		bool aiP4 = PlayerPrefs.GetString("Player4_AI").Equals("True");
 		
-		SetAi(p1, !aiP1);
-		SetAi(p2, !aiP2);
-		SetAi(p3, !aiP3);
-		SetAi(p4, !aiP4);
+		SetAi(p1, aiP1);
+		SetAi(p2, aiP2);
+		SetAi(p3, aiP3);
+		SetAi(p4, aiP4);
 	}
 	
 	private void CheckEndOfGame() {
