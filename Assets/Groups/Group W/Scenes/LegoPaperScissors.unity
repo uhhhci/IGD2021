@@ -3017,7 +3017,7 @@ PrefabInstance:
     - target: {fileID: 518015050992441566, guid: 892942398e0a3b0478b805008ad18f50,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.8
+      value: -2.6
       objectReference: {fileID: 0}
     - target: {fileID: 518015051056793567, guid: 892942398e0a3b0478b805008ad18f50,
         type: 3}
@@ -3920,7 +3920,7 @@ PrefabInstance:
     - target: {fileID: 518015050992441566, guid: 892942398e0a3b0478b805008ad18f50,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.2
+      value: 4.1
       objectReference: {fileID: 0}
     - target: {fileID: 518015050992441566, guid: 892942398e0a3b0478b805008ad18f50,
         type: 3}
@@ -6459,7 +6459,7 @@ PrefabInstance:
     - target: {fileID: 518015050992441566, guid: 892942398e0a3b0478b805008ad18f50,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.9
+      value: 3.9
       objectReference: {fileID: 0}
     - target: {fileID: 518015050992441566, guid: 892942398e0a3b0478b805008ad18f50,
         type: 3}
@@ -9211,7 +9211,6 @@ GameObject:
   - component: {fileID: 1612163573}
   - component: {fileID: 1612163574}
   - component: {fileID: 1612163575}
-  - component: {fileID: 1612163576}
   - component: {fileID: 1612163577}
   m_Layer: 8
   m_Name: Players
@@ -9270,18 +9269,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _finishGamePrefab: {fileID: 8914169427414623133, guid: eb80993c89a63a540bed42b779731471,
     type: 3}
---- !u!114 &1612163576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612163572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc709eb8f56e33545b9d84a0e3871e86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1612163577
 MonoBehaviour:
   m_ObjectHideFlags: 0

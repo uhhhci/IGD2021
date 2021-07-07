@@ -42,7 +42,9 @@ public class LegoPaperScissorsMinigame : MiniGame
     void Start()
     {
         // adds input controls and customizations for non-ai players
-        List<int> playerIds = new List<int>();
+        // List<int> playerIds = new List<int>();
+        List<int> playerIds = new List<int>() { 1, 2, 3, 4 };
+
         List<GameObject> playerGameObjects = new List<GameObject>();
         var interconnectionsAi = gameObject.GetComponent<InterconnectionsAi>();
         int i = 1;
