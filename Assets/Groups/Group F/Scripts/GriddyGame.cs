@@ -169,7 +169,7 @@ public class GriddyGame : MiniGame {
 
             var neighboringPlatforms = platforms
                 //.Where(p => DistanceToPlayer(p) < 3.25f)
-                .Where(p => DistanceToPlayer(p) < 5f)
+                .Where(p => DistanceToPlayer(p) < 4f)
                 .ToList()
                 .Shuffle();
 

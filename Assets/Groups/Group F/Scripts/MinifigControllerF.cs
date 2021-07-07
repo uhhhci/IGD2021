@@ -1002,7 +1002,7 @@ public class MinifigControllerF : MonoBehaviour
     {
         var newPos = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
         Rigidbody instantiatedProjectile = Instantiate(projectile, newPos, transform.rotation) as Rigidbody;
-        instantiatedProjectile.velocity = transform.TransformDirection(new Vector3(0, 0, 40));
+        instantiatedProjectile.velocity = transform.TransformDirection(new Vector3(0, 0, 20));
     }
 
     private void OnWestRelease()
