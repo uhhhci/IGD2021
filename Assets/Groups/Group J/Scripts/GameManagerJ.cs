@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
- class GameManagerJ : MiniGame
+ public class GameManagerJ : MiniGame
 {
     // Start is called before the first frame update
     public int deathCount1 = 0;
@@ -67,7 +67,7 @@ using UnityEngine.UI;
             //Create array of positions with player ids, this also works in case there are multiple players in one position
 
             //Note this is still work in progress, but ideally you will use it like this
-            MiniGameFinished(firstPlace: GetWinningMembers().ToArray(), secondPlace: GetLoosingMembers().ToArray(), thirdPlace: null, fourthPlace: null);
+            MiniGameFinished( GetWinningMembers().ToArray(), GetLoosingMembers().ToArray(), null, null);
         }
     }
 
