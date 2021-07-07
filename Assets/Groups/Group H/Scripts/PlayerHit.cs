@@ -39,17 +39,19 @@ public class PlayerHit : MonoBehaviour
 
     void takeDamage()
     {
-        stillAlive = health.reduceHealth();
-
-        if (!invincible && stillAlive)
+        if (!invincible)
         {
+            stillAlive = health.reduceHealth();
             invincible = true;
-            StartCoroutine(EnableInvincibility(invincibleTime));
-        }
-        else if (!invincible && (stillAlive == false))
-        {//Player stays invincible as a Ghost
-            GetComponent<AudioSource>().PlayOneShot(playerTurnsIntoGhost);
-            StartCoroutine(EnableInvincibility(99));
+            if (stillAlive)
+            {
+                StartCoroutine(EnableInvincibility(invincibleTime));
+            }
+            else
+            {
+                GetComponent<AudioSource>().PlayOneShot(playerTurnsIntoGhost);
+                StartCoroutine(EnableInvincibility(99));
+            }
         }
     }
 
