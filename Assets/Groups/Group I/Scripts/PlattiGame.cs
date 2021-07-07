@@ -44,7 +44,7 @@ public class PlattiGame : MiniGame
 
         List<int> playerIds = new List<int> { 1, 2, 3, 4 };
         // Comment in for global testing
-        //InitializePlayers(players, playerIds);
+        InitializePlayers(players, playerIds);
 
         testelele();
     }
