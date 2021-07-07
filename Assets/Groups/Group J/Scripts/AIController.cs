@@ -32,10 +32,12 @@ public class AIController : MonoBehaviour
     public float wanderTimer;
     private float timer;
     private Rigidbody rb;
+    private BoxCollider box;
 
     // Start is called before the first frame update
     void Start()
     {
+        box = obstacle.GetComponent<BoxCollider>();
         rb = this.GetComponent<Rigidbody>();
         collisionDetector = this.GetComponent<CollisionDetector>();
 
@@ -141,17 +143,27 @@ public class AIController : MonoBehaviour
             float distance = Vector3.Distance(tMin.position, transform.position);
             float distanceObstacle = Vector3.Distance(obstacleTransform.position, transform.position);
 
+            box.enabled = true;
+
+            if (distanceObstacle <= 6 && !this.animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
+            {
+                Debug.Log("Jump");
+                controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Jump);
+                //Physics.IgnoreLayerCollision(gameObject.layer, 21, true);// TryUseFireball();
+                if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                {
+                    box.enabled = false;
+                }
+            }
+
+         
+           
+            
+
             if (distance <= lookRadius && players.Count != 0)
             {
                 agent.SetDestination(tMin.position);
                 controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Walk);
-
-                if(distanceObstacle <= 6 && ! this.animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
-                {
-                    Debug.Log("Jump");
-                    controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Jump);
-                    Physics.IgnoreLayerCollision(gameObject.layer, 21, true);// TryUseFireball();
-                }
 
                 if (distance <= agent.stoppingDistance && ! this.animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
                 {

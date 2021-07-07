@@ -43,10 +43,10 @@ public class CollisionDetector : MonoBehaviour
             //hitLava();
         //}
 
-        if (controlScheme == "AI" && Physics.Raycast(transform.position + Vector3.down * 0.001f, Vector3.down, 0.3f) == false)
+        if (controlScheme == "AI" && Physics.Raycast(transform.position + Vector3.down * 0.001f, Vector3.down, 0.75f) == false)
         {
-           Debug.DrawRay(cp.bounds.center, Vector3.down * (cp.bounds.extents.y));
-           Debug.Log("notGrounded");
+            Debug.DrawRay(transform.position + Vector3.down * 0.001f, Vector3.down * (0.75f), Color.red);
+            Debug.Log("notGrounded");
            hitLava();
         }
     }
