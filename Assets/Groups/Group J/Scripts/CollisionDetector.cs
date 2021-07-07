@@ -34,21 +34,23 @@ public class CollisionDetector : MonoBehaviour
         controlScheme = GetComponent<PlayerInput>().defaultControlScheme;
     }
 
-    public void FixedUpdate()
+    public void Update()
     {
         //if (Physics.Raycast(transform.position + Vector3.down * 0.001f, Vector3.down, 0.3f))
         //{
         //    Debug.DrawRay(transform.position + Vector3.down * 0.001f, Vector3.down * (0.3f), Color.red);
         //    Debug.Log("Grounded");
-            //hitLava();
+        //hitLava();
         //}
 
-        if (controlScheme == "AI" && Physics.Raycast(transform.position + Vector3.down * 0.001f, Vector3.down, 0.75f) == false)
-        {
-            Debug.DrawRay(transform.position + Vector3.down * 0.001f, Vector3.down * (0.75f), Color.red);
-            Debug.Log("notGrounded");
-           hitLava();
-        }
+
+
+        //if (controlScheme == "AI" && Physics.Raycast(transform.position + Vector3.down * 0.001f, Vector3.down, 0.75f) == false)
+        //{
+        //   Debug.DrawRay(transform.position + Vector3.down * 0.001f, Vector3.down * (0.75f), Color.red);
+        //   Debug.Log("notGrounded");
+        //   //hitLava();
+        //}
     }
 
     public void hitLava()

@@ -33,6 +33,8 @@ public class AIController : MonoBehaviour
     private float timer;
     private Rigidbody rb;
     private BoxCollider box; private GameManagerJ gameplayManager;
+    public bool isAI = false;
+    private GameObject AI;
 
     void Awake()
     {
@@ -42,7 +44,9 @@ public class AIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        box = obstacle.GetComponent<BoxCollider>();
+        
+
+            box = obstacle.GetComponent<BoxCollider>();
         rb = this.GetComponent<Rigidbody>();
         collisionDetector = this.GetComponent<CollisionDetector>();
 
@@ -107,10 +111,12 @@ public class AIController : MonoBehaviour
 
             if (controlScheme == "AI")
             {
+                isAI = true;
+
                 timer += Time.deltaTime;
                 controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Walk);
 
-                if (timer >= wanderTimer)
+                if (timer >= wanderTimer && agent.enabled == true)
                 {
                     Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
                     agent.SetDestination(newPos);
@@ -163,11 +169,7 @@ public class AIController : MonoBehaviour
                     }
                 }
 
-
-
-
-
-                if (distance <= lookRadius && players.Count != 0)
+                if (distance <= lookRadius && players.Count != 0 && agent.enabled == true)
                 {
                     agent.SetDestination(tMin.position);
                     controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Walk);
@@ -214,11 +216,33 @@ public class AIController : MonoBehaviour
         {
             Debug.Log("trigger");
             other.gameObject.GetComponent<AIController>().AddImpact(this.transform.forward * hitForce);
+
+            if (other.gameObject.GetComponent<AIController>().isAI == true)
+            {
+                AI = other.gameObject;
+                other.gameObject.GetComponent<NavMeshAgent>().enabled = false;
+                other.gameObject.GetComponent<MinifigControllerJ>().enabled = true;
+                StartCoroutine(moveAgain());
+            }
+
            // TryUseFireball();
             audio.clip = explosion;
             audio.Play();
+          
+      
         }
     }
+
+    IEnumerator moveAgain ()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+     
+            AI.GetComponent<MinifigControllerJ>().enabled = false;
+            AI.gameObject.GetComponent<NavMeshAgent>().enabled = true;
+        
+    }
+
 
     private void OnDrawGizmosSelected()
     {
