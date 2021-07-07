@@ -291,7 +291,7 @@ public class PlayerAI : MonoBehaviour
 
     private IEnumerator Wait()
     {
-        float waitingTime = Random.Range(10, 20) / 10;
+        float waitingTime = Random.Range(10, 20) / 30;
         if (state == State.MovingRandomly)
         {
             //waitingTime = Random.Range(10, 15) / 10;
