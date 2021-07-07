@@ -118,6 +118,7 @@ public class AIController : MonoBehaviour
 
                 if (timer >= wanderTimer && agent.enabled == true)
                 {
+                    controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Walk);
                     Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
                     agent.SetDestination(newPos);
                     timer = 0;
@@ -182,6 +183,7 @@ public class AIController : MonoBehaviour
                 }
             }
 
+
             if (impact.magnitude > 0.2)
             {
                 controller.Move(impact * Time.deltaTime);
@@ -216,6 +218,9 @@ public class AIController : MonoBehaviour
         {
             Debug.Log("trigger");
             other.gameObject.GetComponent<AIController>().AddImpact(this.transform.forward * hitForce);
+           // TryUseFireball();
+            audio.clip = explosion;
+            audio.Play();
 
             if (other.gameObject.GetComponent<AIController>().isAI == true)
             {
@@ -224,23 +229,16 @@ public class AIController : MonoBehaviour
                 other.gameObject.GetComponent<MinifigControllerJ>().enabled = true;
                 StartCoroutine(moveAgain());
             }
-
-           // TryUseFireball();
-            audio.clip = explosion;
-            audio.Play();
-          
-      
         }
     }
 
     IEnumerator moveAgain ()
     {
         yield return new WaitForSeconds(0.5f);
-
      
-            AI.GetComponent<MinifigControllerJ>().enabled = false;
-            AI.gameObject.GetComponent<NavMeshAgent>().enabled = true;
-        
+        AI.GetComponent<MinifigControllerJ>().enabled = false;
+        AI.gameObject.GetComponent<NavMeshAgent>().enabled = true;
+        AI.GetComponent<MinifigControllerJ>().PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Walk);
     }
 
 
