@@ -9,8 +9,8 @@ public class playercollision : MonoBehaviour
     MinifigController player;
     public AudioSource playSoundGravity;
     public AudioSource playSoundSpeed;
-    public AudioSource playSoundHealth;
-    public int currentHealth = 100;
+    //public AudioSource playSoundHealth;
+    //public int currentHealth = 100;
 
     private bool finished = false;
     private bool isAi = false;
@@ -19,25 +19,25 @@ public class playercollision : MonoBehaviour
     {
         player = (MinifigController)this.GetComponent("MinifigController");
         //HealtSystem of Player
-        HealthSystemI healthSystem = new HealthSystemI(100);
-        currentHealth = 100;
+        //HealthSystemI healthSystem = new HealthSystemI(100);
+        //currentHealth = 100;
     }
 
-    public void HealthUp()
-    {
-        HealthSystemI healthSystem = new HealthSystemI(currentHealth);
-        healthSystem.Heal(10);
-        currentHealth = healthSystem.GetHealth2();
-        Debug.Log("Health" + healthSystem.GetHealth2());
-    }
+    //public void HealthUp()
+    //{
+    //    HealthSystemI healthSystem = new HealthSystemI(currentHealth);
+    //    healthSystem.Heal(10);
+    //    currentHealth = healthSystem.GetHealth2();
+    //    Debug.Log("Health" + healthSystem.GetHealth2());
+    //}
 
-    public void HealthDown()
-    {
-        HealthSystemI healthSystem = new HealthSystemI(currentHealth);
-        healthSystem.Damage(10);
-        currentHealth = healthSystem.GetHealth2();
-        Debug.Log("Health" + healthSystem.GetHealth2());
-    }
+    //public void HealthDown()
+    //{
+    //    HealthSystemI healthSystem = new HealthSystemI(currentHealth);
+    //    healthSystem.Damage(10);
+    //    currentHealth = healthSystem.GetHealth2();
+    //    Debug.Log("Health" + healthSystem.GetHealth2());
+    //}
 
     void OnTriggerEnter(Collider col)
     {
@@ -62,18 +62,18 @@ public class playercollision : MonoBehaviour
             playSoundSpeed.Play();
         }
 
-        if (pickup.tag == "PlusLife")
-        {
-            PickUp(pickup);
-            HealthUp();
-            playSoundHealth.Play();
-        }
+        //if (pickup.tag == "PlusLife")
+        //{
+        //    PickUp(pickup);
+        //    HealthUp();
+        //    playSoundHealth.Play();
+        //}
 
-        if (pickup.tag == "Respawn")
-        {
-            HealthDown();
+        //if (pickup.tag == "Respawn")
+        //{
+        //    HealthDown();
             
-        }
+        //}
 
         if (pickup.tag == "Finish")
         {
