@@ -45,8 +45,6 @@ public class PlattiGame : MiniGame
         List<int> playerIds = new List<int> { 1, 2, 3, 4 };
         // Comment in for global testing
         InitializePlayers(players, playerIds);
-
-        testelele();
     }
 
     void Update()
@@ -112,11 +110,5 @@ public class PlattiGame : MiniGame
         int[] fourthPlace = winners[3];
 
         MiniGameFinished(firstPlace, secondPlace, thirdPlace, fourthPlace);
-    }
-
-    public void testelele()
-    {
-        float pos = ((playercollision)players[0].GetComponent("playercollision")).getZPos();
-        Debug.Log("z pos 0: " + pos);
     }
 }
