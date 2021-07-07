@@ -55,7 +55,6 @@ public class PlattiGame : MiniGame
             {
                 if (remainingPlayers.Contains(i))
                 {
-                    Debug.Log("finisher " + i);
                     finishedPlayers.Add(i);
                     remainingPlayers.Remove(i);
                 }
