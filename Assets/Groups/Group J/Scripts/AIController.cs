@@ -9,7 +9,7 @@ public class AIController : MonoBehaviour
 {
     private float mass = 3.0f;
     private float hitForce = 3.0f;
-    public Vector3 impact = Vector3.zero;
+    public Vector3 impact = Vector3.zero; 
     private Animator animator;
     public GameObject Minifig;
     private CharacterController controller;
@@ -32,7 +32,12 @@ public class AIController : MonoBehaviour
     public float wanderTimer;
     private float timer;
     private Rigidbody rb;
-    private BoxCollider box;
+    private BoxCollider box; private GameManagerJ gameplayManager;
+
+    void Awake()
+    {
+        gameplayManager = GameObject.FindObjectOfType<GameManagerJ>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -90,100 +95,103 @@ public class AIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (GameObject player in players)
+        if (!gameplayManager.gameFinished)
         {
-            if (player.GetComponent<AIController>().ownTeam == this.ownTeam)
-            {
-                players.Remove(player);
-            }
-        }
-
-        if (controlScheme == "AI")
-        {
-            timer += Time.deltaTime;
-            controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Walk);
-
-            if (timer >= wanderTimer)
-            {
-                Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
-                agent.SetDestination(newPos);
-                timer = 0;
-            }
-
-            if (rb.IsSleeping())
-            {
-                controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Idle_Light);
-                //Debug.Log("sleeping");
-            }
-
             foreach (GameObject player in players)
             {
-                if (! player.activeSelf)
+                if (player.GetComponent<AIController>().ownTeam == this.ownTeam)
                 {
                     players.Remove(player);
                 }
             }
 
-            targets = players.Select(go => go.transform).ToList();
-
-            Transform tMin = null;
-            float minDist = Mathf.Infinity;
-            Vector3 currentPos = transform.position;
-
-            foreach (Transform t in targets)
+            if (controlScheme == "AI")
             {
-                float dist = Vector3.Distance(t.position, currentPos);
-                if (dist < minDist)
-                {
-                    tMin = t;
-                    minDist = dist;
-                }
-            }
-
-            float distance = Vector3.Distance(tMin.position, transform.position);
-            float distanceObstacle = Vector3.Distance(obstacleTransform.position, transform.position);
-
-            box.enabled = true;
-
-            if (distanceObstacle <= 6 && !this.animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
-            {
-                Debug.Log("Jump");
-                controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Jump);
-                //Physics.IgnoreLayerCollision(gameObject.layer, 21, true);// TryUseFireball();
-                if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
-                {
-                    box.enabled = false;
-                }
-            }
-
-         
-           
-            
-
-            if (distance <= lookRadius && players.Count != 0)
-            {
-                agent.SetDestination(tMin.position);
+                timer += Time.deltaTime;
                 controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Walk);
 
-                if (distance <= agent.stoppingDistance && ! this.animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                if (timer >= wanderTimer)
                 {
-                    Debug.Log("Punch");
-                    controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Punch); //TryUseFireball();
-                }           
-            }
-        }
-     
-        if (impact.magnitude > 0.2)
-        {
-            controller.Move(impact * Time.deltaTime);
-        }
-        impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+                    Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+                    agent.SetDestination(newPos);
+                    timer = 0;
+                }
 
-        if(controllerJ.punchable == true)
-        {
-            controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Punch, explosion);
-            TryUseFireball();
-            controllerJ.punchable = false; 
+                if (rb.IsSleeping())
+                {
+                    controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Idle_Light);
+                    //Debug.Log("sleeping");
+                }
+
+                foreach (GameObject player in players)
+                {
+                    if (!player.activeSelf)
+                    {
+                        players.Remove(player);
+                    }
+                }
+
+                targets = players.Select(go => go.transform).ToList();
+
+                Transform tMin = null;
+                float minDist = Mathf.Infinity;
+                Vector3 currentPos = transform.position;
+
+                foreach (Transform t in targets)
+                {
+                    float dist = Vector3.Distance(t.position, currentPos);
+                    if (dist < minDist)
+                    {
+                        tMin = t;
+                        minDist = dist;
+                    }
+                }
+
+                float distance = Vector3.Distance(tMin.position, transform.position);
+                float distanceObstacle = Vector3.Distance(obstacleTransform.position, transform.position);
+
+                box.enabled = true;
+
+                if (distanceObstacle <= 6 && !this.animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
+                {
+                    Debug.Log("Jump");
+                    controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Jump);
+                    //Physics.IgnoreLayerCollision(gameObject.layer, 21, true);// TryUseFireball();
+                    if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                    {
+                        box.enabled = false;
+                    }
+                }
+
+
+
+
+
+                if (distance <= lookRadius && players.Count != 0)
+                {
+                    agent.SetDestination(tMin.position);
+                    controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Walk);
+
+                    if (distance <= agent.stoppingDistance && !this.animator.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                    {
+                        Debug.Log("Punch");
+                        controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Punch); //TryUseFireball();
+                    }
+                }
+            }
+
+            if (impact.magnitude > 0.2)
+            {
+                controller.Move(impact * Time.deltaTime);
+            }
+            impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+
+            if (controllerJ.punchable == true)
+            {
+                controllerJ.PlaySpecialAnimation(MinifigControllerJ.SpecialAnimation.Punch, explosion);
+                TryUseFireball();
+                controllerJ.punchable = false;
+            }
         }
     }
     public void TryUseFireball()
