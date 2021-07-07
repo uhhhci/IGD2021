@@ -97,10 +97,11 @@ public class playercollision : MonoBehaviour
     {
         isAi = true;
 
+        MinifigController cont = GetComponent<MinifigController>();
         NavMeshScript navScript = GetComponent<NavMeshScript>();
         NavMeshAgent navAgent = GetComponent<NavMeshAgent>();
 
-        player.enabled = false;
+        cont.enabled = false;
         navScript.enabled = true;
         navAgent.enabled = true;
     }
