@@ -71,7 +71,7 @@ using UnityEngine.UI;
             //Create array of positions with player ids, this also works in case there are multiple players in one position
 
             //Note this is still work in progress, but ideally you will use it like this
-            MiniGameFinished( GetWinningMembers().ToArray(), GetLoosingMembers().ToArray(), new int[] { }, new int[] { });
+            MiniGameFinished(GetWinningMembers().ToArray(), GetLoosingMembers().ToArray(), new int[] { 0}, new int[] {1});
         }
     }
 
