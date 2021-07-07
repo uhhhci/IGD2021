@@ -18,33 +18,44 @@ public class playerDetection : MonoBehaviour {
     private float platformTouchedTime;
     private bool triedKill = false;
 
-    void Awake()
-    {
+    private void Start() {
+
+    }
+
+    void Awake() {
         spawnProtection = Time.time + 5.0f;
         this.boxCollider = this.GetComponent<BoxCollider>();
 
         var meshRenderers = FindObjectsOfType(typeof(MeshRenderer)) as MeshRenderer[];
         this.meshRendererOfKnobs = new List<MeshRenderer>();
-        foreach (var renderer in meshRenderers)
-        {
+        foreach (var renderer in meshRenderers) {
             if (renderer.name == "Shell" && this.meshRenderer == null)
                 this.meshRenderer = renderer;
-            if (renderer.name.Contains("knob") && this.meshRendererOfKnobs.Count < 16) 
+            if (renderer.name.Contains("knob") && this.meshRendererOfKnobs.Count < 16)
                 this.meshRendererOfKnobs.Add(renderer);
             if (this.meshRenderer != null && this.meshRendererOfKnobs.Count >= 16)
                 break;
         }
         this.rigidBody = this.GetComponent<Rigidbody>();
+
+
+
+
+        var col = new Color(0.33f, 0.33f, 0.33f);
+        this.meshRenderer.material.SetColor("_Color", col);
+        this.meshRenderer.material.SetColor("_BaseColor", col);
+        foreach (var mr in this.meshRendererOfKnobs) {
+            mr.material.SetColor("_Color", col);
+            mr.material.SetColor("_BaseColor", col);
+
+        }
+
     }
-
-
-    bool IsSpawnProtected()
-    {
+    bool IsSpawnProtected() {
         return spawnProtection == 0.0f || spawnProtection >= Time.time;
     }
 
-    void OnCollisionStay(Collision col)
-    {
+    void OnCollisionStay(Collision col) {
         if (IsSpawnProtected()) {
             return;
         }
@@ -52,41 +63,35 @@ public class playerDetection : MonoBehaviour {
         if (!col.collider.CompareTag("Player")) return;
         if (platformTouchedTime > 0) return;
         platformTouchedTime = Time.time;
-        
-        if (dyingSound != null)
-        {
+
+        if (dyingSound != null) {
             dyingSound.Play(0);
         }
     }
 
-    private void Update()
-    {
-        if (IsSpawnProtected())
-        {
-            return;
-        }
-        
-        if (platformTouchedTime  <= 0)
-        {
+    void Update() {
+        if (IsSpawnProtected()) {
             return;
         }
 
-        if (!triedKill)
-        {
+        if (platformTouchedTime <= 0) {
+            return;
+        }
+
+        if (!triedKill) {
             triedKill = true;
             Destroy(gameObject, 3);
         }
 
 
-        if (rigidBody.IsSleeping())
-        {
+        if (rigidBody.IsSleeping()) {
             rigidBody.WakeUp();
         }
 
         var sinceTouched = Time.time - platformTouchedTime;
 
         var col = new Color(sinceTouched * 1.0f, 0.0f, 0.0f);
-        
+
         this.meshRenderer.material.SetColor("_Color", col);
         this.meshRenderer.material.SetColor("_BaseColor", col);
         foreach (var mr in this.meshRendererOfKnobs) {
@@ -101,3 +106,4 @@ public class playerDetection : MonoBehaviour {
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - fallingDistance, this.transform.position.z);
     }
 }
+
