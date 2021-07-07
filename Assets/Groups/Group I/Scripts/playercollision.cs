@@ -79,6 +79,8 @@ public class playercollision : MonoBehaviour
         {
             // Do NOT use PickUp() here!!!
             finished = true;
+            player.enabled = false;
+
             Debug.Log(this.name + " finished!");
         }
 
