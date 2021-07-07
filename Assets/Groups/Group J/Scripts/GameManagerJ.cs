@@ -22,6 +22,7 @@ using UnityEngine.UI;
 
     public int team1LavaDeath = 0;
     public int team2LavaDeath = 0;
+    bool isRunning = true;
 
     void Start()
     {
@@ -60,14 +61,17 @@ using UnityEngine.UI;
     // Update is called once per frame
     void Update()
     {
-
+        
         if (gameFinished == true)
         {
+            if (!isRunning) return;
+            isRunning = false;
             Time.timeScale = 0;
+            Debug.Log("Game finished");
             //Create array of positions with player ids, this also works in case there are multiple players in one position
 
             //Note this is still work in progress, but ideally you will use it like this
-            MiniGameFinished( GetWinningMembers().ToArray(), GetLoosingMembers().ToArray(), null, null);
+            MiniGameFinished( GetWinningMembers().ToArray(), GetLoosingMembers().ToArray(), new int[] { }, new int[] { });
         }
     }
 
@@ -81,30 +85,30 @@ using UnityEngine.UI;
 
         if (team1LavaDeath == 2 && team2LavaDeath == 2)
         {
-            ranking.Add(myPlayer.GetInstanceID());
-            ranking.Add(secondPlayer.GetInstanceID());
-            ranking.Add(thirdPlayer.GetInstanceID());
-            ranking.Add(fourthPlayer.GetInstanceID());
+            ranking.Add(0);
+            ranking.Add(1);
+            ranking.Add(2);
+            ranking.Add(3);
         }
         else if (team1LavaDeath == 2)
         {
-            ranking.Add(myPlayer.GetInstanceID());
-            ranking.Add(secondPlayer.GetInstanceID());
+            ranking.Add(0);
+            ranking.Add(1);
         }
         else if (team2LavaDeath == 2)
         {
-            ranking.Add(thirdPlayer.GetInstanceID());
-            ranking.Add(fourthPlayer.GetInstanceID());
+            ranking.Add(2);
+            ranking.Add(3);
         }
         else if (deathCount1 < deathCount2)
         {
-            ranking.Add(myPlayer.GetInstanceID());
-            ranking.Add(secondPlayer.GetInstanceID());
+            ranking.Add(0);
+            ranking.Add(1);
         }
         else
         {
-            ranking.Add(thirdPlayer.GetInstanceID());
-            ranking.Add(fourthPlayer.GetInstanceID());
+            ranking.Add(2);
+            ranking.Add(3);
         }
 
         return ranking;
@@ -120,23 +124,23 @@ using UnityEngine.UI;
         else
        if (team1LavaDeath == 2)
         {
-            ranking.Add(thirdPlayer.GetInstanceID());
-            ranking.Add(fourthPlayer.GetInstanceID());
+            ranking.Add(2);
+            ranking.Add(3);
         }
         else if (team2LavaDeath == 2)
         {
-            ranking.Add(myPlayer.GetInstanceID());
-            ranking.Add(secondPlayer.GetInstanceID());
+            ranking.Add(0);
+            ranking.Add(1);
         }
         else if (deathCount1 < deathCount2)
         {
-            ranking.Add(thirdPlayer.GetInstanceID());
-            ranking.Add(fourthPlayer.GetInstanceID());
+            ranking.Add(2);
+            ranking.Add(3);
         }
         else
         {
-            ranking.Add(myPlayer.GetInstanceID());
-            ranking.Add(secondPlayer.GetInstanceID());
+            ranking.Add(0);
+            ranking.Add(1);
         }
 
         return ranking;
