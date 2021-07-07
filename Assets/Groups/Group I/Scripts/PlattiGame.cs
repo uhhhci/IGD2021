@@ -32,7 +32,7 @@ public class PlattiGame : MiniGame
         // Check if player is AI
         for (int i = 0; i < 4; i++)
         {
-            string playerString = "Player" + (i + 1) + "_AI";
+            string playerString = "PLAYER_" + (i + 1) + "_AI";
             if (PlayerPrefs.GetString(playerString).Equals("True")) {
                 players[i].GetComponent<playercollision>().enableAi();
             }
