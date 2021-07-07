@@ -36,6 +36,7 @@ public class GriddyGame : MiniGame {
     private List<GameObject> players = new List<GameObject>();
     private Dictionary<GameObject, AiState> aiStates = new Dictionary<GameObject, AiState>();
 
+    private float gameStart = 0.0f;
 
     public override string getDisplayName() {
         return "Griddy Battle";
@@ -59,6 +60,7 @@ public class GriddyGame : MiniGame {
         return platform;
     }
     private void Start() {
+        gameStart = Time.time;
         death_depth = -4 * height - 10;
 
         Debug.Log($"death_depth = {death_depth}");
@@ -136,10 +138,14 @@ public class GriddyGame : MiniGame {
 
     void Update()
     {
+        var timeDelta = Time.time - gameStart;
+
         platforms = platforms.Where(p => p != null).ToList();
 
         CheckGameover();
-
+        if (timeDelta < 5) {
+            return;
+        }
         foreach (var aiPlayer in GetAiPlayers())
         {
             // determine platforms which have the most health points
