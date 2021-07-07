@@ -29,6 +29,15 @@ public class PlattiGame : MiniGame
 
     void Start()
     {
+        // Check if player is AI
+        for (int i = 0; i < 4; i++)
+        {
+            string playerString = "Player" + (i + 1) + "_AI";
+            if (PlayerPrefs.GetString(playerString).Equals("True")) {
+                players[i].GetComponent<playercollision>().enableAi();
+            }
+        }
+
         currentTime = startingTime;
 
         remainingPlayers = new List<int> { 1, 2, 3, 4 };

@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class playercollision : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class playercollision : MonoBehaviour
     public int currentHealth = 100;
 
     private bool finished = false;
+    private bool isAi = false;
 
     private void Start()
     {
@@ -89,6 +91,18 @@ public class playercollision : MonoBehaviour
     public bool hasFinished()
     {
         return finished;
+    }
+
+    public void enableAi()
+    {
+        isAi = true;
+
+        NavMeshScript navScript = GetComponent<NavMeshScript>();
+        NavMeshAgent navAgent = GetComponent<NavMeshAgent>();
+
+        player.enabled = false;
+        navScript.enabled = true;
+        navAgent.enabled = true;
     }
 
     private void PickUp(GameObject pickup)
