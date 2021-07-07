@@ -36,9 +36,12 @@ public class PlayerAI : MonoBehaviour
         {
             Destroy(this);
         }
-        state = State.Idle;
+        else
+        {
+            state = State.Idle;
 
-        controller.SetAIActive(); //Disable Buttons for AI (NorthEastSouthWest)
+            controller.SetAIActive(); //Disable Buttons for AI (NorthEastSouthWest)
+        }
     }
 
     // Update is called once per frame
