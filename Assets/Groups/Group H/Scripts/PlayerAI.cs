@@ -16,7 +16,6 @@ public class PlayerAI : MonoBehaviour
     private float prefferedDistanceFromCar = 2.5f;
     private bool[,] safePlaces = new bool[11, 11];
 
-
     // States for AI player
     enum State
     {
@@ -38,6 +37,8 @@ public class PlayerAI : MonoBehaviour
             Destroy(this);
         }
         state = State.Idle;
+
+        controller.SetAIActive(); //Disable Buttons for AI (NorthEastSouthWest)
     }
 
     // Update is called once per frame

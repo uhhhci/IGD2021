@@ -974,6 +974,11 @@ PrefabInstance:
       propertyPath: inputEnabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5560795514181553838, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: currentTime
+      value: 99
+      objectReference: {fileID: 0}
     - target: {fileID: 6419640609774059368, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2257,7 +2262,11 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
+<<<<<<< Updated upstream
   m_AnchoredPosition: {x: -16, y: -5.000061}
+=======
+  m_AnchoredPosition: {x: -16, y: -5}
+>>>>>>> Stashed changes
   m_SizeDelta: {x: 50.644775, y: 50.644745}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1369226799
@@ -3770,6 +3779,16 @@ PrefabInstance:
       propertyPath: stepAudioClips.Array.size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5560795514181553838, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: currentTime
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 5560795514181553838, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
+        type: 3}
+      propertyPath: disableControls
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6419640609774059368, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3858,7 +3877,7 @@ PrefabInstance:
     - target: {fileID: 6943488984303928087, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6943488984303928087, guid: 69a142dbefa343b4ea7ee0ce1f8d8ee6,
         type: 3}

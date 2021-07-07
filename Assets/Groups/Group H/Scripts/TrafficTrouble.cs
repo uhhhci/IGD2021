@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class TrafficTrouble : MiniGame
 {
+<<<<<<< Updated upstream
     public List<GameObject> players;
 
+=======
+>>>>>>> Stashed changes
     private int[] firstPlace = null;
     private int[] secondPlace = null;
     private int[] thirdPlace = null;
