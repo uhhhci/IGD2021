@@ -63,7 +63,7 @@ namespace Groups.Group_S.AI {
             //Debug.Log($"{gameObject.name} is in find mode");
             GameObject[] all_parts = GameObject.FindGameObjectsWithTag("KartPart");
             GameObject[] parts = all_parts.Where(p => {
-                bool grabbed = p.transform.parent != null;
+                bool grabbed = p.transform.parent != null && p.transform.parent.tag.Equals("Player");
                 float dist = DistanceToHome(p.transform.position);
                 return !grabbed && dist > distThreshold;
             }).ToArray();
@@ -83,7 +83,7 @@ namespace Groups.Group_S.AI {
             //Debug.Log($"{gameObject.name} is in move to mode");
 
             //Part was grabbed by other player
-            if (_target.transform.parent != null) {
+            if (_target.transform.parent != null && _target.transform.parent.tag.Equals("Player")) {
                 //Debug.Log($"{gameObject.name}: target was grabbed by other player");
                 minifig.StopFollowing();
                 _state = State.FIND;
