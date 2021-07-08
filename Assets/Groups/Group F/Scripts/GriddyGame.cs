@@ -205,12 +205,12 @@ public class GriddyGame : MiniGame {
         var aiPlayers = new List<GameObject>();
         if (PlayerPrefs.GetString("Player1_AI").Equals("True"))
             aiPlayers.Add(player1);
-            if (PlayerPrefs.GetString("Player2_AI").Equals("True"))
-        aiPlayers.Add(player2);
-            if (PlayerPrefs.GetString("Player3_AI").Equals("True"))
-        aiPlayers.Add(player3);
-            if (PlayerPrefs.GetString("Player4_AI").Equals("True"))
-        aiPlayers.Add(player4);
+        if (PlayerPrefs.GetString("Player2_AI").Equals("True"))
+            aiPlayers.Add(player2);
+        if (PlayerPrefs.GetString("Player3_AI").Equals("True"))
+            aiPlayers.Add(player3);
+        if (PlayerPrefs.GetString("Player4_AI").Equals("True"))
+            aiPlayers.Add(player4);
 
         return aiPlayers;
     }
