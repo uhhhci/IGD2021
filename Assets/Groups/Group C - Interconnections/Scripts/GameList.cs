@@ -27,8 +27,8 @@ public static class GameList
 
     public static List<MiniGame> TEAM_VS_TEAM_LIST = new List<MiniGame>{
         new CrossTheCanyons(),
-        new LegoPaperScissorsMinigame(),
-        new GameManagerJ()
+        //new GameManagerJ(),
+        new LegoPaperScissorsMinigame()
     };
 
     //For Board Game Testing Purposes

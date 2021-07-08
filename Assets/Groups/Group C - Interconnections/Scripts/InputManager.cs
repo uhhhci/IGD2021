@@ -23,8 +23,8 @@ public class InputManager : MonoBehaviour
 
     private List<Tuple<int, int, string>> playerSchemes = new List<Tuple<int, int, string>>();
 
-    public List<Color> players_colors = new List<Color> { Color.red, Color.yellow, Color.magenta, Color.blue };
-    public List<string> players_colors_names = new List<string> { "RED", "YELLOW", "PINK", "BLUE" };
+    public List<Color> players_colors = new List<Color> { Color.red, Color.yellow, Color.green, Color.blue };
+    public List<string> players_colors_names = new List<string> { "RED", "YELLOW", "GREEN", "BLUE" };
     public List<int> ids_players = new List<int> { 1, 2, 3, 4 };
 
     private List<CustomCharacter> customCharacterList = new List<CustomCharacter>();

@@ -13,6 +13,7 @@ public class CharacterCustomizationMenu : MonoBehaviour
     //Set here player prefab for LobbyPlayer
     //Can be found in Group C - Interconnections/Prefabs/LobbyPlayer
     public GameObject _menuPlayerPrefab;
+    public Text playerRequest;
 
     private int characterIndex = 1;
 
@@ -24,6 +25,8 @@ public class CharacterCustomizationMenu : MonoBehaviour
         //Detect player Inputs
         SpawnKeyboardPlayers();
         SpawnControllerPlayers();
+
+        playerRequest.text = "Player " + InputManager.Instance.players_colors_names[0] + ": Press any button";
     }
 
     private void Update()
@@ -32,7 +35,8 @@ public class CharacterCustomizationMenu : MonoBehaviour
         if (InputManager.Instance.ShouldEnableSaveButton())
         {
             savebutton.interactable = true;
-        } else
+        }
+        else
         {
             savebutton.interactable = false;
         }
@@ -80,14 +84,25 @@ public class CharacterCustomizationMenu : MonoBehaviour
 
         color_player.color = InputManager.Instance.players_colors[0];
         color_player.text = InputManager.Instance.players_colors_names[0];
-        
-        PlayerPrefs.SetString("PLAYER"+InputManager.Instance.ids_players[0].ToString()+"_NAME", InputManager.Instance.players_colors_names[0]);
-        PlayerPrefs.SetString("PLAYER"+InputManager.Instance.ids_players[0].ToString()+"_AI", "False");
+
+        if (InputManager.Instance.players_colors_names.Count > 0)
+        {
+            playerRequest.text = "Player " + InputManager.Instance.players_colors_names[1] + ": Press any button";
+        }
+        else
+        {
+            playerRequest.text = "All players ready!";
+        }
+
+
+        PlayerPrefs.SetString("PLAYER" + InputManager.Instance.ids_players[0].ToString() + "_NAME", InputManager.Instance.players_colors_names[0]);
+        PlayerPrefs.SetString("PLAYER" + InputManager.Instance.ids_players[0].ToString() + "_AI", "False");
         InputManager.Instance.players_colors.RemoveAt(0);
         InputManager.Instance.players_colors_names.RemoveAt(0);
         InputManager.Instance.ids_players.RemoveAt(0);
 
-        if (InputManager.Instance.players_colors.Count == 0) {
+        if (InputManager.Instance.players_colors.Count == 0)
+        {
             savebutton.interactable = false;
             randombutton.interactable = false;
         }
@@ -193,10 +208,11 @@ public class CharacterCustomizationMenu : MonoBehaviour
 
     public void RandomizeCharacter()
     {
-        int up_custom = Random.Range(0,1);
+        int up_custom = Random.Range(0, 1);
 
-        switch(up_custom){
-            case 0: 
+        switch (up_custom)
+        {
+            case 0:
                 //hair
                 GameObject hair = GameObject.Find("Hair");
                 ChangeHair hairScript = hair.GetComponent<ChangeHair>();
@@ -210,7 +226,7 @@ public class CharacterCustomizationMenu : MonoBehaviour
                 hatScript.Randomize();
                 Debug.Log("Hats");
                 break;
-            
+
         }
 
         //Hair-hat color
@@ -240,7 +256,7 @@ public class CharacterCustomizationMenu : MonoBehaviour
         //arms
         GameObject arms = GameObject.Find("Arms");
         ChangeArms armsScript = arms.GetComponent<ChangeArms>();
-        armsScript.Randomize();        
+        armsScript.Randomize();
         Debug.Log("arms");
 
         //hands

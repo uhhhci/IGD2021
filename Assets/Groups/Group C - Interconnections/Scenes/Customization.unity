@@ -542,6 +542,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuPlayerPrefab: {fileID: 5329118978466406802, guid: d8e8c7299b9c148a28d8b562f743facd,
     type: 3}
+  playerRequest: {fileID: 1325388340}
 --- !u!1 &98274715
 GameObject:
   m_ObjectHideFlags: 0
@@ -3924,7 +3925,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738729409}
   m_LocalRotation: {x: 0, y: 0.9396927, z: 0, w: 0.34202018}
-  m_LocalPosition: {x: -7.7, y: 0, z: -1.5}
+  m_LocalPosition: {x: -6.4, y: 0, z: -1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 124107404}
@@ -5378,7 +5379,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 24, y: -328}
+  m_AnchoredPosition: {x: 43.3, y: -213.6}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1058860736
@@ -6924,7 +6925,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: ad561a1bb46f541ada01dbf5b09bd934, type: 3}
     m_FontSize: 34
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 4
@@ -6933,9 +6934,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Please press
-
-    A key before saving'
+  m_Text: 'Player 1: Press any button'
 --- !u!222 &1325388341
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8997,7 +8996,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: ad561a1bb46f541ada01dbf5b09bd934, type: 3}
     m_FontSize: 34
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 4
@@ -9006,7 +9005,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Save
+  m_Text: ' Player Ready '
 --- !u!222 &1769568306
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9492,12 +9491,12 @@ MonoBehaviour:
   players_colors:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
   - {r: 0, g: 0, b: 1, a: 1}
   players_colors_names:
   - RED
   - YELLOW
-  - PINK
+  - GREEN
   - BLUE
   ids_players: 01000000020000000300000004000000
 --- !u!4 &1957095863
